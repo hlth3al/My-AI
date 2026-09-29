@@ -1,707 +1,631 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>پلتفرم هوش مصنوعی من | Platform My-AI</title>
   <style>
-    :root{
-      --bg:#07080d;
-      --panel:#0d1020;
-      --panel2:#0b0d18;
-      --text:#e9ecff;
-      --muted:#b7bddb;
-      --red:#ff1744;
-      --red2:#ff4d6d;
-      --green:#20e3b2;
-      --blue:#4d7cff;
-      --shadow: 0 18px 60px rgba(0,0,0,.55);
-      --radius:18px;
-      --radius2:14px;
-      --border: 1px solid rgba(255,255,255,.08);
+    :root {
+      --bg-color: #0b111a;
+      --card-bg: #131c27;
+      --card-border: #223247;
+      --accent-color: #0088ff;
+      --danger-color: #ff2233;
+      --text-main: #f0f4fc;
+      --text-muted: #9ab0cc;
+      --gold: #ffbe3b;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", "Noto Sans", sans-serif;
-      background: radial-gradient(900px 520px at 85% 10%, rgba(255,23,68,.18), transparent 60%),
-                  radial-gradient(700px 420px at 10% 20%, rgba(77,124,255,.18), transparent 60%),
-                  linear-gradient(180deg, #060712, #05060d 55%, #05050b);
-      color:var(--text);
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Vazirmatn", Tahoma, sans-serif;
     }
-    .container{
-      max-width: 1200px;
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 20px 10px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    .main-container {
+      max-width: 1050px;
       margin: 0 auto;
-      padding: 18px 14px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
     }
 
-    header.hero{
-      border:var(--border);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(13,16,32,.80), rgba(11,13,24,.70));
-      box-shadow: var(--shadow);
-      padding: 18px 18px 16px;
-      position:relative;
-      overflow:hidden;
+    /* هدر اصلی و عنوان */
+    .header-box {
+      text-align: center;
+      padding: 30px 15px;
+      background: radial-gradient(circle at center, #1b2838 0%, #0d1520 100%);
+      border-radius: 18px;
+      border: 2px solid var(--accent-color);
+      box-shadow: 0 0 25px rgba(0, 136, 255, 0.2);
     }
-    header.hero::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(500px 220px at 80% 10%, rgba(255,23,68,.16), transparent 60%),
-        radial-gradient(420px 220px at 15% 25%, rgba(77,124,255,.16), transparent 60%);
-      pointer-events:none;
-    }
-    .hero-inner{position:relative}
 
-    .title{
-      margin:0;
-      font-weight: 1000;
-      font-size: clamp(34px, 5vw, 64px);
-      line-height: 1.05;
-      letter-spacing:.2px;
-      text-shadow: 0 12px 34px rgba(0,0,0,.65);
+    .header-box h1 {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(0, 136, 255, 0.6);
+      margin-bottom: 5px;
+    }
+
+    .header-box .sub-title {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      letter-spacing: 1px;
+      font-weight: bold;
+    }
+
+    /* اتصال به گپ جی پی تی */
+    .api-config-card {
+      background: #182230;
+      border: 1px solid #2a3c54;
+      padding: 15px 20px;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .api-config-card input {
+      padding: 12px;
+      background: #0d141e;
+      border: 1px solid #2f435e;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      direction: ltr;
+    }
+
+    /* استایل کارت‌های موضوعی و انیمیشن ویبره و حاشیه قرمز */
+    .theme-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+
+    /* هاور و لمس: حاشیه قرمز، لرزش و ویبره */
+    .theme-card:hover, .theme-card:active {
+      border-color: var(--danger-color) !important;
+      box-shadow: 0 0 20px rgba(255, 34, 51, 0.45);
+      animation: vibrationShake 0.15s infinite alternate;
+    }
+
+    @keyframes vibrationShake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      25% { transform: translate(-1.5px, -1px) rotate(-0.3deg); }
+      50% { transform: translate(-1px, 1.5px) rotate(0.3deg); }
+      75% { transform: translate(1.5px, 0.5px) rotate(0deg); }
+      100% { transform: translate(1px, -1px) rotate(-0.2deg); }
+    }
+
+    /* بخش باز و بسته شدن کادرها */
+    .theme-header {
+      background-color: #172433;
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #e3edfc;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .theme-header:hover {
+      background-color: #1c2b3d;
       color: #fff;
     }
-    .title .en{
-      display:block;
-      margin-top:8px;
-      font-weight: 900;
-      font-size: clamp(18px, 2.6vw, 34px);
-      opacity:.95;
-    }
-    .subtitle{
-      margin:14px 0 0;
-      color:var(--muted);
-      font-size: clamp(14px, 1.8vw, 18px);
-      font-weight: 800;
-      line-height: 1.9;
+
+    .theme-header .arrow {
+      transition: transform 0.3s ease;
+      font-size: 1.2rem;
+      color: var(--accent-color);
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:14px;
-      margin-top:16px;
-    }
-    @media (min-width: 960px){
-      .grid{grid-template-columns: 1.15fr .85fr;}
+    .theme-content {
+      padding: 20px;
+      display: block;
     }
 
-    .card{
-      border:var(--border);
-      border-radius:var(--radius);
-      background: linear-gradient(180deg, rgba(13,16,32,.75), rgba(11,13,24,.65));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .card .card-h{
-      padding:14px 16px;
-      border-bottom:1px solid rgba(255,255,255,.07);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      background: rgba(255,255,255,.03);
-    }
-    .card .card-h h2{
-      margin:0;
-      font-size:16px;
-      font-weight:900;
-      color:#eef1ff;
-    }
-    .card .card-b{padding:14px 16px;}
-
-    .row{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
-    .small{font-size:12px; color:var(--muted)}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;}
-    .hr{height:1px; background: rgba(255,255,255,.08); margin:12px 0;}
-
-    textarea, input[type="text"], input[type="password"]{
-      width:100%;
-      padding:12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.45);
-      color: var(--text);
-      outline:none;
-      font-family: inherit;
-    }
-    textarea{min-height:120px; resize:vertical}
-
-    .btn{
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color:var(--text);
-      cursor:pointer;
-      font-weight:900;
-      font-family: inherit;
-      transition: all .15s ease;
-      user-select:none;
-      text-align:center;
-    }
-    .btn:hover{background: rgba(255,255,255,.12);}
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(77,124,255,.55), rgba(32,227,178,.35));
-      border-color: rgba(77,124,255,.65);
-    }
-    .btn.danger{
-      background: linear-gradient(135deg, rgba(255,23,68,.4), rgba(255,77,109,.25));
-      border-color: rgba(255,23,68,.70);
+    .theme-card.collapsed .theme-content {
+      display: none;
     }
 
-    details.accordion{
-      border:1px solid rgba(255,255,255,.10);
-      border-radius: var(--radius2);
-      background: rgba(0,0,0,.22);
-      margin:10px 0;
-      overflow:hidden;
-    }
-    details.accordion summary{
-      list-style:none;
-      cursor:pointer;
-      padding:12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      font-weight:900;
-    }
-    details.accordion summary::-webkit-details-marker{display:none}
-    .acc-left{display:flex; align-items:center; gap:10px;}
-    .acc-chip{
-      font-size:11px;
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      color:#dbe3ff;
-    }
-    .acc-icon{
-      width:28px; height:28px;
-      border-radius:10px;
-      display:grid; place-items:center;
-      background: rgba(255,255,255,.06);
-    }
-    details.accordion .acc-body{
-      padding:14px;
-      border-top:1px solid rgba(255,255,255,.07);
+    .theme-card.collapsed .theme-header .arrow {
+      transform: rotate(-90deg);
     }
 
-    /* Hover Neon Red + Vibration */
-    @keyframes vibrate {
-      0% { transform: translate(0); }
-      25% { transform: translate(-1.5px, 1.5px); }
-      50% { transform: translate(1.5px, -1.5px); }
-      75% { transform: translate(-1.5px, -1.5px); }
-      100% { transform: translate(0); }
-    }
-    .fx:hover{
-      border-color: #ff1744 !important;
-      box-shadow: 0 0 14px rgba(255,23,68,.6), inset 0 0 8px rgba(255,23,68,.3) !important;
-      animation: vibrate .12s linear infinite;
+    /* دکمه‌ها و گزینه‌ها */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
     }
 
-    .list{display:flex; flex-direction:column; gap:7px;}
-    .list-btn{
-      text-align:right;
-      width:100%;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      padding: 9px 12px;
+    .action-btn, .option-item {
+      background: #192636;
+      border: 1px solid #2d425c;
+      color: #e3edfa;
+      padding: 12px 14px;
       border-radius: 10px;
-      color: #dfe5ff;
+      font-size: 0.95rem;
+      text-align: right;
       cursor: pointer;
-      font-size: 13px;
-      font-weight: 900;
-      transition: all .15s ease;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .result{
-      white-space:pre-wrap;
-      background: rgba(0,0,0,.45);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius: 14px;
-      padding:14px;
-      min-height:160px;
-      font-size: 14px;
+    .action-btn:hover, .option-item:hover {
+      border-color: var(--danger-color);
+      background: #231d24;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .main-button {
+      background: linear-gradient(90deg, #006cd1, #0088ff);
+      color: white;
+      font-weight: bold;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 15px rgba(0, 136, 255, 0.3);
+    }
+
+    .main-button:hover {
+      background: linear-gradient(90deg, #0056a6, #0077e6);
+      border-color: var(--danger-color);
+    }
+
+    .danger-btn {
+      background: #33151b;
+      border: 1px solid #751d27;
+      color: #ff8591;
+    }
+
+    .danger-btn:hover {
+      background: #4a1c24;
+      border-color: var(--danger-color);
+      color: #fff;
+    }
+
+    /* فرم پرسش و پاسخ */
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      background: #0d1520;
+      border: 1px solid #28394e;
+      border-radius: 12px;
+      padding: 14px;
+      color: #fff;
+      font-size: 1rem;
+      resize: vertical;
+      margin-bottom: 15px;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+
+    .output-box {
+      background: #090e15;
+      border: 1px solid #223247;
+      border-radius: 12px;
+      padding: 18px;
+      min-height: 120px;
+      white-space: pre-wrap;
+      font-size: 1rem;
+      color: #e6eefc;
       line-height: 1.9;
     }
 
-    .footer{
-      margin-top:20px;
-      color:var(--muted);
-      font-size:13px;
-      padding:14px 6px 0;
-      text-align:center;
+    .meta-text {
+      white-space: pre-line;
+      color: #cbdcf2;
+      line-height: 1.95;
+    }
+
+    .price-tag {
+      font-weight: bold;
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+
+    .bank-card {
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 3px;
+      color: var(--gold);
+      background: #0d1520;
+      padding: 10px 15px;
+      border-radius: 8px;
+      display: inline-block;
+      direction: ltr;
+      margin: 10px 0;
+      border: 1px dashed var(--gold);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(0, 136, 255, 0.15);
+      color: var(--accent-color);
+      font-size: 0.8rem;
+    }
+
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #0088ff;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      z-index: 999;
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <header class="hero fx" id="heroFX">
-      <div class="hero-inner">
-        <h1 class="title">پلتفرم هوش مصنوعی من<span class="en mono">Platform My-AI</span></h1>
 
-        <div class="subtitle">
-          My-AI<br>
-          شرکت پردرآمد تهرانیها<br>
-          با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)
-          <br><br>
-          و همچنین مفتخر به تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و مهندسی صنایع<br>
-          صحت موضوع را از وزارت علوم جویا شوید!<br>
-          این پلتفرم "هم در شرایط عادی" و "هم در شرایط مجازی" به پیشرفت علمی فرزندان ایران زمین کمک می‌کند!
-          <br><br>
-          در این پلتفرم هوش مصنوعی با موشکافی درسهایتان بشدت در یادگیری شما کوشا هست تا شما بطور کامل مباحث کنکوری، تکلیف و امتحان را یاد نگرفته اید دست بردار نیست، برای مدرس ارسال نمیکند!
-          <br><br>
-          پلتفرم انجام دهنده مباحث کنکوری،تکلیف و امتحان مجازی توی خونه توسط هوش مصنوعی!<br>
-          پلتفرم کلاس درس مدرسه ،دانشگاه و موسسه کنکوری مجازی توی خونه توسط هوش مصنوعی!
-          <br><br>
-          پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی!
-          <br><br>
-          پلتفرم دانشگاه مجازی توسط هوش مصنوعی!
-          <br><br>
-          یادگیری و ارزیابی مجازی!
-          <br><br>
-          پلتفرم تکلیف کتبی مجازی توسط هوش مصنوعی!
-          <br><br>
-          پلتفرم تکلیف شفاهی مجازی توسط هوش مصنوعی!
-          <br><br>
-          پلتفرم امتحان کتبی مجازی توسط هوش مصنوعی!
-          <br><br>
-          پلتفرم امتحان شفاهی مجازی توسط هوش مصنوعی!
-          <br><br>
-          مزیت خرید بسته ها:اگر مدتی از بسته خود استفاده نکنید،اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!
-        </div>
-      </div>
+  <div class="main-container">
+
+    <!-- ۱. عنوان اصلی -->
+    <header class="header-box">
+      <h1>پلتفرم هوش مصنوعی من</h1>
+      <div class="sub-title">Platform My-AI</div>
     </header>
 
-    <div class="grid">
-      <!-- بخش اصلی و چت -->
-      <section class="card">
-        <div class="card-h">
-          <h2>ورودی پرسش و وضعیت اتصال</h2>
-          <div class="small mono" id="connStatus" style="color:var(--green)">وضعیت: در انتظار ورودی</div>
-        </div>
-
-        <div class="card-b">
-          <!-- تنظیمات کلید GapGPT -->
-          <details class="accordion fx" open>
-            <summary>
-              <div class="acc-left">
-                <div class="acc-icon">⚡</div>
-                <div class="acc-title">تنظیمات اتصال به GapGPT</div>
-                <span class="acc-chip">اتصال مستقیم</span>
-              </div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body">
-              <div class="small" style="margin-bottom:6px;">کلید API گپ جی پی تی (همچنین می‌توانید داخل کد در متغیر GAPGPT_API_KEY ذخیره کنید):</div>
-              <input type="password" id="apiKeyInput" placeholder="کلید GapGPT خود را اینجا وارد کنید..." class="fx" />
-              <div class="row" style="margin-top:8px;">
-                <button class="btn fx" id="saveKeyBtn">ذخیره کلید</button>
-                <button class="btn danger fx" id="clearKeyBtn">حذف کلید</button>
-              </div>
-            </div>
-          </details>
-
-          <!-- ورودی پرسش -->
-          <details class="accordion fx" open>
-            <summary>
-              <div class="acc-left">
-                <div class="acc-icon">📝</div>
-                <div class="acc-title">ورودی متن و سوال</div>
-                <span class="acc-chip">پرسش</span>
-              </div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body">
-              <textarea id="question" placeholder="سوال، مسئله یا متن مورد نظرتان را اینجا بنویسید..."></textarea>
-
-              <div class="hr"></div>
-
-              <div class="row">
-                <div style="flex:1; min-width:200px;">
-                  <div class="small">انتخاب عکس از گالری (برای تحلیل تست یا فرمول)</div>
-                  <input id="imgInput" type="file" accept="image/*" class="fx" style="margin-top:4px;" />
-                </div>
-                <button class="btn danger fx" id="removeImgBtn">حذف عکس</button>
-              </div>
-
-              <div id="imgPreviewWrap" style="margin-top:10px; display:none;">
-                <img id="imgPreview" alt="preview" style="max-height:160px; border-radius:10px; border:1px solid rgba(255,255,255,.2);" />
-              </div>
-
-              <div class="hr"></div>
-
-              <div class="row">
-                <button class="btn primary fx" id="askBtn" style="flex:1;">دریافت پاسخ هوشمند از GapGPT</button>
-                <button class="btn fx" id="copyBtn">کپی کردن پاسخ</button>
-                <button class="btn danger fx" id="trashBtn">سطل آشغال (پاکسازی)</button>
-              </div>
-
-              <div class="hr"></div>
-
-              <div class="row">
-                <button class="btn fx" id="speakBtn">پاسخ با صدای من</button>
-              </div>
-            </div>
-          </details>
-
-          <!-- نتایج -->
-          <details class="accordion fx" open>
-            <summary>
-              <div class="acc-left">
-                <div class="acc-icon">📌</div>
-                <div class="acc-title">نتایج و پاسخ GapGPT</div>
-                <span class="acc-chip">پاسخ</span>
-              </div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body">
-              <div class="result" id="result">نتایج پس از ارسال در اینجا نمایش داده می‌شود...</div>
-            </div>
-          </details>
-        </div>
-      </section>
-
-      <!-- سایدبار ابزارها و بخش‌ها -->
-      <aside class="card">
-        <div class="card-h">
-          <h2>ابزارهای تخصصی</h2>
-          <div class="small">دسته‌بندی موضوعی</div>
-        </div>
-        <div class="card-b">
-
-          <!-- پاسخ سوال -->
-          <details class="accordion fx">
-            <summary>
-              <div class="acc-left"><div class="acc-icon">💡</div><div class="acc-title">پاسخ سوال</div><span class="acc-chip">ابزار</span></div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body">
-              <div class="list">
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح ابتدایی">پاسخ سوال در سطح ابتدایی</button>
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح متوسطه اول">پاسخ سوال در سطح متوسطه اول</button>
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح متوسطه دوم">پاسخ سوال در سطح متوسطه دوم</button>
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح تیزهوشان">پاسخ سوال در سطح تیزهوشان</button>
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح المپیادی">پاسخ سوال در سطح المپیادی</button>
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح کنکوری">پاسخ سوال در سطح کنکوری</button>
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح لیسانس">پاسخ سوال در سطح لیسانس</button>
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح فوق لیسانس">پاسخ سوال در سطح فوق لیسانس</button>
-                <button class="list-btn fx" data-tool="پاسخ سوال در سطح دکتری">پاسخ سوال در سطح دکتری</button>
-              </div>
-            </div>
-          </details>
-
-          <!-- آنالیز سوال -->
-          <details class="accordion fx">
-            <summary>
-              <div class="acc-left"><div class="acc-icon">🔍</div><div class="acc-title">آنالیز سوال</div><span class="acc-chip">ابزار</span></div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body">
-              <div class="list">
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح ابتدایی">آنالیز سوال در سطح ابتدایی</button>
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح متوسطه اول">آنالیز سوال در سطح متوسطه اول</button>
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح متوسطه دوم">آنالیز سوال در سطح متوسطه دوم</button>
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح تیزهوشان">آنالیز سوال در سطح تیزهوشان</button>
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح المپیادی">آنالیز سوال در سطح المپیادی</button>
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح کنکوری">آنالیز سوال در سطح کنکوری</button>
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح لیسانس">آنالیز سوال در سطح لیسانس</button>
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح فوق لیسانس">آنالیز سوال در سطح فوق لیسانس</button>
-                <button class="list-btn fx" data-tool="آنالیز سوال در سطح دکتری">آنالیز سوال در سطح دکتری</button>
-              </div>
-            </div>
-          </details>
-
-          <!-- آنالیز تله درون سوال -->
-          <details class="accordion fx">
-            <summary>
-              <div class="acc-left"><div class="acc-icon">⚠️</div><div class="acc-title">آنالیز تله درون سوال</div><span class="acc-chip">ابزار</span></div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body">
-              <div class="list">
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح ابتدایی">آنالیز تله درون سوال در سطح ابتدایی</button>
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح متوسطه اول">آنالیز تله درون سوال در سطح متوسطه اول</button>
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح متوسطه دوم">آنالیز تله درون سوال در سطح متوسطه دوم</button>
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح تیزهوشان">آنالیز تله درون سوال در سطح تیزهوشان</button>
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح المپیادی">آنالیز تله درون سوال در سطح المپیادی</button>
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح کنکوری">آنالیز تله درون سوال در سطح کنکوری</button>
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح لیسانس">آنالیز تله درون سوال در سطح لیسانس</button>
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح فوق لیسانس">آنالیز تله درون سوال در سطح فوق لیسانس</button>
-                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح دکتری">آنالیز تله درون سوال در سطح دکتری</button>
-              </div>
-            </div>
-          </details>
-
-          <!-- چهار جوابی کردن -->
-          <details class="accordion fx">
-            <summary>
-              <div class="acc-left"><div class="acc-icon">🔢</div><div class="acc-title">چهار جوابی کردن</div><span class="acc-chip">ابزار</span></div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body">
-              <div class="list">
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح ابتدایی">چهار جوابی کردن در سطح ابتدایی</button>
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح متوسطه اول">چهار جوابی کردن در سطح متوسطه اول</button>
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح متوسطه دوم">چهار جوابی کردن در سطح متوسطه دوم</button>
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح تیزهوشان">چهار جوابی کردن در سطح تیزهوشان</button>
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح المپیادی">چهار جوابی کردن در سطح المپیادی</button>
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح کنکوری">چهار جوابی کردن در سطح کنکوری</button>
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح لیسانس">چهار جوابی کردن در سطح لیسانس</button>
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح فوق لیسانس">چهار جوابی کردن در سطح فوق لیسانس</button>
-                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح دکتری">چهار جوابی کردن در سطح دکتری</button>
-              </div>
-            </div>
-          </details>
-
-          <!-- بسته‌های اعتباری -->
-          <details class="accordion fx">
-            <summary>
-              <div class="acc-left"><div class="acc-icon">💎</div><div class="acc-title">بسته‌های اعتباری My-AI</div><span class="acc-chip">مالی</span></div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body" style="line-height:1.9; font-weight:800;">
-              مزیت خرید بسته ها:<br>
-              اگر مدتی از بسته خود استفاده نکنید، اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!
-              <div class="hr"></div>
-              لیست بسته های اعتباری:<br>
-              ۵ میلیون تومان | ۱۰ میلیون تومان | ۲۰ میلیون تومان | ۵۰ میلیون تومان | ۱۰۰ میلیون تومان | ۱۵۰ میلیون تومان | ۲۰۰ میلیون تومان | ۲۵۰ میلیون تومان
-            </div>
-          </details>
-
-          <!-- پرداخت آفلاین -->
-          <details class="accordion fx" open>
-            <summary>
-              <div class="acc-left"><div class="acc-icon">💳</div><div class="acc-title">روش پرداخت آفلاین</div><span class="acc-chip">واریز</span></div>
-              <div class="small">باز/بسته</div>
-            </summary>
-            <div class="acc-body" style="font-weight:900; line-height:1.9;">
-              بدلیل تقلب و سوء استفاده در پرداختهای الکترونیکی ؛از پرداخت الکترونیکی معذوریم! از اینرو تنها روش خرید؛ آفلاین و ارسال رسید به ایمیل است !
-              <br><br>
-              شماره کارت:<br>
-              <span class="mono" id="cardNumber">6037991555549678</span>
-              <button class="btn fx" id="copyCardBtn" style="margin-top:6px;">کپی کردن شماره کارت</button>
-
-              <div class="hr"></div>
-              ایمیل پشتیبانی و ارسال فیش:<br>
-              <span class="mono" id="supportEmail">Ai.Algorithms.Ballistics@gmail.com</span>
-              <button class="btn fx" id="copyEmailBtn" style="margin-top:6px;">کپی کردن ایمیل</button>
-
-              <div class="hr"></div>
-              اخطار مالکیت فکری! تمامی حقوق این پلتفرم متعلق به حسین لعلیان میباشد؛ لذا هرگونه کپی برداری پیگرد قانونی دارد!
-            </div>
-          </details>
-
-        </div>
-      </aside>
+    <!-- پیکربندی کلید گپ جی پی تی (GapGPT / OpenAI API) -->
+    <div class="api-config-card">
+      <label><strong>🔑 تنظیم کلید گپ جی پی تی (GapGPT / OpenAI API Key):</strong></label>
+      <input type="password" id="apiKeyInput" placeholder="کلید API خود را اینجا وارد کنید (مثلاً sk-...)" value="">
+      <small style="color: var(--text-muted);">کلید به صورت محلی در مرورگر شما نگهداری شده و سریع به گپ جی پی تی متصل می‌شود.</small>
     </div>
 
-    <div class="footer fx">
-      My-AI | Platform My-AI
-    </div>
-  </div>
+    <!-- ۲. معرفی و مشخصات مدیرعامل و پلتفرم -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>معرفی رسمی شرکت و پلتفرم My-AI</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="meta-text">
+..........
 
-  <script>
-    // ==========================================
-    // ۱. متغیر کلید اختصاصی GapGPT در کد
-    // ==========================================
-    // اگر می‌خواهی مستقیماً در سورس کد کلیدت باشد، آن را داخل کوتیشن بنویس:
-    const HARDCODED_GAPGPT_KEY = "GAPGPTMASKTOKEN1pv7acml0liX0X";
+ My-AI
+شرکت پردرآمد تهرانیها
+با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)
 
-    // آدرس اندپوینت سازگار GapGPT
-    const GAPGPT_ENDPOINT = "https://api.gapgpt.com/v1/chat/completions";
-    const DEFAULT_MODEL = "gpt-4o-mini";
+و همچنین مفتخر به تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و مهندسی صنایع
+صحت موضوع را از وزارت علوم جویا شوید!
+این پلتفرم "هم در شرایط عادی" و "هم در شرایط مجازی" به پیشرفت علمی فرزندان ایران زمین کمک می‌کند!
+ در  ادمه مکانیزم کاری این هوش مصنوعی برایتان روشن میشود که این پلتفرم نتنها در  مدرسه و دانشگاه بکمکتان می آید بلکه برای پشت کنکوریها بمثابه یک موسسه کنکوری عمل میکند تا بهترین رتبه را در کنکور کسب نمایند!
 
-    const connStatus = document.getElementById('connStatus');
-    const apiKeyInput = document.getElementById('apiKeyInput');
+در این پلتفرم هوش مصنوعی با موشکافی درسهایتان بشدت در یادگیری شما کوشا هست تا شما بطور کامل مباحث کنکوری، تکلیف و امتحان را یاد نگرفته اید دست بردار نیست، برای مدرس ارسال نمیکند!
 
-    // لود اولیه کلید
-    const savedKey = localStorage.getItem('gapgpt_key') || (HARDCODED_GAPGPT_KEY !== "GAPGPTMASKTOKEN1pv7acml0liX1X" ? HARDCODED_GAPGPT_KEY : "");
-    if(savedKey){
-      apiKeyInput.value = savedKey;
-      connStatus.textContent = "وضعیت: کلید GapGPT فعال است";
-      connStatus.style.color = "#20e3b2";
-    }
+پلتفرم انجام دهنده مباحث کنکوری،تکلیف و امتحان مجازی توی خونه توسط هوش مصنوعی!
+پلتفرم کلاس درس مدرسه ،دانشگاه و موسسه کنکوری مجازی توی خونه توسط هوش مصنوعی!
 
-    document.getElementById('saveKeyBtn').addEventListener('click', ()=>{
-      const val = apiKeyInput.value.trim();
-      if(!val){ alert("لطفاً کلید را وارد کنید."); return; }
-      localStorage.setItem('gapgpt_key', val);
-      connStatus.textContent = "وضعیت: کلید ذخیره و آماده شد";
-      connStatus.style.color = "#20e3b2";
-      alert("کلید گپ جی پی تی با موفقیت ذخیره شد.");
-    });
+پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی!
 
-    document.getElementById('clearKeyBtn').addEventListener('click', ()=>{
-      localStorage.removeItem('gapgpt_key');
-      apiKeyInput.value = "";
-      connStatus.textContent = "وضعیت: کلید حذف شد";
-      connStatus.style.color = "#ff1744";
-    });
+پلتفرم دانشگاه مجازی توسط هوش مصنوعی!
 
-    // ==========================================
-    // ۲. بوق Web Audio API
-    // ==========================================
-    let audioCtx = null;
-    function playBeep(){
-      try{
-        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if(audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.08);
-      }catch(e){}
-    }
+یادگیری و ارزیابی مجازی!
 
-    document.querySelectorAll('.fx').forEach(el=>{
-      el.addEventListener('mouseenter', playBeep);
-    });
+پلتفرم تکلیف کتبی مجازی توسط هوش مصنوعی!
 
-    // ==========================================
-    // ۳. مدیریت تصویر
-    // ==========================================
-    let base64Image = null;
-    const imgInput = document.getElementById('imgInput');
-    const imgPreview = document.getElementById('imgPreview');
-    const imgPreviewWrap = document.getElementById('imgPreviewWrap');
+پلتفرم تکلیف شفاهی مجازی توسط هوش مصنوعی!
 
-    imgInput.addEventListener('change', (e)=>{
-      const file = e.target.files && e.target.files[0];
-      if(!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev)=>{
-        base64Image = ev.target.result;
-        imgPreview.src = base64Image;
-        imgPreviewWrap.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-    });
+پلتفرم امتحان کتبی مجازی توسط هوش مصنوعی!
 
-    document.getElementById('removeImgBtn').addEventListener('click', ()=>{
-      base64Image = null;
-      imgInput.value = "";
-      imgPreviewWrap.style.display = 'none';
-      imgPreview.src = "";
-    });
+پلتفرم امتحان شفاهی مجازی توسط هوش مصنوعی!
 
-    // ==========================================
-    // ۴. ارتباط مستقیم با API گپ جی پی تی
-    // ==========================================
-    async function sendToGapGPT(toolTitle){
-      const activeKey = apiKeyInput.value.trim() || (HARDCODED_GAPGPT_KEY !== "GAPGPTMASKTOKEN1pv7acml0liX2X" ? HARDCODED_GAPGPT_KEY : "");
-      
-      if(!activeKey){
-        alert("لطفاً ابتدا کلید API گپ جی پی تی خود را وارد کنید.");
-        apiKeyInput.focus();
-        return;
-      }
+مزیت خرید بسته ها:اگر مدتی از بسته خود استفاده نکنید،اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!
+        </div>
+      </div>
+    </section>
 
-      const userText = document.getElementById('question').value.trim();
-      if(!userText && !base64Image && !toolTitle){
-        alert("لطفاً متنی بنویسید یا تصویری انتخاب نمایید.");
-        return;
-      }
+    <!-- ۳. ورودی پرسش و عملیات‌های هوشمند -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>ورودی پرسش و بخش عملیات هوشمند</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <label style="display:block; margin-bottom:8px; font-weight:bold;">ورودی پرسش</label>
+        <textarea id="questionInput" placeholder="پرسش یا مبحث کنکوری، تکلیف یا آزمون خود را اینجا تایپ کنید یا از گزینه‌های پایین انتخاب نمایید..."></textarea>
 
-      const resultBox = document.getElementById('result');
-      resultBox.textContent = "⏳ در حال برقراری ارتباط با GapGPT و دریافت پاسخ، لطفاً شکیبا باشید...";
-      connStatus.textContent = "وضعیت: در حال پردازش پرسش...";
-      connStatus.style.color = "#4d7cff";
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom: 15px;">
+          <input type="file" id="galleryFileInput" accept="image/*" style="display:none;">
+          <button class="action-btn" onclick="document.getElementById('galleryFileInput').click();">📁 انتخاب عکس از گالری</button>
+          <button class="main-button" id="btnAskAI">⚡ دریافت پاسخ هوشمند</button>
+          <button class="action-btn" id="btnSpeakAnswer">🎙️ پاسخ با صدای من</button>
+          <button class="action-btn" id="btnSaveVoice">💾 ذخیره پاسخ صوتی</button>
+          <button class="action-btn danger-btn" id="btnDeletePhoto">🗑️ حذف عکس</button>
+        </div>
+        <div id="fileUploadStatus" style="color:var(--gold); font-size: 0.9rem;"></div>
+      </div>
+    </section>
 
-      let promptPayload = [];
-      if(toolTitle) promptPayload.push({type: "text", text: `دستور و ابزار انتخابی: ${toolTitle}`});
-      if(userText) promptPayload.push({type: "text", text: userText});
-      if(base64Image) promptPayload.push({type: "image_url", image_url: {url: base64Image}});
+    <!-- ۴. نتایج -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>نتایج</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div style="display:flex; gap:10px; margin-bottom:12px;">
+          <button class="action-btn" id="btnCopyAnswer">📋 کپی کردن پاسخ</button>
+          <button class="action-btn danger-btn" id="btnTrashOutput">🗑️ سطل آشغال (پاک کردن سوال/پاسخ قبلی)</button>
+        </div>
+        <div id="resultOutput" class="output-box">پاسخ تولید شده توسط هوش مصنوعی گپ جی پی تی در این بخش به دقت نمایش داده خواهد شد...</div>
+      </div>
+    </section>
 
-      // در صورتی که عکس نباشد، ارسال به صورت متن ساده
-      const finalContent = base64Image ? promptPayload : ((toolTitle ? `[ابزار: ${toolTitle}]\n\n` : '') + userText);
+    <!-- ۵. ابزارهای هوشمند (تمامی مقاطع و دسته‌ها) -->
+    
+    <!-- پاسخ سوال -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>پاسخ سوال</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح ابتدایی')">پاسخ سوال در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح متوسطه اول')">پاسخ سوال در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح متوسطه دوم')">پاسخ سوال در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح تیزهوشان')">پاسخ سوال در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح المپیادی')">پاسخ سوال در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح کنکوری')">پاسخ سوال در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح لیسانس')">پاسخ سوال در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح فوق لیسانس')">پاسخ سوال در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('پاسخ سوال در سطح دکتری')">پاسخ سوال در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-      try{
-        const response = await fetch(GAPGPT_ENDPOINT, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${activeKey}`
-          },
-          body: JSON.stringify({
-            model: DEFAULT_MODEL,
-            messages: [
-              {
-                role: "system",
-                content: "شما دستیار هوش مصنوعی فوق تخصصی پلتفرم My-AI (مدیریت: حسین لعلیان) هستید. پاسخ‌های دقیق، علمی، گام‌به‌گام و جامع ارائه دهید."
-              },
-              {
-                role: "user",
-                content: finalContent
-              }
-            ],
-            temperature: 0.7
-          })
-        });
+    <!-- آنالیز سوال -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز سوال</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح ابتدایی')">آنالیز سوال در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح متوسطه اول')">آنالیز سوال در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح متوسطه دوم')">آنالیز سوال در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح تیزهوشان')">آنالیز سوال در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح المپیادی')">آنالیز سوال در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح کنکوری')">آنالیز سوال در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح لیسانس')">آنالیز سوال در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح فوق لیسانس')">آنالیز سوال در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال در سطح دکتری')">آنالیز سوال در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-        if(!response.ok){
-          const errorData = await response.json().catch(()=>({}));
-          throw new Error(errorData?.error?.message || `خطای سرور HTTP ${response.status}`);
-        }
+    <!-- آنالیز تله درون سوال -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز تله درون سوال</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح ابتدایی')">آنالیز تله درون سوال در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح متوسطه اول')">آنالیز تله درون سوال در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح متوسطه دوم')">آنالیز تله درون سوال در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح تیزهوشان')">آنالیز تله درون سوال در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح المپیادی')">آنالیز تله درون سوال در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح کنکوری')">آنالیز تله درون سوال در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح لیسانس')">آنالیز تله درون سوال در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح فوق لیسانس')">آنالیز تله درون سوال در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال در سطح دکتری')">آنالیز تله درون سوال در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-        const data = await response.json();
-        const reply = data?.choices?.[0]?.message?.content || "پاسخی از مدل دریافت نشد.";
-        resultBox.textContent = reply;
-        connStatus.textContent = "وضعیت: پاسخ با موفقیت دریافت شد";
-        connStatus.style.color = "#20e3b2";
+    <!-- آنالیز پاسخ -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز پاسخ</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح ابتدایی')">آنالیز پاسخ در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح متوسطه اول')">آنالیز پاسخ در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح متوسطه دوم')">آنالیز پاسخ در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح تیزهوشان')">آنالیز پاسخ در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح المپیادی')">آنالیز پاسخ در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح کنکوری')">آنالیز پاسخ در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح لیسانس')">آنالیز پاسخ در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح فوق لیسانس')">آنالیز پاسخ در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ در سطح دکتری')">آنالیز پاسخ در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-      }catch(err){
-        resultBox.textContent = `❌ بروز خطا در اتصال به GapGPT:\n${err.message}\n\nراهنمایی: مطمئن شوید کلید API را درست وارد کرده‌اید و اعتبارتان در گپ جی پی تی کافی است.`;
-        connStatus.textContent = "وضعیت: خطا در برقراری ارتباط";
-        connStatus.style.color = "#ff1744";
-      }
-    }
+    <!-- آنالیز سوال درون عکس -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز سوال درون عکس</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح ابتدایی')">آنالیز سوال درون عکس در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح متوسطه اول')">آنالیز سوال درون عکس در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح متوسطه دوم')">آنالیز سوال درون عکس در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح تیزهوشان')">آنالیز سوال درون عکس در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح المپیادی')">آنالیز سوال درون عکس در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح کنکوری')">آنالیز سوال درون عکس در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح لیسانس')">آنالیز سوال درون عکس در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح فوق لیسانس')">آنالیز سوال درون عکس در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال درون عکس در سطح دکتری')">آنالیز سوال درون عکس در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-    // دکمه‌های فرم
-    document.getElementById('askBtn').addEventListener('click', ()=> sendToGapGPT(""));
+    <!-- آنالیز عکس -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز عکس</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح ابتدایی')">آنالیز عکس در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح متوسطه اول')">آنالیز عکس در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح متوسطه دوم')">آنالیز عکس در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح تیزهوشان')">آنالیز عکس در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح المپیادی')">آنالیز عکس در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح کنکوری')">آنالیز عکس در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح لیسانس')">آنالیز عکس در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح فوق لیسانس')">آنالیز عکس در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز عکس در سطح دکتری')">آنالیز عکس در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-    document.querySelectorAll('[data-tool]').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const tool = btn.getAttribute('data-tool');
-        sendToGapGPT(tool);
-      });
-    });
+    <!-- چهار جوابی کردن -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>چهار جوابی کردن</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح ابتدایی')">چهار جوابی کردن در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح متوسطه اول')">چهار جوابی کردن در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح متوسطه دوم')">چهار جوابی کردن در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح تیزهوشان')">چهار جوابی کردن در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح المپیادی')">چهار جوابی کردن در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح کنکوری')">چهار جوابی کردن در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح لیسانس')">چهار جوابی کردن در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح فوق لیسانس')">چهار جوابی کردن در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('چهار جوابی کردن در سطح دکتری')">چهار جوابی کردن در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-    document.getElementById('copyBtn').addEventListener('click', async ()=>{
-      const text = document.getElementById('result').textContent;
-      if(!text || text.includes("در حال برقراری") || text.includes("نتایج پس از ارسال")){
-        alert("پاسخی جهت کپی موجود نیست.");
-        return;
-      }
-      try{
-        await navigator.clipboard.writeText(text);
-        alert("پاسخ کپی شد.");
-      }catch(e){
-        alert("خطا در کپی متن.");
-      }
-    });
+    <!-- آنالیز سوال چهار جوابی -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز سوال چهار جوابی</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح ابتدایی')">آنالیز سوال چهار جوابی در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح متوسطه اول')">آنالیز سوال چهار جوابی در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح متوسطه دوم')">آنالیز سوال چهار جوابی در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح تیزهوشان')">آنالیز سوال چهار جوابی در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح المپیادی')">آنالیز سوال چهار جوابی در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح کنکوری')">آنالیز سوال چهار جوابی در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح لیسانس')">آنالیز سوال چهار جوابی در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح فوق لیسانس')">آنالیز سوال چهار جوابی در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال چهار جوابی در سطح دکتری')">آنالیز سوال چهار جوابی در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-    document.getElementById('trashBtn').addEventListener('click', ()=>{
-      document.getElementById('question').value = "";
-      document.getElementById('result').textContent = "نتایج پس از ارسال در اینجا نمایش داده می‌شود...";
-      document.getElementById('removeImgBtn').click();
-    });
+    <!-- پاسخ به سوال چهار جوابی -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>پاسخ به سوال چهار جوابی</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح ابتدایی')">پاسخ به سوال چهار جوابی در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح متوسطه اول')">پاسخ به سوال چهار جوابی در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح متوسطه دوم')">پاسخ به سوال چهار جوابی در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح تیزهوشان')">پاسخ به سوال چهار جوابی در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح المپیادی')">پاسخ به سوال چهار جوابی در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح کنکوری')">پاسخ به سوال چهار جوابی در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح لیسانس')">پاسخ به سوال چهار جوابی در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح فوق لیسانس')">پاسخ به سوال چهار جوابی در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('پاسخ به سوال چهار جوابی در سطح دکتری')">پاسخ به سوال چهار جوابی در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
 
-    document.getElementById('speakBtn').addEventListener('click', ()=>{
-      const text = document.getElementById('result').textContent;
-      if(!text || text.startsWith("❌") || text.startsWith("⏳")) return;
-      if('speechSynthesis
+    <!-- آنالیز پاسخ سوال چهار جوابی -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز پاسخ سوال چهار جوابی</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهار جوابی در سطح ابتدایی')">آنالیز پاسخ سوال چهار جوابی در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهار جوابی در سطح متوسطه اول')">آنالیز پاسخ سوال چهار جوابی در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهار جوابی در سطح متوسطه دوم')">آنالیز پاسخ سوال چهار جوابی در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهار جوابی در سطح تیزهوشان')">آنالیز پاسخ سوال چهار جوابی در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهار جوابی در سطح المپیادی')">آنالیز پاسخ سوال چهار جوابی در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهار جوابی در سطح کنکوری')">آنالیز پاسخ سوال چهار جوابی در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهار جوابی در سطح لیسانس')">آنالیز پاسخ سوال چهار جوابی در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهار جوابی در سطح فوق لیسانس')">آنالیز پاسخ سوال چهار جوابی در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز پاسخ سوال چهارجوابی در سطح دکتری')">آنالیز پاسخ سوال چهارجوابی در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- آنالیز تله درون سوال چهار جوابی -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز تله درون سوال چهار جوابی</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح ابتدایی')">آنالیز تله درون سوال چهار جوابی در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح متوسطه اول')">آنالیز تله درون سوال چهار جوابی در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح متوسطه دوم')">آنالیز تله درون سوال چهار جوابی در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح تیزهوشان')">آنالیز تله درون سوال چهار جوابی در سطح تیزهوشان</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح المپیادی')">آنالیز تله درون سوال چهار جوابی در سطح المپیادی</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح کنکوری')">آنالیز تله درون سوال چهار جوابی در سطح کنکوری</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح لیسانس')">آنالیز تله درون سوال چهار جوابی در سطح لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح فوق لیسانس')">آنالیز تله درون سوال چهار جوابی در سطح فوق لیسانس</div>
+          <div class="option-item" onclick="selectTool('آنالیز تله درون سوال چهار جوابی در سطح دکتری')">آنالیز تله درون سوال چهار جوابی در سطح دکتری</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه -->
+    <section class="theme-card">
+      <div class="theme-header">
+        <span>آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="theme-content">
+        <div class="items-grid">
+          <div class="option-item" onclick="selectTool('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح ابتدایی')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح ابتدایی</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح متوسطه اول')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح متوسطه اول</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح متوسطه دوم')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح متوسطه دوم</div>
+          <div class="option-item" onclick="selectTool('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح تیزهوشان')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح تیزه
