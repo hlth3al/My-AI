@@ -1,580 +1,606 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پلتفرم هوش مصنوعی من - Platform My-AI</title>
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: #131b2e;
-            --card-border: #1e293b;
-            --accent-color: #38bdf8;
-            --accent-hover: #0284c7;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --alert-red: #ef4444;
-            --gold: #fbbf24;
-            --success: #22c55e;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" هوش مصنوعی من - Platform My-AI</title>
+  <style>
+لتفرم هوش مصنوعی من - Platform My-AI</title>
+  <style>
+    :root{
+      --bg:#0b0f19;
+      --card:#111a2e;
+      --card2:#0f172a;
+      --border:#1f2a44;
+      --muted:#94a3b8;
+      --text:#f8fafc;
+      --blue:#38bdf8;
+      --gold:#fbbf24;
+      --red:#ef4444;
+      --green:#22c55e;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma, "Vazirmatn", sans-serif}
+    body{background:var(--bg);color:var(--text);padding:18px;line-height:1.85}
+    .wrap{max-width:1100px;margin:0 auto}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Vazirmatn', Tahoma, 'Segoe UI', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+    .hero{
+      background:linear-gradient(135deg,#1e1b4b,#0f172a);
+      border:2px solid #3b82f6;
+      border-radius:16px;
+      padding:26px 14px;
+      text-align:center;
+      box-shadow:0 10px 25px rgba(0,0,0,.45);
+      margin-bottom:16px;
+    }
+    .hero h1{font-size:2.2rem;color:var(--blue);text-shadow:0 0 16px rgba(56,189,248,.35)}
+    .hero h2{font-size:1.25rem;color:var(--gold);font-weight:400;margin-top:6px}
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.8;
-            padding: 20px;
-        }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:16px;
+      margin:12px 0;
+      box-shadow:0 4px 15px rgba(0,0,0,.18);
+    }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+    .api{
+      display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+      background:#1e1b4b;border:1px dashed #6366f1;
+      border-radius:12px;padding:12px;
+    }
+    .api label{color:#c7d2fe}
+    .api input{
+      flex:1;min-width:260px;
+      background:#0b1224;color:#fff;border:1px solid #4338ca;
+      border-radius:10px;padding:10px 12px;direction:ltr;
+    }
 
-        /* عنوان اصلی */
-        .main-header {
-            text-align: center;
-            padding: 30px 15px;
-            background: linear-gradient(135deg, #1e1b4b, #0f172a);
-            border: 2px solid #3b82f6;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
+    .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .btn{
+      border:0;border-radius:10px;
+      padding:10px 14px;font-weight:700;cursor:pointer;
+      transition:.15s transform,.15s background,.15s border-color;
+      user-select:none;
+    }
+    .btn:active{transform:scale(.98)}
+    .btnPrimary{background:#2563eb;color:#fff}
+    .btnPrimary:hover{background:#1d4ed8}
+    .btnSecondary{background:#475569;color:#fff}
+    .btnSecondary:hover{background:#334155}
+    .btnDanger{background:var(--red);color:#fff}
+    .btnDanger:hover{filter:brightness(.95)}
 
-        .main-header h1 {
-            font-size: 2.2rem;
-            color: #38bdf8;
-            margin-bottom: 8px;
-            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-        }
+    textarea{
+      width:100%;min-height:120px;resize:{
+      width:100%;min-height:120px;resize:      border:1px solid #334155;border-radius:10px;
+      padding:12px;font-size:1rem;
+    }
 
-        .main-header h2 {
-            font-size: 1.3rem;
-            color: var(--gold);
-            font-weight: normal;
-        }
+    .preview{
+      display:none;margin-top:10px;max-width:100%;max-height:260px;
+      border:1px solid #475569;border-radius:10px;
+    }
 
-        /* بخش معرفی و مشخصات */
-        .info-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+    .result{
+      background:#0b1224;border:2px solid var(--green);
+      border-radius:12px;padding:14px;white-space:pre-wrap;
+      min-height:110px;
+    }
 
-        .info-card h3 {
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
+    /* گروه‌های موضوعی: کادر + hover قرمز + ویبره + بوق */
+    .group{
+      background:var(--card);
+      border:2px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      margin:12px 0;
+      transition:border-color .15s ease;
+    }
+    .group:hover, .group:focus-within{
+      border-color:var(--red);
+      animation:vibrate .28s linear infinite;
+    }
+    @keyframes vibrate{
+      0%{transform:translate(0)}
+      20%{transform:translate(-2px,2px)}
+      40%{transform:translate(-2px,-2px)}
+      60%{transform:translate(2px,2px)}
+      80%{transform:translate(2px,-2px)}
+      100%{transform:translate(0)}
+    }
 
-        .highlight-text {
-            color: #38bdf8;
-            font-weight: bold;
-        }
+    details summary{
+      list-style:none;cursor:pointer;
+      padding:14px 16px;
+      background:#152042;
+      font-weight:800;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    details summary::-webkit-details-marker{display:none}
+    details summary .tag{color:var(--gold);font-weight:800}
+    details[open] summary{border-bottom:1px solid #223055}
 
-        /* تنظیمات کلید API */
-        .api-config-box {
-            background: #1e1b4b;
-            border: 1px dashed #6366f1;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
+    .grid{
+      padding:12px;
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+      gap:10px;
+      background:#0f172a;
+    }
+    .action{
+      background:#1e293b;color:#e2e8f0;
+      border:1px solid #334155;border-radius:10px;
+      padding:10px 12px;cursor:pointer;text-align:right;
+      transition:.15s background,.15s border-color;
+      display:flex;gap:10px;align-items:center;justify-content:space-between;
+    }
+    .action:hover{background:#334155;border-color:var(--blue);color:#fff}
 
-        .api-config-box input {
-            flex: 1;
-            min-width: 250px;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid #4338ca;
-            background: #0f172a;
-            color: #fff;
-            direction: ltr;
-        }
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;direction:ltr}
+    .pill{
+      display:inline-block;background:#1e293b;border:1px dashed #64748b;
+      border-radius:10px;padding:6px 10px;cursor:pointer;user-select:all;
+    }
+    .pill:hover{border-color:var(--blue);color:var(--blue)}
 
-        /* تعاملی و انیمیشن ویبره کادرها هنگام Hover */
-        .interactive-group {
-            background: var(--card-bg);
-            border: 2px solid var(--card-border);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            transition: border-color 0.2s ease, transform 0.1s ease;
-        }
-
-        .interactive-group:hover, .interactive-group:focus-within {
-            border-color: var(--alert-red) !important;
-            animation: vibrate 0.3s linear infinite;
-        }
-
-        @keyframes vibrate {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-
-        /* آکاردئون باز و بسته شونده */
-        .accordion-header {
-            width: 100%;
-            padding: 14px 18px;
-            background: #1a233a;
-            border: none;
-            color: #fff;
-            font-size: 1.05rem;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            text-align: right;
-        }
-
-        .accordion-header::after {
-            content: '▼';
-            font-size: 0.8rem;
-            transition: transform 0.3s ease;
-        }
-
-        .accordion-header.active::after {
-            transform: rotate(180deg);
-        }
-
-        .accordion-content {
-            display: none;
-            padding: 15px;
-            background: #101626;
-            border-top: 1px solid #1e293b;
-        }
-
-        .accordion-content.show {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 10px;
-        }
-
-        /* استایل دکمه‌های عملیاتی */
-        .action-btn {
-            background: #1e293b;
-            color: #e2e8f0;
-            border: 1px solid #334155;
-            padding: 10px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: right;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .action-btn:hover {
-            background: #334155;
-            color: #fff;
-            border-color: var(--accent-color);
-        }
-
-        .action-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* ورودی و پنل اصلی */
-        .input-panel {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        textarea {
-            width: 100%;
-            height: 120px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            color: #fff;
-            padding: 12px;
-            font-size: 1rem;
-            resize: vertical;
-            margin-bottom: 12px;
-        }
-
-        .control-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .btn-primary {
-            background: #2563eb;
-            color: #fff;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-secondary {
-            background: #475569;
-            color: #fff;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: #334155;
-        }
-
-        .btn-danger {
-            background: var(--alert-red);
-            color: #fff;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .image-preview {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 8px;
-            display: none;
-            margin-top: 10px;
-            border: 1px solid #475569;
-        }
-
-        /* باکس پاسخ */
-        .result-box {
-            background: #0f172a;
-            border: 2px solid #22c55e;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            min-height: 100px;
-            white-space: pre-wrap;
-            position: relative;
-        }
-
-        .pricing-table {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
-            margin: 15px 0;
-        }
-
-        .price-card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            color: var(--gold);
-        }
-
-        .copy-pill {
-            display: inline-block;
-            background: #1e293b;
-            border: 1px dashed #64748b;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: monospace;
-            direction: ltr;
-            margin-top: 5px;
-            user-select: all;
-        }
-
-        .copy-pill:hover {
-            border-color: #38bdf8;
-            color: #38bdf8;
-        }
-
-        .footer-warning {
-            background: #450a0a;
-            border: 1px solid #b91c1c;
-            padding: 15px;
-            border-radius: 8px;
-            color: #fecaca;
-            text-align: center;
-            margin-top: 25px;
-            font-size: 0.95rem;
-        }
-    </style>
+    .warn{
+      background:#450a0a;border:1px solid #b91c1c;color:#fecaca;
+      padding:14px;border-radius:12px;margin-top:16px;text-align:center;
+    }
+  </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="container">
+  <header class="hero">
+    <h1>پلتفرم هوش مصنوعی من</h1>
+    <h2>Platform My-AI</h2>
+  </header>
 
-    <!-- عنوان اصلی -->
-    <header class="main-header">
-        <h1>پلتفرم هوش مصنوعی من</h1>
-        <h2>Platform My-AI</h2>
-    </header>
+  <section class="card api">
+    <label for="apiKey">کلید GapGPT API:</label>
+    <input id="apiKey" type="password" placeholder="API Key را وارد کنید یا ذخیره‌شده استفاده می‌شود" />
+    <button class="btn btnPrimary" id="saveKeyBtn">ذخیره کلید (برای اتصال سریع)</button>
+    <button class="btn btnSecondary" id="useDefaultBtn">استفاده از کلید داخل کد (اگر گذاشتی)</button>
+    <button class="btn btnDanger" id="clearKeyBtn">حذف کلید ذخیره‌شده</button>
+  </section>
 
-    <!-- تنظیمات کلید API گپ جی‌پی‌تی -->
-    <div class="api-config-box">
-        <label for="apiKey">🔑 کلید GapGPT API:</label>
-        <input type="password" id="apiKey" placeholder="GapGPT API Key را اینجا وارد کنید..." value="">
-        <button class="btn-primary" onclick="saveApiKey()">ذخیره کلید</button>
+  <section class="card">
+    <h3 style="color:var(--gold);margin-bottom:8px;">My-AI</h3>
+    <div style="color:var(--text);opacity:.98">
+      شرکت پردرآمد تهرانیها<br>
+      با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)<br><br>
+      و همچنین مفتخر به تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و مهندسی صنایع<br>
+      <b style="color:var(--blue)">صحت موضوع را از وزارت علوم جویا شوید!</b><br>
+      این پلتفرم "هم در شرایط عادی" و "هم در شرایط مجازی" به پیشرفت علمی فرزندان ایران زمین مکانیز‌کند!<br>
+      در ادامه مکانیزم کاری این هوش مصنوعی برایتان روشن میشود که این پلتفرم نتنها در مدرسه و دانشگاه بکمکتان می آید بلکه برای پشت کنکوریها بمثابه یک موسسه کنکوری عمل میکند تا بهترین رتبه را در کنکور کسب نمایند!<br><br>
+      در این پلتفرم هوش مصنوعی با موشکافی درسهایتان بشدت در یادگیری شما کوشا هست تا شما بطور کامل مباحث کنکوری، تکلیف و امتحان را یاد نگرفته اید دست بردار نیست، برای مدرس ارسال نمیکند!<br><br>
+      پلتفرم انجام دهنده مباحث کنکوری،تکلیف و امتحان مجازی توی خونه توسط هوش مصنوعی!<br>
+      پلتفرم کلاس درس مدرسه ،دانشگاه و موسسه کنکوری مجازی توی خونه توسط هوش مصنوعی!<br><br>
+      پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی!<br>
+      پلتفرم دانشگاه مجازی توسط هوش مصنوعی!<br>
+      یادگیری و ارزیابی مجازی!<br>
+      پلتفرم تکلیف کتبی مجازی توسط هوش مصنوعی!<br>
+      پلتفرم تکلیف شفاهی مجازی توسط هوش مصنوعی!<br>
+      پلتفرم امتحان کتبی مجازی توسط هوش مصنوعی!<br>
+      پلتفرم امتحان شفاهی مجازی توسط هوش مصنوعی!<br><br>
+      <b>مزیت خرید بسته ها:</b>اگر مدتی از بسته خود استفاده نکنید،اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!
+    </div>
+  </section>
+
+  <section class="card">
+    <h3 style="color:var(--blue);margin-bottom:10px;">ورودی پرسش</h3>
+    <textarea id="questionInput" placeholder="سوال/متن را وارد کنید..."></textarea>
+
+    <input id="imageInput" type="file" accept="image/*" style="display:none">
+    <img id="imagePreview" class="preview" alt="پیش‌نمایش عکس">
+
+    <div class="row">
+      <button class="btn btnSecondary" id="pickImageBtn">انتخاب عکس از گالری</button>
+      <button class="btn btnDanger" id="removeImageBtn" style="display:none">￼حذف عکس</button>
+
+      <button class="btn btnPrimary" id="smartAnswerBtn">دریافت پاسخ هوشمند</button>
+      <button class="btn btnSecondary" id="ttsBtn">پاسخ با صدای من</button>
+      <button class="btn btnSecondary" id="saveTxtBtn">ذخیره پاسخ صوتی</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+      <h3 style="color:var(--gold);">نتایج</h3>
+      <div class="row" style="margin-top:0">
+        <button class="btn btnSecondary" id="copyBtn">کپی کردن پاسخ</button>
+        <button class="btn btnDanger" id="trashBtn">سطل آشغال (پاک کردن سوال/پاسخ قبلی)</button>
+      </div>
+    </div>
+    <div id="resultOutput" class="result">پاسخ و تحلیل هوش مصنوعی پس از انتخاب عملیات در این قسمت نمایش داده خواهد شد...</div>
+  </section>
+
+  <h2 style="text-align:center;color:var(--gold);margin:18px 0 8px;">ابزارهای هوشمند</h2>
+
+  <!-- گروه‌ها: هر گروه هم‌موضوع داخل یک کادر، hover قرمز + ویبره + بوق + باز/بسته -->
+  <div class="group" data-beep>
+    <details>
+      <summary><span>پاسخ سوال</span><span class="tag">باز/بسته</span></summary>
+      <div class="grid">
+        <div class="action" data-action="پاسخ سوال در سطح ابتدایی"><span>پاسخ سوال در سطح ابتدایی</span><span>▶</span></div>
+        <div class="action" data-action="پاسخ سوال در سطح متوسطه اول"><span>پاسخ سوال در سطح متوسطه اول</span><span>▶</span></div>
+        <div class="action" data-action="پاسخ سوال در سطح متوسطه دوم"><span>پاسخ سوال در سطح متوسطه دوم</span><span>▶</span></div>
+        <div class="action" data-action="پاسخ سوال در سطح تیزهوشان"><span>پاسخ سوال در سطح تیزهوشان</span><span>▶</span></div>
+        <div class="action" data-action="پاسخ سوال در سطح المپیادی"><span>پاسخ سوال در سطح المپیادی</span><span>▶</span></div>
+        <div class="action" data-action="پاسخ سوال در سطح کنکوری"><span>پاسخ سوال در سطح کنکوری</span><span>▶</span></div>
+        <div class="action" data-action="پاسخ سوال در سطح لیسانس"><span>پاسخ سوال در سطح لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="پاسخ سوال در سطح فوق لیسانس"><span>پاسخ سوال در سطح فوق لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="پاسخ سوال در سطح دکتری"><span>پاسخ سوال در سطح دکتری</span><span>▶</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="group" data-beep>
+    <details>
+      <summary><span>آنالیز سوال</span><span class="tag">باز/بسته</span></summary>
+      <div class="grid">
+        <div class="action" data-action="آنالیز سوال در سطح ابتدایی"><span>آنالیز سوال در سطح ابتدایی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال در سطح متوسطه اول"><span>آنالیز سوال در سطح متوسطه اول</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال در سطح متوسطه دوم"><span>آنالیز سوال در سطح متوسطه دوم</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال در سطح تیزهوشان"><span>آنالیز سوال در سطح تیزهوشان</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال در سطح المپیادی"><span>آنالیز سوال در سطح المپیادی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال در سطح کنکوری"><span>آنالیز سوال در سطح کنکوری</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال در سطح لیسانس"><span>آنالیز سوال در سطح لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال در سطح فوق لیسانس"><span>آنالیز سوال در سطح فوق لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال در سطح دکتری"><span>آنالیز سوال در سطح دکتری</span><span>▶</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="group" data-beep>
+    <details>
+      <summary><span>آنالیز تله درون سوال</span><span class="tag">باز/بسته</span></summary>
+      <div class="grid">
+        <div class="action" data-action="آنالیز تله درون سوال در سطح ابتدایی"><span>آنالیز تله درون سوال در سطح ابتدایی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز تله درون سوال در سطح متوسطه اول"><span>آنالیز تله درون سوال در سطح متوسطه اول</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز تله درون سوال در سطح متوسطه دوم"><span>آنالیز تله درون سوال در سطح متوسطه دوم</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز تله درون سوال در سطح تیزهوشان"><span>آنالیز تله درون سوال در سطح تیزهوشان</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز تله درون سوال در سطح المپیادی"><span>آنالیز تله درون سوال در سطح المپیادی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز تله درون سوال در سطح کنکوری"><span>آنالیز تله درون سوال در سطح کنکوری</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز تله درون سوال در سطح لیسانس"><span>آنالیز تله درون سوال در سطح لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز تله درون سوال در سطح فوق لیسانس"><span>آنالیز تله درون سوال در سطح فوق لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز تله درون سوال در سطح دکتری"><span>آنالیز تله درون سوال در سطح دکتری</span><span>▶</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="group" data-be class="tag">باز>
+      <summary><span>آنالیز پاسخ</span><span class="tag">باز/بسته</span></summary>
+      <div class="grid">
+        <div class="action" data-action="آنالیز پاسخ در سطح ابتدایی"><span>آنالیز پاسخ در سطح ابتدایی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز پاسخ در سطح متوسطه اول"><span>آنالیز پاسخ در سطح متوسطه اول</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز پاسخ در سطح متوسطه دوم"><span>آنالیز پاسخ در سطح متوسطه دوم</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز پاسخ در سطح تیزهوشان"><span>آنالیز پاسخ در سطح تیزهوشان</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز پاسخ در سطح المپیادی"><span>آنالیز پاسخ در سطح المپیادی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز پاسخ در سطح کنکوری"><span>آنالیز پاسخ در سطح کنکوری</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز پاسخ در سطح لیسانس"><span>آنالیز پاسخ در سطح لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز پاسخ در سطح فوق لیسانس"><span>آنالیز پاسخ در سطح فوق لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز پاسخ در سطح دکتری"><span>آنالیز پاسخ در سطح دکتری</span><span>▶</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="group" data-beep>
+    <details>
+      <summary><span>آنالیز سوال درون عکس</span><span class="tag">باز/بسته</span></summary>
+      <div class="grid">
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح ابتدایی"><span>آنالیز سوال درون عکس در سطح ابتدایی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح متوسطه اول"><span>آنالیز سوال درون عکس در سطح متوسطه اول</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح متوسطه دوم"><span>آنالیز سوال درون عکس در سطح متوسطه دوم</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح تیزهوشان"><span>آنالیز سوال درون عکس در سطح تیزهوشان</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح المپیادی"><span>آنالیز سوال درون عکس در سطح المپیادی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح کنکوری"><span>آنالیز سوال درون عکس در سطح کنکوری</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح لیسانس"><span>آنالیز سوال درون عکس در سطح لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح فوق لیسانس"><span>آنالیز سوال درون عکس در سطح فوق لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز سوال درون عکس در سطح دکتری"><span>آنالیز سوال درون عکس در سطح دکتری</span><span>▶</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="group" data-beep>
+    <details>
+      <summary><span>آنالیز عکس</span><span class="tag">باز/بسته</span></summary>
+      <div class="grid">
+        <div class="action" data-action="آنالیز عکس در سطح ابتدایی"><span>آنالیز عکس در سطح ابتدایی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز عکس در سطح متوسطه اول"><span>آنالیز عکس در سطح متوسطه اول</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز عکس در سطح متوسطه دوم"><span>آنالیز عکس در سطح متوسطه دوم</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز عکس در سطح تیزهوشان"><span>آنالیز عکس در سطح تیزهوشان</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز عکس در سطح المپیادی"><span>آنالیز عکس در سطح المپیادی</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز عکس در سطح کنکوری"><span>آنالیز عکس در سطح کنکوری</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز عکس در سطح لیسانس"><span>آنالیز عکس در سطح لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز عکس در سطح فوق لیسانس"><span>آنالیز عکس در سطح فوق لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="آنالیز عکس در سطح دکتری"><span>آنالیز عکس در سطح دکتری</span><span>▶</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="group" data-beep>
+    <details>
+      <summary><span>چهار جوابی کردن</span><span class="tag">باز/بسته</span></summary>
+      <div class="grid">
+        <div class="action" data-action="چهار جوابی کردن در سطح ابتدایی"><span>چهار جوابی کردن در سطح ابتدایی</span><span>▶</span></div>
+        <div class="action" data-action="چهار جوابی کردن در سطح متوسطه اول"><span>چهار جوابی کردن در سطح متوسطه اول</span><span>▶</span></div>
+        <div class="action" data-action="چهار جوابی کردن در سطح متوسطه دوم"><span>چهار جوابی کردن در سطح متوسطه دوم</span><span>▶</span></div>
+        <div class="action" data-action="چهار جوابی کردن در سطح تیزهوشان"><span>چهار جوابی کردن در سطح تیزهوشان</span><span>▶</span></div>
+        <div class="action" data-action="چهار جوابی کردن در سطح المپیادی"><span>چهار جوابی کردن در سطح المپیادی</span><span>▶</span></div>
+        <div class="action" data-action="چهار جوابی کردن در سطح کنکوری"><span>چهار جوابی کردن در سطح کنکوری</span><span>▶</span></div>
+        <div class="action" data-action="چهار جوابی کردن در سطح لیسانس"><span>چهار جوابی کردن در سطح لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="چهار جوابی کردن در سطح فوق لیسانس"><span>چهار جوابی کردن در سطح فوق لیسانس</span><span>▶</span></div>
+        <div class="action" data-action="چهار جوابی کردن در سطح دکتری"><span>چهار جوابی کردن در سطح دکتری</span><span>▶</span></div>
+      </div>
+    </details>
+  </div>
+
+  <section class="card">
+    <h2 style="color:var(--gold);margin-bottom:8px;">بسته‌های اعتباری My-AI</h2>
+    <b style="color:var(--blue)">مزیت خرید بسته ها</b><br>
+    اگر مدتی از بسته خود استفاده نکنید، اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!<br><br>
+    <b style="color:var(--gold)">لیست بسته های اعتباری</b>
+    <div class="row" style="margin-top:10px">
+      <span class="pill">۵ میلیون تومان</span>
+      <span class="pill">۱۰ میلیون تومان</span>
+      <span class="pill">۲۰ میلیون تومان</span>
+      <span class="pill">۵۰ میلیون تومان</span>
+      <span class="pill">۱۰۰ میلیون تومان</span>
+      <span class="pill">۱۵۰ میلیون تومان</span>
+      <span class="pill">۲۰۰ میلیون تومان</span>
+      <span class="pill">۲۵۰ میلیون تومان</span>
     </div>
 
-    <!-- معرفی شرکت و مدیرعامل -->
-    <div class="info-card">
-        <h3>My-AI</h3>
-        <p><strong>شرکت پردرآمد تهرانیها</strong></p>
-        <p>با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)</p>
-        <p>و همچنین مفتخر به تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و مهندسی صنایع</p>
-        <p class="highlight-text">صحت موضوع را از وزارت علوم جویا شوید!</p>
-        <p>این پلتفرم "هم در شرایط عادی" و "هم در شرایط مجازی" به پیشرفت علمی فرزندان ایران زمین کمک می‌کند!</p>
-        <p>در ادامه مکانیزم کاری این هوش مصنوعی برایتان روشن میشود که این پلتفرم نتنها در مدرسه و دانشگاه بکمکتان می آید بلکه برای پشت کنکوریها بمثابه یک موسسه کنکوری عمل میکند تا بهترین رتبه را در کنکور کسب نمایند!</p>
-        <p>در این پلتفرم هوش مصنوعی با موشکافی درسهایتان بشدت در یادگیری شما کوشا هست تا شما بطور کامل مباحث کنکوری، تکلیف و امتحان را یاد نگرفته اید دست بردار نیست، برای مدرس ارسال نمیکند!</p>
-        <br>
-        <ul style="padding-right: 20px;">
-            <li>پلتفرم انجام دهنده مباحث کنکوری،تکلیف و امتحان مجازی توی خونه توسط هوش مصنوعی!</li>
-            <li>پلتفرم کلاس درس مدرسه ،دانشگاه و موسسه کنکوری مجازی توی خونه توسط هوش مصنوعی!</li>
-            <li>پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی!</li>
-            <li>پلتفرم دانشگاه مجازی توسط هوش مصنوعی!</li>
-            <li>یادگیری و ارزیابی مجازی!</li>
-            <li>پلتفرم تکلیف کتبی مجازی توسط هوش مصنوعی!</li>
-            <li>پلتفرم تکلیف شفاهی مجازی توسط هوش مصنوعی!</li>
-            <li>پلتفرم امتحان کتبی مجازی توسط هوش مصنوعی!</li>
-            <li>پلتفرم امتحان شفاهی مجازی توسط هوش مصنوعی!</li>
-        </ul>
-        <br>
-        <p><strong>مزیت خرید بسته ها:</strong> اگر مدتی از بسته خود استفاده نکنید،اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!</p>
+    <div style="margin-top:12px">
+      <b style="color:var(--blue)">مزایای تفصیلی خرید بسته‌های اعتباری</b>
+      <ul style="padding-right:18px;margin-top:8px">
+        <li>دسترسی نامحدود به تدریس و حل تمرین تخصصی هوش مصنوعی در کلیه سطوح تحصیلی</li>
+        <li>اولویت در پردازش سریع و پاسخ‌دهی به مسائل پیچیده، فرمول‌ها و نمودارها</li>
+        <li>ذخیره سوابق یادگیری و بهره‌مندی از امکانات صوتی و تصویری بدون قطعی</li>
+      </ul>
     </div>
 
-    <!-- ورودی پرسش و مدیا -->
-    <div class="input-panel">
-        <h3 style="margin-bottom: 12px; color: var(--accent-color);">ورودی پرسش</h3>
-        <textarea id="questionInput" placeholder="متن، سوال، فرمول، یا مبحث مورد نظر خود را اینجا بنویسید یا دکمه‌های زیر را انتخاب کنید..."></textarea>
-        
-        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImage(this)">
-        <img id="imagePreview" class="image-preview" alt="پیش نمایش عکس">
-
-        <div class="control-row">
-            <button class="btn-secondary" onclick="document.getElementById('imageInput').click()">📷 انتخاب عکس از گالری</button>
-            <button class="btn-danger" id="removeImgBtn" style="display:none;" onclick="removeImage()">￼حذف عکس</button>
-            <button class="btn-primary" onclick="triggerExecution('دریافت پاسخ هوشمند')">🚀 دریافت پاسخ هوشمند</button>
-            <button class="btn-secondary" onclick="speakResponse()">🔊 پاسخ با صدای من</button>
-            <button class="btn-secondary" onclick="saveVoiceResponse()">💾 ذخیره پاسخ صوتی</button>
-        </div>
+    <div style="margin-top:14px">
+      <b style="color:var(--gold)">روش پرداخت آفلاین</b><br>
+      بدلیل تقلب و سوء استفاده در پرداختهای الکترونیکی ؛از پرداخت الکترونیکی معذوریم! از اینرو تنها روش خرید؛ آفلاین و ارسال رسید به ایمیل است !<br><br>
+      جهت فعال‌سازی یا تمدید اعتبار، مبلغ بسته مورد نظر را به شماره کارت زیر واریز کرده و تصویر فیش واریزی را به همراه ایمیل خود به آدرس زیر ارسال نمایید تا حساب شما بلافاصله شارژ شود:
+      <br><br>
+      شماره کارت<br>
+      <span class="pill mono" id="cardNumber">6037991555549678</span>
+      <button class="btn btnSecondary" id="copyCardBtn">کپی کردن شماره کارت</button>
+      <br><br>
+      ایمیل پشتیبانی و ارسال فیش<br>
+      <span class="pill mono" id="supportEmail">Ai.Algorithms.Ballistics@gmail.com</span>
+      <button class="btn btnSecondary" id="copyEmailBtn">کپی کردن ایمیل</button>
     </div>
 
-    <!-- بخش نتایج -->
-    <div class="info-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h3>نتایج</h3>
-            <div style="display:flex; gap:8px;">
-                <button class="btn-secondary" onclick="copyResult()">کپی کردن پاسخ</button>
-                <button class="btn-danger" onclick="clearAll()">🗑️ سطل آشغال (پاک کردن سوال/پاسخ قبلی)</button>
-            </div>
-        </div>
-        <div class="result-box" id="resultOutput">پاسخ و تحلیل هوش مصنوعی پس از انتخاب عملیات در این قسمت نمایش داده خواهد شد...</div>
+    <div class="warn" style="margin-top:14px">
+      اخطار مالکیت فکری! تمامی حقوق این پلتفرم متعلق به حسین لعلیان میباشد؛ لذا هرگونه کپی برداری پیگرد قانونی دارد!<br>
+      واژه “پردرآمد” در نام این مجموعه، تجلی یک آرمان ملی است: توانمندسازی و ثروت‌آفرینی پایدار برای ما ایرانی‌ها با بهره‌گیری از هوش مصنوعی بومی.
     </div>
+  </section>
 
-    <!-- ابزارهای هوشمند (دسته‌بندی‌های موضوعی با افکت ویبره، حاشیه قرمز، باز و بسته شونده و صدای بوق) -->
-    <h2 style="margin: 25px 0 15px 0; color: var(--gold); text-align:center;">ابزارهای هوشمند</h2>
+</div>
 
-    <!-- پاسخ سوال -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">پاسخ سوال</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح ابتدایی')">پاسخ سوال در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح متوسطه اول')">پاسخ سوال در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح متوسطه دوم')">پاسخ سوال در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح تیزهوشان')">پاسخ سوال در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح المپیادی')">پاسخ سوال در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح کنکوری')">پاسخ سوال در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح لیسانس')">پاسخ سوال در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح فوق لیسانس')">پاسخ سوال در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('پاسخ سوال در سطح دکتری')">پاسخ سوال در سطح دکتری</button>
-        </div>
-    </div>
+<script>
+/* =========================
+   1) بوق (بدون فایل خارجی)
+========================= */
+let audioCtx = null;
+function beep(){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === "suspended") audioCtx.resume();
 
-    <!-- آنالیز سوال -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">آنالیز سوال</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح ابتدایی')">آنالیز سوال در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح متوسطه اول')">آنالیز سوال در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح متوسطه دوم')">آنالیز سوال در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح تیزهوشان')">آنالیز سوال در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح المپیادی')">آنالیز سوال در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح کنکوری')">آنالیز سوال در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح لیسانس')">آنالیز سوال در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح فوق لیسانس')">آنالیز سوال در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال در سطح دکتری')">آنالیز سوال در سطح دکتری</button>
-        </div>
-    </div>
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = "sine";
+    o.frequency.value = 650;
+    g.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + 0.12);
+  }catch(e){}
+}
+document.querySelectorAll('[data-beep]').forEach(el=>{
+  el.addEventListener('mouseenter', beep, {passive:true});
+});
 
-    <!-- آنالیز تله درون سوال -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">آنالیز تله درون سوال</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح ابتدایی')">آنالیز تله درون سوال در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح متوسطه اول')">آنالیز تله درون سوال در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح متوسطه دوم')">آنالیز تله درون سوال در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح تیزهوشان')">آنالیز تله درون سوال در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح المپیادی')">آنالیز تله درون سوال در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح کنکوری')">آنالیز تله درون سوال در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح لیسانس')">آنالیز تله درون سوال در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح فوق لیسانس')">آنالیز تله درون سوال در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال در سطح دکتری')">آنالیز تله درون سوال در سطح دکتری</button>
-        </div>
-    </div>
+/* =========================
+   2) کلید API: ذخیره سریع
+========================= */
+const STORAGE_KEY = "GAPGPT_API_KEY";
 
-    <!-- آنالیز پاسخ -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">آنالیز پاسخ</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح ابتدایی')">آنالیز پاسخ در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح متوسطه اول')">آنالیز پاسخ در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح متوسطه دوم')">آنالیز پاسخ در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح تیزهوشان')">آنالیز پاسخ در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح المپیادی')">آنالیز پاسخ در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح کنکوری')">آنالیز پاسخ در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح لیسانس')">آنالیز پاسخ در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح فوق لیسانس')">آنالیز پاسخ در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ در سطح دکتری')">آنالیز پاسخ در سطح دکتری</button>
-        </div>
-    </div>
+// اگر واقعاً می‌خوای داخل کد بذاری (فقط private repo پیشنهاد می‌شود)
+const DEFAULT_API_KEY = ""; // ← اینجا اگر خواستی کلید را بچسبان (ریسک امنیتی دارد)
 
-    <!-- آنالیز سوال درون عکس -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">آنالیز سوال درون عکس</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح ابتدایی')">آنالیز سوال درون عکس در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح متوسطه اول')">آنالیز سوال درون عکس در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح متوسطه دوم')">آنالیز سوال درون عکس در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح تیزهوشان')">آنالیز سوال درون عکس در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح المپیادی')">آنالیز سوال درون عکس در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح کنکوری')">آنالیز سوال درون عکس در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح لیسانس')">آنالیز سوال درون عکس در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح فوق لیسانس')">آنالیز سوال درون عکس در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال درون عکس در سطح دکتری')">آنالیز سوال درون عکس در سطح دکتری</button>
-        </div>
-    </div>
+const apiInput = document.getElementById('apiKey');
+const saveKeyBtn = document.getElementById('saveKeyBtn');
+const clearKeyBtn = document.getElementById('clearKeyBtn');
+const useDefaultBtn = document.getElementById('useDefaultBtn');
 
-    <!-- آنالیز عکس -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">آنالیز عکس</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح ابتدایی')">آنالیز عکس در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح متوسطه اول')">آنالیز عکس در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح متوسطه دوم')">آنالیز عکس در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح تیزهوشان')">آنالیز عکس در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح المپیادی')">آنالیز عکس در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح کنکوری')">آنالیز عکس در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح لیسانس')">آنالیز عکس در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح فوق لیسانس')">آنالیز عکس در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز عکس در سطح دکتری')">آنالیز عکس در سطح دکتری</button>
-        </div>
-    </div>
+function loadKey(){
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if(saved) apiInput.value = saved;
+}
+function saveKey(){
+  const v = apiInput.value.trim();
+  if(!v){ alert("کلید خالی است."); return; }
+  localStorage.setItem(STORAGE_KEY, v);
+  alert("کلید ذخیره شد. از این به بعد اتصال سریع است.");
+}
+function clearKey(){
+  localStorage.removeItem(STORAGE_KEY);
+  apiInput.value = "";
+  alert("کلید حذف شد.");
+}
+function useDefaultKey(){
+  if(!DEFAULT_API_KEY){
+    alert("DEFAULT_API_KEY داخل کد خالی است. اگر می‌خواهی داخل کد بگذاری، آن را مقداردهی کن (فقط private).");
+    return;
+  }
+  apiInput.value = DEFAULT_API_KEY;
+  localStorage.setItem(STORAGE_KEY, DEFAULT_API_KEY);
+  alert("کلید داخل کد فعال شد و برای اتصال سریع ذخیره شد.");
+}
 
-    <!-- چهار جوابی کردن -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">چهار جوابی کردن</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح ابتدایی')">چهار جوابی کردن در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح متوسطه اول')">چهار جوابی کردن در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح متوسطه دوم')">چهار جوابی کردن در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح تیزهوشان')">چهار جوابی کردن در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح المپیادی')">چهار جوابی کردن در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح کنکوری')">چهار جوابی کردن در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح لیسانس')">چهار جوابی کردن در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح فوق لیسانس')">چهار جوابی کردن در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('چهار جوابی کردن در سطح دکتری')">چهار جوابی کردن در سطح دکتری</button>
-        </div>
-    </div>
+saveKeyBtn.addEventListener('click', ()=>{beep(); saveKey();});
+clearKeyBtn.addEventListener('click', ()=>{beep(); clearKey();});
+useDefaultBtn.addEventListener('click', ()=>{beep(); useDefaultKey();});
+loadKey();
 
-    <!-- آنالیز سوال چهار جوابی -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">آنالیز سوال چهار جوابی</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح ابتدایی')">آنالیز سوال چهار جوابی در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح متوسطه اول')">آنالیز سوال چهار جوابی در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح متوسطه دوم')">آنالیز سوال چهار جوابی در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح تیزهوشان')">آنالیز سوال چهار جوابی در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح المپیادی')">آنالیز سوال چهار جوابی در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح کنکوری')">آنالیز سوال چهار جوابی در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح لیسانس')">آنالیز سوال چهار جوابی در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح فوق لیسانس')">آنالیز سوال چهار جوابی در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز سوال چهار جوابی در سطح دکتری')">آنالیز سوال چهار جوابی در سطح دکتری</button>
-        </div>
-    </div>
+/* =========================
+   3) تصویر
+========================= */
+let currentImageDataUrl = null;
+const imageInput = document.getElementById('imageInput');
+const pickImageBtn = document.getElementById('pickImageBtn');
+const removeImageBtn = document.getElementById('removeImageBtn');
+const preview = document.getElementById('imagePreview');
 
-    <!-- پاسخ به سوال چهار جوابی -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">پاسخ به سوال چهار جوابی</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح ابتدایی')">پاسخ به سوال چهار جوابی در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح متوسطه اول')">پاسخ به سوال چهار جوابی در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح متوسطه دوم')">پاسخ به سوال چهار جوابی در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح تیزهوشان')">پاسخ به سوال چهار جوابی در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح المپیادی')">پاسخ به سوال چهار جوابی در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح کنکوری')">پاسخ به سوال چهار جوابی در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح لیسانس')">پاسخ به سوال چهار جوابی در سطح لیسانس</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح فوق لیسانس')">پاسخ به سوال چهار جوابی در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح دکتری')">پاسخ به سوال چهار جوابی در سطح دکتری</button>
-        </div>
-    </div>
+pickImageBtn.addEventListener('click', ()=>{beep(); imageInput.click();});
+imageInput.addEventListener('change', ()=>{
+  const f = imageInput.files && imageInput.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = (e)=>{
+    currentImageDataUrl = e.target.result;
+    preview.src = currentImageDataUrl;
+    preview.style.display = "block";
+    removeImageBtn.style.display = "inline-block";
+  };
+  r.readAsDataURL(f);
+});
+removeImageBtn.addEventListener('click', ()=>{
+  beep();
+  currentImageDataUrl = null;
+  imageInput.value = "";
+  preview.style.display = "none";
+  removeImageBtn.style.display = "none";
+});
 
-    <!-- آنالیز پاسخ سوال چهار جوابی -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">آنالیز پاسخ سوال چهار جوابی</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح ابتدایی')">آنالیز پاسخ سوال چهار جوابی در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح متوسطه اول')">آنالیز پاسخ سوال چهار جوابی در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح متوسطه دوم')">آنالیز پاسخ سوال چهار جوابی در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح تیزهوشان')">آنالیز پاسخ سوال چهار جوابی در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیسانس')">پاسخ به سوال چهار جوابی در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('پاسخ به سوال چهار جوابی در سطح دکتری')">پاسخ به سوال چهار جوابی در سطح دکتری</button>
-        </div>
-    </div>
+/* =========================
+   4) ابزارها و درخواست به API
+========================= */
+const resultBox = document.getElementById('resultOutput');
+const questionInput = document.getElementById('questionInput');
+document.querySelectorAll('.action').forEach(btn=>{
+  btn.addEventListener('click', ()=>{beep(); runAction(btn.dataset.action);});
+});
+document.getElementById('smartAnswerBtn').addEventListener('click', ()=>{beep(); runAction("دریافت پاسخ هوشمند");});
 
-    <!-- آنالیز پاسخ سوال چهار جوابی -->
-    <div class="interactive-group" onmouseenter="playBeep()">
-        <button class="accordion-header" onclick="toggleAccordion(this)">آنالیز پاسخ سوال چهار جوابی</button>
-        <div class="accordion-content">
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح ابتدایی')">آنالیز پاسخ سوال چهار جوابی در سطح ابتدایی</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح متوسطه اول')">آنالیز پاسخ سوال چهار جوابی در سطح متوسطه اول</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح متوسطه دوم')">آنالیز پاسخ سوال چهار جوابی در سطح متوسطه دوم</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح تیزهوشان')">آنالیز پاسخ سوال چهار جوابی در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح المپیادی')">آنالیز پاسخ سوال چهار جوابی در سطح المپیادی</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح کنکوری')">آنالیز پاسخ سوال چهار جوابی در سطح کنکوری</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهار جوابی در سطح لیسانس')">آنالیز پاسخ سوال چهار جوابی در سطح لیسانس</button>
-            <button class="action-btn" onclick="یز تله درون سوال چهار جوابی در سطح تیزهوشان</button>
-            <button class="action-btn" onclick="runAction('آنالیز تله درون سوال چهار جوابی در سطح المپیادی') چهار جوابی در سطح فوق لیسانس</button>
-            <button class="action-btn" onclick="runAction('آنالیز پاسخ سوال چهارجواب
+async function runAction(actionTitle){
+  const apiKey = apiInput.value.trim() || localStorage.getItem(STORAGE_KEY) || DEFAULT_API_KEY;
+  if(!apiKey){
+    alert("کلید API را وارد کنید (یا ذخیره کنید) تا سریع وصل شوید.");
+    return;
+  }
+  const text = questionInput.value.trim();
+  if(!text && !currentImageDataUrl){
+    alert("متن وارد کنید یا عکس انتخاب کنید.");
+    return;
+  }
+
+  resultBox.textContent = `در حال پردازش درخواست [${actionTitle}] ...`;
+
+  // پیام: متن + (در صورت وجود) تصویر
+  const userContent = [];
+  if(text){
+    userContent.push({ type:"text", text:`${actionTitle}\n\n${text}` });
+  }else{
+    userContent.push({ type:"text", text:`${actionTitle}` });
+  }
+  if(currentImageDataUrl){
+    userContent.push({ type:"image_url", image_url:{ url: currentImageDataUrl } });
+  }
+
+  const payload = {
+    model: "gpt-4.1-mini",
+    messages: [
+      { role:"system", content:"شما هوش مصنوعی پلتفرم My-AI هستید. پاسخ بسیار دقیق، آموزشی، موشکافانه و متناسب با سطح درخواستی ارائه دهید." },
+      { role:"user", content: userContent }
+    ],
+    temperature: 0.5
+  };
+
+  try{
+    // نکته: آدرس API را اگر GapGPT شما چیز دیگری است، همینجا عوض کنید:
+    const res = await fetch("https://api.gapgpt.com/v1/chat/completions", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":`Bearer ${apiKey}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if(!res.ok){
+      const t = await res.text();
+      throw new Error(res.status + " | " + t);
+    }
+    const data = await res.json();
+    const out = data?.choices?.[0]?.message?.content ?? "پاسخی دریافت نشد.";
+    resultBox.textContent = out;
+
+  }catch(err){
+    resultBox.textContent = "خطا در اتصال یا پاسخ‌دهی: " + err.message;
+  }
+}
+
+/* =========================
+   5) کپی/پاک‌کردن/صدا/ذخیره
+========================= */
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  beep();
+  await navigator.clipboard.writeText(resultBox.textContent || "");
+  alert("پاسخ کپی شد.");
+});
+
+document.getElementById('trashBtn').addEventListener('click', ()=>{
+  beep();
+  questionInput.value = "";
+  resultBox.textContent = "پاسخ و تحلیل هوش مصنوعی پس از انتخاب عملیات در این قسمت نمایش داده خواهد شد...";
+  currentImageDataUrl = null;
+  imageInput.value = "";
+  preview.style.display = "none";
+  removeImageBtn.style.display = "none";
+});
+
+document.getElementById('ttsBtn').addEventListener('click', ()=>{
+  beep();
+  const text = resultBox.textContent || "";
+  if(!text || text.startsWith("پاسخ و تحلیل")){
+    alert("ابتدا پاسخ بگیرید.");
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "fa-IR";
+  u.rate = 0.95;
+  window.speechSynthesis.speak(u);
+});
+
+// چون ذخیره صدای واقعی از TTS در مرورگر بدون سرور/کتابخانه سخت است
+// این دکمه متن پاسخ را ذخیره می‌کند (همان چیزی که قبلاً انجام دادیم).
+document.getElementById('saveTxtBtn').addEventListener('click', ()=>{
+  beep();
+  const text = resultBox.textContent || "";
+  if(!text || text.startsWith("پاسخ و تحلیل")){
+    alert("ابتدا پاسخ بگیرید.");
+    return;
+  }
+  const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "My-AI-Response-" + Date.now() + ".txt";
+  a.click();
+});
+
+function copyValue(id){
+  const v = document.getElementById(id).textContent.trim();
+  navigator.clipboard.writeText(v);
+  alert("کپی شد: " + v);
+}
+document.getElementById('copyCardBtn').addEventListener('click', ()=>{beep(); copyValue("cardNu
