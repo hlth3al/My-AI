@@ -6,14 +6,14 @@
   <title>پلتفرم هوش مصنوعی من - Platform My-AI</title>
   <style>
     :root {
-      --primary: #0284c7;
-      --primary-dark: #0369a1;
       --bg: #0b1329;
-      --card-bg: #1e293b;
-      --card-hover: #334155;
+      --card-bg: #111d40;
+      --card-border: #1e2e60;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --accent: #38bdf8;
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --border: #475569;
       --danger: #ef4444;
       --success: #10b981;
     }
@@ -22,581 +22,507 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Tahoma, sans-serif;
     }
 
     body {
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.8;
-      padding: 15px;
+      line-height: 1.6;
+      padding-bottom: 60px;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      padding: 16px;
     }
 
-    /* عنوان اصلی بسیار بزرگ */
-    .main-title-container {
+    header {
       text-align: center;
-      padding: 25px 15px;
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      border: 2px solid var(--primary);
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      padding: 24px 0;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
     }
 
     .main-title {
-      font-size: 2.3rem;
-      font-weight: 900;
-      color: #38bdf8;
-      text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-      margin-bottom: 5px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
     }
 
-    .sub-main-title {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #f59e0b;
-      letter-spacing: 1px;
+    .sub-title {
+      font-size: 1.1rem;
+      color: var(--text-muted);
     }
 
-    /* انیمیشن لرزش و ویبره */
-    @keyframes shakeVibrate {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      20% { transform: translate(-2px, 1px) rotate(-0.5deg); }
-      40% { transform: translate(2px, -1px) rotate(0.5deg); }
-      60% { transform: translate(-2px, -1px) rotate(0.5deg); }
-      80% { transform: translate(2px, 1px) rotate(-0.5deg); }
-      100% { transform: translate(0, 0) rotate(0deg); }
-    }
-
-    /* کادرهای موضوعی دارای قابلیت ویبره، حاشیه قرمز و باز و بسته شدن */
     .themed-box {
-      background-color: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
 
     .themed-box:hover {
-      border-color: var(--danger) !important;
-      box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
-      animation: shakeVibrate 0.3s ease infinite alternate;
+      border-color: var(--danger);
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+      animation: shake 0.25s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
     }
 
     .box-header {
-      padding: 14px 18px;
-      background: rgba(255, 255, 255, 0.03);
-      cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-weight: bold;
-      font-size: 1.05rem;
-      user-select: none;
-      color: #38bdf8;
-    }
-
-    .box-header:hover {
-      color: #ffffff;
+      font-size: 1.15rem;
+      color: var(--accent);
     }
 
     .box-content {
-      padding: 15px;
-      display: none;
-      border-top: 1px solid #334155;
-      background: #111827;
-    }
-
-    .box-content.open {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      color: var(--text);
       display: block;
     }
 
-    /* دکمه‌های گزینه‌ها */
-    .action-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 10px;
+    .box-content.collapsed {
+      display: none;
     }
 
-    .action-btn {
-      background: #1e293b;
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-    }
-
-    .action-btn:hover {
-      background: var(--primary);
-      border-color: #38bdf8;
-      color: #fff;
-    }
-
-    /* پنل ورودی و چت */
-    .input-panel {
+    .workspace-box {
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    select, textarea, input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: #060b18;
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, textarea:focus, input[type="text"]:focus {
+      border-color: var(--accent);
     }
 
     textarea {
-      width: 100%;
       min-height: 120px;
-      background: #0f172a;
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 1rem;
       resize: vertical;
-      outline: none;
     }
 
-    textarea:focus {
-      border-color: var(--primary);
+    .selection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
     .btn-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
+      margin-top: 12px;
     }
 
-    .main-btn {
-      background: var(--primary);
-      color: #fff;
+    .btn {
+      flex: 1;
+      min-width: 130px;
+      padding: 12px 16px;
       border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 0.95rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .main-btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .main-btn.danger {
-      background: var(--danger);
-    }
-    .main-btn.danger:hover {
-      background: #dc2626;
-    }
-
-    .main-btn.success {
-      background: var(--success);
-    }
-    .main-btn.success:hover {
-      background: #059669;
-    }
-
-    /* پیش‌نمایش تصویر */
-    #image-preview-container {
-      display: none;
-      margin-top: 10px;
-      position: relative;
-    }
-
-    #image-preview {
-      max-width: 100%;
-      max-height: 250px;
       border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-
-    /* کادر پاسخ و نتایج */
-    .result-box {
-      background: #0f172a;
-      border: 2px solid #334155;
-      border-radius: 10px;
-      padding: 16px;
-      min-height: 100px;
-      white-space: pre-wrap;
-      word-break: break-word;
       font-size: 1rem;
-      color: #e2e8f0;
-      line-height: 1.9;
-    }
-
-    /* متن‌های بیوگرافی و توضیحات */
-    .info-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      font-size: 0.95rem;
-    }
-
-    .badge-price {
-      background: #334155;
-      color: #38bdf8;
-      padding: 8px 12px;
-      border-radius: 6px;
       font-weight: bold;
-      display: inline-block;
-      margin: 4px;
-    }
-
-    .copyable-field {
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background: #0f172a;
-      padding: 10px 14px;
-      border-radius: 6px;
-      border: 1px solid #334155;
-      margin: 8px 0;
-      font-family: monospace;
-      font-size: 1.1rem;
-      color: #34d399;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: #334155; color: #fff; }
+    .btn-secondary:hover { background: #475569; }
+    .btn-danger { background: #991b1b; color: #fff; }
+    .btn-danger:hover { background: #b91c1c; }
+
+    .result-container {
+      background: #060b18;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+      min-height: 90px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 1.05rem;
+      color: #e2e8f0;
+    }
+
+    .image-preview-container {
+      margin-top: 10px;
+      display: none;
+    }
+
+    .image-preview {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .status-text {
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-top: 6px;
+    }
+
+    .footer-info {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 40px;
+      border-top: 1px solid var(--card-border);
+      padding-top: 20px;
     }
   </style>
 </head>
 <body>
 
-<div class="container">
+  <div class="container">
+    <header>
+      <h1 class="main-title">پلتفرم هوش مصنوعی من - Platform My-AI</h1>
+      <p class="sub-title">شرکت پردرآمد تهرانیها | با مدیریت حسین لعلیان (رتبه ۳۲ کنکور دکتری)</p>
+      <p class="sub-title" style="margin-top: 4px; font-size: 0.95rem;">مرکز تخصصی حل مسئله، تدریس و آنالیز مقاطع ابتدایی تا دکتری در تمامی رشته‌ها</p>
+    </header>
 
-  <!-- عنوان بزرگ طبق درخواست -->
-  <div class="main-title-container themed-box" onmouseenter="playBeep()">
-    <h1 class="main-title">پلتفرم هوش مصنوعی من</h1>
-    <div class="sub-main-title">Platform My-AI</div>
-  </div>
+    <!-- کادر پاسخ و نتایج -->
+    <div class="workspace-box">
+      <h2 style="color: var(--accent); margin-bottom: 12px; font-size: 1.3rem;">میز کار هوشمند (پرسش و پاسخ تحلیلی)</h2>
+      
+      <div class="selection-grid">
+        <div>
+          <label>مقطع و سطح تحصیلی:</label>
+          <select id="eduLevel">
+            <option value="ابتدایی (پایه‌های ۱ تا ۶)">ابتدایی (پایه‌های ۱ تا ۶)</option>
+            <option value="متوسطه اول (پایه‌های ۷ تا ۹)">متوسطه اول (پایه‌های ۷ تا ۹)</option>
+            <option value="متوسطه دوم (پایه‌های ۱۰ تا ۱۲)">متوسطه دوم (پایه‌های ۱۰ تا ۱۲)</option>
+            <option value="کنکوری و تیزهوشان">کنکوری و آزمون‌های تیزهوشان</option>
+            <option value="المپیادی و مسابقات علمی">المپیادی و نخبگان</option>
+            <option value="دانشگاهی - لیسانس (کارشناسی)">دانشگاهی - کارشناسی (تمام رشته‌ها)</option>
+            <option value="دانشگاهی - فوق لیسانس (کارشناسی ارشد)">دانشگاهی - ارشد (تمام گرایش‌ها)</option>
+            <option value="دانشگاهی - دکتری تخصصی (PhD)">دانشگاهی - دکتری تخصصی (PhD)</option>
+          </select>
+        </div>
 
-  <!-- مشخصات و معرفی -->
-  <div class="info-card themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>درباره پلتفرم My-AI و مدیریت</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content open">
-      <p><strong>My-AI</strong></p>
-      <p>شرکت پردرآمد تهرانیها</p>
-      <p>با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)</p>
-      <br>
-      <p>و همچنین مفتخر به تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و مهندسی صنایع</p>
-      <p>صحت موضوع را از وزارت علوم جویا شوید!</p>
-      <p>این پلتفرم "هم در شرایط عادی" و "هم در شرایط مجازی" به پیشرفت علمی فرزندان ایران زمین کمک می‌کند!</p>
-      <p>در ادامه مکانیزم کاری این هوش مصنوعی برایتان روشن میشود که این پلتفرم نتنها در مدرسه و دانشگاه بکمکتان می آید بلکه برای پشت کنکوریها بمثابه یک موسسه کنکوری عمل میکند تا بهترین رتبه را در کنکور کسب نمایند!</p>
-      <br>
-      <p>در این پلتفرم هوش مصنوعی با موشکافی درسهایتان بشدت در یادگیری شما کوشا هست تا شما بطور کامل مباحث کنکوری، تکلیف و امتحان را یاد نگرفته اید دست بردار نیست، برای مدرس ارسال نمیکند!</p>
-      <br>
-      <p>پلتفرم انجام دهنده مباحث کنکوری،تکلیف و امتحان مجازی توی خونه توسط هوش مصنوعی!</p>
-      <p>پلتفرم کلاس درس مدرسه ،دانشگاه و موسسه کنکوری مجازی توی خونه توسط هوش مصنوعی!</p>
-      <p>پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی!</p>
-      <p>پلتفرم دانشگاه مجازی توسط هوش مصنوعی!</p>
-      <p>یادگیری و ارزیابی مجازی!</p>
-      <p>پلتفرم تکلیف کتبی مجازی توسط هوش مصنوعی!</p>
-      <p>پلتفرم تکلیف شفاهی مجازی توسط هوش مصنوعی!</p>
-      <p>پلتفرم امتحان کتبی مجازی توسط هوش مصنوعی!</p>
-      <p>پلتفرم امتحان شفاهی مجازی توسط هوش مصنوعی!</p>
-      <br>
-      <p style="color: #f59e0b;"><strong>مزیت خرید بسته ها:</strong> اگر مدتی از بسته خود استفاده نکنید،اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!</p>
-    </div>
-  </div>
+        <div>
+          <label>رشته / زمینه تخصصی:</label>
+          <select id="fieldSelect">
+            <option value="جامع - تمامی رشته‌ها و زمینه‌ها">جامع (تمام رشته‌ها و پایه‌ها)</option>
+            <option value="علوم پایه (ریاضی، فیزیک، شیمی، زیست‌شناسی)">علوم پایه (ریاضی، فیزیک، شیمی، زیست)</option>
+            <option value="مهندسی کامپیوتر، آی‌تی و هوش مصنوعی">مهندسی آی‌تی، نرم‌افزار و کامپیوتر</option>
+            <option value="مهندسی صنایع، مدیریت و اقتصاد">مهندسی صنایع، مدیریت و اقتصاد</option>
+            <option value="شیلات، کشاورزی و منابع طبیعی">شیلات، کشاورزی و منابع طبیعی</option>
+            <option value="علوم انسانی، حقوق و روانشناسی">علوم انسانی، حقوق، فلسفه و زبان‌ها</option>
+            <option value="علوم پزشکی، داروسازی و پیراپزشکی">علوم پزشکی، بهداشت و پیراپزشکی</option>
+            <option value="مهندسی مکانیک، برق، عمران و شیمی">مهندسی مکانیک، برق، عمران و شیمی</option>
+          </select>
+        </div>
 
-  <!-- بخش ورودی پرسش و چت -->
-  <div class="input-panel themed-box" onmouseenter="playBeep()">
-    <h3 style="color: #38bdf8;">ورودی پرسش</h3>
-    <textarea id="user-prompt" placeholder="پرسش، مبحث یا سوال خود را اینجا بنویسید یا یکی از دکمه‌های هوشمند زیر را انتخاب کنید..."></textarea>
-    
-    <div id="image-preview-container">
-      <img id="image-preview" src="" alt="پیش‌نمایش تصویر">
-    </div>
-
-    <input type="file" id="image-input" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
-
-    <div class="btn-row">
-      <button class="main-btn" onclick="document.getElementById('image-input').click()">انتخاب عکس از گالری</button>
-      <button class="main-btn danger" onclick="removeImage()">حذف عکس</button>
-      <button class="main-btn success" id="submit-btn" onclick="submitToGapGPT()">دریافت پاسخ هوشمند</button>
-      <button class="main-btn" onclick="speakResponse()">پاسخ با صدای من</button>
-      <button class="main-btn" onclick="saveAudioResponse()">ذخیره پاسخ صوتی</button>
-    </div>
-  </div>
-
-  <!-- بخش نتایج -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>نتایج</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content open">
-      <div class="btn-row" style="margin-bottom: 10px;">
-        <button class="main-btn" onclick="copyResult()">کپی کردن پاسخ</button>
-        <button class="main-btn danger" onclick="clearAll()">سطل آشغال (پاک کردن سوال/پاسخ قبلی)</button>
+        <div>
+          <label>نوع عملیات و ابزار هوشمند:</label>
+          <select id="toolType">
+            <option value="پاسخ تشریحی کامل و گام‌به‌گام">پاسخ سوال (تشریحی و دقیق)</option>
+            <option value="آنالیز مفهومی سوال و نکات کلیدی">آنالیز سوال و مفهوم</option>
+            <option value="شناسایی تله‌های تستی و خطاهای رایج">آنالیز تله‌های تستی</option>
+            <option value="تبدیل سوال به چهارگزینه‌ای استاندارد">چهار جوابی کردن سوال</option>
+            <option value="تحلیل جداول، فرمول‌ها و نمودارها">تحلیل فرمول، جدول و نمودار</option>
+            <option value="تحلیل تخصصی تصویر و دست‌نویس">آنالیز عکس سوال</option>
+          </select>
+        </div>
       </div>
-      <div id="ai-result" class="result-box">پاسخ هوش مصنوعی اینجا نمایش داده می‌شود...</div>
-    </div>
-  </div>
 
-  <!-- کادرهای دسته‌بندی ابزارهای هوشمند -->
-  <h2 style="color: #38bdf8; margin-top: 10px;">ابزارهای هوشمند</h2>
+      <div class="input-group">
+        <label>متن سوال، تکلیف، تمرین یا مبحث مورد نظر:</label>
+        <textarea id="questionInput" placeholder="صورت سوال یا توضیحات را اینجا بنویسید..."></textarea>
+      </div>
 
-  <!-- پاسخ سوال -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>پاسخ سوال</span>
-      <span>▼</span>
+      <div class="input-group">
+        <label>انتخاب عکس از گالری (اختیاری):</label>
+        <input type="file" id="imageInput" accept="image/*" onchange="handleImage(this)">
+        <div class="image-preview-container" id="previewContainer">
+          <img id="imagePreview" class="image-preview" alt="پیش‌نمایش تصویر">
+          <button class="btn btn-danger" style="margin-top: 8px; padding: 6px 12px; font-size: 0.85rem;" onclick="removeImage()">حذف عکس</button>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="submitQuery()">دریافت پاسخ هوشمند</button>
+        <button class="btn btn-secondary" onclick="speakResponse()">پاسخ صوتی</button>
+        <button class="btn btn-secondary" onclick="copyResponse()">کپی کردن پاسخ</button>
+      </div>
+
+      <div id="statusIndicator" class="status-text"></div>
+
+      <label style="margin-top: 16px;">پاسخ و تحلیل:</label>
+      <div id="resultBox" class="result-container">منتظر ثبت سوال شما...</div>
     </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح ابتدایی')">پاسخ سوال در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح متوسطه اول')">پاسخ سوال در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح متوسطه دوم')">پاسخ سوال در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح تیزهوشان')">پاسخ سوال در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح المپیادی')">پاسخ سوال در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح کنکوری')">پاسخ سوال در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح لیسانس')">پاسخ سوال در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح فوق لیسانس')">پاسخ سوال در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('پاسخ سوال در سطح دکتری')">پاسخ سوال در سطح دکتری</button>
+
+    <!-- بخش‌های معرفی و بسته‌ها به صورت آکاردئونی با هاور، ویبره و صدای بوق -->
+    <div class="themed-box" onmouseenter="playBeep()" onclick="toggleAccordion(this)">
+      <div class="box-header">
+        <span>پلتفرم انجام تکالیف و امتحانات مجازی</span>
+        <span>▼</span>
+      </div>
+      <div class="box-content">
+        سامانه هوشمند خانگی برای یادگیری، حل مسئله و تحلیل گام‌به‌گام سوالات تحصیلی از سطح پایه اول دبستان تا مدارج عالی دکتری در تمامی رشته‌های دانشگاهی و کنکوری.
       </div>
     </div>
-  </div>
 
-  <!-- آنالیز سوال -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز سوال</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح ابتدایی')">آنالیز سوال در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح متوسطه اول')">آنالیز سوال در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح متوسطه دوم')">آنالیز سوال در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح تیزهوشان')">آنالیز سوال در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح المپیادی')">آنالیز سوال در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح کنکوری')">آنالیز سوال در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح لیسانس')">آنالیز سوال در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح فوق لیسانس')">آنالیز سوال در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال در سطح دکتری')">آنالیز سوال در سطح دکتری</button>
+    <div class="themed-box" onmouseenter="playBeep()" onclick="toggleAccordion(this)">
+      <div class="box-header">
+        <span>دانشکده‌های تحت پوشش و تخصص‌ها</span>
+        <span>▼</span>
+      </div>
+      <div class="box-content">
+        پوشش جامع شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی، مهندسی صنایع، به همراه تدریس کامل تمامی رشته‌های دانشگاهی سراسری، آزاد و بین‌الملل.
       </div>
     </div>
-  </div>
 
-  <!-- آنالیز تله درون سوال -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز تله درون سوال</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح ابتدایی')">آنالیز تله درون سوال در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح متوسطه اول')">آنالیز تله درون سوال در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح متوسطه دوم')">آنالیز تله درون سوال در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح تیزهوشان')">آنالیز تله درون سوال در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح المپیادی')">آنالیز تله درون سوال در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح کنکوری')">آنالیز تله درون سوال در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح لیسانس')">آنالیز تله درون سوال در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح فوق لیسانس')">آنالیز تله درون سوال در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال در سطح دکتری')">آنالیز تله درون سوال در سطح دکتری</button>
+    <div class="themed-box" onmouseenter="playBeep()" onclick="toggleAccordion(this)">
+      <div class="box-header">
+        <span>بسته‌ها و تعرفه‌های خدمات هوشمند</span>
+        <span>▼</span>
+      </div>
+      <div class="box-content">
+        ارائه اشتراک‌های اختصاصی و سازمانی از ۵ تا ۲۵۰ میلیون تومان جهت استفاده مراکز آموزشی، مدارس، اساتید، دانشجویان و پژوهشگران.
       </div>
     </div>
-  </div>
 
-  <!-- آنالیز پاسخ -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز پاسخ</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح ابتدایی')">آنالیز پاسخ در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح متوسطه اول')">آنالیز پاسخ در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح متوسطه دوم')">آنالیز پاسخ در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح تیزهوشان')">آنالیز پاسخ در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح المپیادی')">آنالیز پاسخ در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح کنکوری')">آنالیز پاسخ در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح لیسانس')">آنالیز پاسخ در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح فوق لیسانس')">آنالیز پاسخ در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ در سطح دکتری')">آنالیز پاسخ در سطح دکتری</button>
+    <div class="themed-box" onmouseenter="playBeep()" onclick="toggleAccordion(this)">
+      <div class="box-header">
+        <span>مشخصات و هماهنگی پشتیبانی</span>
+        <span>▼</span>
+      </div>
+      <div class="box-content">
+        شماره کارت جهت فعال‌سازی بسته‌ها: 6037991555549678<br>
+        ایمیل رسمی: AI.Algorithms.Ballistics@gmail.com
       </div>
     </div>
-  </div>
 
-  <!-- آنالیز سوال درون عکس -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز سوال درون عکس</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح ابتدایی')">آنالیز سوال درون عکس در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح متوسطه اول')">آنالیز سوال درون عکس در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح متوسطه دوم')">آنالیز سوال درون عکس در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح تیزهوشان')">آنالیز سوال درون عکس در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح المپیادی')">آنالیز سوال درون عکس در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح کنکوری')">آنالیز سوال درون عکس در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح لیسانس')">آنالیز سوال درون عکس در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح فوق لیسانس')">آنالیز سوال درون عکس در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال درون عکس در سطح دکتری')">آنالیز سوال درون عکس در سطح دکتری</button>
-      </div>
+    <div class="footer-info">
+      کلیه حقوق پلتفرم هوش مصنوعی من متعلق به شرکت پردرآمد تهرانیها و حسین لعلیان می‌باشد.
     </div>
   </div>
 
-  <!-- آنالیز عکس -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز عکس</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح ابتدایی')">آنالیز عکس در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح متوسطه اول')">آنالیز عکس در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح متوسطه دوم')">آنالیز عکس در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح تیزهوشان')">آنالیز عکس در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح المپیادی')">آنالیز عکس در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح کنکوری')">آنالیز عکس در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح لیسانس')">آنالیز عکس در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح فوق لیسانس')">آنالیز عکس در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز عکس در سطح دکتری')">آنالیز عکس در سطح دکتری</button>
-      </div>
-    </div>
-  </div>
+  <script>
+    // کلید سامانه در اسکریپت تعبیه شده و از رابط کاربری به طور ریشه‌ای حذف شده است
+    const SYSTEM_TOKEN = "GAPGPTMASKTOKENh92bkrauw77X0X";
 
-  <!-- چهار جوابی کردن -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>چهار جوابی کردن</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح ابتدایی')">چهار جوابی کردن در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح متوسطه اول')">چهار جوابی کردن در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح متوسطه دوم')">چهار جوابی کردن در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح تیزهوشان')">چهار جوابی کردن در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح المپیادی')">چهار جوابی کردن در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح کنکوری')">چهار جوابی کردن در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح لیسانس')">چهار جوابی کردن در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح فوق لیسانس')">چهار جوابی کردن در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('چهار جوابی کردن در سطح دکتری')">چهار جوابی کردن در سطح دکتری</button>
-      </div>
-    </div>
-  </div>
+    let base64Image = null;
+    let audioContext = null;
 
-  <!-- آنالیز سوال چهار جوابی -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز سوال چهار جوابی</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح ابتدایی')">آنالیز سوال چهار جوابی در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح متوسطه اول')">آنالیز سوال چهار جوابی در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح متوسطه دوم')">آنالیز سوال چهار جوابی در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح تیزهوشان')">آنالیز سوال چهار جوابی در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح المپیادی')">آنالیز سوال چهار جوابی در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح کنکوری')">آنالیز سوال چهار جوابی در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح لیسانس')">آنالیز سوال چهار جوابی در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح فوق لیسانس')">آنالیز سوال چهار جوابی در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال چهار جوابی در سطح دکتری')">آنالیز سوال چهار جوابی در سطح دکتری</button>
-      </div>
-    </div>
-  </div>
+    // ایجاد صدای بوق هنگام هاور
+    function playBeep() {
+      try {
+        if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(650, audioContext.currentTime);
+        gain.gain.setValueAtTime(0.04, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.start();
+        osc.stop(audioContext.currentTime + 0.08);
+      } catch (e) {
+        // نادیده گرفتن محدودیت‌های پخش صوت در مرورگرها
+      }
+    }
 
-  <!-- پاسخ به سوال چهار جوابی -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>پاسخ به سوال چهار جوابی</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح ابتدایی')">پاسخ به سوال چهار جوابی در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح متوسطه اول')">پاسخ به سوال چهار جوابی در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح متوسطه دوم')">پاسخ به سوال چهار جوابی در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح تیزهوشان')">پاسخ به سوال چهار جوابی در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح المپیادی')">پاسخ به سوال چهار جوابی در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح کنکوری')">پاسخ به سوال چهار جوابی در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح لیسانس')">پاسخ به سوال چهار جوابی در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح فوق لیسانس')">پاسخ به سوال چهار جوابی در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('پاسخ به سوال چهار جوابی در سطح دکتری')">پاسخ به سوال چهار جوابی در سطح دکتری</button>
-      </div>
-    </div>
-  </div>
+    // رفتار آکاردئونی کادرها
+    function toggleAccordion(box) {
+      const content = box.querySelector('.box-content');
+      const arrow = box.querySelector('.box-header span:last-child');
+      if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        arrow.textContent = '▼';
+      } else {
+        content.classList.add('collapsed');
+        arrow.textContent = '▲';
+      }
+    }
 
-  <!-- آنالیز پاسخ سوال چهار جوابی -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز پاسخ سوال چهار جوابی</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهار جوابی در سطح ابتدایی')">آنالیز پاسخ سوال چهار جوابی در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهار جوابی در سطح متوسطه اول')">آنالیز پاسخ سوال چهار جوابی در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهار جوابی در سطح متوسطه دوم')">آنالیز پاسخ سوال چهار جوابی در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهار جوابی در سطح تیزهوشان')">آنالیز پاسخ سوال چهار جوابی در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهار جوابی در سطح المپیادی')">آنالیز پاسخ سوال چهار جوابی در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهار جوابی در سطح کنکوری')">آنالیز پاسخ سوال چهار جوابی در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهار جوابی در سطح لیسانس')">آنالیز پاسخ سوال چهار جوابی در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهار جوابی در سطح فوق لیسانس')">آنالیز پاسخ سوال چهار جوابی در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز پاسخ سوال چهارجوابی در سطح دکتری')">آنالیز پاسخ سوال چهارجوابی در سطح دکتری</button>
-      </div>
-    </div>
-  </div>
+    // پیش‌نمایش تصویر
+    function handleImage(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        base64Image = e.target.result;
+        document.getElementById('imagePreview').src = base64Image;
+        document.getElementById('previewContainer').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
 
-  <!-- آنالیز تله درون سوال چهار جوابی -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز تله درون سوال چهار جوابی</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح ابتدایی')">آنالیز تله درون سوال چهار جوابی در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح متوسطه اول')">آنالیز تله درون سوال چهار جوابی در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح متوسطه دوم')">آنالیز تله درون سوال چهار جوابی در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح تیزهوشان')">آنالیز تله درون سوال چهار جوابی در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح المپیادی')">آنالیز تله درون سوال چهار جوابی در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح کنکوری')">آنالیز تله درون سوال چهار جوابی در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح لیسانس')">آنالیز تله درون سوال چهار جوابی در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح فوق لیسانس')">آنالیز تله درون سوال چهار جوابی در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز تله درون سوال چهار جوابی در سطح دکتری')">آنالیز تله درون سوال چهار جوابی در سطح دکتری</button>
-      </div>
-    </div>
-  </div>
+    function removeImage() {
+      base64Image = null;
+      document.getElementById('imageInput').value = '';
+      document.getElementById('previewContainer').style.display = 'none';
+    }
 
-  <!-- آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه -->
-  <div class="themed-box" onmouseenter="playBeep()">
-    <div class="box-header" onclick="toggleBox(this)">
-      <span>آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه</span>
-      <span>▼</span>
-    </div>
-    <div class="box-content">
-      <div class="action-grid">
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح ابتدایی')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح ابتدایی</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح متوسطه اول')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح متوسطه اول</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح متوسطه دوم')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح متوسطه دوم</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح تیزهوشان')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح تیزهوشان</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح المپیادی')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح المپیادی</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح کنکوری')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح کنکوری</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح لیسانس')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح فوق لیسانس')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح فوق لیسانس</button>
-        <button class="action-btn" onclick="setMode('آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه در سطح دکتری')">آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی در سطح دکتری</button>
+    // ارسال درخواست به GapGPT بدون نمایش عبارات فنی
+    async function submitQuery() {
+      const question = document.getElementById('questionInput').value.trim();
+      const level = document.getElementById('eduLevel').value;
+      const field = document.getElementById('fieldSelect').value;
+      const tool = document.getElementById('toolType').value;
+      const resultBox = document.getElementById('resultBox');
+      const statusIndicator = document.getElementById('statusIndicator');
+
+      if (!question && !base64Image) {
+        alert('لطفاً صورت سوال را تایپ نموده یا تصویری بارگذاری فرمایید.');
+        return;
+      }
+
+      resultBox.textContent = 'در حال تحلیل هوشمند و تولید پاسخ تخصصی...';
+      statusIndicator.textContent = 'ارتباط با موتور پردازش برقرار است...';
+
+      const promptSystem = `شما دستیار جامع آموزشی و علمی پلتفرم My-AI هستید. شما در تمام مقاطع تحصیلی از پایه اول ابتدایی تا انتهای دوره دکتری تخصصی (PhD) و در تمام رشته‌ها و گرایش‌ها (فنی-مهندسی، علوم پایه، علوم تجربی و زیستی، شیلات، کشاورزی، علوم انسانی، زبان‌های خارجه، اقتصاد، مدیریت و صنایع) تسلط کامل و فوق‌تخصصی دارید. وظیفه شما ارائه پاسخ متناسب با مقطع تعیین‌شده (${level})، حوزه تخصصی (${field}) و در قالب درخواستی کاربر (${tool}) به زبان فارسی علمی، دقیق و گام‌به‌گام است.`;
+
+      let userContent;
+      if (base64Image) {
+        userContent = [
+          { type: "text", text: `[سطح: ${level}] - [رشته: ${field}] - [عملیات: ${tool}]\n\nسوال/توضیح: ${question}` },
+          { type: "image_url", image_url: { url: base64Image } }
+        ];
+      } else {
+        userContent = `[سطح: ${level}] - [رشته: ${field}] - [عملیات: ${tool}]\n\nصورت سوال یا درخواست:\n${question}`;
+      }
+
+      const endpoints = [
+        "https://api.gapgpt.app/v1/chat/completions",
+        "https://api.gapapi.com/v1/chat/completions"
+      ];
+
+      let success = false;
+      let finalResponse = "";
+
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + SYSTEM_TOKEN
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o-mini',
+              messages: [
+                { role: 'system', content: promptSystem },
+                { role: 'user', content: userContent }
+              ],
+              temperature: 0.4
+            })
+          });
+
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            if (errData && errData.error && errData.error.message && errData.error.message.includes('quota')) {
+              finalResponse = 'اعتبار کیف پول سرویس به پایان رسیده است. لطفاً نسبت به شارژ اعتبار اقدام فرمایید.';
+              break;
+            }
+            continue;
+          }
+
+          const data = await response.json();
+          if (data && data.choices && data.choices[0] && data.choices[0].message) {
+            finalResponse = data.choices[0].message.content;
+            success = true;
+            break;
+          }
+        } catch (err) {
+          // تلاش روی سرور جایگزین در صورت بروز اختلال شبکه
+        }
+      }
+
+      if (success) {
+        resultBox.textContent = finalResponse;
+        statusIndicator.textContent = 'پاسخ هوشمند آماده است.';
+      } else {
+        resultBox.textContent = finalResponse || 'امکان برقراری ارتباط پایدار میسر نشد. لطفاً وضعیت اینترنت را بررسی فرمایید.';
+        statusIndicator.textContent = '';
+      }
+    }
+
+    // پخش صوتی پاسخ
+    function speakResponse() {
+      const text = document.getElementById('resultBox').textContent;
+      if (!text || text.startsWith('منتظر') || text.startsWith('در حال')) {
+        alert('ابتدا پاسخی دریافت نمایید.');
+        return;
+      }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'fa-IR';
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('مرورگر شما از پخش صوتی پشتیبانی نمی‌کند.');
+      }
+    }
+
+    // کپی کردن پاسخ
+    function copyResponse() {
+      const text = document.getElementById('resultBox').textContent;
+      if (!text || text.startsWith('منتظر')) {
+        alert('محتوایی برای کپی وجود ندارد.');
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        alert('پاسخ در کلیپ‌بورد کپی شد.');
+      }).catch(() => {
+        alert('خطا در کپی پاسخ.');
+      });
+    }
+  </script>
+</body>
+</html>
