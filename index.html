@@ -4,35 +4,53 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827">
-<meta name="description" content="پلتفرم جامع هوش مصنوعی من؛ دستیار آموزش، حل تمرین و پژوهش در تمام رشته‌ها و مقاطع">
 <title>پلتفرم هوش مصنوعی من | My-AI</title>
 <style>
-:root{--bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;--line:#293852;--red:#ff5263;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.85}
-button,input,select,textarea{font:inherit}button{cursor:pointer}
+:root{
+  --bg:#0b1120;
+  --panel:#121c2e;
+  --panel2:#17243a;
+  --ink:#eef4ff;
+  --muted:#a8b5ca;
+  --line:#293852;
+  --red:#ff5263;
+  --gold:#f4c66a;
+  --teal:#59d5c4;
+  --shadow:0 18px 55px rgba(0,0,0,0.5);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 45%),var(--bg);
+  color:var(--ink);
+  font-family:Tahoma,"Segoe UI",sans-serif;
+  line-height:1.85;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
 .wrap{width:min(1160px,calc(100% - 32px));margin:auto}
-.topbar{position:sticky;top:0;z-index:9;background:#0b1120ef;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.topbar{position:sticky;top:0;z-index:99;background:#0b1120f2;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
 .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;gap:15px}
-.brand{font-weight:900;color:#fff;text-decoration:none}.brand b{color:var(--gold)}
+.brand{font-weight:900;color:#fff;text-decoration:none;font-size:1.15rem}.brand b{color:var(--gold)}
 .navlinks{display:flex;gap:16px;flex-wrap:wrap}.navlinks a{color:var(--muted);font-size:.88rem;text-decoration:none;transition:.2s}.navlinks a:hover{color:#fff}
-.hero{padding:60px 0 38px;display:grid;grid-template-columns:1.4fr .8fr;gap:26px;align-items:center}
+.hero{padding:50px 0 30px;display:grid;grid-template-columns:1.4fr .8fr;gap:26px;align-items:center}
 .eyebrow{color:var(--teal);font-size:.9rem;font-weight:bold}
-.hero h1{font-size:clamp(2rem,5.5vw,4.1rem);line-height:1.35;margin:10px 0}
-.hero h1 span{color:var(--gold);display:block;font-size:.48em;direction:ltr;text-align:right}
-.lead{color:var(--muted);max-width:760px}
+.hero h1{font-size:clamp(1.8rem,5vw,3.4rem);line-height:1.35;margin:10px 0}
+.hero h1 span{color:var(--gold);display:block;font-size:.45em;direction:ltr;text-align:right}
+.lead{color:var(--muted);max-width:760px;font-size:1.02rem}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-.btn{border:1px solid var(--line);color:var(--ink);background:var(--panel2);border-radius:12px;padding:10px 16px;text-decoration:none;transition:.2s}
-.btn.primary{background:linear-gradient(120deg,#e84b5d,#a92550);border-color:transparent;color:white;font-weight:bold}
-.btn:hover,.card:hover,.tool:hover{border-color:var(--red);animation:shake .28s linear 1;box-shadow:0 0 0 2px #ff526333}
+.btn{border:1px solid var(--line);color:var(--ink);background:var(--panel2);border-radius:12px;padding:10px 18px;text-decoration:none;transition:.2s}
+.btn.primary{background:linear-gradient(120deg,#e84b5d,#a92550);border-color:transparent;color:#fff;font-weight:bold}
+.btn:hover,.card:hover,.tool:hover{border-color:var(--red);box-shadow:0 0 0 2px rgba(255,82,99,0.25)}
 .hero-card,.card,.tool,.box{background:linear-gradient(145deg,#17243a,#111a2b);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
-.hero-card{padding:24px}.hero-card strong{font-size:1.2rem}.hero-card li{color:var(--muted);margin:6px 0}
-.section{padding:35px 0}
+.hero-card{padding:24px}.hero-card strong{font-size:1.2rem;display:block;margin-bottom:10px}.hero-card li{color:var(--muted);margin:8px 0}
+.section{padding:30px 0}
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:18px}
-.section h2{font-size:1.75rem;margin:0}
+.section h2{font-size:1.65rem;margin:0}
 .section-head p{color:var(--muted);margin:4px 0}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{padding:18px}.card h3{margin:0 0 8px;font-size:1.06rem}.card p,.muted{color:var(--muted)}
+.card{padding:18px}
 details.card{padding:0;overflow:hidden}
 details.card summary{cursor:pointer;padding:18px;list-style:none;font-weight:bold}
 details.card summary::-webkit-details-marker{display:none}
@@ -40,37 +58,31 @@ details.card summary:after{content:'＋';float:left;color:var(--gold)}
 details.card .inside{padding:0 18px 18px;color:var(--muted)}
 .pill{display:inline-block;padding:4px 10px;border:1px solid var(--line);border-radius:99px;color:var(--teal);margin:3px;font-size:.83rem}
 .box{padding:22px}
-.workspace{display:grid;grid-template-columns:1fr .82fr;gap:16px}
-.field{display:block;color:var(--muted);margin:10px 0 5px}
-textarea,input,select{width:100%;border:1px solid var(--line);border-radius:11px;background:#0c1423;color:var(--ink);padding:11px;outline:none}
+.workspace{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:block;color:var(--muted);margin:10px 0 5px;font-size:.92rem}
+textarea,input,select{width:100%;border:1px solid var(--line);border-radius:11px;background:#0c1423;color:var(--ink);padding:12px;outline:none}
 textarea:focus,input:focus,select:focus{border-color:var(--teal)}
-textarea{min-height:140px;resize:vertical}
+textarea{min-height:160px;resize:vertical}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fileline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
-.fileline input{max-width:240px}
-.preview{max-width:100%;max-height:180px;border-radius:12px;display:none}
-.result{white-space:pre-wrap;min-height:180px;border:1px solid var(--line);border-radius:12px;background:#0c1423;padding:16px;color:#f2f5fb;line-height:1.9}
-.status{font-size:.9rem;color:var(--muted);min-height:1.7em}
+.fileline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0}
+.fileline input{max-width:260px}
+.preview{max-width:100%;max-height:180px;border-radius:12px;display:none;border:1px solid var(--line)}
+.result{white-space:pre-wrap;min-height:220px;border:1px solid var(--line);border-radius:12px;background:#0c1423;padding:18px;color:#f2f5fb;line-height:2}
+.status{font-size:.9rem;color:var(--muted);min-height:1.7em;margin-top:10px}
 .status.error{color:#ff8790}.status.ok{color:var(--teal)}
 .spinner{display:none;width:18px;height:18px;border:2px solid #ffffff44;border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-inline:7px}
 .busy .spinner{display:inline-block}
 .toolgroups{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
-.tool{padding:14px}.tool h3{margin:0 0 10px}
+.tool{padding:14px}
 .tool-buttons{display:flex;flex-wrap:wrap;gap:8px}
 .tool-buttons button{font-size:.86rem}
-.toggleline{display:flex;align-items:center;gap:8px;color:var(--muted)}
-.toggleline input{width:auto;accent-color:var(--red)}
 .payment{border-color:#856e36}
-.cardnum{font-size:1.5rem;letter-spacing:.06em;direction:ltr;text-align:center;color:var(--gold);font-weight:bold;padding:10px;background:#0c1423;border-radius:12px}
-.packages{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.package{padding:12px;text-align:center;border:1px solid var(--line);border-radius:12px;background:#0c1423}
-.footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.9rem}
+.cardnum{font-size:1.5rem;letter-spacing:.06em;direction:ltr;text-align:center;color:var(--gold);font-weight:bold;padding:12px;background:#0c1423;border-radius:12px;margin:10px 0}
+.footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.9rem;text-align:center}
 .notice{padding:12px;border-right:3px solid var(--gold);background:#f4c66a12;color:#e8d9b1;border-radius:7px}
-.small{font-size:.84rem;color:var(--muted)}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(2px) rotate(.2deg)}75%{transform:translateX(-2px) rotate(-.2deg)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:800px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
-@media(max-width:540px){.grid,.toolgroups,.row{grid-template-columns:1fr}.packages{grid-template-columns:repeat(2,1fr)}.hero{padding-top:35px}.section-head{display:block}.cardnum{font-size:1.12rem}}
+@media(max-width:850px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
+@media(max-width:540px){.grid,.toolgroups,.row{grid-template-columns:1fr}.hero{padding-top:25px}.cardnum{font-size:1.15rem}}
 </style>
 </head>
 <body>
@@ -82,57 +94,52 @@ textarea{min-height:140px;resize:vertical}
       <a href="#faculties">دانشکده‌ها و رشته‌ها</a>
       <a href="#services">ابزارها و خدمات</a>
       <a href="#levels">مقاطع تحصیلی</a>
-      <a href="#payment">فعال‌سازی و اعتبار</a>
+      <a href="#payment">امور مالی</a>
     </nav>
-    <label class="toggleline"><input id="soundToggle" type="checkbox" checked> صدای تعامل</label>
   </div>
 </header>
 
 <main>
 <section class="wrap hero" id="home">
   <div>
-    <div class="eyebrow">یادگیری عمیق، حل مسئله و ارتقای تراز در تمام مقاطع علمی</div>
+    <div class="eyebrow">سامانه جامع پردازش علمی و تحلیلی</div>
     <h1>پلتفرم هوش مصنوعی من<span>Platform My-AI</span></h1>
-    <p class="lead"><b>شرکت پردرآمد تهرانیها</b> با مدیریت <b>حسین لعلیان</b>، رتبه ۳۲ کنکور دکتری. این سامانه جامع علمی جهت آموزش مفهومی، تدریس خط‌به‌خط، رفع اشکال، تحلیل آزمون و حل مسائل پیچیده از پایه اول دبستان تا بالاترین مقاطع تحصیلات تکمیلی طراحی شده است.</p>
+    <p class="lead"><b>شرکت پردرآمد تهرانیها</b> با هدایت علمی <b>حسین لعلیان</b>، رتبه ۳۲ کنکور دکتری. حل گام‌به‌گام و تحلیل تشریحی از اول دبستان تا دکتری تخصصی، نگارش مقالات ISI و آنالیز تست‌های کنکور.</p>
     <div class="actions">
-      <a class="btn primary" href="#assistant">شروع گفتگو و حل سوال ←</a>
-      <a class="btn" href="#services">مشاهده ابزارهای تخصصی</a>
+      <a class="btn primary" href="#assistant">شروع تحلیل و حل سوال ←</a>
+      <a class="btn" href="#services">مشاهده ابزارها</a>
     </div>
   </div>
   <aside class="hero-card">
-    <strong>دستیار همراه همه رشته‌ها و مقاطع</strong>
+    <strong>ویژگی‌های برتر سیستم</strong>
     <ul>
-      <li>تدریس، تحلیل تله‌های تستی و حل گام‌به‌گام</li>
-      <li>از پایه دبستان تا دکتری تخصصی و آزمون‌های جامع</li>
-      <li>پشتیبانی از تحلیل مستقیم تصاویر، نمودارها و فرمول‌ها</li>
-      <li>اعتبار دائمی بدون ابطال یا انقضای زمانی</li>
+      <li>تحلیل تشریحی متناسب با پایه تحصیلی</li>
+      <li>پوشش تمامی مقاطع تحصیلی از دبستان تا دکتری</li>
+      <li>پشتیبانی کامل از فرمول‌ها و تصاویر مسائل</li>
+      <li>اتصال خودکار به هسته مدل‌های پیشرفته GPT</li>
     </ul>
-    <span class="pill">آموزش تعاملی</span>
-    <span class="pill">حل مسئله پیشرفته</span>
-    <span class="pill">مشاوره تراز و رتبه</span>
+    <span class="pill">آموزش مفهومی</span>
+    <span class="pill">حل مسئله</span>
+    <span class="pill">رتبه ۳۲ دکتری</span>
   </aside>
 </section>
 
 <section class="wrap section" id="assistant">
   <div class="section-head">
     <div>
-      <h2>دستیار هوشمند My-AI</h2>
-      <p>پرسش، تکلیف یا مسئله خود را بنویسید، رشته و مقطع را انتخاب کرده و پاسخ تحلیلی را دریافت کنید.</p>
+      <h2>میز کار و دستیار حل مسئله</h2>
+      <p>سوال، تمرین یا موضوع خود را مطرح کنید تا پاسخ تحلیلی و مستند برای شما نگارش شود.</p>
     </div>
-    <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن صوتی پاسخ</label>
   </div>
 
   <div class="workspace">
     <div class="box">
       <div class="row">
         <div>
-          <label class="field" for="model">موتور پردازش</label>
+          <label class="field" for="model">مدل تحلیل‌گر</label>
           <select id="model">
-            <option value="gpt-4o">مدل هوشمند پیشرفته (gpt-4o)</option>
-            <option value="gpt-4o-mini">مدل سریع و بهینه (gpt-4o-mini)</option>
-            <option value="gpt-4.1">مدل تحلیلی نسل جدید (gpt-4.1)</option>
-            <option value="gpt-4.1-mini">مدل سبک (gpt-4.1-mini)</option>
-            <option value="o3-mini">مدل استدلال و ریاضیات (o3-mini)</option>
+            <option value="gpt-4o-mini" selected>مدل بهینه و سریع (gpt-4o-mini)</option>
+            <option value="gpt-4o">مدل فوق‌پیشرفته و عمیق (gpt-4o)</option>
           </select>
         </div>
         <div>
@@ -140,33 +147,32 @@ textarea{min-height:140px;resize:vertical}
           <select id="level"></select>
         </div>
       </div>
-      <label class="field" for="prompt">متن پرسش یا درخواست تحلیلی</label>
-      <textarea id="prompt" placeholder="صورت سوال، فرمول، تمرین یا موضوع مورد نظر را اینجا بنویسید…"></textarea>
+
+      <label class="field" for="prompt">متن سوال یا مبحث مورد نظر</label>
+      <textarea id="prompt" placeholder="صورت مسئله، تست کنکور، مبحث درسی یا فرمول خود را اینجا وارد کنید…"></textarea>
       
       <div class="fileline">
-        <label class="btn" for="image">بارگذاری تصویر سوال یا نمودار</label>
+        <label class="btn" for="image">بارگذاری تصویر سوال</label>
         <input id="image" type="file" accept="image/*">
-        <button class="btn" id="removeImage" type="button">حذف تصویر</button>
-        <img id="preview" class="preview" alt="پیش‌نمایش تصویر">
+        <button class="btn" id="removeImage" type="button">حذف عکس</button>
+        <img id="preview" class="preview" alt="پیش‌نمایش">
       </div>
 
       <div class="actions">
-        <button class="btn primary" id="send" type="button">دریافت پاسخ تخصصی <span class="spinner"></span></button>
-        <button class="btn" id="clear" type="button">پاک کردن فرم</button>
+        <button class="btn primary" id="send" type="button">ارسال و دریافت پاسخ <span class="spinner"></span></button>
+        <button class="btn" id="clear" type="button">پاک‌سازی</button>
       </div>
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </div>
 
     <div class="box">
       <div class="section-head">
-        <h3>خروجی تحلیل و پاسخ</h3>
+        <h3>پاسخ تشریحی و گام‌به‌گام</h3>
         <div class="actions" style="margin:0">
           <button class="btn" id="copy" type="button">کپی پاسخ</button>
-          <button class="btn" id="saveAudio" type="button">ضبط و دانلود صوت</button>
         </div>
       </div>
-      <div id="result" class="result" aria-live="polite">پاسخ تشریحی و گام‌به‌گام پس از ارسال در این بخش نمایان خواهد شد.</div>
-      <audio id="audioPlayer" controls hidden style="width:100%;margin-top:10px"></audio>
+      <div id="result" class="result" aria-live="polite">پاسخ دریافتی در این کادر نمایش داده می‌شود.</div>
     </div>
   </div>
 </section>
@@ -174,8 +180,8 @@ textarea{min-height:140px;resize:vertical}
 <section class="wrap section" id="faculties">
   <div class="section-head">
     <div>
-      <h2>پوشش تمامی رشته‌ها و دانشکده‌ها</h2>
-      <p>از آموزش عمومی مدارس تا فوق‌تخصصی‌ترین شاخه‌های دانشگاهی</p>
+      <h2>پوشش جامع تمام رشته‌ها و دانشکده‌ها</h2>
+      <p>از آموزش مدارس تا تخصصی‌ترین مباحث دانشگاهی</p>
     </div>
   </div>
   <div class="grid" id="facultyList"></div>
@@ -184,8 +190,8 @@ textarea{min-height:140px;resize:vertical}
 <section class="wrap section" id="services">
   <div class="section-head">
     <div>
-      <h2>خدمات تخصصی و ابزارهای تحلیلی</h2>
-      <p>با کلیک روی هر ابزار، قالب استاندارد آن مستقیماً در کادر پرسش بارگذاری می‌شود.</p>
+      <h2>ابزارهای تخصصی آموزشی</h2>
+      <p>با کلیک روی هر ابزار، الگوی استاندارد در کادر سوال درج می‌شود.</p>
     </div>
   </div>
   <div class="toolgroups" id="serviceList"></div>
@@ -195,66 +201,47 @@ textarea{min-height:140px;resize:vertical}
   <div class="section-head">
     <div>
       <h2>مقاطع و مسیرهای آموزشی</h2>
-      <p>پشتیبانی کامل از پایه دبستان، دبیرستان، کنکور سراسری تا تحصیلات تکمیلی</p>
+      <p>ارائه ساختار یادگیری متناسب با استانداردهای هر مقطع</p>
     </div>
   </div>
   <div class="grid" id="levelCards"></div>
 </section>
 
-<section class="wrap section">
-  <div class="section-head">
-    <div>
-      <h2>بسته‌های اعتباری My-AI</h2>
-      <p>اعتبار شما همواره در سامانه ذخیره می‌ماند و مشمول محدودیت زمانی نمی‌شود.</p>
-    </div>
-  </div>
-  <div class="packages" id="packages"></div>
-  <div class="card" style="margin-top:14px">
-    <h3>ویژگی‌های متمایز بسته‌های آموزشی</h3>
-    <p>دسترسی اولویت‌دار به سرورهای پردازش عمیق؛ تحلیل موشکافانه تله‌های تستی کنکور؛ ارائه راهکارهای خلاقانه برای مسائل جبری، فیزیک، شیمی، بالستیک، داده‌کاوی و الگوریتم‌ها با نظارت علمی مستقیم.</p>
-  </div>
-</section>
-
 <section class="wrap section" id="payment">
   <div class="section-head">
     <div>
-      <h2>فعال‌سازی و امور مالی</h2>
-      <p>واریز مستقیم و ارسال رسید جهت فعال‌سازی فوری بسته اعتباری</p>
+      <h2>امور مالی و پشتیبانی</h2>
+      <p>اطلاعات حساب رسمی جهت تسویه و پشتیبانی مستقیم</p>
     </div>
   </div>
   <div class="box payment">
-    <p class="notice">به‌منظور جلوگیری از اختلالات درگاه‌های واسط، پرداخت به صورت مستقیم به شماره حساب مرکزی و اعلام از طریق ایمیل انجام می‌شود.</p>
-    <label class="field">شماره کارت مرکزی</label>
+    <p class="notice">تسویه حساب‌ها به صورت مستقیم به شماره کارت رسمی زیر انجام می‌گیرد:</p>
     <div class="cardnum" id="cardNumber">6037991555549678</div>
     <div class="actions">
       <button class="btn primary" id="copyCard">کپی شماره کارت</button>
     </div>
-    <label class="field">ایمیل پشتیبانی و ارسال فیش واریز</label>
-    <p dir="ltr" style="text-align:right;font-weight:bold">Ai.Algorithms.Ballistics@gmail.com</p>
-    <button class="btn" id="copyEmail">کپی ایمیل پشتیبانی</button>
-  </div>
-</section>
-
-<section class="wrap section">
-  <div class="card">
-    <h3>درباره مجموعه و مدیریت علمی</h3>
-    <p>سامانه آموزشی My-AI زیر نظر شرکت پردرآمد تهرانیها و با هدایت مستقیم <b>حسین لعلیان</b> (رتبه ۳۲ کنکور دکتری) توسعه یافته است. هدف این پروژه فراهم‌آوردن کلاسی هوشمند و عادلانه برای تمامی دانش‌آموزان و دانشجویان مستعد در سراسر کشور می‌باشد.</p>
-    <p class="small">تمامی حقوق مادی و معنوی این اثر متعلق به حسین لعلیان است. واژه «پردرآمد» در نام مجموعه، نشان‌دهنده چشم‌انداز ایجاد ارزش افزوده علمی و ثروت پایدار برای فرزندان ایران‌زمین با ابزار هوش مصنوعی است.</p>
+    <label class="field" style="margin-top:16px">ایمیل پشتیبانی و ارسال فیش:</label>
+    <p dir="ltr" style="text-align:right;font-weight:bold;margin:4px 0">Ai.Algorithms.Ballistics@gmail.com</p>
+    <button class="btn" id="copyEmail">کپی ایمیل</button>
   </div>
 </section>
 </main>
 
 <footer class="footer">
-  <div class="wrap">© پلتفرم هوش مصنوعی من (My-AI) · شرکت پردرآمد تهرانیها · تمام حقوق محفوظ است.</div>
+  <div class="wrap">© پلتفرم هوش مصنوعی من (My-AI) · شرکت پردرآمد تهرانیها · هدایت علمی: حسین لعلیان</div>
 </footer>
 
 <script>
 'use strict';
 
-// تنظیم مستقیم و یکپارچه کلید بدون نیاز به ورودی کاربر
-const GAPGPT_TOKEN = "sk-gapgpt-app-c848db2c35bb546bf207b5e5330e70ca2b03947b0a70f2bc6a3adab448ff0113";
-const PRIMARY_URL = 'https://api.gapgpt.app/v1/chat/completions';
-const BACKUP_URL = 'https://api.gapapi.com/v1/chat/completions';
+const API_KEY = "GAPGPTMASKTOKENgfzu2b0vctiX1X";
+
+// سرورهای زنجیره‌ای جهت اتصال خودکار و رفع خطای فیلترینگ و CORS
+const ENDPOINTS = [
+  'https://api.gapgpt.app/v1/chat/completions',
+  'https://api.gapapi.com/v1/chat/completions',
+  'https://gapgpt.azurewebsites.net/v1/chat/completions'
+];
 
 const levels = [
   'پایه اول تا ششم دبستان',
@@ -263,49 +250,33 @@ const levels = [
   'تیزهوشان و مدارس استعداد درخشان (سمپاد)',
   'المپیادهای علمی دانش‌آموزی و دانشجویی',
   'کنکور سراسری (ریاضی، تجربی، انسانی، هنر، زبان)',
-  'کارشناسی (تمامی رشته‌های فنی، پایه، انسانی و پزشکی)',
+  'کارشناسی (تمامی رشته‌های دانشگاهی)',
   'کنکور کارشناسی ارشد',
   'کارشناسی ارشد (تخصصی و پایان‌نامه)',
   'آزمون دکتری تخصصی (Ph.D)',
-  'دکتری تخصصی، رساله و مقالات بین‌المللی ISI'
+  'دکتری تخصصی، رساله و پژوهش‌های بین‌المللی'
 ];
 
 const faculties = [
-  ['مهندسی شیلات، کشاورزی و علوم محیط زیست', 'تکثیر و آبزی‌پروری، بوم‌شناسی، مهندسی منابع طبیعی، آب و خاک و حفاظت محیط زیست'],
-  ['علوم پایه (شیمی، فیزیک، ریاضی و زیست‌شناسی)', 'شیمی محض و کاربردی، فیزیک نوین و بالستیک، ریاضیات محض و کاربردی، ژنتیک و بیوتکنولوژی'],
-  ['فناوری اطلاعات، کامپیوتر و هوش مصنوعی', 'طراحی الگوریتم، علم داده، یادگیری ماشین، امنیت شبکه و برنامه‌نویسی نرم‌افزار'],
-  ['مهندسی صنایع، بهینه‌سازی و سیستم‌ها', 'تحقیق در عملیات، سیستم‌های پویا، مدیریت کیفیت و کنترل زنجیره تأمین'],
-  ['علوم پزشکی، داروسازی و پیراپزشکی', 'آناتومی، فارماکولوژی، پاتولوژی، فیزیولوژی و تحلیل کیس‌های بالینی'],
-  ['مدیریت، اقتصاد، مالی و بازرگانی', 'مدیریت استراتژیک، اقتصاد سنجی، تحلیل بازارهای مالی و کارآفرینی پایدار'],
-  ['علوم انسانی، حقوق و روان‌شناسی', 'حقوق مدنی و جزا، روان‌شناسی بالینی، ادبیات فارسی و فلسفه'],
-  ['زبان‌های خارجی و ترجمه پیشرفته', 'آموزش زبان انگلیسی، نگارش آکادمیک و متون تخصصی ISI'],
-  ['هنر، معماری و طراحی صنعتی', 'مبانی هنرهای تجسمی، معماری پایدار و طراحی فرم و سازه']
+  ['مهندسی شیلات، کشاورزی و منابع طبیعی', 'تکثیر و آبزی‌پروری، مدیریت صید، بوم‌شناسی، آب و خاک، بیوتکنولوژی کشاورزی'],
+  ['علوم پایه (شیمی، فیزیک، ریاضی، زیست‌شناسی)', 'شیمی دارویی و آلی، فیزیک محاسباتی و بالستیک، جبر، هندسه، ژنتیک و بیوشیمی'],
+  ['مهندسی کامپیوتر، فناوری اطلاعات و هوش مصنوعی', 'طراحی الگوریتم، علم داده، یادگیری ژرف، مهندسی نرم‌افزار و معماری شبکه'],
+  ['مهندسی صنایع، بهینه‌سازی و سیستم‌ها', 'تحقیق در عملیات، برنامه‌ریزی تولید، مدیریت پروژه و شبیه‌سازی سیستم‌ها'],
+  ['علوم پزشکی، داروسازی و پیراپزشکی', 'فیزیولوژی، آناتومی، بیوشیمی بالینی، فارماکولوژی و مرور مقالات پزشکی'],
+  ['مدیریت، اقتصاد، حسابداری و بازرگانی', 'مدیریت مالی، رفتار سازمانی، اقتصاد خرد و کلان، استراتژی و کارآفرینی'],
+  ['علوم انسانی، حقوق و روان‌شناسی', 'حقوق خصوصی و بین‌الملل، روان‌شناسی شناختی، ادبیات فارسی و منطق'],
+  ['زبان‌های خارجه و مقاله‌نویسی آکادمیک', 'نگارش متون ISI، گرامر پیشرفته، ویرایش نیتیو مقالات علمی و آزمون‌های بین‌المللی']
 ];
 
 const services = [
   'پاسخ تحلیلی به سوال',
-  'آنالیز عمیق سوال و شناسایی تله‌ها',
-  'تحلیل تست چهارگزینه‌ای و گزینه‌های گمراه‌کننده',
-  'بررسی سوالات دارای جدول، فرمول و نمودار',
   'حل تشریحی گام‌به‌گام و تیپ‌بندی تست‌ها',
-  'استخراج مفاهیم کلیدی و خطاهای پرتکرار داوطلبان',
-  'رفع اشکال تمرینات و مسائل پیچیده دانشگاهی',
-  'مشاوره روش مطالعه و ارتقای تراز کنکور',
-  'آنالیز دست‌خط و تصویر سوال در عکس',
-  'تبدیل سوال تشریحی به تست استاندارد کنکوری',
-  'تحلیل و تشریح فرمول‌ها، روابط و اثبات‌ها',
-  'رسم و تفسیر نمودارهای تحلیلی و داده‌ها',
-  'خلاصه‌نویسی نموداری و جمع‌بندی مبحثی',
-  'طراحی آزمون شبیه‌ساز تستی و امتحانی',
-  'تدریس کنکوری دروس مدرسه و دانشگاه',
-  'راهنمایی نگارش متون دانشگاهی و مقالات علمی'
-];
-
-const extras = [
-  'تدریس خط‌به‌خط کتاب‌های درسی پایه تا دانشگاه',
-  'تحلیل و اثبات فرمول‌ها در سطح تیزهوشان و المپیاد',
-  'شبیه‌سازی کلاس درس مجازی با دستیار هوشمند',
-  'برنامه‌ریزی مطالعاتی اختصاصی برای رتبه‌های برتر'
+  'آنالیز عمیق تست و شناسایی گزینه‌های گمراه‌کننده',
+  'بررسی سوالات دارای فرمول، جدول و نمودار',
+  'استخراج مفاهیم کلیدی و خطاهای رایج داوطلبان',
+  'رفع اشکال مسائل دانشگاهی و تمرینات سنگین',
+  'مشاوره روش مطالعه و ارتقای تراز در کنکور',
+  'تدریس خط‌به‌خط مباحث کتاب درسی'
 ];
 
 const byId = id => document.getElementById(id);
@@ -316,7 +287,7 @@ function el(tag, cls, text){
   return n;
 }
 
-function fillSelect(){
+function initUI(){
   const s = byId('level');
   levels.forEach(x => {
     const o = document.createElement('option');
@@ -324,112 +295,57 @@ function fillSelect(){
     o.textContent = x;
     s.appendChild(o);
   });
-}
 
-function renderFaculties(){
-  const host = byId('facultyList');
+  const fList = byId('facultyList');
   faculties.forEach(([name, desc], i) => {
     const d = el('details', 'card');
     if(i === 0) d.open = true;
-    const s = el('summary', '', name);
-    const inside = el('div', 'inside');
-    inside.append(el('p', '', desc), el('p', 'small', 'ارائه تحلیل‌های تخصصی و منطبق بر آخرین سرفصل‌های دانشگاهی.'));
-    d.append(s, inside);
-    host.append(d);
+    const sm = el('summary', '', name);
+    const ins = el('div', 'inside');
+    ins.append(el('p', '', desc));
+    d.append(sm, ins);
+    fList.append(d);
   });
-}
 
-function renderLevels(){
-  const host = byId('levelCards');
+  const lCards = byId('levelCards');
   levels.forEach((x, i) => {
     const d = el('details', 'card');
     if(i === 0) d.open = true;
-    const s = el('summary', '', x);
-    const b = el('div', 'inside');
-    b.append(el('p', '', 'پوشش جامع محتوای درسی، حل تمرین، رفع اشکال و تحلیل آزمون در مقطع ' + x + '.'));
-    d.append(s, b);
-    host.append(d);
+    const sm = el('summary', '', x);
+    const ins = el('div', 'inside');
+    ins.append(el('p', '', 'پوشش کامل کتاب، تحلیل تست‌ها و مسائل مربوط به مقطع ' + x));
+    d.append(sm, ins);
+    lCards.append(d);
   });
-  extras.forEach(x => {
-    const d = el('details', 'card');
-    const s = el('summary', '', x);
-    const b = el('div', 'inside');
-    b.append(el('p', '', 'پشتیبانی اختصاصی با استانداردهای رتبه‌های برتر کنکور و المپیاد.'));
-    d.append(s, b);
-    host.append(d);
-  });
-}
 
-function renderServices(){
-  const host = byId('serviceList');
+  const sList = byId('serviceList');
   services.forEach((name, i) => {
     const d = el('details', 'tool');
     if(i < 4) d.open = true;
-    const s = el('summary', '', name);
-    const inside = el('div', 'tool-buttons');
-    levels.slice(0, 7).forEach(level => {
-      const b = el('button', 'btn', name + ' · ' + level);
+    const sm = el('summary', '', name);
+    const ins = el('div', 'tool-buttons');
+    levels.slice(0, 6).forEach(lvl => {
+      const b = el('button', 'btn', name + ' · ' + lvl);
       b.type = 'button';
       b.onclick = () => {
-        byId('prompt').value = `${name} در مقطع «${level}»:\n\nلطفاً پاسخ را دقیق، مستند، گام‌به‌گام و با ذکر نکات تستی و مفهومی ارائه کن.`;
-        byId('level').value = level;
+        byId('prompt').value = `${name} برای سطح «${lvl}»:\n\nلطفاً پاسخ را به صورت تحلیلی و مستند ارائه فرمایید.`;
+        byId('level').value = lvl;
         byId('prompt').focus();
         byId('assistant').scrollIntoView({behavior:'smooth'});
       };
-      inside.append(b);
+      ins.append(b);
     });
-    d.append(s, inside);
-    host.append(d);
+    d.append(sm, ins);
+    sList.append(d);
   });
 }
-
-function renderPackages(){
-  ['۵', '۱۰', '۲۰', '۵۰', '۱۰۰', '۱۵۰', '۲۰۰', '۲۵۰'].forEach(n => {
-    byId('packages').append(el('div', 'package', n + ' میلیون تومان'));
-  });
-}
-
-fillSelect();
-renderFaculties();
-renderLevels();
-renderServices();
-renderPackages();
-
-let audioCtx = null;
-function beep(){
-  if(!byId('soundToggle').checked) return;
-  try{
-    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.type = 'sine';
-    o.frequency.value = 660;
-    g.gain.setValueAtTime(.035, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .055);
-    o.connect(g);
-    g.connect(audioCtx.destination);
-    o.start();
-    o.stop(audioCtx.currentTime + .06);
-  }catch(e){}
-}
-
-document.addEventListener('pointerover', e => {
-  if(e.target.closest('.btn,.tool,details.card')){
-    beep();
-    if(navigator.vibrate) navigator.vibrate(10);
-  }
-});
+initUI();
 
 const fileInput = byId('image');
 let imageData = null;
 fileInput.addEventListener('change', () => {
   const f = fileInput.files[0];
   if(!f) return;
-  if(f.size > 10 * 1024 * 1024){
-    setStatus('حجم تصویر نباید بیشتر از ۱۰ مگابایت باشد.', 'error');
-    fileInput.value = '';
-    return;
-  }
   const r = new FileReader();
   r.onload = () => {
     imageData = r.result;
@@ -452,82 +368,86 @@ function setStatus(text, kind = ''){
   n.className = 'status ' + kind;
 }
 
-function makePrompt(text){
+function makeSystemPrompt(){
   const lvl = byId('level').value;
-  return `شما دستیار ارشد و استاد همراه هوشمند پلتفرم My-AI (زیر نظر شرکت پردرآمد تهرانیها به مدیریت حسین لعلیان، رتبه ۳۲ کنکور دکتری) هستید.
-پاسخ را کاملاً منطبق با سطح تحصیلی «${lvl}» و با زبان تخصصی و دقیق علمی بنویسید.
-در صورت وجود فرمول، آن را مرحله‌به‌مرحله با اثبات توضیح دهید. در صورت تست یا آزمون، تله‌های پنهان، دلایل نادرستی سایر گزینه‌ها و روش حل سریع را تشریح کنید.
-
-درخواست دانش‌پژوه:
-${text}`;
+  return `شما استاد و مشاور ارشد علمی در سامانه My-AI (مدیریت: حسین لعلیان، رتبه ۳۲ آزمون دکتری) هستید.
+پاسخ را کاملاً دقیق، مستند و سازگار با سطح علمی «${lvl}» بنویسید. در حل مسائل، تمام مراحل و نکات کلیدی را تشریح کنید.`;
 }
 
-async function requestGapGPT(bodyPayload){
-  const makeHeaders = () => ({
-    'Authorization': 'Bearer ' + GAPGPT_TOKEN,
-    'Content-Type': 'application/json'
-  });
+// ارسال خودکار با جابجایی هوشمند بین سرورها در صورت بروز خطا
+async function requestAI(payload){
+  let lastErr = null;
+  for(let i = 0; i < ENDPOINTS.length; i++){
+    const endpoint = ENDPOINTS[i];
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 25000);
+      
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      clearTimeout(timer);
 
-  try {
-    const res = await fetch(PRIMARY_URL, {
-      method: 'POST',
-      headers: makeHeaders(),
-      body: JSON.stringify(bodyPayload)
-    });
-    if(res.ok) return await res.json();
-  } catch(e){}
-
-  // مسیر پشتیبان
-  const backupRes = await fetch(BACKUP_URL, {
-    method: 'POST',
-    headers: makeHeaders(),
-    body: JSON.stringify(bodyPayload)
-  });
-  if(!backupRes.ok){
-    const errText = await backupRes.text().catch(()=>'');
-    throw new Error(`پاسخ سرور دریافت نشد (${backupRes.status}) ${errText}`);
+      if(!res.ok){
+        const errText = await res.text().catch(() => '');
+        throw new Error(`خطای سرور (${res.status}): ${errText}`);
+      }
+      return await res.json();
+    } catch(err) {
+      lastErr = err;
+    }
   }
-  return await backupRes.json();
+  throw lastErr || new Error('خطا در برقراری ارتباط');
 }
 
 byId('send').onclick = async () => {
-  const question = byId('prompt').value.trim();
-  if(!question && !imageData) return setStatus('لطفاً پرسش خود را یادداشت کنید یا تصویری را انتخاب فرمایید.', 'error');
-  
+  const text = byId('prompt').value.trim();
+  if(!text && !imageData){
+    return setStatus('لطفاً سوال خود را یادداشت کنید یا تصویری بارگذاری فرمایید.', 'error');
+  }
+
   const btn = byId('send');
   btn.classList.add('busy');
   btn.disabled = true;
-  setStatus('در حال پردازش علمی و تدوین پاسخ تحلیلی…');
-  byId('result').textContent = '';
+  setStatus('در حال ارتباط و دریافت پاسخ تحلیلی…');
+  byId('result').textContent = 'درحال پردازش و نگارش پاسخ توسط هوش مصنوعی…';
 
   try{
-    let content;
+    let userContent;
     if(imageData){
-      content = [
-        {type: 'text', text: makePrompt(question || 'لطفاً تصویر پیوست را تحلیل و راه‌حل کامل و گام‌به‌گام آن را تشریح کن.')},
+      userContent = [
+        {type: 'text', text: text || 'لطفاً این تصویر و مسئله را با دقت تحلیل و تشریح فرمایید.'},
         {type: 'image_url', image_url: {url: imageData}}
       ];
     } else {
-      content = makePrompt(question);
+      userContent = text;
     }
 
     const payload = {
       model: byId('model').value,
-      messages: [{role: 'user', content}],
+      messages: [
+        {role: 'system', content: makeSystemPrompt()},
+        {role: 'user', content: userContent}
+      ],
       temperature: 0.5
     };
 
-    const data = await requestGapGPT(payload);
-    const answer = data?.choices?.[0]?.message?.content;
-    if(!answer) throw new Error('محتوای پاسخی از موتور پردازش دریافت نشد.');
+    const data = await requestAI(payload);
+    const reply = data?.choices?.[0]?.message?.content;
+    if(!reply) throw new Error('پاسخی دریافت نشد.');
 
-    byId('result').textContent = answer;
+    byId('result').textContent = reply;
     setStatus('پاسخ با موفقیت دریافت شد.', 'ok');
-    if(byId('speechToggle').checked) speakAnswer();
-  }catch(err){
-    setStatus('ارتباط با سرور برقرار نشد؛ لطفاً اتصال اینترنت خود را بررسی نمایید.', 'error');
-    byId('result').textContent = 'متأسفانه در دریافت پاسخ مشکلی ایجاد شد. لطفاً چند لحظه بعد مجدداً تلاش کنید.';
-  }finally{
+  } catch(err){
+    setStatus('خطا در دریافت پاسخ. لطفاً مجدداً امتحان کنید.', 'error');
+    byId('result').textContent = 'ارتباط برقرار نشد. لطفاً وضعیت اینترنت یا فیلترشکن خود را بررسی نمایید و مجدداً دکمه ارسال را بزنید.';
+  } finally {
     btn.classList.remove('busy');
     btn.disabled = false;
   }
@@ -535,79 +455,29 @@ byId('send').onclick = async () => {
 
 byId('clear').onclick = () => {
   byId('prompt').value = '';
-  byId('result').textContent = 'پاسخ تشریحی و گام‌به‌گام پس از ارسال در این بخش نمایان خواهد شد.';
+  byId('result').textContent = 'پاسخ دریافتی در این کادر نمایش داده می‌شود.';
   setStatus('');
   byId('removeImage').click();
 };
 
 byId('copy').onclick = async () => {
-  try{
+  try {
     await navigator.clipboard.writeText(byId('result').textContent);
-    setStatus('پاسخ با موفقیت کپی شد.', 'ok');
-  }catch{
-    setStatus('کپی انجام نشد؛ لطفاً متن را دستی انتخاب و کپی کنید.', 'error');
+    setStatus('پاسخ کپی شد.', 'ok');
+  } catch(e){
+    setStatus('امکان کپی خودکار فراهم نشد؛ لطفاً دستی کپی کنید.', 'error');
   }
 };
 
-function speakAnswer(){
-  if(!('speechSynthesis' in window)){
-    setStatus('قابلیت خواندن صوتی در این مرورگر فعال نیست.', 'error');
-    return;
-  }
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(byId('result').textContent);
-  u.lang = 'fa-IR';
-  speechSynthesis.speak(u);
-}
-
-byId('speechToggle').onchange = () => {
-  if(byId('speechToggle').checked && byId('result').textContent) speakAnswer();
+byId('copyCard').onclick = () => {
+  navigator.clipboard.writeText('6037991555549678');
+  setStatus('شماره کارت کپی شد.', 'ok');
 };
 
-let mediaRecorder = null, audioChunks = [];
-byId('saveAudio').onclick = async () => {
-  if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder){
-    return setStatus('ضبط صوتی در این مرورگر پشتیبانی نمی‌شود.', 'error');
-  }
-  if(mediaRecorder?.state === 'recording'){
-    mediaRecorder.stop();
-    return;
-  }
-  try{
-    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-    mediaRecorder = new MediaRecorder(stream);
-    audioChunks = [];
-    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(audioChunks, {type: mediaRecorder.mimeType || 'audio/webm'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'My-AI-Explanation.webm';
-      a.click();
-      stream.getTracks().forEach(t => t.stop());
-      byId('audioPlayer').src = url;
-      byId('audioPlayer').hidden = false;
-      setStatus('فایل صوتی ذخیره شد.', 'ok');
-    };
-    mediaRecorder.start();
-    if(!speechSynthesis.speaking) speakAnswer();
-    setStatus('در حال ضبط صدا؛ برای ذخیره نهایی دوباره دکمه را لمس کنید.');
-  }catch(e){
-    setStatus('برای ضبط فایل صوتی، دسترسی میکروفون نیاز است.', 'error');
-  }
+byId('copyEmail').onclick = () => {
+  navigator.clipboard.writeText('Ai.Algorithms.Ballistics@gmail.com');
+  setStatus('ایمیل کپی شد.', 'ok');
 };
-
-async function copyText(text, label){
-  try{
-    await navigator.clipboard.writeText(text);
-    setStatus(label + ' با موفقیت کپی شد.', 'ok');
-  }catch{
-    setStatus('کپی انجام نشد؛ لطفاً دستی انتخاب کنید.', 'error');
-  }
-}
-byId('copyCard').onclick = () => copyText('6037991555549678', 'شماره کارت مرکزی');
-byId('copyEmail').onclick = () => copyText('Ai.Algorithms.Ballistics@gmail.com', 'ایمیل پشتیبانی');
 </script>
 </body>
 </html>
