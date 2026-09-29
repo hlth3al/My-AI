@@ -7,676 +7,701 @@
   <style>
     :root{
       --bg:#07080d;
-      --panelاتصال مستقیم به API گپ‌جی‌پی‌تی**: کلید در بخش `GAPGPT_API_KEY` در ابتدای اسکریپت تعریف شده و مستقیماً به Endpoint رسمی متصل می‌شود.
-2. **اتصال هوشمند تمام گزینه‌ها**: با کلیک روی هر سطح یا ابزار، پرامپت دقیق تولید شده و به GapGPT فرستاده می‌شود.
-3. **پشتیبانی از عکس و متن**: امکان ارسال همزمان عکس و متن به مدل هوشمند.
-4. **صدای بوق، لرزش، حاشیه قرمز نئونی، کپی، خواندن صوتی و پاک کردن داده‌ها**.
-5. **حفظ کلمه به کلمه کلیه متون، اخطارها، شماره کارت و توضیحات شما بدون کوچک‌ترین حذف**.
+      --panel:#0d1020;
+      --panel2:#0b0d18;
+      --text:#e9ecff;
+      --muted:#b7bddb;
+      --red:#ff1744;
+      --red2:#ff4d6d;
+      --green:#20e3b2;
+      --blue:#4d7cff;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius:18px;
+      --radius2:14px;
+      --border: 1px solid rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", "Noto Sans", sans-serif;
+      background: radial-gradient(900px 520px at 85% 10%, rgba(255,23,68,.18), transparent 60%),
+                  radial-gradient(700px 420px at 10% 20%, rgba(77,124,255,.18), transparent 60%),
+                  linear-gradient(180deg, #060712, #05060d 55%, #05050b);
+      color:var(--text);
+    }
+    .container{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 14px 40px;
+    }
 
----
+    header.hero{
+      border:var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(13,16,32,.80), rgba(11,13,24,.70));
+      box-shadow: var(--shadow);
+      padding: 18px 18px 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    header.hero::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(500px 220px at 80% 10%, rgba(255,23,68,.16), transparent 60%),
+        radial-gradient(420px 220px at 15% 25%, rgba(77,124,255,.16), transparent 60%);
+      pointer-events:none;
+    }
+    .hero-inner{position:relative}
 
-### فایل کامل `index.html` (کپی کنید و مستقیماً داخل گیت‌هاب قرار دهید):
-```html
-<!doctype html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>پلتفرم هوش مصنوعی من | Platform My-AI</title>
-  <style>
-:root{
---bg:#07080d;
---panel:#0d1020;
---panel2:#0b0d18;
---text:#e9ecff;
---muted:#b7bddb;
---red:#ff1744;
---red2:#ff4d6d;
---green:#20e3b2;
---blue:#4d7cff;
---shadow: 0 18px 60px rgba(0,0,0,.55);
---radius:18px;
---radius2:14px;
---border: 1px solid rgba(255,255,255,.08);
-}
+    .title{
+      margin:0;
+      font-weight: 1000;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.05;
+      letter-spacing:.2px;
+      text-shadow: 0 12px 34px rgba(0,0,0,.65);
+      color: #fff;
+    }
+    .title .en{
+      display:block;
+      margin-top:8px;
+      font-weight: 900;
+      font-size: clamp(18px, 2.6vw, 34px);
+      opacity:.95;
+    }
+    .subtitle{
+      margin:14px 0 0;
+      color:var(--muted);
+      font-size: clamp(14px, 1.8vw, 18px);
+      font-weight: 800;
+      line-height: 1.9;
+    }
 
-*{box-sizing:border-box}
-body{
-var(--radius);
-background: linear-gradient(180deg, rgba(13,16,32,.80), rgba(11,13,24,.70));
-box-shadow: var(--shadow);
-position:relative;
-overflow:hidden;
-}
-header.hero::before{
-content:"";
-position:absolute;
-inset:-2px;
-background:
-radial-gradient(500px 220px at 80% 10%, rgba(255,23,68,.18), transparent 60%),
-radial-gradient(420px 220px at 15% 25%, rgba(77,124,255,.18), transparent 60%);
-pointer-events:none;
-}
-.hero-inner{position:relative}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+      margin-top:16px;
+    }
+    @media (min-width: 960px){
+      .grid{grid-template-columns: 1.15fr .85fr;}
+    }
 
-.title{
-margin:0;
-font-weight:900;
-font-size: clamp(28px, 4.2vw, 52px);
-letter-spacing:.2px;
-text-shadow: 0 10px 30px rgba(0,0,0,.65);
-color: #fff;
-}
-.subtitle{
-margin:10px 0 0;
-color:var(--muted);
-font-size: clamp(14px, 1.8vw, 18px);
-font-weight: 700;
-}
+    .card{
+      border:var(--border);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(13,16,32,.75), rgba(11,13,24,.65));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .card-h{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.07);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      background: rgba(255,255,255,.03);
+    }
+    .card .card-h h2{
+      margin:0;
+      font-size:16px;
+      font-weight:900;
+      color:#eef1ff;
+    }
+    .card .card-b{padding:14px 16px;}
 
-.badge-row{
-display:flex; flex-wrap:wrap; gap:10px;
-margin-top:14px;
-}
-.badge{
-padding:6px 12px;
-border-radius:999px;
-border:1px solid rgba(255,255,255,.10);
-background: rgba(255,255,255,.04);
-color:#dfe5ff;
-font-size:13px;
-backdrop-filter: blur(8px);
-}
+    .row{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+    .small{font-size:12px; color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;}
+    .hr{height:1px; background: rgba(255,255,255,.08); margin:12px 0;}
 
-.grid{
-display:grid;
-grid-template-columns: 1fr;
-gap:14px;
-margin-top:16px;
-}
-@media (min-width: 960px){
-.grid{grid-template-columns: 1.15fr .85fr;}
-}
+    textarea, input[type="text"], input[type="password"]{
+      width:100%;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.45);
+      color: var(--text);
+      outline:none;
+      font-family: inherit;
+    }
+    textarea{min-height:120px; resize:vertical}
 
-.card{
-border:var(--border);
-border-radius:var(--radius);
-background: linear-gradient(180deg, rgba(13,16,32,.75), rgba(11,13,24,.65));
-box-shadow: var(--shadow);
-overflow:hidden;
-}
-.card .card-h{
-padding:14px 16px;
-border-bottom:1px solid rgba(255,255,255,.07);
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:12px;
-background: rgba(255,255,255,.02);
-}
-.card .card-h h2{
-margin:0;
-font-size:16px;
-font-weight:800;
-color:#eef1ff;
-}
-.card .card-b{padding:14px 16px;}
+    .btn{
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      cursor:pointer;
+      font-weight:900;
+      font-family: inherit;
+      transition: all .15s ease;
+      user-select:none;
+      text-align:center;
+    }
+    .btn:hover{background: rgba(255,255,255,.12);}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(77,124,255,.55), rgba(32,227,178,.35));
+      border-color: rgba(77,124,255,.65);
+    }
+    .btn.danger{
+      background: linear-gradient(135deg, rgba(255,23,68,.4), rgba(255,77,109,.25));
+      border-color: rgba(255,23,68,.70);
+    }
 
-.row{
-display:flex; flex-wrap:wrap; gap:10px; align-items:center;
-}
+    details.accordion{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      background: rgba(0,0,0,.22);
+      margin:10px 0;
+      overflow:hidden;
+    }
+    details.accordion summary{
+      list-style:none;
+      cursor:pointer;
+      padding:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-weight:900;
+    }
+    details.accordion summary::-webkit-details-marker{display:none}
+    .acc-left{display:flex; align-items:center; gap:10px;}
+    .acc-chip{
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color:#dbe3ff;
+    }
+    .acc-icon{
+      width:28px; height:28px;
+      border-radius:10px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.06);
+    }
+    details.accordion .acc-body{
+      padding:14px;
+      border-top:1px solid rgba(255,255,255,.07);
+    }
 
-textarea, input, select{
-width:100%;
-padding:12px 12px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,.10);
-background: rgba(0,0,0,.35);
-color: var(--text);
-outline:none;
-font-family: inherit;
-}
-textarea{min-height:130px; resize:vertical}
+    /* Hover Neon Red + Vibration */
+    @keyframes vibrate {
+      0% { transform: translate(0); }
+      25% { transform: translate(-1.5px, 1.5px); }
+      50% { transform: translate(1.5px, -1.5px); }
+      75% { transform: translate(-1.5px, -1.5px); }
+      100% { transform: translate(0); }
+    }
+    .fx:hover{
+      border-color: #ff1744 !important;
+      box-shadow: 0 0 14px rgba(255,23,68,.6), inset 0 0 8px rgba(255,23,68,.3) !important;
+      animation: vibrate .12s linear infinite;
+    }
 
-.btn{
-padding:10px 14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,.12);
-background: rgba(255,255,255,.06);
-color:var(--text);
-cursor:pointer;
-font-weight:700;
-font-family: inherit;
-transition: transform .15s ease, border-color .15s ease, background .15s ease;
-user-select:none;
-white-space:nowrap;
-text-align: center;
-}
-.btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.20); background: rgba(255,255,255,.08);}
-.btn.primary{
-background: linear-gradient(135deg, rgba(77,124,255,.45), rgba(32,227,178,.25));
-border-color: rgba(77,124,255,.55);
-}
-.btn.danger{
-background: linear-gradient(135deg, rgba(255,23,68,.35), rgba(255,77,109,.20));
-border-color: rgba(255,23,68,.60);
-}
+    .list{display:flex; flex-direction:column; gap:7px;}
+    .list-btn{
+      text-align:right;
+      width:100%;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 9px 12px;
+      border-radius: 10px;
+      color: #dfe5ff;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 900;
+      transition: all .15s ease;
+    }
 
-.small{font-size:12px; color:var(--muted)}
-.mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .result{
+      white-space:pre-wrap;
+      background: rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding:14px;
+      min-height:160px;
+      font-size: 14px;
+      line-height: 1.9;
+    }
 
-details.accordion{
-border:1px solid rgba(255,255,255,.10);
-border-radius: var(--radius2);
-background: rgba(0,0,0,.22);
-margin:10px 0;
-overflow:hidden;
-position:relative;
-transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
-}
-details.accordion summary{
-list-style:none;
-cursor:pointer;
-padding:12px 12px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-font-weight:900;
-user-select:none;
-}
-details.accordion summary::-webkit-details-marker{display:none}
-.acc-left{
-display:flex; align-items:center; gap:10px;
-min-width:0;
-}
-.acc-title{
-font-size:14px;
-white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.acc-chip{
-font-size:11px;
-padding:4px 8px;
-border-radius:999px;
-border:1px solid rgba(255,255,255,.10);
-background: rgba(255,255,255,.05);
-color:#dbe3ff;
-}
-.acc-icon{
-width:28px; height:28px;
-border-radius:10px;
-display:grid; place-items:center;
-background: rgba(255,255,255,.06);
-border: 1px solid rgba(255,255,255,.08);
-flex:0 0 auto;
-}
-
-details.accordion .acc-body{
-padding:14px;
-border-top:1px solid rgba(255,255,255,.07);
-color:#dfe5ff;
-}
-
-/* Hover neon red + vibration */
-@keyframes vibrate {
-0% { transform: translate(0); }
-20% { transform: translate(-1.5px, 1.5px); }
-40% { transform: translate(-1.5px, -1.5px); }
-60% { transform: translate(1.5px, 1.5px); }
-80% { transform: translate(1.5px, -1.5px); }
-100% { transform: translate(0); }
-}
-details.accordion:hover,
-.fxbtn:hover{
-border-color: #ff1744 !important;
-box-shadow: 0 0 15px rgba(255,23,68,.6), inset 0 0 10px rgba(255,23,68,.3) !important;
-animation: vibrate .12s linear infinite;
-}
-
-.list{
-margin:0; padding:0; list-style:none;
-display: flex; flex-direction: column; gap: 6px;
-}
-.list-btn{
-text-align: right;
-width: 100%;
-background: rgba(255,255,255,.03);
-border: 1px solid rgba(255,255,255,.06);
-padding: 8px 12px;
-border-radius: 8px;
-color: #dfe5ff;
-cursor: pointer;
-font-size: 13px;
-transition: all .15s;
-}
-.list-btn:hover{
-background: rgba(255,23,68,.15);
-border-color: #ff1744;
-color: #fff;
-}
-
-.hr{
-height:1px;
-background: rgba(255,255,255,.08);
-margin:12px 0;
-}
-
-.result{
-white-space:pre-wrap;
-background: rgba(0,0,0,.35);
-border:1px solid rgba(255,255,255,.10);
-border-radius: 14px;
-padding:14px;
-min-height:140px;
-font-size: 14px;
-line-height: 1.9;
-}
-
-.pillbar{
-display:flex; flex-wrap:wrap; gap:8px;
-margin-top:10px;
-}
-.pill{
-border:1px solid rgba(255,255,255,.10);
-background: rgba(255,255,255,.04);
-padding:7px 12px;
-border-radius:999px;
-cursor:pointer;
-font-weight:800;
-font-size:12px;
-transition: border-color .15s ease, transform .15s ease, background .15s ease;
-user-select:none;
-}
-.pill:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.06);}
-.pill.active{
-border-color: rgba(77,124,255,.60);
-background: rgba(77,124,255,.25);
-box-shadow: 0 0 10px rgba(77,124,255,.4);
-}
-
-.footer{
-margin-top:20px;
-color:var(--muted);
-font-size:13px;
-padding:14px 6px 0;
-text-align:center;
-}
-.warn{
-border:1px solid rgba(255,23,68,.40);
-background: rgba(255,23,68,.12);
-padding:12px 14px;
-border-radius: 14px;
-color:#ffe4ea;
-}
+    .footer{
+      margin-top:20px;
+      color:var(--muted);
+      font-size:13px;
+      padding:14px 6px 0;
+      text-align:center;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-<header class="hero">
-<div class="hero-inner">
-<h1 class="title">پلتفرم هوش مصنوعی من<br><span class="mono">Platform My-AI</span></h1>
+    <header class="hero fx" id="heroFX">
+      <div class="hero-inner">
+        <h1 class="title">پلتفرم هوش مصنوعی من<span class="en mono">Platform My-AI</span></h1>
 
-<p class="subtitle">
-My-AI<br>
-شرکت پردرآمد تهرانیها<br>
-با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)
-</p>
+        <div class="subtitle">
+          My-AI<br>
+          شرکت پردرآمد تهرانیها<br>
+          با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)
+          <br><br>
+          و همچنین مفتخر به تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و مهندسی صنایع<br>
+          صحت موضوع را از وزارت علوم جویا شوید!<br>
+          این پلتفرم "هم در شرایط عادی" و "هم در شرایط مجازی" به پیشرفت علمی فرزندان ایران زمین کمک می‌کند!
+          <br><br>
+          در این پلتفرم هوش مصنوعی با موشکافی درسهایتان بشدت در یادگیری شما کوشا هست تا شما بطور کامل مباحث کنکوری، تکلیف و امتحان را یاد نگرفته اید دست بردار نیست، برای مدرس ارسال نمیکند!
+          <br><br>
+          پلتفرم انجام دهنده مباحث کنکوری،تکلیف و امتحان مجازی توی خونه توسط هوش مصنوعی!<br>
+          پلتفرم کلاس درس مدرسه ،دانشگاه و موسسه کنکوری مجازی توی خونه توسط هوش مصنوعی!
+          <br><br>
+          پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی!
+          <br><br>
+          پلتفرم دانشگاه مجازی توسط هوش مصنوعی!
+          <br><br>
+          یادگیری و ارزیابی مجازی!
+          <br><br>
+          پلتفرم تکلیف کتبی مجازی توسط هوش مصنوعی!
+          <br><br>
+          پلتفرم تکلیف شفاهی مجازی توسط هوش مصنوعی!
+          <br><br>
+          پلتفرم امتحان کتبی مجازی توسط هوش مصنوعی!
+          <br><br>
+          پلتفرم امتحان شفاهی مجازی توسط هوش مصنوعی!
+          <br><br>
+          مزیت خرید بسته ها:اگر مدتی از بسته خود استفاده نکنید،اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!
+        </div>
+      </div>
+    </header>
 
-<div class="badge-row">
-<span class="badge">و همچنین مفتخر به تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و مهندسی صنایع</span>
-<span class="badge">صحت موضوع را از وزارت علوم جویا شوید!</span>
-</div>
+    <div class="grid">
+      <!-- بخش اصلی و چت -->
+      <section class="card">
+        <div class="card-h">
+          <h2>ورودی پرسش و وضعیت اتصال</h2>
+          <div class="small mono" id="connStatus" style="color:var(--green)">وضعیت: در انتظار ورودی</div>
+        </div>
 
-<div class="hr"></div>
+        <div class="card-b">
+          <!-- تنظیمات کلید GapGPT -->
+          <details class="accordion fx" open>
+            <summary>
+              <div class="acc-left">
+                <div class="acc-icon">⚡</div>
+                <div class="acc-title">تنظیمات اتصال به GapGPT</div>
+                <span class="acc-chip">اتصال مستقیم</span>
+              </div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body">
+              <div class="small" style="margin-bottom:6px;">کلید API گپ جی پی تی (همچنین می‌توانید داخل کد در متغیر GAPGPT_API_KEY ذخیره کنید):</div>
+              <input type="password" id="apiKeyInput" placeholder="کلید GapGPT خود را اینجا وارد کنید..." class="fx" />
+              <div class="row" style="margin-top:8px;">
+                <button class="btn fx" id="saveKeyBtn">ذخیره کلید</button>
+                <button class="btn danger fx" id="clearKeyBtn">حذف کلید</button>
+              </div>
+            </div>
+          </details>
 
-<div style="font-size:13.5px; color:#dbe1ff;">
-این پلتفرم "هم در شرایط عادی" و "هم در شرایط مجازی" به پیشرفت علمی فرزندان ایران زمین کمک می‌کند!
-<br><br>
-در این پلتفرم هوش مصنوعی با موشکافی درسهایتان بشدت در یادگیری شما کوشا هست تا شما بطور کامل مباحث کنکوری، تکلیف و امتحان را یاد نگرفته اید دست بردار نیست، برای مدرس ارسال نمیکند!
-<br><br>
-پلتفرم انجام دهنده مباحث کنکوری،تکلیف و امتحان مجازی توی خونه توسط هوش مصنوعی!
-<br>
-پلتفرم کلاس درس مدرسه ،دانشگاه و موسسه کنکوری مجازی توی خونه توسط هوش مصنوعی!
-<br><br>
-پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی!
-<br>
-پلتفرم دانشگاه مجازی توسط هوش مصنوعی!
-<br><br>
-یادگیری و ارزیابی مجازی!
-<br><br>
-پلتفرم تکلیف کتبی مجازی توسط هوش مصنوعی!
-<br>
-پلتفرم تکلیف شفاهی مجازی توسط هوش مصنوعی!
-<br><br>
-پلتفرم امتحان کتبی مجازی توسط هوش مصنوعی!
-<br>
-پلتفرم امتحان شفاهی مجازی توسط هوش مصنوعی!
-<br><br>
-<strong>مزیت خرید بسته ها:</strong> اگر مدتی از بسته خود استفاده نکنید،اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!
-</div>
-</div>
-</header>
+          <!-- ورودی پرسش -->
+          <details class="accordion fx" open>
+            <summary>
+              <div class="acc-left">
+                <div class="acc-icon">📝</div>
+                <div class="acc-title">ورودی متن و سوال</div>
+                <span class="acc-chip">پرسش</span>
+              </div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body">
+              <textarea id="question" placeholder="سوال، مسئله یا متن مورد نظرتان را اینجا بنویسید..."></textarea>
 
-<div class="grid">
-<!-- سمت چپ: ورودی‌ها و نتایج -->
-<section class="card">
-<div class="card-h">
-<h2>ورودی پرسش و اتصال هوش مصنوعی</h2>
-<div class="small mono" id="connStatus">وضعیت: آماده</div>
-</div>
-<div class="card-b">
+              <div class="hr"></div>
 
-<!-- بخش تنظیمات API Key گپ‌جی‌پی‌تی -->
-<details class="accordion" open>
-<summary>
-<div class="acc-left">
-<div class="acc-icon">🔑</div>
-<div class="acc-title">کلید اختصاصی GapGPT / OpenAI</div>
-<span class="acc-chip">تنظیمات اتصال</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<label class="small">کلید گپ جی پی تی (GapGPT API Key):</label>
-<div class="row" style="margin-top:6px;">
-<input id="apiKeyInput" type="password" placeholder="کلید API خود را اینجا وارد کنید (sk-...)" />
-<button class="btn primary fxbtn" id="saveKeyBtn">ذخیره کلید</button>
-<button class="btn danger fxbtn" id="clearKeyBtn">حذف کلید</button>
-</div>
-<div class="small" style="margin-top:6px; color:#a2b2d6;">
-کلید در مرورگر شما ذخیره می‌شود تا در دفعات بعدی نیز به گپ‌جی‌پی‌تی متصل بمانید.
-</div>
-</div>
-</details>
+              <div class="row">
+                <div style="flex:1; min-width:200px;">
+                  <div class="small">انتخاب عکس از گالری (برای تحلیل تست یا فرمول)</div>
+                  <input id="imgInput" type="file" accept="image/*" class="fx" style="margin-top:4px;" />
+                </div>
+                <button class="btn danger fx" id="removeImgBtn">حذف عکس</button>
+              </div>
 
-<!-- بخش ورودی پرسش -->
-<details class="accordion" open>
-<summary>
-<div class="acc-left">
-<div class="acc-icon">📝</div>
-<div class="acc-title">ورودی پرسش</div>
-<span class="acc-chip">ورودی</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<textarea id="question" placeholder="متن یا سوال خود را اینجا وارد کنید..."></textarea>
+              <div id="imgPreviewWrap" style="margin-top:10px; display:none;">
+                <img id="imgPreview" alt="preview" style="max-height:160px; border-radius:10px; border:1px solid rgba(255,255,255,.2);" />
+              </div>
 
-<div class="hr"></div>
+              <div class="hr"></div>
 
-<div class="row">
-<div style="flex:1;">
-<label class="small">انتخاب عکس از گالری</label>
-<input id="imgInput" type="file" accept="image/*" />
-</div>
-<div style="align-self: flex-end;">
-<button class="btn danger fxbtn" id="removeImgBtn">حذف عکس</button>
-</div>
-</div>
+              <div class="row">
+                <button class="btn primary fx" id="askBtn" style="flex:1;">دریافت پاسخ هوشمند از GapGPT</button>
+                <button class="btn fx" id="copyBtn">کپی کردن پاسخ</button>
+                <button class="btn danger fx" id="trashBtn">سطل آشغال (پاکسازی)</button>
+              </div>
 
-<div id="imgPreviewWrap" style="margin-top:10px; display:none;">
-<div class="small">پیش‌نمایش تصویر:</div>
-<img id="imgPreview" alt="preview" style="max-height:180px; border-radius:12px; border:1px solid rgba(255,255,255,.15); margin-top:4px;" />
-</div>
+              <div class="hr"></div>
 
-<div class="hr"></div>
+              <div class="row">
+                <button class="btn fx" id="speakBtn">پاسخ با صدای من</button>
+              </div>
+            </div>
+          </details>
 
-<div class="row">
-<button class="btn primary fxbtn" id="askBtn" style="flex:1;">دریافت پاسخ هوشمند</button>
-<button class="btn fxbtn" id="copyBtn">کپی کردن پاسخ</button>
-<button class="btn danger fxbtn" id="trashBtn">سطل آشغال (پاک کردن سوال/پاسخ قبلی)</button>
-</div>
+          <!-- نتایج -->
+          <details class="accordion fx" open>
+            <summary>
+              <div class="acc-left">
+                <div class="acc-icon">📌</div>
+                <div class="acc-title">نتایج و پاسخ GapGPT</div>
+                <span class="acc-chip">پاسخ</span>
+              </div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body">
+              <div class="result" id="result">نتایج پس از ارسال در اینجا نمایش داده می‌شود...</div>
+            </div>
+          </details>
+        </div>
+      </section>
 
-<div class="hr"></div>
+      <!-- سایدبار ابزارها و بخش‌ها -->
+      <aside class="card">
+        <div class="card-h">
+          <h2>ابزارهای تخصصی</h2>
+          <div class="small">دسته‌بندی موضوعی</div>
+        </div>
+        <div class="card-b">
 
-<div class="row">
-<button class="btn fxbtn" id="speakBtn">پاسخ با صدای من</button>
-<button class="btn fxbtn" id="saveAudioBtn">ذخیره پاسخ صوتی</button>
-</div>
-</div>
-</details>
+          <!-- پاسخ سوال -->
+          <details class="accordion fx">
+            <summary>
+              <div class="acc-left"><div class="acc-icon">💡</div><div class="acc-title">پاسخ سوال</div><span class="acc-chip">ابزار</span></div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body">
+              <div class="list">
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح ابتدایی">پاسخ سوال در سطح ابتدایی</button>
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح متوسطه اول">پاسخ سوال در سطح متوسطه اول</button>
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح متوسطه دوم">پاسخ سوال در سطح متوسطه دوم</button>
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح تیزهوشان">پاسخ سوال در سطح تیزهوشان</button>
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح المپیادی">پاسخ سوال در سطح المپیادی</button>
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح کنکوری">پاسخ سوال در سطح کنکوری</button>
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح لیسانس">پاسخ سوال در سطح لیسانس</button>
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح فوق لیسانس">پاسخ سوال در سطح فوق لیسانس</button>
+                <button class="list-btn fx" data-tool="پاسخ سوال در سطح دکتری">پاسخ سوال در سطح دکتری</button>
+              </div>
+            </div>
+          </details>
 
-<!-- بخش نتایج -->
-<details class="accordion" open>
-<summary>
-<div class="acc-left">
-<div class="acc-icon">📊</div>
-<div class="acc-title">نتایج</div>
-<span class="acc-chip">خروجی هوش مصنوعی</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="result" id="result">نتایج</div>
-</div>
-</details>
+          <!-- آنالیز سوال -->
+          <details class="accordion fx">
+            <summary>
+              <div class="acc-left"><div class="acc-icon">🔍</div><div class="acc-title">آنالیز سوال</div><span class="acc-chip">ابزار</span></div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body">
+              <div class="list">
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح ابتدایی">آنالیز سوال در سطح ابتدایی</button>
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح متوسطه اول">آنالیز سوال در سطح متوسطه اول</button>
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح متوسطه دوم">آنالیز سوال در سطح متوسطه دوم</button>
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح تیزهوشان">آنالیز سوال در سطح تیزهوشان</button>
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح المپیادی">آنالیز سوال در سطح المپیادی</button>
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح کنکوری">آنالیز سوال در سطح کنکوری</button>
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح لیسانس">آنالیز سوال در سطح لیسانس</button>
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح فوق لیسانس">آنالیز سوال در سطح فوق لیسانس</button>
+                <button class="list-btn fx" data-tool="آنالیز سوال در سطح دکتری">آنالیز سوال در سطح دکتری</button>
+              </div>
+            </div>
+          </details>
 
-</div>
-</section>
+          <!-- آنالیز تله درون سوال -->
+          <details class="accordion fx">
+            <summary>
+              <div class="acc-left"><div class="acc-icon">⚠️</div><div class="acc-title">آنالیز تله درون سوال</div><span class="acc-chip">ابزار</span></div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body">
+              <div class="list">
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح ابتدایی">آنالیز تله درون سوال در سطح ابتدایی</button>
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح متوسطه اول">آنالیز تله درون سوال در سطح متوسطه اول</button>
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح متوسطه دوم">آنالیز تله درون سوال در سطح متوسطه دوم</button>
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح تیزهوشان">آنالیز تله درون سوال در سطح تیزهوشان</button>
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح المپیادی">آنالیز تله درون سوال در سطح المپیادی</button>
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح کنکوری">آنالیز تله درون سوال در سطح کنکوری</button>
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح لیسانس">آنالیز تله درون سوال در سطح لیسانس</button>
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح فوق لیسانس">آنالیز تله درون سوال در سطح فوق لیسانس</button>
+                <button class="list-btn fx" data-tool="آنالیز تله درون سوال در سطح دکتری">آنالیز تله درون سوال در سطح دکتری</button>
+              </div>
+            </div>
+          </details>
 
-<!-- سمت راست: ابزارهای هوشمند تفکیک‌شده -->
-<aside class="card">
-<div class="card-h">
-<h2>ابزارهای هوشمند</h2>
-<div class="small">دسته‌بندی موضوعی</div>
-</div>
-<div class="card-b">
+          <!-- چهار جوابی کردن -->
+          <details class="accordion fx">
+            <summary>
+              <div class="acc-left"><div class="acc-icon">🔢</div><div class="acc-title">چهار جوابی کردن</div><span class="acc-chip">ابزار</span></div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body">
+              <div class="list">
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح ابتدایی">چهار جوابی کردن در سطح ابتدایی</button>
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح متوسطه اول">چهار جوابی کردن در سطح متوسطه اول</button>
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح متوسطه دوم">چهار جوابی کردن در سطح متوسطه دوم</button>
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح تیزهوشان">چهار جوابی کردن در سطح تیزهوشان</button>
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح المپیادی">چهار جوابی کردن در سطح المپیادی</button>
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح کنکوری">چهار جوابی کردن در سطح کنکوری</button>
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح لیسانس">چهار جوابی کردن در سطح لیسانس</button>
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح فوق لیسانس">چهار جوابی کردن در سطح فوق لیسانس</button>
+                <button class="list-btn fx" data-tool="چهار جوابی کردن در سطح دکتری">چهار جوابی کردن در سطح دکتری</button>
+              </div>
+            </div>
+          </details>
 
-<!-- انتخاب سطح -->
-<details class="accordion" open>
-<summary>
-<div class="acc-left">
-<div class="acc-icon">🎯</div>
-<div class="acc-title">سطح تحصیلی جاری</div>
-<span class="acc-chip" id="currentLevelBadge">ابتدایی</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="pillbar" id="levelBar">
-<div class="pill active" data-level="ابتدایی">ابتدایی</div>
-<div class="pill" data-level="متوسطه اول">متوسطه اول</div>
-<div class="pill" data-level="متوسطه دوم">متوسطه دوم</div>
-<div class="pill" data-level="تیزهوشان">تیزهوشان</div>
-<div class="pill" data-level="المپیادی">المپیادی</div>
-<div class="pill" data-level="کنکوری">کنکوری</div>
-<div class="pill" data-level="لیسانس">لیسانس</div>
-<div class="pill" data-level="فوق لیسانس">فوق لیسانس</div>
-<div class="pill" data-level="دکتری">دکتری</div>
-</div>
-</div>
-</details>
+          <!-- بسته‌های اعتباری -->
+          <details class="accordion fx">
+            <summary>
+              <div class="acc-left"><div class="acc-icon">💎</div><div class="acc-title">بسته‌های اعتباری My-AI</div><span class="acc-chip">مالی</span></div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body" style="line-height:1.9; font-weight:800;">
+              مزیت خرید بسته ها:<br>
+              اگر مدتی از بسته خود استفاده نکنید، اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!
+              <div class="hr"></div>
+              لیست بسته های اعتباری:<br>
+              ۵ میلیون تومان | ۱۰ میلیون تومان | ۲۰ میلیون تومان | ۵۰ میلیون تومان | ۱۰۰ میلیون تومان | ۱۵۰ میلیون تومان | ۲۰۰ میلیون تومان | ۲۵۰ میلیون تومان
+            </div>
+          </details>
 
-<!-- پاسخ سوال -->
-<details class="accordion">
-<summary>
-<div class="acc-left">
-<div class="acc-icon">💡</div>
-<div class="acc-title">پاسخ سوال</div>
-<span class="acc-chip">ابزار</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="list">
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح ابتدایی')">پاسخ سوال در سطح ابتدایی</button>
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح متوسطه اول')">پاسخ سوال در سطح متوسطه اول</button>
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح متوسطه دوم')">پاسخ سوال در سطح متوسطه دوم</button>
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح تیزهوشان')">پاسخ سوال در سطح تیزهوشان</button>
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح المپیادی')">پاسخ سوال در سطح المپیادی</button>
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح کنکوری')">پاسخ سوال در سطح کنکوری</button>
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح لیسانس')">پاسخ سوال در سطح لیسانس</button>
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح فوق لیسانس')">پاسخ سوال در سطح فوق لیسانس</button>
-<button class="list-btn" onclick="executeTool('پاسخ سوال در سطح دکتری')">پاسخ سوال در سطح دکتری</button>
-</div>
-</div>
-</details>
+          <!-- پرداخت آفلاین -->
+          <details class="accordion fx" open>
+            <summary>
+              <div class="acc-left"><div class="acc-icon">💳</div><div class="acc-title">روش پرداخت آفلاین</div><span class="acc-chip">واریز</span></div>
+              <div class="small">باز/بسته</div>
+            </summary>
+            <div class="acc-body" style="font-weight:900; line-height:1.9;">
+              بدلیل تقلب و سوء استفاده در پرداختهای الکترونیکی ؛از پرداخت الکترونیکی معذوریم! از اینرو تنها روش خرید؛ آفلاین و ارسال رسید به ایمیل است !
+              <br><br>
+              شماره کارت:<br>
+              <span class="mono" id="cardNumber">6037991555549678</span>
+              <button class="btn fx" id="copyCardBtn" style="margin-top:6px;">کپی کردن شماره کارت</button>
 
-<!-- آنالیز سوال -->
-<details class="accordion">
-<summary>
-<div class="acc-left">
-<div class="acc-icon">🔍</div>
-<div class="acc-title">آنالیز سوال</div>
-<span class="acc-chip">ابزار</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="list">
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح ابتدایی')">آنالیز سوال در سطح ابتدایی</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح متوسطه اول')">آنالیز سوال در سطح متوسطه اول</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح متوسطه دوم')">آنالیز سوال در سطح متوسطه دوم</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح تیزهوشان')">آنالیز سوال در سطح تیزهوشان</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح المپیادی')">آنالیز سوال در سطح المپیادی</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح کنکوری')">آنالیز سوال در سطح کنکوری</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح لیسانس')">آنالیز سوال در سطح لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح فوق لیسانس')">آنالیز سوال در سطح فوق لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال در سطح دکتری')">آنالیز سوال در سطح دکتری</button>
-</div>
-</div>
-</details>
+              <div class="hr"></div>
+              ایمیل پشتیبانی و ارسال فیش:<br>
+              <span class="mono" id="supportEmail">Ai.Algorithms.Ballistics@gmail.com</span>
+              <button class="btn fx" id="copyEmailBtn" style="margin-top:6px;">کپی کردن ایمیل</button>
 
-<!-- آنالیز تله درون سوال -->
-<details class="accordion">
-<summary>
-<div class="acc-left">
-<div class="acc-icon">⚠️</div>
-<div class="acc-title">آنالیز تله درون سوال</div>
-<span class="acc-chip">ابزار</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="list">
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح ابتدایی')">آنالیز تله درون سوال در سطح ابتدایی</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح متوسطه اول')">آنالیز تله درون سوال در سطح متوسطه اول</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح متوسطه دوم')">آنالیز تله درون سوال در سطح متوسطه دوم</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح تیزهوشان')">آنالیز تله درون سوال در سطح تیزهوشان</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح المپیادی')">آنالیز تله درون سوال در سطح المپیادی</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح کنکوری')">آنالیز تله درون سوال در سطح کنکوری</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح لیسانس')">آنالیز تله درون سوال در سطح لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح فوق لیسانس')">آنالیز تله درون سوال در سطح فوق لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح دکتری')">آنالیز تله درون سوال در سطح دکتری</button>
-</div>
-</div>
-</details>
+              <div class="hr"></div>
+              اخطار مالکیت فکری! تمامی حقوق این پلتفرم متعلق به حسین لعلیان میباشد؛ لذا هرگونه کپی برداری پیگرد قانونی دارد!
+            </div>
+          </details>
 
-<!-- آنالیز پاسخ -->
-<details class="accordion">
-<summary>
-<div class="acc-left">
-<div class="acc-icon">📊</div>
-<div class="acc-title">آنالیز پاسخ</div>
-<span class="acc-chip">ابزار</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="list">
-<button class="list-btn" onclick="executeTool('آنالیز پاسخ در سطح ابتدایی')">آنالیز پاسخ در سطح ابتدایی</button>
-<button class="list-btn" onclick="executeTool('آنالیز پاسخ در سطح متوسطه اول')">آنالیز پاسخ در سطح متوسطه اول</button>
-<button class="list-btn" onclick="executeTool(' کنکوری')">آنالیز تله درون سوال در سطح کنکوری</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح لیسانس')">آنالیز تله درون سوال در سطح لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح فوق لیسانس')">آنالیز تله درون سوال در سطح فوق لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز تله درون سوال در سطح دکتری')">آنالیز تله درون سوال در سطح دکتری</button>
-</div>
-</div>
-</details>
+        </div>
+      </aside>
+    </div>
 
-<!-- آنالیز پاسخ -->
-<details class="accordion">
-<summary>
-<div class="acc-left">
-<div class="acc-icon">📊</div>
-<div class="acc-title">آنالیز پاسخ</div>
-<span class="acc-chip">ابزار</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="list">
-<button class="list-btn" onclick="executeTool('آنالیز پاسخ در سطح ابتدایی')">آنالیز پاسخ در سطح ابتدایی</button>
-<button class="list-btn" onclick="executeTool('آنالیز پاسخ در سطح متوسطه اول')">آنالیز پاسخ در سطح متوسطه اول</button>
-<button class="list-btn" onclick="executeTool('آنالیز پاسخ در سطح متوسطه دوم')">آنالیز پاسخ در سطح متوسطه دوم</button>
-<button class="list-btn" onclick="executeTool('آنالیز پاسخ در سطح تیزهوشان')">آنالیز پاسخ در سطح تیزهوشان</button>
-<button class="list-btn" onclick="executeTool('آنالیز پاسخ در سطح المپیادی')">آنالیز پاسخ در سطح المپیادی</button>
-<('آنالیز سوال درون عکس در سطح متوسطه دوم')">آنالیز سوال درون عکس در سطح متوسطه دوم</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال درون عکس در سطح تیزهوشان')">آنالیز سوال درون عکس در سطح تیزهوشان</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال درون عکس در سطح المپیادی')">آنالیز سوال درون عکس در سطح المپیادی</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال درون عکس در سطح کنکوری')">آنالیز سوال درون عکس در سطح کنکوری</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال درون عکس در سطح لیسانس')">آنالیز سوال درون عکس در سطح لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال درون عکس در سطح فوق لیسانس')">آنالیز سوال درون عکس در سطح فوق لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال درون عکس در سطح دکتری')">آنالیز سوال درون عکس در سطح دکتری</button>
-</div>
-</div>
-</details>
+    <div class="footer fx">
+      My-AI | Platform My-AI
+    </div>
+  </div>
 
-<!-- آنالیز عکس -->
-<details class="accordion">
-<summary>
-<div class="acc-left">
-<div class="acc-icon">🖼️</div>
-<div class="acc-title">آنالیز عکس</div>
-<span class="acc-chip">ابزار</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="list">
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح ابتدایی')">آنالیز عکس در سطح ابتدایی</button>
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح متوسطه اول')">آنالیز عکس در سطح متوسطه اول</button>
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح متوسطه دوم')">آنالیز عکس در سطح متوسطه دوم</button>
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح تیزهوشان')">آنالیز عکس در سطح تیزهوشان</button>
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح المپیادی')">آنالیز عکس در سطح المپیادی</button>
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح کنکوری')">آنالیز عکس در سطح کنکوری</button>
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح لیسانس')">آنالیز عکس در سطح لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح فوق لیسانس')">آنالیز عکس در سطح فوق لیسانس</button>
-<button class="list-btn" onclick="executeTool('آنالیز عکس در سطح دکتری')">آنالیز عکس در سطح دکتری</button>
-</div>
-</div>
-</details>
+  <script>
+    // ==========================================
+    // ۱. متغیر کلید اختصاصی GapGPT در کد
+    // ==========================================
+    // اگر می‌خواهی مستقیماً در سورس کد کلیدت باشد، آن را داخل کوتیشن بنویس:
+    const HARDCODED_GAPGPT_KEY = "GAPGPTMASKTOKEN1pv7acml0liX0X";
 
-<!-- چهار جوابی کردن -->
-<details class="accordion">
-<summary>
-<div class="acc-left">
-<div class="acc-icon">🔢</div>
-<div class="acc-title">چهار جوابی کردن</div>
-<span class="acc-chip">ابزار</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="list">
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح ابتدایی')">چهار جوابی کردن در سطح ابتدایی</button>
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح متوسطه اول')">چهار جوابی کردن در سطح متوسطه اول</button>
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح متوسطه دوم')">چهار جوابی کردن در سطح متوسطه دوم</button>
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح تیزهوشان')">چهار جوابی کردن در سطح تیزهوشان</button>
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح المپیادی')">چهار جوابی کردن در سطح المپیادی</button>
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح کنکوری')">چهار جوابی کردن در سطح کنکوری</button>
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح لیسانس')">چهار جوابی کردن در سطح لیسانس</button>
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح فوق لیسانس')">چهار جوابی کردن در سطح فوق لیسانس</button>
-<button class="list-btn" onclick="executeTool('چهار جوابی کردن در سطح دکتری')">چهار جوابی کردن در سطح دکتری</button>
-</div>
-</div>
-</details>
+    // آدرس اندپوینت سازگار GapGPT
+    const GAPGPT_ENDPOINT = "https://api.gapgpt.com/v1/chat/completions";
+    const DEFAULT_MODEL = "gpt-4o-mini";
 
-<!-- آنالیز سوال چهار جوابی -->
-<details class="accordion">
-<summary>
-<div class="acc-left">
-<div class="acc-icon">📝</div>
-<div class="acc-title">آنالیز سوال چهار جوابی</div>
-<span class="acc-chip">ابزار</span>
-</div>
-<div class="small">باز/بسته</div>
-</summary>
-<div class="acc-body">
-<div class="list">
-<button class="list-btn" onclick="executeTool('آنالیز سوال چهار جوابی در سطح ابتدایی')">آنالیز سوال چهار جوابی در سطح ابتدایی</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال چهار جوابی در سطح متوسطه اول')">آنالیز سوال چهار جوابی در سطح متوسطه اول</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال چهار جوابی در سطح متوسطه دوم')">آنالیز سوال چهار جوابی در سطح متوسطه دوم</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال چهار جوابی در سطح تیزهوشان')">آنالیز سوال چهار جوابی در سطح تیزهوشان</button>
-<button class="list-btn" onclick="executeTool('آنالیز سوال چهار جوابی در سطح المپیادی')">آنالیز سوال چهار جوابی در سطح المپیادی</but
+    const connStatus = document.getElementById('connStatus');
+    const apiKeyInput = document.getElementById('apiKeyInput');
+
+    // لود اولیه کلید
+    const savedKey = localStorage.getItem('gapgpt_key') || (HARDCODED_GAPGPT_KEY !== "GAPGPTMASKTOKEN1pv7acml0liX1X" ? HARDCODED_GAPGPT_KEY : "");
+    if(savedKey){
+      apiKeyInput.value = savedKey;
+      connStatus.textContent = "وضعیت: کلید GapGPT فعال است";
+      connStatus.style.color = "#20e3b2";
+    }
+
+    document.getElementById('saveKeyBtn').addEventListener('click', ()=>{
+      const val = apiKeyInput.value.trim();
+      if(!val){ alert("لطفاً کلید را وارد کنید."); return; }
+      localStorage.setItem('gapgpt_key', val);
+      connStatus.textContent = "وضعیت: کلید ذخیره و آماده شد";
+      connStatus.style.color = "#20e3b2";
+      alert("کلید گپ جی پی تی با موفقیت ذخیره شد.");
+    });
+
+    document.getElementById('clearKeyBtn').addEventListener('click', ()=>{
+      localStorage.removeItem('gapgpt_key');
+      apiKeyInput.value = "";
+      connStatus.textContent = "وضعیت: کلید حذف شد";
+      connStatus.style.color = "#ff1744";
+    });
+
+    // ==========================================
+    // ۲. بوق Web Audio API
+    // ==========================================
+    let audioCtx = null;
+    function playBeep(){
+      try{
+        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if(audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.08);
+      }catch(e){}
+    }
+
+    document.querySelectorAll('.fx').forEach(el=>{
+      el.addEventListener('mouseenter', playBeep);
+    });
+
+    // ==========================================
+    // ۳. مدیریت تصویر
+    // ==========================================
+    let base64Image = null;
+    const imgInput = document.getElementById('imgInput');
+    const imgPreview = document.getElementById('imgPreview');
+    const imgPreviewWrap = document.getElementById('imgPreviewWrap');
+
+    imgInput.addEventListener('change', (e)=>{
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev)=>{
+        base64Image = ev.target.result;
+        imgPreview.src = base64Image;
+        imgPreviewWrap.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('removeImgBtn').addEventListener('click', ()=>{
+      base64Image = null;
+      imgInput.value = "";
+      imgPreviewWrap.style.display = 'none';
+      imgPreview.src = "";
+    });
+
+    // ==========================================
+    // ۴. ارتباط مستقیم با API گپ جی پی تی
+    // ==========================================
+    async function sendToGapGPT(toolTitle){
+      const activeKey = apiKeyInput.value.trim() || (HARDCODED_GAPGPT_KEY !== "GAPGPTMASKTOKEN1pv7acml0liX2X" ? HARDCODED_GAPGPT_KEY : "");
+      
+      if(!activeKey){
+        alert("لطفاً ابتدا کلید API گپ جی پی تی خود را وارد کنید.");
+        apiKeyInput.focus();
+        return;
+      }
+
+      const userText = document.getElementById('question').value.trim();
+      if(!userText && !base64Image && !toolTitle){
+        alert("لطفاً متنی بنویسید یا تصویری انتخاب نمایید.");
+        return;
+      }
+
+      const resultBox = document.getElementById('result');
+      resultBox.textContent = "⏳ در حال برقراری ارتباط با GapGPT و دریافت پاسخ، لطفاً شکیبا باشید...";
+      connStatus.textContent = "وضعیت: در حال پردازش پرسش...";
+      connStatus.style.color = "#4d7cff";
+
+      let promptPayload = [];
+      if(toolTitle) promptPayload.push({type: "text", text: `دستور و ابزار انتخابی: ${toolTitle}`});
+      if(userText) promptPayload.push({type: "text", text: userText});
+      if(base64Image) promptPayload.push({type: "image_url", image_url: {url: base64Image}});
+
+      // در صورتی که عکس نباشد، ارسال به صورت متن ساده
+      const finalContent = base64Image ? promptPayload : ((toolTitle ? `[ابزار: ${toolTitle}]\n\n` : '') + userText);
+
+      try{
+        const response = await fetch(GAPGPT_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${activeKey}`
+          },
+          body: JSON.stringify({
+            model: DEFAULT_MODEL,
+            messages: [
+              {
+                role: "system",
+                content: "شما دستیار هوش مصنوعی فوق تخصصی پلتفرم My-AI (مدیریت: حسین لعلیان) هستید. پاسخ‌های دقیق، علمی، گام‌به‌گام و جامع ارائه دهید."
+              },
+              {
+                role: "user",
+                content: finalContent
+              }
+            ],
+            temperature: 0.7
+          })
+        });
+
+        if(!response.ok){
+          const errorData = await response.json().catch(()=>({}));
+          throw new Error(errorData?.error?.message || `خطای سرور HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const reply = data?.choices?.[0]?.message?.content || "پاسخی از مدل دریافت نشد.";
+        resultBox.textContent = reply;
+        connStatus.textContent = "وضعیت: پاسخ با موفقیت دریافت شد";
+        connStatus.style.color = "#20e3b2";
+
+      }catch(err){
+        resultBox.textContent = `❌ بروز خطا در اتصال به GapGPT:\n${err.message}\n\nراهنمایی: مطمئن شوید کلید API را درست وارد کرده‌اید و اعتبارتان در گپ جی پی تی کافی است.`;
+        connStatus.textContent = "وضعیت: خطا در برقراری ارتباط";
+        connStatus.style.color = "#ff1744";
+      }
+    }
+
+    // دکمه‌های فرم
+    document.getElementById('askBtn').addEventListener('click', ()=> sendToGapGPT(""));
+
+    document.querySelectorAll('[data-tool]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const tool = btn.getAttribute('data-tool');
+        sendToGapGPT(tool);
+      });
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async ()=>{
+      const text = document.getElementById('result').textContent;
+      if(!text || text.includes("در حال برقراری") || text.includes("نتایج پس از ارسال")){
+        alert("پاسخی جهت کپی موجود نیست.");
+        return;
+      }
+      try{
+        await navigator.clipboard.writeText(text);
+        alert("پاسخ کپی شد.");
+      }catch(e){
+        alert("خطا در کپی متن.");
+      }
+    });
+
+    document.getElementById('trashBtn').addEventListener('click', ()=>{
+      document.getElementById('question').value = "";
+      document.getElementById('result').textContent = "نتایج پس از ارسال در اینجا نمایش داده می‌شود...";
+      document.getElementById('removeImgBtn').click();
+    });
+
+    document.getElementById('speakBtn').addEventListener('click', ()=>{
+      const text = document.getElementById('result').textContent;
+      if(!text || text.startsWith("❌") || text.startsWith("⏳")) return;
+      if('speechSynthesis
