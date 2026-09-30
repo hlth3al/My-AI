@@ -148,7 +148,6 @@
 
     .results{
       min-height:120px;
-      white-space:normal;
       background:var(--panel2);
       border:1px solid var(--line);
       border-radius:12px;
@@ -161,9 +160,8 @@
       content:'پاسخ هوشمند در این بخش نمایش داده می‌شود.';
       color:#91a0c3;
     }
-    .results pre{direction:ltr;text-align:left;overflow:auto;background:#080d1b;padding:12px;border-radius:8px}
-    .results code{font-family:ui-monospace,monospace;color:#a9eaff}
-    .results blockquote{border-right:3px solid var(--a);margin:8px 0;padding-right:12px;color:#cbd5e1}
+    .results pre{direction:ltr;text-align:left;overflow:auto;background:#080d1b;padding:12px;border-radius:8px;border:1px solid #333}
+    .results code{font-family:monospace;color:#a9eaff}
     .error{color:#ff9292}
     .status{color:var(--muted);font-size:.92rem;min-height:1.5em;margin:8px 0 0}
 
@@ -233,102 +231,68 @@
     </article>
     <article class="card glow">
       <h2>مدیریت: حسین لعلیان (رتبه ۳۲ کنکور دکتری)</h2>
-      <p>و همچنین مفتخر به تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و مهندسی صنایع</p>
+      <p>تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و صنایع</p>
       <p>صحت موضوع را از وزارت علوم جویا شوید!</p>
     </article>
   </section>
 
-  <section class="panel benefit-card" aria-label="مزیت خرید بسته ها">
+  <section class="panel benefit-card">
     <div class="benefit-copy">
       <strong>مزیت خرید بسته ها:</strong>
-      <span>اگر مدتی از بسته خود استفاده نکنید،</span>
-      <span>اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!</span>
+      <span>اگر مدتی از بسته خود استفاده نکنید، اعتبار شما هرگز منقضی نمی‌شود!</span>
     </div>
   </section>
 
-  <!-- ورودی پرسش -->
   <section class="panel" id="workspace">
     <h2 class="section-title" style="margin-top:0">ورودی پرسش</h2>
-    <textarea id="question" class="question" placeholder="سوال، تمرین یا موضوع خود را اینجا بنویسید یا یکی از دکمه‌های هوشمند پایین را بزنید..."></textarea>
+    <textarea id="question" class="question" placeholder="سوال خود را بنویسید یا عکسی انتخاب کنید..."></textarea>
     
     <div class="row" style="margin-top:12px">
-      <label class="action" for="imageFile">📷 انتخاب عکس از گالری</label>
+      <label class="action" for="imageFile">📷 انتخاب عکس</label>
       <input id="imageFile" type="file" accept="image/*" hidden>
-      
-      <button class="action answer-action" id="askBtn" type="button">🚀 دریافت پاسخ هوشمند</button>
-      <button class="action mic" id="micBtn" type="button" aria-label="ورودی صوتی" title="شروع گفتار به نوشتار">
-        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a1 1 0 1 1 2 0 7 7 0 0 1-6 6.93V21h3a1 1 0 1 1 0 2H8a1 1 0 1 1 0-2h3v-3.07A7 7 0 0 1 5 11a1 1 0 1 1 2 0 5 5 0 0 0 10 0z"/></svg>
-        <span>ورودی صوتی</span>
-      </button>
-      <button class="action" id="voiceBtn" type="button">🔊 پاسخ صوتی</button>
-      <button class="action" id="saveAudio" type="button">💾 ذخیره پاسخ صوتی</button>
+      <button class="action answer-action" id="askBtn" type="button">🚀 دریافت پاسخ سریع</button>
+      <button class="action mic" id="micBtn" type="button">🎤 ورودی صوتی</button>
+      <button class="action" id="voiceBtn" type="button">🔊 پخش صوتی</button>
     </div>
 
     <div id="preview" class="preview" hidden>
-      <img id="thumb" alt="پیش‌نمایش تصویر">
+      <img id="thumb" alt="پیش‌نمایش">
       <button id="removeImage" class="action" type="button">حذف عکس</button>
     </div>
-
-    <p id="status" class="status" aria-live="polite"></p>
+    <p id="status" class="status"></p>
   </section>
 
-  <!-- نتایج -->
   <section class="panel" id="resultsSection">
     <div class="row" style="justify-content:space-between;margin-bottom:10px">
       <h2 class="section-title" style="margin:0">نتایج پردازش علمی</h2>
       <div class="row">
-        <button id="copyAnswer" class="action" type="button">📋 کپی کردن پاسخ</button>
-        <button id="clear" class="action" type="button">🗑️ پاک کردن صفحه</button>
+        <button id="copyAnswer" class="action" type="button">📋 کپی</button>
+        <button id="clear" class="action" type="button">🗑️ پاکسازی</button>
       </div>
     </div>
-    <div id="result" class="results" aria-live="polite"></div>
+    <div id="result" class="results"></div>
   </section>
 
-  <!-- ابزارهای هوشمند چند سطحی -->
-  <h2 class="section-title">ابزارهای هوشمند</h2>
+  <h2 class="section-title">ابزارهای هوشمند تحصیلی</h2>
   <section id="groups" class="level-grid"></section>
 
-  <!-- ابزارهای تکمیلی -->
-  <h2 class="section-title">ابزارهای تکمیلی درخواستی</h2>
+  <h2 class="section-title">ابزارهای تکمیلی تخصصی</h2>
   <section id="tools" class="tools"></section>
 
-  <!-- بسته‌های اعتباری و مالی -->
-  <h2 class="section-title">بسته‌های اعتباری Class-AI</h2>
   <section class="bottom">
-    <article class="bottom-card">
-      <h3>مزیت خرید بسته ها</h3>
-      <p>اگر مدتی از بسته خود استفاده نکنید، اعتبارتان نزد ما محفوظ میماند و هرگز منقضی و باطل نمیشود!</p>
-    </article>
     <article class="bottom-card">
       <h3>لیست بسته های اعتباری</h3>
       <div class="price-list" id="prices"></div>
     </article>
     <article class="bottom-card">
-      <h3>مزایای تفصیلی خرید بسته‌های اعتباری</h3>
-      <p>دسترسی نامحدود به تدریس و حل تمرین تخصصی هوش مصنوعی در کلیه سطوح تحصیلی</p>
-      <p>اولویت در پردازش سریع و پاسخ‌دهی به مسائل پیچیده، فرمول‌ها و نمودارها</p>
-      <p>ذخیره سوابق یادگیری و بهره‌مندی از امکانات صوتی و تصویری بدون قطعی</p>
-    </article>
-    <article class="bottom-card">
-      <h3>روش پرداخت آفلاین</h3>
-      <p>بدلیل تقلب و سوء استفاده در پرداختهای الکترونیکی ؛از پرداخت الکترونیکی معذوریم! از اینرو تنها روش خرید؛ آفلاین و ارسال رسید به ایمیل است !</p>
-      <p>جهت فعال‌سازی یا تمدید اعتبار، مبلغ بسته مورد نظر را به شماره کارت زیر واریز کرده و تصویر فیش واریزی را به همراه ایمیل خود به آدرس زیر ارسال نمایید تا حساب شما بلافاصله شارژ شود:</p>
-    </article>
-    <article class="bottom-card">
-      <h3>شماره کارت</h3>
-      <p id="cardNo" style="letter-spacing:1px;font-family:monospace;direction:ltr">6037-9915-5554-9678</p>
-      <button class="copy" data-copy="6037991555549678">کپی کردن شماره کارت</button>
-    </article>
-    <article class="bottom-card">
-      <h3>ایمیل پشتیبانی و ارسال فیش</h3>
-      <p id="emailAddr" style="font-family:monospace;direction:ltr">Ai.Algorithms.Ballistics@gmail.com</p>
-      <button class="copy" data-copy="Ai.Algorithms.Ballistics@gmail.com">کپی کردن ایمیل</button>
+      <h3>روش خرید آفلاین</h3>
+      <p>فقط واریز به کارت و ارسال رسید به ایمیل پذیرفته می‌شود.</p>
+      <p>شماره کارت: <code>6037991555549678</code></p>
+      <p>ایمیل: <code>AI.Algorithms.Ballistics@gmail.com</code></p>
     </article>
   </section>
 
-  <footer>
-    اخطار مالکیت فکری! تمامی حقوق این پلتفرم متعلق به حسین لعلیان میباشد؛ لذا هرگونه کپی برداری پیگرد قانونی دارد!
-  </footer>
+  <footer>تمامی حقوق این پلتفرم متعلق به حسین لعلیان میباشد.</footer>
 </main>
 
 <script>
@@ -338,391 +302,128 @@
   const $$ = s => [...document.querySelectorAll(s)];
 
   const levels = ['ابتدایی', 'متوسطه اول', 'متوسطه دوم', 'تیزهوشان', 'المپیادی', 'کنکوری', 'لیسانس', 'فوق لیسانس', 'دکتری'];
-
   const groups = [
-    ['پاسخ سوال', 1],
-    ['آنالیز سوال', 2],
-    ['آنالیز تله درون سوال', 3],
-    ['آنالیز پاسخ', 4],
-    ['آنالیز سوال درون عکس', 5],
-    ['آنالیز عکس', 6],
-    ['چهار جوابی کردن', 7],
-    ['آنالیز سوال چهار جوابی', 8],
-    ['پاسخ به سوال چهار جوابی', 9],
-    ['آنالیز پاسخ سوال چهار جوابی', 10],
-    ['آنالیز تله درون سوال چهار جوابی', 11],
-    ['آنالیز سوال امتحانی، کنکوری، تکلیف کلاسی پرسیده شده در خونه', 12],
-    ['سوال دارای جدول-فرمول-نمودار (آنالیز)', 13],
-    ['آنالیز تله سوالات دارای جدول-فرمول-نمودار', 14]
+    ['پاسخ سوال', 1], ['آنالیز سوال', 2], ['آنالیز تله درون سوال', 3], ['آنالیز پاسخ', 4],
+    ['آنالیز سوال درون عکس', 5], ['آنالیز عکس', 6], ['چهار جوابی کردن', 7], ['آنالیز سوال چهار جوابی', 8],
+    ['پاسخ به سوال چهار جوابی', 9], ['آنالیز پاسخ سوال چهار جوابی', 10], ['آنالیز تله درون سوال چهار جوابی', 11],
+    ['آنالیز سوال امتحانی و کنکوری', 12], ['سوال دارای جدول و فرمول', 13], ['آنالیز تله جدول و نمودار', 14]
   ];
 
   const tools = [
-    'تدریس کامل دروس مقاطع مدرسه (اول ابتدایی تا دوازدهم) و دانشگاه (تمامی رشته‌ها و گرایش‌ها)',
-    'تدریس کنکوری دروس مقاطع مدرسه و دانشگاه',
-    'تحلیل و تشریح فرمول‌ها و اثبات‌ها - مقطع: مدرسه و دانشگاه',
-    'پاسخ به سوال',
-    'پاسخ به سوال چهارگزینه‌ای',
-    'تدریس و توضیح کامل',
-    'حل تمرین و مساله خط به خط',
-    'تکلیف خانگی با پاسخ تشریحی',
-    'طرح سوال امتحانی',
-    'سوال دارای جدول، فرمول یا نمودار',
-    'تحلیل و تشریح فرمول‌ها',
-    'تحلیل و رسم نمودار',
-    'بررسی جدول‌ها و داده‌ها',
-    'مشاوره تحصیلی و برنامه‌ریزی',
-    'ترجمه و نگارش متون تخصصی',
-    'تصحیح و خطایابی متن و پاسخ',
-    'جمع‌بندی و خلاصه درس',
-    'طراحی آزمون تستی و تشریحی',
-    'رفع اشکال آنلاین و پاسخ به سوالات'
+    'تدریس کامل تمامی دروس مدرسه و دانشگاه', 'تدریس کنکوری دروس', 'تشریح فرمول‌ها و اثبات‌ها', 'حل تمرین گام‌به‌گام',
+    'طرح سوال امتحانی', 'تحلیل و رسم نمودار', 'مشاوره تحصیلی', 'ترجمه متون تخصصی', 'رفع اشکال آنلاین'
   ];
 
-  // دکمه‌های سطوح هوشمند
+  // ساخت خودکار دکمه‌ها
   const host = $('#groups');
   groups.forEach(([title, n]) => {
     const box = document.createElement('article');
     box.className = 'group c' + n;
-    const h = document.createElement('h3');
-    h.textContent = title;
-    const row = document.createElement('div');
-    row.className = 'buttons';
-
+    const h = document.createElement('h3'); h.textContent = title;
+    const row = document.createElement('div'); row.className = 'buttons';
     levels.forEach(lvl => {
       const b = document.createElement('button');
-      b.className = 'task';
-      b.type = 'button';
-      const actionName = title + ' در سطح ' + lvl;
-      b.textContent = actionName;
-      b.addEventListener('click', () => ask(actionName));
+      b.className = 'task'; b.textContent = lvl;
+      b.onclick = () => ask(title + ' در سطح ' + lvl);
       row.append(b);
     });
-
-    box.append(h, row);
-    host.append(box);
+    box.append(h, row); host.append(box);
   });
 
-  // دکمه‌های ابزارهای تکمیلی
   tools.forEach((t, i) => {
     const b = document.createElement('button');
     b.className = 'task tool c' + (i % 14 + 1);
-    b.type = 'button';
-    b.textContent = t;
-    b.addEventListener('click', () => ask(t));
+    b.textContent = t; b.onclick = () => ask(t);
     $('#tools').append(b);
   });
 
-  // مبالغ بسته‌ها
   ['۵', '۱۰', '۲۰', '۵۰', '۱۰۰', '۱۵۰', '۲۰۰', '۲۵۰'].forEach(x => {
-    const d = document.createElement('div');
-    d.className = 'price';
-    d.textContent = x + ' میلیون تومان';
-    $('#prices').append(d);
+    const d = document.createElement('div'); d.className = 'price';
+    d.textContent = x + ' میلیون تومان'; $('#prices').append(d);
   });
 
-  let lastAnswer = '', imageData = null, recorder = null, chunks = [];
+  let lastAnswer = '', imageData = null;
 
-  function beep(){
-    try{
-      const ctx = beep.ctx || (beep.ctx = new(window.AudioContext || window.webkitAudioContext)());
-      if(ctx.state === 'suspended') ctx.resume();
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'sine'; o.frequency.value = 720;
-      g.gain.setValueAtTime(.04, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .07);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(); o.stop(ctx.currentTime + .075);
-    }catch(e){}
-  }
-
-  document.addEventListener('pointerdown', e => {
-    if(e.target.closest('button, .card, .panel, .group, .bottom-card')) beep();
-  });
-
-  function safe(s){
-    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-
-  function render(s){
-    let t = safe(s);
-    return t.replace(/
+  // رندر متن و کدها
+  function render(text) {
+    return text.replace(/
 ```([\s\S]*?)
 ```/g, '<pre><code>$1</code></pre>')
-            .replace(/`([^`]+)`/g, '<code>$1</code>')
-            .replace(/^### (.*)$/gm, '<h3>$1</h3>')
-            .replace(/^## (.*)$/gm, '<h2>$1</h2>')
-            .replace(/^# (.*)$/gm, '<h1>$1</h1>')
-            .replace(/^&gt; (.*)$/gm, '<blockquote>$1</blockquote>')
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/\$\$([\s\S]*?)\$\$/g, '<code dir="ltr">$1</code>')
-            .replace(/\$([^$\n]+)\$/g, '<code dir="ltr">$1</code>')
-            .replace(/\n/g, '<br>');
+               .replace(/`([^`]+)`/g, '<code>$1</code>')
+               .replace(/\n/g, '<br>');
   }
 
+  // مدیریت تصویر
   $('#imageFile').onchange = e => {
     const f = e.target.files[0];
     if(!f) return;
-    if(!f.type.startsWith('image/')){
-      alert('لطفاً یک فایل تصویری انتخاب فرمایید.');
-      return;
-    }
     const r = new FileReader();
-    r.onload = () => {
-      imageData = r.result;
-      $('#thumb').src = imageData;
-      $('#preview').hidden = false;
-    };
+    r.onload = () => { imageData = r.result; $('#thumb').src = imageData; $('#preview').hidden = false; };
     r.readAsDataURL(f);
   };
+  $('#removeImage').onclick = () => { imageData = null; $('#preview').hidden = true; $('#imageFile').value = ''; };
 
-  $('#removeImage').onclick = () => {
-    $('#imageFile').value = '';
-    imageData = null;
-    $('#preview').hidden = true;
-  };
+  // اتصال به GapGPT با قابلیت استریمینگ (Streaming)
+  async function ask(action) {
+    const q = $('#question').value.trim();
+    if(!q && !imageData) return alert('لطفاً سوال یا تصویر را وارد کنید.');
 
-  // اتصال مستقیم و بهینه‌شده به سرور GapGPT با قابلیت پاسخ‌دهی استریمینگ فوق‌سریع
-  const API_CONFIG = window.CLASS_AI_API || {
-    endpoints: [
-      'https://api.gapgpt.app/v1',
-      'https://api.gapapi.com/v1'
-    ],
-    auth: 'Bearer GAPGPTMASKTOKENhdtsusop09gX0X'
-  };
-
-  async function ask(actionTitle){
-    const qInput = $('#question');
-    const q = qInput.value.trim();
-    if(!q && !imageData){
-      $('#status').textContent = 'لطفاً ابتدا سوال خود را بنویسید یا تصویری بارگذاری فرمایید.';
-      qInput.focus();
-      return;
-    }
-
-    const btn = $('#askBtn');
-    btn.disabled = true;
-    $('#status').textContent = 'در حال ارتباط مستقیم با پردازشگر هوشمند...';
-    $('#result').classList.remove('error');
-    $('#result').innerHTML = 'در حال تحلیل فوری و دریافت پاسخ...';
-    $('#resultsSection').scrollIntoView({behavior:'smooth'});
-
-    const promptText = `نقش شما معلم و دستیار آموزشی دقیق، هوشمند و مسئولیت‌پذیر هستید.
-درخواست کاربر: "${actionTitle}".
-سطح علمی: دقیقاً متناسب با عنوان دکمه انتخاب‌شده.
-لطفاً به زبان فارسی روان، علمی، مرحله‌به‌مرحله و آموزشی پاسخ دهید. فرمول‌ها را خوانا بنویسید و تله‌ها یا نکات کلیدی را در صورت لزوم برجسته کنید.
-
-متن پرسش یا تکلیف:
-${q || 'لطفاً تصویر ارسالی را به صورت دقیق بررسی و تحلیل فرمایید.'}`;
-
-    const userContent = [{ type: 'text', text: promptText }];
-    if(imageData){
-      userContent.push({
-        type: 'image_url',
-        image_url: { url: imageData }
-      });
-    }
-
-    let success = false;
+    $('#result').innerHTML = 'در حال پردازش سریع...';
+    $('#status').textContent = 'در حال دریافت پاسخ به صورت زنده...';
     lastAnswer = '';
 
-    for(const base of API_CONFIG.endpoints){
-      try{
-        const url = base.replace(/\/$/, '') + '/chat/completions';
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': API_CONFIG.auth
-          },
-          body: JSON.stringify({
-            messages: [{ role: 'user', content: userContent }],
-            temperature: 0.35,
-            stream: true
-          })
-        });
+    const payload = {
+      messages: [{ role: 'user', content: [
+        { type: 'text', text: `نقش: دستیار آموزشی Class-AI. عملیات: ${action}. پرسش: ${q}` }
+      ]}],
+      stream: true
+    };
+    if(imageData) payload.messages[0].content.push({ type: 'image_url', image_url: { url: imageData } });
 
-        if(!res.ok) continue;
+    try {
+      const res = await fetch('https://api.gapgpt.app/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer gap-gpt-pro-key-ai' },
+        body: JSON.stringify(payload)
+      });
 
-        // خواندن بلادرنگ استریم
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder('utf-8');
-        let done = false;
-        let buffer = '';
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      $('#result').innerHTML = '';
 
-        $('#result').innerHTML = '';
-        $('#status').textContent = 'در حال دریافت مستقیم پاسخ...';
-
-        while(!done){
-          const { value, done: readerDone } = await reader.read();
-          done = readerDone;
-          if(value){
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split('\n');
-            buffer = lines.pop();
-
-            for(const line of lines){
-              const trimmed = line.trim();
-              if(!trimmed || !trimmed.startsWith('data:')) continue;
-              const jsonStr = trimmed.replace(/^data:\s*/, '');
-              if(jsonStr === '[DONE]') break;
-              try{
-                const parsed = JSON.parse(jsonStr);
-                const chunk = parsed.choices?.[0]?.delta?.content || '';
-                if(chunk){
-                  lastAnswer += chunk;
-                  $('#result').innerHTML = render(lastAnswer);
-                }
-              }catch(e){}
-            }
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              const content = data.choices[0].delta.content || '';
+              lastAnswer += content;
+              $('#result').innerHTML = render(lastAnswer);
+            } catch (e) {}
           }
         }
-
-        if(lastAnswer.trim()){
-          success = true;
-          $('#status').textContent = 'پاسخ کامل با سرعت دریافت شد.';
-          break;
-        }
-      }catch(err){
-        console.error('Fetch error:', err);
       }
+      $('#status').textContent = 'پاسخ کامل شد.';
+    } catch (err) {
+      $('#result').innerHTML = '<span class="error">خطا در اتصال به سرور GapGPT. مجدد تلاش کنید.</span>';
     }
-
-    // حالت رزرو و پشتیبان در صورت افت شبکه
-    if(!success){
-      try{
-        $('#status').textContent = 'در حال تلاش مجدد از مسیر موازی...';
-        const fallbackRes = await fetch('https://text.pollinations.ai/openai', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: [{ role: 'user', content: userContent }]
-          })
-        });
-        if(fallbackRes.ok){
-          const data = await fallbackRes.json();
-          const ans = data.choices?.[0]?.message?.content;
-          if(ans && ans.trim()){
-            lastAnswer = ans;
-            $('#result').innerHTML = render(ans);
-            $('#status').textContent = 'پاسخ دریافت شد.';
-            success = true;
-          }
-        }
-      }catch(e){}
-    }
-
-    if(!success){
-      $('#result').innerHTML = '<p class="error">خطا در دریافت آنی پاسخ. لطفاً چند لحظه بعد مجدداً دکمه را لمس نمایید.</p>';
-      $('#result').classList.add('error');
-      $('#status').textContent = 'ارتباط با سرور برقرار نشد.';
-    }
-
-    btn.disabled = false;
   }
 
-  $('#askBtn').addEventListener('click', () => ask('پاسخ و تحلیل جامع مسئله'));
-
-  $('#copyAnswer').onclick = async () => {
-    try{
-      await navigator.clipboard.writeText(lastAnswer || $('#result').innerText);
-      $('#status').textContent = 'پاسخ با موفقیت کپی شد ✅';
-    }catch(e){
-      $('#status').textContent = 'امکان کپی خودکار فراهم نشد؛ متن را دستی کپی کنید.';
-    }
-  };
-
-  $('#clear').onclick = () => {
-    $('#question').value = '';
-    $('#result').innerHTML = '';
-    $('#status').textContent = '';
-    lastAnswer = '';
-    $('#removeImage').click();
-  };
-
-  $$('[data-copy]').forEach(b => {
-    b.onclick = async () => {
-      try{
-        await navigator.clipboard.writeText(b.dataset.copy);
-        const originalText = b.textContent;
-        b.textContent = 'کپی شد ✅';
-        setTimeout(() => b.textContent = originalText, 1400);
-      }catch(e){}
-    };
-  });
-
-  $('#micBtn').onclick = () => {
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if(!SR){
-      $('#status').textContent = 'تشخیص گفتار در این مرورگر فعال نیست.';
-      return;
-    }
-    const r = new SR();
-    r.lang = 'fa-IR';
-    r.interimResults = false;
-    r.onstart = () => $('#status').textContent = 'گوش می‌دهم، صحبت کنید...';
-    r.onresult = e => {
-      $('#question').value += ($('#question').value ? ' ' : '') + e.results[0][0].transcript;
-      $('#status').textContent = 'گفتار به متن تبدیل شد.';
-    };
-    r.onerror = () => $('#status').textContent = 'خطای دریافت صدا.';
-    r.start();
-  };
-
-  function speak(){
-    if(!lastAnswer){
-      $('#status').textContent = 'ابتدا پاسخی دریافت فرمایید.';
-      return;
-    }
-    if(!('speechSynthesis' in window)){
-      $('#status').textContent = 'پخش صوت در مرورگر پشتیبانی نمی‌شود.';
-      return;
-    }
+  $('#askBtn').onclick = () => ask('تحلیل جامع پرسش');
+  $('#copyAnswer').onclick = () => navigator.clipboard.writeText(lastAnswer);
+  $('#clear').onclick = () => { $('#question').value = ''; $('#result').innerHTML = ''; lastAnswer = ''; };
+  
+  // صوت
+  $('#voiceBtn').onclick = () => {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(lastAnswer);
     u.lang = 'fa-IR';
-    u.onstart = () => $('#status').textContent = 'در حال خواندن پاسخ...';
     window.speechSynthesis.speak(u);
-  }
-  $('#voiceBtn').onclick = speak;
-
-  $('#saveAudio').onclick = async () => {
-    if(!lastAnswer){
-      $('#status').textContent = 'ابتدا پاسخی دریافت فرمایید.';
-      return;
-    }
-    if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder){
-      $('#status').textContent = 'قابلیت ضبط در این مرورگر فعال نیست.';
-      return;
-    }
-    try{
-      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-      recorder = new MediaRecorder(stream);
-      chunks = [];
-      recorder.ondataavailable = e => { if(e.data.size) chunks.push(e.data); };
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, {type: recorder.mimeType || 'audio/webm'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'Class-AI-Voice.webm';
-        a.click();
-        stream.getTracks().forEach(t => t.stop());
-      };
-      recorder.start();
-      const u = new SpeechSynthesisUtterance(lastAnswer);
-      u.lang = 'fa-IR';
-      u.onend = () => { if(recorder?.state === 'recording') recorder.stop(); };
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(u);
-      $('#status').textContent = 'در حال ضبط صدا...';
-    }catch(e){
-      $('#status').textContent = 'مجوز میکروفن نیاز است.';
-    }
   };
-
-  $('#question').addEventListener('keydown', e => {
-    if((e.ctrlKey || e.metaKey) && e.key === 'Enter') ask('پاسخ و تحلیل مسئله');
-  });
 })();
 </script>
 </body>
