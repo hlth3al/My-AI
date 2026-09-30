@@ -116,7 +116,7 @@ textarea{min-height:160px;resize:vertical}
       <li>تحلیل تشریحی متناسب با پایه تحصیلی</li>
       <li>پوشش تمامی مقاطع تحصیلی از دبستان تا دکتری</li>
       <li>پشتیبانی کامل از فرمول‌ها و تصاویر مسائل</li>
-      <li>اتصال خودکار و پایدار به هسته هوش مصنوعی GapGPT</li>
+      <li>اتصال مستقیم و پایدار به هسته هوش مصنوعی GapGPT</li>
     </ul>
     <span class="pill">آموزش مفهومی</span>
     <span class="pill">حل مسئله</span>
@@ -138,8 +138,8 @@ textarea{min-height:160px;resize:vertical}
         <div>
           <label class="field" for="model">مدل تحلیل‌گر</label>
           <select id="model">
-            <option value="gpt-4o-mini" selected>مدل بهینه و سریع (gpt-4o-mini)</option>
-            <option value="gpt-4o">مدل فوق‌پیشرفته و عمیق (gpt-4o)</option>
+            <option value="gpt-4o-mini" selected>مدل بهینه و فوق سریع (gpt-4o-mini)</option>
+            <option value="gpt-4o">مدل جامع استدلالی (gpt-4o)</option>
           </select>
         </div>
         <div>
@@ -234,15 +234,13 @@ textarea{min-height:160px;resize:vertical}
 <script>
 'use strict';
 
-// کلید اختصاصی GapGPT شما
-const API_KEY = "GAPGPTMASKTOKENsx9gktp2oxqX0X";
+// کلید GapGPT فعال شما
+const API_KEY = "GAPGPTMASKTOKEN52s5f4cme8rX0X";
 
-// مسیرهای اتصال چندگانه ضد فیلتر و ضد CORS
-const TARGET_API = 'https://api.gapgpt.app/v1/chat/completions';
-const ENDPOINTS = [
-  TARGET_API, // اتصال مستقیم (در صورت سازگاری شبکه و مرورگر)
-  'https://corsproxy.io/?' + encodeURIComponent(TARGET_API), // پروکسی ضد CORS اول
-  'https://api.allorigins.win/raw?url=' + encodeURIComponent(TARGET_API) // پروکسی معکوس پشتیبان
+// هر دو سرور رسمی گپ جی‌پی‌تی: داخلی (بدون فیلتر) و CDN جهانی
+const GAPGPT_ENDPOINTS = [
+  'https://api.gapgpt.app/v1/chat/completions',
+  'https://api.gapapi.com/v1/chat/completions'
 ];
 
 const levels = [
@@ -372,45 +370,41 @@ function setStatus(text, kind = ''){
 
 function makeSystemPrompt(){
   const lvl = byId('level').value;
-  return `شما استاد و مشاور ارشد علمی در سامانه My-AI (مدیریت: حسین لعلیان، رتبه ۳۲ آزمون دکتری) هستید.
-پاسخ را کاملاً دقیق، مستند و سازگار با سطح علمی «${lvl}» بنویسید. در حل مسائل، تمام مراحل و نکات کلیدی را تشریح کنید.`;
+  return `شما استاد و مشاور ارشد علمی در سامانه My-AI (مدیریت: حسین لعلیان، رتبه ۳۲ آزمون دکتری) هستید. پاسخ را مستند، دقیق و سازگار با سطح علمی «${lvl}» بنویسید و تمام مراحل تحلیلی را شرح دهید.`;
 }
 
-// ارسال خودکار با زنجیره دور زدن محدودیت‌های CORS و شبکه
-async function requestAI(payload){
-  let lastError = null;
-
-  for(let i = 0; i < ENDPOINTS.length; i++){
-    const url = ENDPOINTS[i];
+// تابع ارسال مستقیم با مکانیزم Fallback و بدون دستکاری پروکسی
+async function callGapGPT(payload){
+  let lastErr = null;
+  for (const url of GAPGPT_ENDPOINTS) {
     try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 20000);
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 25000);
 
-      const res = await fetch(url, {
+      const resp = await fetch(url, {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer ' + API_KEY,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + API_KEY
         },
         body: JSON.stringify(payload),
-        signal: controller.signal
+        signal: ctrl.signal
       });
-      clearTimeout(timer);
+      clearTimeout(tid);
 
-      if(!res.ok){
-        const errText = await res.text().catch(() => '');
-        throw new Error(`خطای ${res.status}: ${errText.slice(0, 100)}`);
+      if (!resp.ok) {
+        const errorBody = await resp.text();
+        throw new Error(`خطای سرور (${resp.status}): ${errorBody}`);
       }
 
-      const json = await res.json();
-      return json;
+      const resData = await resp.json();
+      return resData;
     } catch(err) {
-      lastError = err;
-      // اگر مسیر فعلی با خطا مواجه شد، فوراً مسیر بعدی امتحان می‌شود
+      lastErr = err;
+      // اگر سرور اول پاسخ نداد سرور دوم GapGPT آزمایش می‌شود
     }
   }
-
-  throw lastError || new Error('امکان برقراری ارتباط با هیچ‌یک از سرورها میسر نشد.');
+  throw lastErr;
 }
 
 byId('send').onclick = async () => {
@@ -422,14 +416,14 @@ byId('send').onclick = async () => {
   const btn = byId('send');
   btn.classList.add('busy');
   btn.disabled = true;
-  setStatus('در حال ارتباط با موتور هوش مصنوعی…');
-  byId('result').textContent = 'درحال پردازش و نگارش پاسخ توسط هوش مصنوعی… لطفاً شکیبا باشید.';
+  setStatus('در حال ارتباط با سرورهای گپ جی‌پی‌تی…');
+  byId('result').textContent = 'در حال تحلیل و نگارش پاسخ، لطفاً منتظر بمانید…';
 
   try{
     let userContent;
     if(imageData){
       userContent = [
-        {type: 'text', text: text || 'لطفاً این تصویر و مسئله را با دقت تحلیل و تشریح فرمایید.'},
+        {type: 'text', text: text || 'لطفاً مسئله موجود در این تصویر را با دقت تشریح فرمایید.'},
         {type: 'image_url', image_url: {url: imageData}}
       ];
     } else {
@@ -445,16 +439,16 @@ byId('send').onclick = async () => {
       temperature: 0.5
     };
 
-    const data = await requestAI(payload);
+    const data = await callGapGPT(payload);
     const reply = data?.choices?.[0]?.message?.content;
-    if(!reply) throw new Error('محتوایی از سرور دریافت نشد.');
+    if(!reply) throw new Error('محتوایی از مدل دریافت نشد.');
 
     byId('result').textContent = reply;
     setStatus('پاسخ با موفقیت دریافت شد.', 'ok');
   } catch(err){
     console.error(err);
-    setStatus('خطا در برقراری ارتباط. جزئیات: ' + (err.message || 'عدم دسترسی به سرور'), 'error');
-    byId('result').textContent = 'متأسفانه پاسخی دریافت نشد.\n\nدلیل احتمالی: محدودیت موقت اینترنت یا اتمام اعتبار کلید API.\nلطفاً چند لحظه بعد مجدداً تلاش کنید یا فیلترشکن خود را روشن/خاموش کنید.';
+    setStatus('خطا: ' + err.message, 'error');
+    byId('result').textContent = 'خطا در ارتباط با سرور GapGPT:\n' + err.message + '\n\nنکته: در صورت قطع بودن اتصال، فیلترشکن را متصل یا قطع کنید و دوباره دکمه ارسال را بزنید.';
   } finally {
     btn.classList.remove('busy');
     btn.disabled = false;
@@ -473,7 +467,7 @@ byId('copy').onclick = async () => {
     await navigator.clipboard.writeText(byId('result').textContent);
     setStatus('پاسخ کپی شد.', 'ok');
   } catch(e){
-    setStatus('امکان کپی خودکار فراهم نشد؛ لطفاً دستی کپی کنید.', 'error');
+    setStatus('کپی خودکار پشتیبانی نشد؛ دستی کپی کنید.', 'error');
   }
 };
 
