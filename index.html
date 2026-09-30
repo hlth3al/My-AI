@@ -116,7 +116,7 @@ textarea{min-height:160px;resize:vertical}
       <li>تحلیل تشریحی متناسب با پایه تحصیلی</li>
       <li>پوشش تمامی مقاطع تحصیلی از دبستان تا دکتری</li>
       <li>پشتیبانی کامل از فرمول‌ها و تصاویر مسائل</li>
-      <li>اتصال خودکار به هسته مدل‌های پیشرفته GPT</li>
+      <li>اتصال خودکار و پایدار به هسته هوش مصنوعی GapGPT</li>
     </ul>
     <span class="pill">آموزش مفهومی</span>
     <span class="pill">حل مسئله</span>
@@ -234,13 +234,15 @@ textarea{min-height:160px;resize:vertical}
 <script>
 'use strict';
 
-const API_KEY = "GAPGPTMASKTOKENgfzu2b0vctiX1X";
+// کلید اختصاصی GapGPT شما
+const API_KEY = "GAPGPTMASKTOKENsx9gktp2oxqX0X";
 
-// سرورهای زنجیره‌ای جهت اتصال خودکار و رفع خطای فیلترینگ و CORS
+// مسیرهای اتصال چندگانه ضد فیلتر و ضد CORS
+const TARGET_API = 'https://api.gapgpt.app/v1/chat/completions';
 const ENDPOINTS = [
-  'https://api.gapgpt.app/v1/chat/completions',
-  'https://api.gapapi.com/v1/chat/completions',
-  'https://gapgpt.azurewebsites.net/v1/chat/completions'
+  TARGET_API, // اتصال مستقیم (در صورت سازگاری شبکه و مرورگر)
+  'https://corsproxy.io/?' + encodeURIComponent(TARGET_API), // پروکسی ضد CORS اول
+  'https://api.allorigins.win/raw?url=' + encodeURIComponent(TARGET_API) // پروکسی معکوس پشتیبان
 ];
 
 const levels = [
@@ -374,16 +376,17 @@ function makeSystemPrompt(){
 پاسخ را کاملاً دقیق، مستند و سازگار با سطح علمی «${lvl}» بنویسید. در حل مسائل، تمام مراحل و نکات کلیدی را تشریح کنید.`;
 }
 
-// ارسال خودکار با جابجایی هوشمند بین سرورها در صورت بروز خطا
+// ارسال خودکار با زنجیره دور زدن محدودیت‌های CORS و شبکه
 async function requestAI(payload){
-  let lastErr = null;
+  let lastError = null;
+
   for(let i = 0; i < ENDPOINTS.length; i++){
-    const endpoint = ENDPOINTS[i];
+    const url = ENDPOINTS[i];
     try {
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 25000);
-      
-      const res = await fetch(endpoint, {
+      const timer = setTimeout(() => controller.abort(), 20000);
+
+      const res = await fetch(url, {
         method: 'POST',
         headers: {
           'Authorization': 'Bearer ' + API_KEY,
@@ -396,27 +399,31 @@ async function requestAI(payload){
 
       if(!res.ok){
         const errText = await res.text().catch(() => '');
-        throw new Error(`خطای سرور (${res.status}): ${errText}`);
+        throw new Error(`خطای ${res.status}: ${errText.slice(0, 100)}`);
       }
-      return await res.json();
+
+      const json = await res.json();
+      return json;
     } catch(err) {
-      lastErr = err;
+      lastError = err;
+      // اگر مسیر فعلی با خطا مواجه شد، فوراً مسیر بعدی امتحان می‌شود
     }
   }
-  throw lastErr || new Error('خطا در برقراری ارتباط');
+
+  throw lastError || new Error('امکان برقراری ارتباط با هیچ‌یک از سرورها میسر نشد.');
 }
 
 byId('send').onclick = async () => {
   const text = byId('prompt').value.trim();
   if(!text && !imageData){
-    return setStatus('لطفاً سوال خود را یادداشت کنید یا تصویری بارگذاری فرمایید.', 'error');
+    return setStatus('لطفاً سوال خود را بنویسید یا عکسی بارگذاری کنید.', 'error');
   }
 
   const btn = byId('send');
   btn.classList.add('busy');
   btn.disabled = true;
-  setStatus('در حال ارتباط و دریافت پاسخ تحلیلی…');
-  byId('result').textContent = 'درحال پردازش و نگارش پاسخ توسط هوش مصنوعی…';
+  setStatus('در حال ارتباط با موتور هوش مصنوعی…');
+  byId('result').textContent = 'درحال پردازش و نگارش پاسخ توسط هوش مصنوعی… لطفاً شکیبا باشید.';
 
   try{
     let userContent;
@@ -440,13 +447,14 @@ byId('send').onclick = async () => {
 
     const data = await requestAI(payload);
     const reply = data?.choices?.[0]?.message?.content;
-    if(!reply) throw new Error('پاسخی دریافت نشد.');
+    if(!reply) throw new Error('محتوایی از سرور دریافت نشد.');
 
     byId('result').textContent = reply;
     setStatus('پاسخ با موفقیت دریافت شد.', 'ok');
   } catch(err){
-    setStatus('خطا در دریافت پاسخ. لطفاً مجدداً امتحان کنید.', 'error');
-    byId('result').textContent = 'ارتباط برقرار نشد. لطفاً وضعیت اینترنت یا فیلترشکن خود را بررسی نمایید و مجدداً دکمه ارسال را بزنید.';
+    console.error(err);
+    setStatus('خطا در برقراری ارتباط. جزئیات: ' + (err.message || 'عدم دسترسی به سرور'), 'error');
+    byId('result').textContent = 'متأسفانه پاسخی دریافت نشد.\n\nدلیل احتمالی: محدودیت موقت اینترنت یا اتمام اعتبار کلید API.\nلطفاً چند لحظه بعد مجدداً تلاش کنید یا فیلترشکن خود را روشن/خاموش کنید.';
   } finally {
     btn.classList.remove('busy');
     btn.disabled = false;
