@@ -1,106 +1,293 @@
-<script>
-// تابع ارسال سوال دانش‌آموز به API
-async function sendQuestionToAI() {
-  const questionInput = document.getElementById("questionInput"); // آی‌دی کادر سوال
-  const responseBox = document.getElementById("responseBox");     // آی‌دی کادر پاسخ
-  const levelSelect = document.getElementById("levelSelect");     // آی‌دی مقطع تحصیلی
-
-  const userQuestion = questionInput.value.trim();
-  const studentLevel = levelSelect ? levelSelect.value : "عمومی";
-
-  if (!userQuestion) {
-    alert("لطفاً ابتدا سوال خود را بنویسید.");
-    return;
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سامانه جامع پردازش علمی و تحلیلی | Platform My-AI</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"Vazirmatn","Segoe UI",Tahoma,Arial,sans-serif; }
+  :root{
+    --bg:#0b1220; --card:#121b2e; --card2:#0f1830; --line:#1f2b47;
+    --txt:#e8eefc; --muted:#9fb0d0; --acc:#3b82f6; --acc2:#22d3ee; --ok:#34d399;
   }
+  body{ background:var(--bg); color:var(--txt); line-height:1.9; }
+  a{ color:var(--acc2); text-decoration:none; }
+  .container{ max-width:1080px; margin:0 auto; padding:0 16px; }
 
-  responseBox.innerHTML = "⏳ در حال تحلیل علمی و نگارش پاسخ، لطفاً شکیبا باشید...";
+  /* Header */
+  header{ position:sticky; top:0; z-index:50; background:rgba(11,18,32,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .logo{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.05rem; }
+  .logo .dot{ width:34px; height:34px; border-radius:10px; display:grid; place-items:center; background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; font-weight:900; }
+  .nav .links{ display:flex; gap:18px; font-size:.9rem; color:var(--muted); }
+  .nav .links a:hover{ color:var(--txt); }
 
-  try {
-    // آدرس اندپوینت API (مدل سازگار با OpenAI)
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // کلید اختصاصی API شما
-        "Authorization": "Bearer YOUR_API_KEY_HERE"
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini", // یا هر مدل تحلیلی مدنظرتان
-        messages: [
-          {
-            role: "system",
-            content: `شما یک دستیار هوشمند و تحلیل‌گر علمی تحت نظارت حسین لعلیان هستید. وظیفه شما حل گام‌به‌گام، تشریحی و دقیق سوالات دانش‌آموزان در مقطع ${studentLevel} با بالاترین کیفیت آموزشی و بیانی روان است.`
-          },
-          {
-            role: "user",
-            content: userQuestion
-          }
-        ],
-        temperature: 0.3
-      })
-    });
+  /* Hero */
+  .hero{ padding:64px 0 40px; text-align:center; background:radial-gradient(900px 300px at 50% -60px, rgba(59,130,246,.18), transparent); }
+  .badge{ display:inline-block; padding:6px 14px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:.8rem; margin-bottom:18px; }
+  .hero h1{ font-size:clamp(1.4rem,4vw,2.2rem); font-weight:900; margin-bottom:10px; }
+  .hero p.sub{ color:var(--muted); max-width:720px; margin:0 auto 8px; }
+  .hero p.lead{ color:var(--muted); max-width:760px; margin:0 auto 26px; font-size:.95rem; }
+  .cta{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn{ cursor:pointer; border:none; border-radius:12px; padding:12px 22px; font-size:.95rem; font-weight:700; transition:.2s; }
+  .btn-primary{ background:linear-gradient(135deg,var(--acc),#2563eb); color:#fff; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 25px rgba(59,130,246,.35); }
+  .btn-ghost{ background:transparent; color:var(--txt); border:1px solid var(--line); }
+  .btn-ghost:hover{ border-color:var(--acc); }
 
-    const data = await response.json();
+  /* Sections */
+  section{ padding:40px 0; }
+  .sec-title{ font-size:1.25rem; font-weight:800; margin-bottom:6px; }
+  .sec-desc{ color:var(--muted); font-size:.9rem; margin-bottom:22px; }
 
-    if (data.choices && data.choices[0]) {
-      // نمایش پاسخ در کادر مربوطه
-      responseBox.innerText = data.choices[0].message.content;
-    } else {
-      responseBox.innerText = "خطا در دریافت پاسخ: " + (data.error?.message || "مشکلی رخ داده است.");
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px; }
+
+  /* Workspace */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media(max-width:720px){ .grid2{ grid-template-columns:1fr; } }
+  label{ display:block; font-size:.85rem; color:var(--muted); margin:12px 0 6px; }
+  select, textarea, input[type=text]{
+    width:100%; background:var(--card2); border:1px solid var(--line); color:var(--txt);
+    border-radius:12px; padding:12px 14px; font-size:.95rem; outline:none; transition:.2s;
+  }
+  select:focus, textarea:focus{ border-color:var(--acc); }
+  textarea{ min-height:130px; resize:vertical; }
+  .filebox{ display:flex; align-items:center; gap:10px; margin-top:8px; flex-wrap:wrap; }
+  .filebtn{ cursor:pointer; border:1px dashed var(--line); border-radius:12px; padding:10px 16px; color:var(--muted); font-size:.85rem; }
+  .filebtn:hover{ border-color:var(--acc); color:var(--txt); }
+  #imgName{ font-size:.8rem; color:var(--ok); }
+  .send{ margin-top:16px; width:100%; }
+
+  /* Answer box */
+  #answerWrap{ display:none; margin-top:18px; }
+  #answerHead{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  #answerHead h3{ font-size:.95rem; }
+  .mini{ cursor:pointer; background:var(--card2); border:1px solid var(--line); color:var(--muted); border-radius:10px; padding:6px 12px; font-size:.78rem; }
+  .mini:hover{ color:var(--txt); border-color:var(--acc); }
+  #answerBox{ background:var(--card2); border:1px solid var(--line); border-radius:14px; padding:18px; min-height:80px; white-space:pre-wrap; font-size:.95rem; }
+  .spin{ display:inline-block; width:16px; height:16px; border:2px solid var(--acc); border-top-color:transparent; border-radius:50%; animation:sp 1s linear infinite; vertical-align:-3px; margin-left:6px; }
+  @keyframes sp{ to{ transform:rotate(360deg);} }
+
+  /* Tools */
+  .tools{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .tool{ cursor:pointer; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; transition:.2s; }
+  .tool:hover{ border-color:var(--acc); transform:translateY(-3px); }
+  .tool b{ display:block; margin-bottom:6px; font-size:.95rem; }
+  .tool span{ color:var(--muted); font-size:.8rem; }
+
+  /* Levels */
+  .levels{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+  .lvl{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; text-align:center; font-size:.85rem; color:var(--muted); }
+  .lvl b{ display:block; color:var(--txt); margin-bottom:4px; font-size:.9rem; }
+
+  /* Finance */
+  .fin{ display:grid; gap:12px; }
+  .finrow{ display:flex; justify-content:space-between; align-items:center; gap:10px; background:var(--card2); border:1px solid var(--line); border-radius:12px; padding:14px; flex-wrap:wrap; }
+  .finrow .val{ direction:ltr; font-family:monospace; font-size:1rem; letter-spacing:1px; }
+  .finrow .lbl{ color:var(--muted); font-size:.85rem; }
+
+  footer{ border-top:1px solid var(--line); padding:22px 0; text-align:center; color:var(--muted); font-size:.8rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo"><span class="dot">AI</span> Platform My-AI</div>
+    <div class="links">
+      <a href="#workspace">میز کار</a>
+      <a href="#tools">ابزارها</a>
+      <a href="#finance">پشتیبانی</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero container">
+  <div class="badge">سامانه جامع پردازش علمی و تحلیلی</div>
+  <h1>پلتفرم هوش مصنوعی من — Platform My-AI</h1>
+  <p class="sub"><b>شرکت پردرآمد تهرانی‌ها</b> با هدایت علمی <b>حسین لعلیان</b>، رتبه ۳۲ کنکور دکتری</p>
+  <p class="lead">حل گام‌به‌گام و تحلیل تشریحی از اول دبستان تا دکتری تخصصی، نگارش مقالات ISI و آنالیز تست‌های کنکور — پاسخ آنی و خودکار، بدون معطلی.</p>
+  <div class="cta">
+    <button class="btn btn-primary" onclick="go('workspace')">شروع تحلیل و حل سوال ←</button>
+    <button class="btn btn-ghost" onclick="go('tools')">مشاهده ابزارها</button>
+  </div>
+</div>
+
+<section id="workspace" class="container">
+  <h2 class="sec-title">میز کار و دستیار حل مسئله</h2>
+  <p class="sec-desc">سوال، تمرین یا موضوع خود را مطرح کنید تا پاسخ تحلیلی و مستند برای شما نگارش شود.</p>
+
+  <div class="card">
+    <div class="grid2">
+      <div>
+        <label for="modelSel">مدل تحلیل‌گر</label>
+        <select id="modelSel">
+          <option value="openai">OpenAI — پیشرفته (پیشنهادی)</option>
+          <option value="mistral">Mistral — سریع</option>
+        </select>
+      </div>
+      <div>
+        <label for="levelSel">مقطع و سطح علمی</label>
+        <select id="levelSel">
+          <option>عمومی</option>
+          <option>پیش‌دبستانی و اول دبستان</option>
+          <option>دبستان (دوم تا ششم)</option>
+          <option>متوسطه اول (هفتم تا نهم)</option>
+          <option>دهم</option>
+          <option>یازدهم</option>
+          <option>دوازدهم و کنکور</option>
+          <option>کارشناسی (لیسانس)</option>
+          <option>کارشناسی ارشد و دکتری</option>
+          <option>مقاله ISI و پژوهشی</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="qInput">متن سوال یا مبحث مورد نظر</label>
+    <textarea id="qInput" placeholder="مثال: سوال ریاضی صفحه ۵۴ را گام‌به‌گام حل کنید..."></textarea>
+
+    <div class="filebox">
+      <label class="filebtn" for="imgInput">📷 بارگذاری تصویر سوال</label>
+      <input type="file" id="imgInput" accept="image/*" hidden>
+      <span id="imgName"></span>
+    </div>
+
+    <button class="btn btn-primary send" id="sendBtn" onclick="sendQuestionToAI()">🚀 دریافت پاسخ تحلیلی</button>
+
+    <div id="answerWrap">
+      <div id="answerHead">
+        <h3>### پاسخ تشریحی و گام‌به‌گام</h3>
+        <button class="mini" onclick="copyAnswer()">📋 کپی پاسخ</button>
+      </div>
+      <div id="answerBox">پاسخ دریافتی در این کادر نمایش داده می‌شود.</div>
+    </div>
+  </div>
+</section>
+
+<section id="tools" class="container">
+  <h2 class="sec-title">ابزارهای تخصصی آموزشی</h2>
+  <p class="sec-desc">با کلیک روی هر ابزار، الگوی استاندارد در کادر سوال درج می‌شود.</p>
+  <div class="tools">
+    <div class="tool" onclick="useTool('این سوال چهارگزینه‌ای کنکور را گام‌به‌گام حل کن، روش حذف گزینه‌ها و راه سریع را هم بگو، و در پایان مفهوم اصلی تست را توضیح بده: ')"><b>🧮 آنالیز تست کنکور</b><span>حل تست + راه سریع + مفهوم</span></div>
+    <div class="tool" onclick="useTool('این تمرین را به صورت کاملاً تشریحی، مرحله‌به‌مرحله و با ذکر دلیل هر گام حل کن: ')"><b>📘 حل تشریحی تمرین</b><span>گام‌به‌گام با استدلال کامل</span></div>
+    <div class="tool" onclick="useTool('مفهوم زیر را از پایه تا سطح پیشرفته با مثال‌های ساده و کاربردی آموزش بده: ')"><b>🎓 آموزش مفهوم</b><span>تدریس از پایه تا پیشرفته</span></div>
+    <div class="tool" onclick="useTool('برای نگارش یا ویرایش مقاله ISI در موضوع زیر راهنمایی کن: ساختار IMRaD، بیان مسئله، نوآوری و منبع‌نویسی استاندارد: ')"><b>📄 نگارش مقاله ISI</b><span>ساختار استاندارد بین‌المللی</span></div>
+    <div class="tool" onclick="useTool('برای درس‌های من یک برنامه‌ریزی هفتگی اصولی با روش مطالعه فعال و مرور فاصله‌دار طراحی کن. اطلاعات من: ')"><b>🗓️ برنامه‌ریزی درسی</b><span>برنامه هفتگی شخصی‌سازی‌شده</span></div>
+    <div class="tool" onclick="useTool('متن زیر را به صورت تخصصی و روان به فارسی ترجمه و اصطلاحات فنی آن را توضیح بده: ')"><b>🌐 ترجمه تخصصی</b><span>ترجمه دقیق متون علمی</span></div>
+  </div>
+</section>
+
+<section class="container">
+  <h2 class="sec-title">مقاطع و مسیرهای آموزشی</h2>
+  <p class="sec-desc">ارائه ساختار یادگیری متناسب با استانداردهای هر مقطع</p>
+  <div class="levels">
+    <div class="lvl"><b>دبستان</b>اول تا ششم</div>
+    <div class="lvl"><b>متوسطه اول</b>هفتم تا نهم</div>
+    <div class="lvl"><b>متوسطه دوم</b>دهم تا دوازدهم</div>
+    <div class="lvl"><b>کنکور</b>آنالیز تست و رتبه برتر</div>
+    <div class="lvl"><b>دانشگاه</b>کارشناسی تا دکتری</div>
+    <div class="lvl"><b>پژوهش</b>مقالات ISI</div>
+  </div>
+</section>
+
+<section id="finance" class="container">
+  <h2 class="sec-title">امور مالی و پشتیبانی</h2>
+  <p class="sec-desc">اطلاعات حساب رسمی جهت تسویه و پشتیبانی مستقیم</p>
+  <div class="card fin">
+    <p style="color:var(--muted); font-size:.9rem;">تسویه حساب‌ها به صورت مستقیم به شماره کارت رسمی زیر انجام می‌گیرد:</p>
+    <div class="finrow">
+      <span class="lbl">شماره کارت رسمی</span>
+      <span class="val" id="cardNum">6037-9915-5554-9678</span>
+      <button class="mini" onclick="copyText('6037991555549678')">کپی</button>
+    </div>
+    <div class="finrow">
+      <span class="lbl">ایمیل پشتیبانی و ارسال فیش</span>
+      <span class="val">Ai.Algorithms.Ballistics@gmail.com</span>
+      <button class="mini" onclick="copyText('Ai.Algorithms.Ballistics@gmail.com')">کپی</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Platform My-AI — شرکت پردرآمد تهرانی‌ها | هدایت علمی: حسین لعلیان (رتبه ۳۲ کنکور دکتری)
+</footer>
+
+<script>
+/* ---------- ابزارهای کمکی ---------- */
+function go(id){ document.getElementById(id).scrollIntoView({behavior:"smooth"}); }
+function useTool(t){ const q=document.getElementById("qInput"); q.value=t; go("workspace"); q.focus(); }
+function copyText(t){ navigator.clipboard.writeText(t); alert("کپی شد ✅"); }
+function copyAnswer(){ navigator.clipboard.writeText(document.getElementById("answerBox").innerText); alert("پاسخ کپی شد ✅"); }
+
+let imgBase64 = null;
+document.getElementById("imgInput").addEventListener("change", function(e){
+  const f = e.target.files[0]; if(!f) return;
+  if(f.size > 4*1024*1024){ alert("حجم تصویر باید کمتر از ۴ مگابایت باشد."); return; }
+  const r = new FileReader();
+  r.onload = ev => { imgBase64 = ev.target.result; document.getElementById("imgName").innerText = "✔ " + f.name; };
+  r.readAsDataURL(f);
+});
+
+/* ---------- ارسال سوال به هوش مصنوعی (بدون کلید) ---------- */
+async function sendQuestionToAI(){
+  const qEl  = document.getElementById("qInput");
+  const box  = document.getElementById("answerBox");
+  const wrap = document.getElementById("answerWrap");
+  const btn  = document.getElementById("sendBtn");
+  const question = qEl.value.trim();
+  const level  = document.getElementById("levelSel").value;
+  const model  = document.getElementById("modelSel").value;
+
+  if(!question && !imgBase64){ alert("لطفاً ابتدا سوال خود را بنویسید یا تصویر سوال را بارگذاری کنید."); return; }
+
+  wrap.style.display = "block";
+  box.innerHTML = '<span class="spin"></span> در حال تحلیل علمی و نگارش پاسخ گام‌به‌گام، لطفاً شکیبا باشید...';
+  btn.disabled = true; btn.style.opacity = .6;
+  go("answerWrap") ? null : document.getElementById("answerWrap").scrollIntoView({behavior:"smooth", block:"center"});
+
+  const system = "شما دستیار هوشمند و تحلیل‌گر ارشد علمی پلتفرم My-AI تحت نظارت حسین لعلیان (رتبه ۳۲ کنکور دکتری) هستید. " +
+    "وظیفه شما حل گام‌به‌گام، تشریحی، دقیق و مستند سوالات دانش‌آموزان و دانشجویان در مقطع «" + level + "» با بالاترین کیفیت آموزشی و بیانی روان فارسی است. " +
+    "همیشه پاسخ را با ساختار مرتب، شماره‌گذاری گام‌ها و در صورت نیاز فرمول‌نویسی واضح ارائه دهید و در پایان نکته کلیدی را جمع‌بندی کنید.";
+
+  const userContent = imgBase64
+    ? [ {type:"text", text: question || "تصویر سوال پیوست شده است. آن را بخوان، صورت سوال را بنویس و گام‌به‌گام حل کن."}, {type:"image_url", image_url:{url: imgBase64}} ]
+    : question;
+
+  try{
+    /* روش اول: POST به اندپوینت سازگار با OpenAI (بدون نیاز به کلید) */
+    let answer = null;
+    try{
+      const r1 = await fetch("https://text.pollinations.ai/openai", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ model: model, messages: [ {role:"system", content: system}, {role:"user", content: userContent} ] })
+      });
+      if(r1.ok){
+        const d1 = await r1.json();
+        if(d1 && d1.choices && d1.choices[0] && d1.choices[0].message) answer = d1.choices[0].message.content;
+      }
+    }catch(e){}
+
+    /* روش دوم: در صورت خطا، اتصال مستقیم متنی */
+    if(!answer){
+      const prompt = encodeURIComponent(system + "\n\nسوال:\n" + (question || "تصویر سوال ارسال شده است."));
+      const r2 = await fetch("https://text.pollinations.ai/" + prompt + "?model=" + model);
+      if(!r2.ok) throw new Error("کد وضعیت سرور: " + r2.status);
+      answer = await r2.text();
     }
-  } catch (error) {
-    responseBox.innerText = "خطای ارتباط با سرور هوش مصنوعی: " + error.message;
+
+    box.innerText = (answer && answer.trim()) ? answer : "پاسخی دریافت نشد. لطفاً دوباره تلاش کنید.";
+  }catch(err){
+    box.innerText = "⚠️ خطا در ارتباط با سامانه هوش مصنوعی (" + err.message + ").\nلطفاً دکمه دریافت پاسخ را دوباره بزنید؛ در صورت تکرار، اتصال اینترنت را بررسی کنید.";
+  }finally{
+    btn.disabled = false; btn.style.opacity = 1;
   }
 }
-</script>
-<script>
-// اتصال دکمه فرم به هوش مصنوعی رایگان
-async function solveQuestion() {
-  // گرفتن ورودی سوال، کادر پاسخ و مقطع تحصیلی
-  const questionInput = document.querySelector("textarea") || document.querySelector("input[type='text']");
-  const resultBox = document.getElementById("responseBox") || document.querySelector(".response-box") || document.querySelector(".answer");
 
-  if (!questionInput || !questionInput.value.trim()) {
-    alert("لطفاً ابتدا سوال خود را بنویسید.");
-    return;
-  }
-
-  const userQuestion = questionInput.value.trim();
-
-  if (resultBox) {
-    resultBox.style.display = "block";
-    resultBox.innerHTML = "⏳ در حال پردازش علمی و نگارش پاسخ تشریحی، لطفاً شکیبا باشید...";
-  }
-
-  try {
-    const prompt = encodeURIComponent(
-      "شما دستیار تخصصی حل مسئله و تحلیل علمی پلتفرم حسین لعلیان هستید. این سوال را کاملاً دقیق، علمی، گام‌به‌گام و با زبان فارسی تشریحی پاسخ دهید: " + userQuestion
-    );
-
-    const response = await fetch(`https://text.pollinations.ai/${prompt}?model=openai`);
-    const answer = await response.text();
-
-    if (resultBox) {
-      resultBox.innerText = answer;
-    }
-  } catch (error) {
-    if (resultBox) {
-      resultBox.innerText = "خطا در برقراری ارتباط با سامانه تحلیل‌گر. لطفاً اتصال اینترنت خود را بررسی کنید.";
-    }
-  }
-}
-
-// متصل کردن دکمه ارسال به تابع بالا
-document.addEventListener("DOMContentLoaded", function() {
-  const submitBtn = document.querySelector("button") || document.querySelector(".btn-submit");
-  if (submitBtn) {
-    submitBtn.onclick = function(e) {
-      e.preventDefault();
-      solveQuestion();
-    };
-  }
+/* ارسال با Ctrl+Enter داخل کادر سوال */
+document.getElementById("qInput").addEventListener("keydown", function(e){
+  if((e.ctrlKey || e.metaKey) && e.key === "Enter") sendQuestionToAI();
 });
 </script>
-
-
-
+</body>
+</html>
