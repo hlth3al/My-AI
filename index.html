@@ -139,8 +139,8 @@
       <div>
         <label for="modelSel">مدل تحلیل‌گر</label>
         <select id="modelSel">
-          <option value="fast">سریع</option>
-          <option value="advanced">پیشرفته</option>
+          <option value="fast">سریع (تحلیل استاندارد)</option>
+          <option value="advanced">پیشرفته (تحلیل عمیق و مفهومی)</option>
         </select>
       </div>
       <div>
@@ -276,40 +276,79 @@ function cleanAndRender(txt){
   }
 }
 
-// ارتباط مستقیم مطابق معماری نسخه اصلی
-async function fetchAI(instruction, userMsg, modelType){
-  const prompt = instruction + "\n\nسوال:\n" + userMsg;
-  const modelName = (modelType === "advanced") ? "openai" : "mistral";
+// سیستم درخواست مقاوم با چند مسیر جایگزین همزمان (Multi-Gateway Engine)
+async function requestAI(sysInstruction, userQuestion, modelType){
+  const selectedModel = (modelType === "advanced") ? "openai" : "mistral";
 
-  // متد ۱: فراخوانی مستقیم سبک اول
-  try {
-    const url = "https://text.pollinations.ai/" + encodeURIComponent(prompt) + "?model=" + modelName;
-    const res = await fetch(url);
-    if(res.ok){
-      const data = await res.text();
-      if(data && data.trim().length > 10) return data;
+  const userContent = imgBase64 ? [
+    { type: "text", text: userQuestion || "لطفاً این تصویر و سوال آن را به طور کامل تحلیل و حل کنید." },
+    { type: "image_url", image_url: { url: imgBase64 } }
+  ] : userQuestion;
+
+  const messagesPayload = [
+    { role: "system", content: sysInstruction },
+    { role: "user", content: userContent }
+  ];
+
+  // لیست گیت‌وی‌ها به ترتیب پایداری و بدون اعمال CORS بلاک
+  const endpoints = [
+    {
+      url: "https://text.pollinations.ai/",
+      options: {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: messagesPayload,
+          model: selectedModel,
+          seed: Math.floor(Math.random() * 100000)
+        })
+      }
+    },
+    {
+      url: "https://text.pollinations.ai/" + encodeURIComponent(sysInstruction + "\n\n" + (userQuestion || "تحلیل تصویر")),
+      options: { method: "GET" }
+    },
+    {
+      url: "https://api.airforce/chat/process",
+      options: {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            { role: "system", content: sysInstruction },
+            { role: "user", content: typeof userContent === "string" ? userContent : userQuestion }
+          ],
+          model: "gpt-4o-mini"
+        })
+      }
     }
-  } catch(e){}
+  ];
 
-  // متد ۲: روش POST سبک اول
-  try {
-    const res2 = await fetch("https://text.pollinations.ai/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages: [
-          { role: "system", content: instruction },
-          { role: "user", content: userMsg }
-        ],
-        model: modelName
-      })
-    });
-    if(res2.ok){
-      const data2 = await res2.text();
-      if(data2 && data2.trim().length > 10) return data2;
+  for(let ep of endpoints){
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 16000);
+      
+      const res = await fetch(ep.url, { ...ep.options, signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if(res.ok){
+        const text = await res.text();
+        if(text && text.trim().length > 15 && !text.includes("<html")){
+          try {
+            const parsed = JSON.parse(text);
+            if(parsed.choices && parsed.choices[0] && parsed.choices[0].message){
+              return parsed.choices[0].message.content;
+            }
+          } catch(e) {}
+          return text;
+        }
+      }
+    } catch(err){
+      // ادامه به مسیر بعدی در صورت بروز هرگونه تایم‌اوت یا خطای شبکه
+      continue;
     }
-  } catch(e){}
-
+  }
   return null;
 }
 
@@ -336,18 +375,18 @@ async function sendQuestionToAI(){
     "نقش: استاد برجسته و مشاور تحصیلی سامانه My-AI.\n" +
     "مخاطب: مقطع تحصیلی «" + level + "».\n" +
     "دستورالعمل:\n" +
-    "۱. با زبان فارسی شیوا، رسا و گام‌به‌گام پاسخ دهید.\n" +
-    "۲. کلیه فرمول‌های ریاضی و کسرها را با فرمت استاندارد $ یا $$ بنویسید.\n" +
-    "۳. از به کاربردن کاراکترهای اضافه یا عبارات فنی مثل displaystyle پرهیز کنید.";
+    "۱. با زبان فارسی شیوا، رسا و کاملاً گام‌به‌گام پاسخ دهید.\n" +
+    "۲. کلیه فرمول‌های ریاضی و کسرها را حتماً در نمادهای استاندارد KaTeX (با $ برای درون خطی و $$ برای مستقل) قرار دهید.\n" +
+    "۳. از درج عبارات سیستمی و تگ‌های خام مانند displaystyle و quad پرهیز کنید.";
 
-  const result = await fetchAI(sysInstruction, question, mode);
+  const result = await requestAI(sysInstruction, question, mode);
 
   btn.disabled = false; btn.style.opacity = 1;
 
-  if(result && result.trim().length > 10){
+  if(result && result.trim().length > 15){
     cleanAndRender(result);
   } else {
-    box.innerHTML = "<div style='color:#f87171; padding:12px; border:1px solid #ef4444; border-radius:10px;'>خطا در دریافت پاسخ. لطفاً مجدداً دکمه ارسال را بزنید.</div>";
+    box.innerHTML = "<div style='color:#f87171; padding:12px; border:1px solid #ef4444; border-radius:10px;'>پردازش پاسخ با وقفه مواجه شد. لطفاً یک بار دیگر روی دکمه «ارسال و دریافت پاسخ» کلیک کنید.</div>";
   }
 }
 
