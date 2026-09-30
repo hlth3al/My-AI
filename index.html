@@ -53,3 +53,54 @@ async function sendQuestionToAI() {
   }
 }
 </script>
+<script>
+// اتصال دکمه فرم به هوش مصنوعی رایگان
+async function solveQuestion() {
+  // گرفتن ورودی سوال، کادر پاسخ و مقطع تحصیلی
+  const questionInput = document.querySelector("textarea") || document.querySelector("input[type='text']");
+  const resultBox = document.getElementById("responseBox") || document.querySelector(".response-box") || document.querySelector(".answer");
+
+  if (!questionInput || !questionInput.value.trim()) {
+    alert("لطفاً ابتدا سوال خود را بنویسید.");
+    return;
+  }
+
+  const userQuestion = questionInput.value.trim();
+
+  if (resultBox) {
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "⏳ در حال پردازش علمی و نگارش پاسخ تشریحی، لطفاً شکیبا باشید...";
+  }
+
+  try {
+    const prompt = encodeURIComponent(
+      "شما دستیار تخصصی حل مسئله و تحلیل علمی پلتفرم حسین لعلیان هستید. این سوال را کاملاً دقیق، علمی، گام‌به‌گام و با زبان فارسی تشریحی پاسخ دهید: " + userQuestion
+    );
+
+    const response = await fetch(`https://text.pollinations.ai/${prompt}?model=openai`);
+    const answer = await response.text();
+
+    if (resultBox) {
+      resultBox.innerText = answer;
+    }
+  } catch (error) {
+    if (resultBox) {
+      resultBox.innerText = "خطا در برقراری ارتباط با سامانه تحلیل‌گر. لطفاً اتصال اینترنت خود را بررسی کنید.";
+    }
+  }
+}
+
+// متصل کردن دکمه ارسال به تابع بالا
+document.addEventListener("DOMContentLoaded", function() {
+  const submitBtn = document.querySelector("button") || document.querySelector(".btn-submit");
+  if (submitBtn) {
+    submitBtn.onclick = function(e) {
+      e.preventDefault();
+      solveQuestion();
+    };
+  }
+});
+</script>
+
+
+
