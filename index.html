@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سامانه جامع پردازش علمی و تحلیلی | Platform My-AI</title>
 
-<!-- بارگذاری کتابخانه‌های رندر فرمول ریاضی و مارک‌داون روان -->
+<!-- کتابخانه‌های رندر روان فرمول‌های ریاضی و متن -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
@@ -21,7 +21,6 @@
   a{ color:var(--acc2); text-decoration:none; }
   .container{ max-width:1080px; margin:0 auto; padding:0 16px; }
 
-  /* Header */
   header{ position:sticky; top:0; z-index:50; background:rgba(11,18,32,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
   .nav{ display:flex; align-items:center; justify-content:space-between; height:64px; }
   .logo{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.05rem; }
@@ -29,9 +28,8 @@
   .nav .links{ display:flex; gap:18px; font-size:.9rem; color:var(--muted); }
   .nav .links a:hover{ color:var(--txt); }
 
-  /* Hero */
-  .hero{ padding:60px 0 35px; text-align:center; background:radial-gradient(900px 300px at 50% -60px, rgba(59,130,246,.18), transparent); }
-  .badge{ display:inline-block; padding:6px 14px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:.8rem; margin-bottom:18px; }
+  .hero{ padding:55px 0 30px; text-align:center; background:radial-gradient(900px 300px at 50% -60px, rgba(59,130,246,.18), transparent); }
+  .badge{ display:inline-block; padding:6px 14px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:.8rem; margin-bottom:16px; }
   .hero h1{ font-size:clamp(1.4rem,4vw,2.2rem); font-weight:900; margin-bottom:10px; }
   .hero p.sub{ color:var(--muted); max-width:720px; margin:0 auto 8px; }
   .hero p.lead{ color:var(--muted); max-width:760px; margin:0 auto 24px; font-size:.95rem; }
@@ -40,15 +38,12 @@
   .btn-primary{ background:linear-gradient(135deg,var(--acc),#2563eb); color:#fff; }
   .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 25px rgba(59,130,246,.35); }
   .btn-ghost{ background:transparent; color:var(--txt); border:1px solid var(--line); }
-  .btn-ghost:hover{ border-color:var(--acc); }
 
-  /* Sections */
   section{ padding:35px 0; }
   .sec-title{ font-size:1.25rem; font-weight:800; margin-bottom:6px; }
   .sec-desc{ color:var(--muted); font-size:.9rem; margin-bottom:20px; }
   .card{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px; }
 
-  /* Workspace */
   .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
   @media(max-width:720px){ .grid2{ grid-template-columns:1fr; } }
   label{ display:block; font-size:.85rem; color:var(--muted); margin:10px 0 6px; }
@@ -57,14 +52,13 @@
     border-radius:12px; padding:12px 14px; font-size:.95rem; outline:none; transition:.2s;
   }
   select:focus, textarea:focus{ border-color:var(--acc); }
-  textarea{ min-height:130px; resize:vertical; }
+  textarea{ min-height:120px; resize:vertical; }
   .filebox{ display:flex; align-items:center; gap:10px; margin-top:10px; flex-wrap:wrap; }
   .filebtn{ cursor:pointer; border:1px dashed var(--line); border-radius:12px; padding:10px 16px; color:var(--muted); font-size:.85rem; }
   .filebtn:hover{ border-color:var(--acc); color:var(--txt); }
   #imgName{ font-size:.8rem; color:var(--ok); }
   .send{ margin-top:16px; width:100%; }
 
-  /* Answer box & Typography */
   #answerWrap{ display:none; margin-top:20px; }
   #answerHead{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   #answerHead h3{ font-size:.95rem; }
@@ -73,7 +67,7 @@
   
   #answerBox{
     background:var(--card2); border:1px solid var(--line); border-radius:14px;
-    padding:22px; min-height:80px; font-size:1rem; line-height:2.1; color:#f1f5f9;
+    padding:22px; min-height:90px; font-size:1rem; line-height:2.2; color:#f1f5f9;
   }
   #answerBox h1, #answerBox h2, #answerBox h3, #answerBox h4{ color:#60a5fa; margin:16px 0 8px; }
   #answerBox p{ margin-bottom:12px; }
@@ -82,26 +76,22 @@
   #answerBox table{ width:100%; border-collapse:collapse; margin:16px 0; font-size:.9rem; }
   #answerBox th, #answerBox td{ border:1px solid var(--line); padding:10px; text-align:right; }
   #answerBox th{ background:rgba(59,130,246,.15); color:var(--acc2); }
-  #answerBox blockquote{ border-right:4px solid var(--acc); padding-right:12px; margin:12px 0; color:var(--muted); }
-  .katex{ direction:ltr !important; display:inline-block; font-size:1.1em; }
-  .katex-display{ direction:ltr !important; margin:14px 0; overflow-x:auto; padding:6px 0; }
+  .katex{ direction:ltr !important; display:inline-block; font-size:1.15em; }
+  .katex-display{ direction:ltr !important; margin:14px 0; overflow-x:auto; }
 
-  .spin{ display:inline-block; width:18px; height:18px; border:2px solid var(--acc); border-top-color:transparent; border-radius:50%; animation:sp 1s linear infinite; vertical-align:-3px; margin-left:8px; }
+  .spin{ display:inline-block; width:16px; height:16px; border:2px solid var(--acc); border-top-color:transparent; border-radius:50%; animation:sp 1s linear infinite; vertical-align:-3px; margin-left:8px; }
   @keyframes sp{ to{ transform:rotate(360deg);} }
 
-  /* Tools */
   .tools{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
   .tool{ cursor:pointer; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; transition:.2s; }
   .tool:hover{ border-color:var(--acc); transform:translateY(-3px); }
   .tool b{ display:block; margin-bottom:6px; font-size:.95rem; }
   .tool span{ color:var(--muted); font-size:.8rem; }
 
-  /* Levels */
   .levels{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
   .lvl{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; text-align:center; font-size:.85rem; color:var(--muted); }
   .lvl b{ display:block; color:var(--txt); margin-bottom:4px; font-size:.9rem; }
 
-  /* Finance */
   .fin{ display:grid; gap:12px; }
   .finrow{ display:flex; justify-content:space-between; align-items:center; gap:10px; background:var(--card2); border:1px solid var(--line); border-radius:12px; padding:14px; flex-wrap:wrap; }
   .finrow .val{ direction:ltr; font-family:monospace; font-size:1rem; letter-spacing:1px; }
@@ -127,7 +117,7 @@
   <div class="badge">سامانه جامع پردازش علمی و تحلیلی</div>
   <h1>پلتفرم هوش مصنوعی من — Platform My-AI</h1>
   <p class="sub"><b>شرکت پردرآمد تهرانی‌ها</b> با هدایت علمی <b>حسین لعلیان</b>، رتبه ۳۲ کنکور دکتری</p>
-  <p class="lead">حل گام‌به‌گام و تحلیل تشریحی از اول دبستان تا دکتری تخصصی، نگارش مقالات ISI و آنالیز تست‌های کنکور با نمایش استاندارد فرمول‌ها.</p>
+  <p class="lead">حل گام‌به‌گام و تحلیل تشریحی از اول دبستان تا دکتری تخصصی، نگارش مقالات ISI و آنالیز تست‌های کنکور با نمایش خوانا و استاندارد فرمول‌ها.</p>
   <div class="cta">
     <button class="btn btn-primary" onclick="go('workspace')">شروع تحلیل و حل سوال ←</button>
     <button class="btn btn-ghost" onclick="go('tools')">مشاهده ابزارها</button>
@@ -143,8 +133,8 @@
       <div>
         <label for="modelSel">مدل تحلیل‌گر</label>
         <select id="modelSel">
-          <option value="openai">پیشرفته</option>
-          <option value="mistral">سریع</option>
+          <option value="advanced">پیشرفته</option>
+          <option value="fast">سریع</option>
         </select>
       </div>
       <div>
@@ -165,7 +155,7 @@
     </div>
 
     <label for="qInput">متن سوال یا مبحث مورد نظر</label>
-    <textarea id="qInput" placeholder="مثال: روش مقایسه کسرها را با مثال تشریحی توضیح بده..."></textarea>
+    <textarea id="qInput" placeholder="مثال: روش مقایسه کسرها را با مثال تشریحی حل کن..."></textarea>
 
     <div class="filebox">
       <label class="filebtn" for="imgInput">📷 بارگذاری تصویر سوال</label>
@@ -177,10 +167,10 @@
 
     <div id="answerWrap">
       <div id="answerHead">
-        <h3>### پاسخ تشریحی و مرتب‌شده</h3>
-        <button class="mini" onclick="copyAnswer()">📋 کپی متن خام</button>
+        <h3>### پاسخ تشریحی و گام‌به‌گام</h3>
+        <button class="mini" onclick="copyAnswer()">📋 کپی پاسخ</button>
       </div>
-      <div id="answerBox">در انتظار ارسال سوال...</div>
+      <div id="answerBox">در انتظار پاسخ...</div>
     </div>
   </div>
 </section>
@@ -189,12 +179,12 @@
   <h2 class="sec-title">ابزارهای تخصصی آموزشی</h2>
   <p class="sec-desc">با کلیک روی هر ابزار، الگوی استاندارد در کادر سوال درج می‌شود.</p>
   <div class="tools">
-    <div class="tool" onclick="useTool('این سوال چهارگزینه‌ای کنکور را گام‌به‌گام حل کن، روش حذف گزینه‌ها و راه سریع را هم بگو، و در پایان نکته تستی را بنویس: ')"><b>🧮 آنالیز تست کنکور</b><span>حل تست + راه سریع + نکته تستی</span></div>
-    <div class="tool" onclick="useTool('این تمرین را به صورت کاملاً تشریحی، مرحله‌به‌مرحله با زبان روان فارسی و با ذکر دلیل حل کن: ')"><b>📘 حل تشریحی تمرین</b><span>گام‌به‌گام با استدلال کامل</span></div>
-    <div class="tool" onclick="useTool('مفهوم زیر را از پایه تا سطح پیشرفته با مثال‌های ساده و کاربردی آموزش بده: ')"><b>🎓 آموزش مفهوم</b><span>تدریس مفهومی با مثال</span></div>
-    <div class="tool" onclick="useTool('برای نگارش یا ویرایش مقاله ISI در موضوع زیر راهنمایی کن: ساختار استاندارد، بیان مسئله، نوآوری و مراجع: ')"><b>📄 نگارش مقاله ISI</b><span>ساختار استاندارد بین‌المللی</span></div>
-    <div class="tool" onclick="useTool('برای درس‌های من یک برنامه‌ریزی هفتگی اصولی با روش مطالعه فعال و مرور فاصله‌دار طراحی کن. اطلاعات من: ')"><b>🗓️ برنامه‌ریزی درسی</b><span>برنامه هفتگی استاندارد</span></div>
-    <div class="tool" onclick="useTool('متن زیر را به فارسی روان و کاملاً علمی ترجمه کن و اصطلاحات تخصصی آن را توضیح بده: ')"><b>🌐 ترجمه تخصصی</b><span>ترجمه دقیق متون علمی</span></div>
+    <div class="tool" onclick="useTool('این سوال چهارگزینه‌ای کنکور را گام‌به‌گام حل کن، روش رد گزینه‌ها و تکنیک تستی سریع را هم بگو: ')"><b>🧮 آنالیز تست کنکور</b><span>حل تست + راه سریع + نکته کنکوری</span></div>
+    <div class="tool" onclick="useTool('این تمرین را به صورت کاملاً تشریحی و مرحله‌به‌مرحله به فارسی روان حل کن: ')"><b>📘 حل تشریحی تمرین</b><span>گام‌به‌گام با استدلال کامل</span></div>
+    <div class="tool" onclick="useTool('مفهوم زیر را از پایه با مثال‌های ساده و کاربردی آموزش بده: ')"><b>🎓 آموزش مفهوم</b><span>آموزش از پایه تا تسلط</span></div>
+    <div class="tool" onclick="useTool('برای نگارش مقاله پژوهشی در موضوع زیر راهنمایی کن: ساختار استاندارد، بیان مسئله، نوآوری و مراجع: ')"><b>📄 نگارش مقاله ISI</b><span>ساختار استاندارد بین‌المللی</span></div>
+    <div class="tool" onclick="useTool('یک برنامه‌ریزی هفتگی اصولی بر اساس مطالعه فعال و مرور فاصله‌دار برای درس‌های من بنویس: ')"><b>🗓️ برنامه‌ریزی درسی</b><span>برنامه هفتگی شخصی‌سازی‌شده</span></div>
+    <div class="tool" onclick="useTool('متن زیر را به صورت روان و علمی به فارسی ترجمه کن: ')"><b>🌐 ترجمه تخصصی</b><span>ترجمه دقیق متون علمی</span></div>
   </div>
 </section>
 
@@ -218,7 +208,7 @@
     <p style="color:var(--muted); font-size:.9rem;">تسویه حساب‌ها به صورت مستقیم به شماره کارت رسمی زیر انجام می‌گیرد:</p>
     <div class="finrow">
       <span class="lbl">شماره کارت رسمی</span>
-      <span class="val" id="cardNum">6037-9915-5554-9678</span>
+      <span class="val">6037-9915-5554-9678</span>
       <button class="mini" onclick="copyText('6037991555549678')">کپی</button>
     </div>
     <div class="finrow">
@@ -237,28 +227,24 @@
 function go(id){ document.getElementById(id).scrollIntoView({behavior:"smooth"}); }
 function useTool(t){ const q=document.getElementById("qInput"); q.value=t; go("workspace"); q.focus(); }
 function copyText(t){ navigator.clipboard.writeText(t); alert("کپی شد ✅"); }
-let lastRawAnswer = "";
-function copyAnswer(){ navigator.clipboard.writeText(lastRawAnswer || document.getElementById("answerBox").innerText); alert("پاسخ کپی شد ✅"); }
+
+let rawResult = "";
+function copyAnswer(){ navigator.clipboard.writeText(rawResult || document.getElementById("answerBox").innerText); alert("پاسخ کپی شد ✅"); }
 
 let imgBase64 = null;
 document.getElementById("imgInput").addEventListener("change", function(e){
   const f = e.target.files[0]; if(!f) return;
-  if(f.size > 3*1024*1024){ alert("حجم تصویر باید کمتر از ۳ مگابایت باشد."); return; }
   const r = new FileReader();
   r.onload = ev => { imgBase64 = ev.target.result; document.getElementById("imgName").innerText = "✔ " + f.name; };
   r.readAsDataURL(f);
 });
 
-// تبدیل خروجی به شکل خوانا و رندر فرمول‌های ریاضی KaTeX
-function renderCleanContent(text){
-  lastRawAnswer = text;
+// رندر خودکار فرمول‌ها با KaTeX و تبدیل به ساختار خوانا
+function renderText(markdown){
+  rawResult = markdown;
   const box = document.getElementById("answerBox");
   try{
-    // تبدیل مارک‌داون به HTML تمیز
-    let html = marked.parse(text);
-    box.innerHTML = html;
-    
-    // رندر فرمول‌های ریاضی KaTeX اگر در متن باشد
+    box.innerHTML = marked.parse(markdown);
     if(window.renderMathInElement){
       renderMathInElement(box, {
         delimiters: [
@@ -271,7 +257,7 @@ function renderCleanContent(text){
       });
     }
   }catch(e){
-    box.innerText = text;
+    box.innerText = markdown;
   }
 }
 
@@ -282,65 +268,63 @@ async function sendQuestionToAI(){
   const btn  = document.getElementById("sendBtn");
   const question = qEl.value.trim();
   const level  = document.getElementById("levelSel").value;
-  const modelMode = document.getElementById("modelSel").value;
+  const mode   = document.getElementById("modelSel").value;
 
-  if(!question && !imgBase64){ alert("لطفاً ابتدا سوال خود را بنویسید یا تصویر سوال را بارگذاری کنید."); return; }
+  if(!question && !imgBase64){ alert("لطفاً ابتدا سوال خود را بنویسید یا تصویر سوال را انتخاب کنید."); return; }
 
   wrap.style.display = "block";
-  box.innerHTML = '<span class="spin"></span> در حال بررسی علمی و نگارش پاسخ دقیق، لطفاً چند لحظه شکیبا باشید...';
+  box.innerHTML = '<span class="spin"></span> در حال نگارش تحلیل علمی...';
   btn.disabled = true; btn.style.opacity = .6;
   wrap.scrollIntoView({behavior:"smooth", block:"center"});
 
-  const system = "شما استاد و تحلیل‌گر ارشد علمی پلتفرم My-AI هستید. " +
-    "پاسخ را به زبان فارسی بسیار سلیس، بدون کلمات ترجمه ماشینی عجیب و بدون غلط نگارشی ارائه دهید. " +
-    "سطح علمی مخاطب: «" + level + "». " +
-    "مراحل حل را شماره‌گذاری شده و واضح بنویسید. برای فرمول‌ها از نمادهای استاندارد ریاضی مانند $ یا $$ استفاده کنید. در پایان پاسخ، یک خلاصه صریح و نتیجه‌گیری قرار دهید.";
+  const sysPrompt = "شما استاد و دستیار ارشد علمی در پلتفرم آموزشی My-AI هستید. " +
+    "به زبان فارسی کاملاً روان و طبیعی (بدون عبارات نامفهوم و ترجمه غلط ماشینی) برای مقطع «" + level + "» پاسخ دهید. " +
+    "پاسخ باید گام‌به‌گام و شکیل باشد. اگر فرمول ریاضی وجود دارد، با نماد استاندارد $ یا $$ بنویسید تا مرتب دیده شود.";
 
-  try{
-    let answer = null;
+  const fullPrompt = sysPrompt + "\n\nسوال دانش‌آموز:\n" + question;
+
+  let answerText = "";
+
+  // استراتژی دوگانه ضدقطعی و بدون محدودیت تایم‌اوت در ایران
+  try {
+    // مسیر ۱: سرور سریع کلود کلودفلر
+    const chosenModel = (mode === "advanced") ? "openai" : "mistral";
+    const url1 = "https://text.pollinations.ai/" + encodeURIComponent(fullPrompt) + "?model=" + chosenModel + "&cache=false";
     
-    // ارسال به اندپوینت با کمترین تاخیر ممکن
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 28000); // جلوگیری از معطلی بیهوده
+    const r1 = await fetch(url1);
+    if(r1.ok){
+      answerText = await r1.text();
+    }
+  } catch(e) {
+    // در صورت قطعی مسیر اول، خودکار بدون ارور رد می‌شود به مسیر دوم
+  }
 
-    if(imgBase64){
-      const res = await fetch("https://text.pollinations.ai/openai", {
-        method:"POST",
-        signal: controller.signal,
-        headers:{ "Content-Type":"application/json" },
+  // اگر مسیر اول کند یا مسدود بود، فورا از مسیر دوم پرسرعت دریافت کن
+  if(!answerText || answerText.trim().length < 5){
+    try {
+      const r2 = await fetch("https://text.pollinations.ai/openai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "openai",
           messages: [
-            {role:"system", content: system},
-            {role:"user", content: [
-              {type:"text", text: question || "لطفاً این سوال را بخوانید و کامل حل کنید."},
-              {type:"image_url", image_url:{url: imgBase64}}
-            ]}
+            { role: "system", content: sysPrompt },
+            { role: "user", content: question || "لطفاً سوال را تشریحی حل کنید." }
           ]
         })
       });
-      clearTimeout(timeoutId);
-      if(res.ok){
-        const data = await res.json();
-        if(data && data.choices && data.choices[0]) answer = data.choices[0].message.content;
+      if(r2.ok){
+        const d = await r2.json();
+        if(d && d.choices && d.choices[0]) answerText = d.choices[0].message.content;
       }
-    } else {
-      // متن متنی مستقیم و پرسرعت
-      const prompt = encodeURIComponent(system + "\n\nسوال دانش‌آموز:\n" + question);
-      const res = await fetch("https://text.pollinations.ai/" + prompt + "?model=" + modelMode, { signal: controller.signal });
-      clearTimeout(timeoutId);
-      if(res.ok) answer = await res.text();
-    }
+    } catch(err2){}
+  }
 
-    if(answer && answer.trim()){
-      renderCleanContent(answer);
-    } else {
-      throw new Error("پاسخی دریافت نشد.");
-    }
-  }catch(err){
-    box.innerHTML = "⚠️ در برقراری ارتباط تاخیر ایجاد شد (" + (err.name === 'AbortError' ? 'زمان پاسخ طولانی شد' : err.message) + ").<br>لطفاً <b>فیلترشکن خود را بررسی کرده</b> و مجدداً دکمه «دریافت پاسخ تحلیلی» را لمس کنید.";
-  }finally{
-    btn.disabled = false; btn.style.opacity = 1;
+  btn.disabled = false; btn.style.opacity = 1;
+
+  if(answerText && answerText.trim()){
+    renderText(answerText);
+  } else {
+    box.innerHTML = "⚠️ پاسخ در این لحظه با تاخیر مواجه شد. لطفاً فیلترشکن خود را تغییر دهید و یک‌بار دیگر دکمه ارسال را بزنید.";
   }
 }
 
