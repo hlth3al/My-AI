@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سامانه جامع پردازش علمی و تحلیلی | Platform My-AI</title>
 
-<!-- بارگذاری مطمئن و مستقیم موتور فرمول‌نویسی ریاضی و مارک‌داون -->
+<!-- بارگذاری موتور فرمول‌نویسی KaTeX و مفسر مارک‌داون -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
@@ -82,7 +82,6 @@
   #answerBox th{ background:rgba(37,99,235,.2); color:#93c5fd; }
   #answerBox blockquote{ border-right:4px solid var(--acc); padding:6px 12px; margin:12px 0; background:rgba(37,99,235,.08); border-radius:0 8px 8px 0; }
 
-  /* رندر تمیز فرمول‌ها بدون درهم‌ریختگی متن */
   .katex{ direction:ltr !important; font-size:1.15em !important; text-align:left; }
   .katex-display{ direction:ltr !important; margin:14px 0 !important; overflow-x:auto; text-align:center; padding:6px 0; }
 
@@ -245,7 +244,6 @@ document.getElementById("imgInput").addEventListener("change", function(e){
   r.readAsDataURL(f);
 });
 
-// پالایش دستورات خام و جلوگیری از چاپ کدهای عجیب و به هم ریختن فرمول‌ها
 function cleanAndRender(txt){
   rawResult = txt;
   const box = document.getElementById("answerBox");
@@ -278,62 +276,36 @@ function cleanAndRender(txt){
   }
 }
 
-// موتور ارتباطی چندمسیره ضدانسداد
+// موتور ارتباطی نسل جدید بدون مشکل CORS و بدون انسداد
 async function fetchAI(instruction, userMsg, modelType){
-  const combined = instruction + "\n\nسوال:\n" + userMsg;
-  const modelName = (modelType === "advanced") ? "openai" : "mistral";
+  const promptText = instruction + "\n\nسوال کاربر:\n" + userMsg;
 
-  // مسیر اول: فراخوانی مستقیم API با تایم‌اوت کنترل‌شده
-  try {
-    const ctrl1 = new AbortController();
-    const t1 = setTimeout(() => ctrl1.abort(), 9000);
-    const res1 = await fetch("https://text.pollinations.ai/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages: [
-          { role: "system", content: instruction },
-          { role: "user", content: userMsg }
-        ],
-        model: modelName,
-        jsonMode: false
-      }),
-      signal: ctrl1.signal
-    });
-    clearTimeout(t1);
-    if(res1.ok){
-      const data = await res1.text();
-      if(data && data.trim().length > 15) return data;
-    }
-  } catch(e){}
+  // مسیر اول: پروتکل معکوس با پروکسی جهانی بدون فیلتر و بدون خطای هدر CORS
+  const targetUrl = "https://text.pollinations.ai/" + encodeURIComponent(promptText) + "?model=" + (modelType === "advanced" ? "openai" : "mistral");
 
-  // مسیر دوم: کلودفلر ورکرز بدون نیاز به پروکسی
-  try {
-    const ctrl2 = new AbortController();
-    const t2 = setTimeout(() => ctrl2.abort(), 9000);
-    const res2 = await fetch("https://text.pollinations.ai/" + encodeURIComponent(combined) + "?model=" + modelName, {
-      signal: ctrl2.signal
-    });
-    clearTimeout(t2);
-    if(res2.ok){
-      const data2 = await res2.text();
-      if(data2 && data2.trim().length > 15) return data2;
-    }
-  } catch(e){}
+  // لیست گیت‌وی‌های باز بدون فیلتر
+  const gateways = [
+    "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl),
+    "https://corsproxy.io/?" + encodeURIComponent(targetUrl),
+    "https://text.pollinations.ai/" + encodeURIComponent(promptText)
+  ];
 
-  // مسیر سوم: سرویس بازگرداننده رایگان و سریع کمکی
-  try {
-    const ctrl3 = new AbortController();
-    const t3 = setTimeout(() => ctrl3.abort(), 11000);
-    const res3 = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent("https://text.pollinations.ai/" + encodeURIComponent(combined)), {
-      signal: ctrl3.signal
-    });
-    clearTimeout(t3);
-    if(res3.ok){
-      const data3 = await res3.text();
-      if(data3 && data3.trim().length > 15) return data3;
+  for(let i = 0; i < gateways.length; i++){
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 12000);
+      const res = await fetch(gateways[i], { signal: ctrl.signal });
+      clearTimeout(timer);
+      if(res.ok){
+        const text = await res.text();
+        if(text && text.trim().length > 10 && !text.includes("<html") && !text.includes("CodeTabs")){
+          return text;
+        }
+      }
+    } catch(e) {
+      console.warn("Gateway " + i + " failed, switching...", e);
     }
-  } catch(e){}
+  }
 
   return null;
 }
@@ -373,7 +345,7 @@ async function sendQuestionToAI(){
   if(result && result.trim().length > 10){
     cleanAndRender(result);
   } else {
-    box.innerHTML = "⚠️ ارتباط اینترنتی سرور با تاخیر مواجه شد. لطفاً یک‌بار اتصال اینترنت یا فیلترشکن خود را روشن/خاموش کرده و مجدد دکمه ارسال را بزنید.";
+    box.innerHTML = "⚠️ امکان برقراری ارتباط با هسته پردازشی به علت مسدودی شبکه اینترنت فراهم نشد. لطفاً در صورت امکان فیلترشکن را روشن کرده و مجدد دکمه ارسال را بزنید.";
   }
 }
 
