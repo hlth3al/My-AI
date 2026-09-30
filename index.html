@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سامانه جامع پردازش علمی و تحلیلی | Platform My-AI</title>
 
-<!-- لود منابع KaTeX و Marked با CDNهای پرسرعت و پایدار در ایران -->
+<!-- لود منابع KaTeX و Marked -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
@@ -174,7 +174,7 @@
         <h3>### پاسخ تشریحی و ساختاریافته</h3>
         <button class="mini" onclick="copyAnswer()">📋 کپی کامل متن</button>
       </div>
-      <div id="answerBox">در حال فراخوانی...</div>
+      <div id="answerBox">در حال نگارش پاسخ...</div>
     </div>
   </div>
 </section>
@@ -276,78 +276,51 @@ function cleanAndRender(txt){
   }
 }
 
-// موتور پایدار و تست‌شده با قابلیت دور زدن محدودیت‌های شبکه ایران
+// ارتباط مستقیم مطابق معماری نسخه اصلی
 async function fetchAI(instruction, userMsg, modelType){
-  const fullPrompt = instruction + "\n\nسوال کاربر:\n" + userMsg;
-  const model = (modelType === "advanced") ? "openai" : "mistral";
+  const prompt = instruction + "\n\nسوال:\n" + userMsg;
+  const modelName = (modelType === "advanced") ? "openai" : "mistral";
 
-  // استراتژی ۱: ارسال مستقیم از طریق آدرس امن کلودفلر (بدون CORS)
+  // متد ۱: فراخوانی مستقیم سبک اول
   try {
-    const ctrl1 = new AbortController();
-    const t1 = setTimeout(() => ctrl1.abort(), 14000);
-    const res1 = await fetch("https://text.pollinations.ai/", {
+    const url = "https://text.pollinations.ai/" + encodeURIComponent(prompt) + "?model=" + modelName;
+    const res = await fetch(url);
+    if(res.ok){
+      const data = await res.text();
+      if(data && data.trim().length > 10) return data;
+    }
+  } catch(e){}
+
+  // متد ۲: روش POST سبک اول
+  try {
+    const res2 = await fetch("https://text.pollinations.ai/", {
       method: "POST",
-      mode: "cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         messages: [
           { role: "system", content: instruction },
           { role: "user", content: userMsg }
         ],
-        model: model,
-        seed: Math.floor(Math.random() * 100000)
-      }),
-      signal: ctrl1.signal
+        model: modelName
+      })
     });
-    clearTimeout(t1);
-    if(res1.ok){
-      const data = await res1.text();
-      if(data && data.trim().length > 15) return data;
-    }
-  } catch(e) {
-    console.warn("Strategy 1 failed:", e);
-  }
-
-  // استراتژی ۲: اندپوینت GET با فرمت انکود شده و پروکسی شتاب‌نگار
-  try {
-    const ctrl2 = new AbortController();
-    const t2 = setTimeout(() => ctrl2.abort(), 14000);
-    const getUrl = "https://text.pollinations.ai/" + encodeURIComponent(fullPrompt) + "?model=" + model;
-    const res2 = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(getUrl), { signal: ctrl2.signal });
-    clearTimeout(t2);
     if(res2.ok){
       const data2 = await res2.text();
-      if(data2 && data2.trim().length > 15) return data2;
+      if(data2 && data2.trim().length > 10) return data2;
     }
-  } catch(e) {
-    console.warn("Strategy 2 failed:", e);
-  }
-
-  // استراتژی ۳: سرور بازرس جایگزین
-  try {
-    const ctrl3 = new AbortController();
-    const t3 = setTimeout(() => ctrl3.abort(), 12000);
-    const res3 = await fetch("https://text.pollinations.ai/" + encodeURIComponent(fullPrompt), { signal: ctrl3.signal });
-    clearTimeout(t3);
-    if(res3.ok){
-      const data3 = await res3.text();
-      if(data3 && data3.trim().length > 15) return data3;
-    }
-  } catch(e) {
-    console.warn("Strategy 3 failed:", e);
-  }
+  } catch(e){}
 
   return null;
 }
 
 async function sendQuestionToAI(){
-  const qEl  = document.getElementById("qInput");
-  const box  = document.getElementById("answerBox");
+  const qEl = document.getElementById("qInput");
+  const box = document.getElementById("answerBox");
   const wrap = document.getElementById("answerWrap");
-  const btn  = document.getElementById("sendBtn");
+  const btn = document.getElementById("sendBtn");
   const question = qEl.value.trim();
-  const level  = document.getElementById("levelSel").value;
-  const mode   = document.getElementById("modelSel").value;
+  const level = document.getElementById("levelSel").value;
+  const mode = document.getElementById("modelSel").value;
 
   if(!question && !imgBase64){
     alert("لطفاً سوال خود را بنویسید یا تصویری را انتخاب کنید.");
@@ -362,11 +335,10 @@ async function sendQuestionToAI(){
   const sysInstruction = 
     "نقش: استاد برجسته و مشاور تحصیلی سامانه My-AI.\n" +
     "مخاطب: مقطع تحصیلی «" + level + "».\n" +
-    "اصول نگارش:\n" +
-    "۱. با فارسی کاملاً روان، رسمی و شیوا بنویسید؛ از واژه‌های عجیب ماشینی استفاده نکنید.\n" +
-    "۲. پاسخ را گام‌به‌گام (گام ۱، گام ۲ و ...) با تیترهای منظم و جداول تمیز بنویسید.\n" +
-    "۳. برای هر فرمول ریاضی یا کسر از $ برای فرمول داخل متن و از $$ برای فرمول خط جداگانه استفاده کنید.\n" +
-    "۴. از نوشتن کلمات فنی لاتک مانند displaystyle یا backslash های نامرتب در متن فارسی خودداری کنید.";
+    "دستورالعمل:\n" +
+    "۱. با زبان فارسی شیوا، رسا و گام‌به‌گام پاسخ دهید.\n" +
+    "۲. کلیه فرمول‌های ریاضی و کسرها را با فرمت استاندارد $ یا $$ بنویسید.\n" +
+    "۳. از به کاربردن کاراکترهای اضافه یا عبارات فنی مثل displaystyle پرهیز کنید.";
 
   const result = await fetchAI(sysInstruction, question, mode);
 
@@ -375,14 +347,7 @@ async function sendQuestionToAI(){
   if(result && result.trim().length > 10){
     cleanAndRender(result);
   } else {
-    box.innerHTML = 
-      "<div style='border:1px solid #ef4444; border-radius:10px; padding:15px; background:rgba(239,68,68,0.08);'>" +
-      "<b style='color:#ef4444; font-size:1.05rem;'>⚠️ عدم پاسخگویی سرور پردازش ابری</b>" +
-      "<p style='margin-top:8px; font-size:0.9rem; color:var(--txt);'>" +
-      "سایت در تلاش برای برقراری ارتباط با ۳ مسیر هوش مصنوعی بود، اما به دلیل اختلال اینترنت اپراتور یا فیلترینگ فعلی، پاسخ دریافت نشد.<br>" +
-      "<b>راهکار فوری:</b> سایفون یا فیلترشکن را فعال کرده، یک‌بار صفحه را Refresh (تازه) کنید و سپس دکمه ارسال را بزنید." +
-      "</p>" +
-      "</div>";
+    box.innerHTML = "<div style='color:#f87171; padding:12px; border:1px solid #ef4444; border-radius:10px;'>خطا در دریافت پاسخ. لطفاً مجدداً دکمه ارسال را بزنید.</div>";
   }
 }
 
