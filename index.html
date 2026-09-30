@@ -327,16 +327,9 @@
   'use strict';
 
   // =========================================================================
-  // 🔑 کلید اختصاصی GapGPT خود را دقیقاً بین علامت‌های کوتیشن زیر قرار دهید:
+  // 🔑 کلید اختصاصی سامانه Class-AI را درون گیومه قرار دهید:
   // =========================================================================
-  const GAPGPT_API_KEY = "sk-ajWeLnwkpjMjklWADQAvcNx4RuuUhKxJvUzmWyIy9sIWyuSr";
-
-  // آدرس‌های رسمی GapGPT طبق مستندات (بدون فیلتر و مستقیم در ایران)
-  const GAPGPT_ENDPOINTS = [
-    "https://api.gapgpt.app/v1/chat/completions",
-    "https://api.gapapi.com/v1/chat/completions"
-  ];
-  const MODEL_NAME = "gpt-4o";
+  const AI_SERVICE_TOKEN = "sk-ajWeLnwkpjMjklWADQAvcNx4RuuUhKxJvUzmWyIy9sIWyuSr";
 
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
@@ -382,7 +375,7 @@
     'رفع اشکال آنلاین و پاسخ به سوالات'
   ];
 
-  // دکمه‌های سطوح هوشمند
+  // رسم گروه‌ها
   const host = $('#groups');
   groups.forEach(([title, n]) => {
     const box = document.createElement('article');
@@ -406,7 +399,7 @@
     host.append(box);
   });
 
-  // دکمه‌های تکمیلی
+  // رسم ابزارها
   tools.forEach((t, i) => {
     const b = document.createElement('button');
     b.className = 'task tool c' + (i % 14 + 1);
@@ -465,7 +458,79 @@
     $('#preview').hidden = true;
   };
 
-  // تابع فراخوانی API بهینه شده مخصوص GapGPT
+  // موتور ارسال درخواست شبکه مستقل و چندمسیره
+  async function executeRequest(payload) {
+    const targetUrl = 'https://api.gapgpt.app/v1/chat/completions';
+    const altTargetUrl = 'https://api.gapapi.com/v1/chat/completions';
+
+    // استراتژی‌های آبشاری جهت عبور قطعی از محدودیت‌های شبکه و CORS
+    const attempts = [
+      // ۱. اتصال مستقیم
+      async () => {
+        const res = await fetch(targetUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
+          },
+          body: JSON.stringify(payload)
+        });
+        return await res.json();
+      },
+      // ۲. اتصال از طریق گیت دوم مستقیم
+      async () => {
+        const res = await fetch(altTargetUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
+          },
+          body: JSON.stringify(payload)
+        });
+        return await res.json();
+      },
+      // ۳. عبور از فیلتر مرورگر (پل اول)
+      async () => {
+        const pUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
+        const res = await fetch(pUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
+          },
+          body: JSON.stringify(payload)
+        });
+        return await res.json();
+      },
+      // ۴. عبور از فیلتر مرورگر (پل دوم - پشتیبان)
+      async () => {
+        const pUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl);
+        const res = await fetch(pUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
+          },
+          body: JSON.stringify(payload)
+        });
+        return await res.json();
+      }
+    ];
+
+    for (const attempt of attempts) {
+      try {
+        const data = await attempt();
+        if (data?.choices?.[0]?.message?.content) {
+          return data.choices[0].message.content;
+        }
+      } catch (e) {
+        // ادامه به مسیر بعدی در صورت بروز هرگونه مانع شبکه‌ای
+      }
+    }
+    return null;
+  }
+
+  // هسته پردازش
   async function ask(actionTitle){
     const qInput = $('#question');
     const q = qInput.value.trim();
@@ -475,98 +540,46 @@
       return;
     }
 
-    if(!GAPGPT_API_KEY || GAPGPT_API_KEY.includes('کلید_گپ_جی_پی_تی')){
-      $('#result').textContent = '⚠️ کلید API گپ‌جی‌پی‌تی وارد نشده است! لطفاً کلید خود را در خط GAPGPT_API_KEY قرار دهید.';
+    if(!AI_SERVICE_TOKEN || AI_SERVICE_TOKEN.includes('کلید_')){
+      $('#result').textContent = '⚠️ کلید فعال‌سازی پردازش تنظیم نشده است. لطفاً توکن سامانه را در متغیر AI_SERVICE_TOKEN وارد کنید.';
       $('#result').classList.add('error');
-      $('#status').textContent = 'کلید API یافت نشد.';
+      $('#status').textContent = 'عدم شناسایی کلید فعال‌سازی.';
       return;
     }
 
-    $('#status').textContent = 'در حال اتصال به سرور هوش مصنوعی GapGPT...';
+    $('#status').textContent = 'در حال پردازش درخواست در سامانه Class-AI...';
     $('#result').classList.remove('error');
     $('#result').textContent = 'در حال تحلیل علمی مسئله و محاسبه گام‌به‌گام، لطفاً شکیبا باشید...';
     $('#resultsSection').scrollIntoView({behavior:'smooth'});
 
-    const systemPrompt = `شما دستیار ارشد هوشمند، دقیق و تخصصی سامانه جامع علمی Class-AI هستید. وظیفه شما: "${actionTitle}". به زبان فارسی علمی، گام‌به‌گام، تشریحی و کامل پاسخ دهید. فرمول‌ها، تحلیل تله‌ها و نکات کلیدی را شفاف بیان کنید.`;
+    const systemPrompt = `شما هسته پردازش هوشمند سامانه تحلیلی Class-AI هستید. عملیات: "${actionTitle}". پاسخ باید کاملاً علمی، گام‌به‌گام، مستدل و تشریحی به زبان فارسی باشد و به تحلیل دقیق فرمول‌ها یا تله‌ها بپردازد.`;
 
     const userContent = imageData
       ? [
-          { type: 'text', text: systemPrompt + '\n\nمتن پرسش:\n' + (q || 'لطفاً تصویر ضمیمه شده را دقیق تحلیل کنید.') },
+          { type: 'text', text: systemPrompt + '\n\nمتن مسئله:\n' + (q || 'لطفاً تصویر ضمیمه شده را دقیق تحلیل کنید.') },
           { type: 'image_url', image_url: { url: imageData } }
         ]
-      : systemPrompt + '\n\nمتن پرسش:\n' + q;
+      : systemPrompt + '\n\nمتن مسئله:\n' + q;
 
-    const requestBody = {
-      model: MODEL_NAME,
+    const payload = {
+      model: 'gpt-4o',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userContent }
       ],
-      temperature: 0.5
+      temperature: 0.4
     };
 
-    let answer = null;
-    let errorDetail = '';
+    const response = await executeRequest(payload);
 
-    // حلقه تلاش روی اندپوینت‌های رسمی GapGPT
-    for (const url of GAPGPT_ENDPOINTS) {
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + GAPGPT_API_KEY.trim()
-          },
-          body: JSON.stringify(requestBody)
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data?.choices?.[0]?.message?.content) {
-            answer = data.choices[0].message.content;
-            break;
-          }
-        } else {
-          const errData = await response.json().catch(() => ({}));
-          errorDetail = errData?.error?.message || response.statusText;
-        }
-      } catch (err) {
-        errorDetail = err.message || 'خطای شبکه';
-      }
-    }
-
-    // اگر مستقیم به دلیل محدودیت مرورگر بلاک شد، از طریق پروکسی ایمن به GapGPT هدایت می‌شود
-    if (!answer) {
-      for (const url of GAPGPT_ENDPOINTS) {
-        try {
-          const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-          const response = await fetch(proxyUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + GAPGPT_API_KEY.trim()
-            },
-            body: JSON.stringify(requestBody)
-          });
-          if (response.ok) {
-            const data = await response.json();
-            if (data?.choices?.[0]?.message?.content) {
-              answer = data.choices[0].message.content;
-              break;
-            }
-          }
-        } catch (e) {}
-      }
-    }
-
-    if (answer && answer.trim()) {
-      lastAnswer = answer;
-      $('#result').textContent = answer;
-      $('#status').textContent = 'پاسخ با موفقیت از سرور GapGPT دریافت شد ✅';
+    if (response && response.trim()) {
+      lastAnswer = response;
+      $('#result').textContent = response;
+      $('#status').textContent = 'پاسخ با موفقیت پردازش شد ✅';
     } else {
-      $('#result').textContent = '⚠️ خطا در دریافت پاسخ از GapGPT:\n' + (errorDetail || 'لطفاً اعتبار کلید یا اتصال اینترنت را چک فرمایید.');
+      $('#result').textContent = '⚠️ امکان دریافت پاسخ در این لحظه میسر نشد. لطفاً اتصال اینترنت یا فعال بودن کلید سامانه را بررسی فرمایید.';
       $('#result').classList.add('error');
-      $('#status').textContent = 'خطا در ارتباط با GapGPT.';
+      $('#status').textContent = 'عدم برقراری ارتباط با هسته مرکزی.';
     }
   }
 
