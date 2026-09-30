@@ -1,4 +1,3 @@
- 
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
@@ -126,7 +125,7 @@
     }
     .task:active{transform:scale(.96)}
 
-/* کلاس‌های رنگی دسته‌بندی‌ها */
+    /* کلاس‌های رنگی دسته‌بندی‌ها */
     .c1{--color:#39dbc4}.c2{--color:#ffbd4a}.c3{--color:#bd8cff}.c4{--color:#ff6d91}
     .c5{--color:#63b7ff}.c6{--color:#9ce15c}.c7{--color:#ff8d4d}.c8{--color:#4ed6e8}
     .c9{--color:#f28adb}.c10{--color:#c9df5a}.c11{--color:#f17661}.c12{--color:#a28cff}
@@ -246,7 +245,7 @@
     </div>
   </section>
 
-<!-- ورودی پرسش -->
+  <!-- ورودی پرسش -->
   <section class="panel" id="workspace">
     <h2 class="section-title" style="margin-top:0">ورودی پرسش</h2>
     <textarea id="question" class="question" placeholder="سوال، تمرین یا موضوع خود را اینجا بنویسید یا یکی از دکمه‌های هوشمند پایین را بزنید..."></textarea>
@@ -336,7 +335,7 @@
       <p>بدلیل تقلب و سوءarticle>
   </section>
 
-<footer>
+  <footer>
     اخطار مالکیت فکری! تمامی حقوق این پلتفرم متعلق به حسین لعلیان میباشد؛ لذا هرگونه کپی برداری پیگرد قانونی دارد!
   </footer>
 </main>
@@ -455,8 +454,7 @@
   // هندلر آپلود عکس
   $('#imageFile').onchange = e => {
     const f = e.target.files[0];
-
-if(!f) return;
+    if(!f) return;
     if(!f.type.startsWith('image/')){
       alert('لطفاً یک فایل تصویری انتخاب فرمایید.');
       return;
@@ -491,7 +489,7 @@ if(!f) return;
     $('#result').textContent = 'در حال تحلیل علمی مسئله و فرمول‌بندی، لطفاً شکیبا باشید...';
     $('#resultsSection').scrollIntoView({behavior:'smooth'});
 
-    const systemPrompt = شما دستیار ارشد هوشمند، دقیق و تخصصی سامانه جامع علمی Class-AI هستید. وظیفه شما: "${actionTitle}". به زبان فارسی علمی، گام‌به‌گام، تشریحی و کامل پاسخ دهید. فرمول‌ها، تحلیل تله‌ها و نکات کلیدی را شفاف و خوانا بیان کنید.;
+    const systemPrompt = `شما دستیار ارشد هوشمند، دقیق و تخصصی سامانه جامع علمی Class-AI هستید. وظیفه شما: "${actionTitle}". به زبان فارسی علمی، گام‌به‌گام، تشریحی و کامل پاسخ دهید. فرمول‌ها، تحلیل تله‌ها و نکات کلیدی را شفاف و خوانا بیان کنید.`;
 
     const userPayload = imageData
       ? [
@@ -567,7 +565,7 @@ if(!f) return;
     $('#removeImage').click();
   };
 
-// کپی شماره کارت و ایمیل
+  // کپی شماره کارت و ایمیل
   $$('[data-copy]').forEach(b => {
     b.onclick = async () => {
       try{
