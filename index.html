@@ -148,6 +148,7 @@
 
     .results{
       min-height:120px;
+      white-space:normal;
       background:var(--panel2);
       border:1px solid var(--line);
       border-radius:12px;
@@ -217,48 +218,41 @@
   <section class="hero">
     <article class="card glow">
       <h1>Class-AI</h1>
-      <p>پلتفرم انجام دهنده تکلیف و امتحان توی خونه مجازی توسط هوش مصنوعی</p>
-      <p>پلتفرم کلاس درس مدرسه و دانشگاه و موسسه کنکوری مجازی توی خونه توسط هوش مصنوعی</p>
-      <p>پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی</p>
-      <p>پلتفرم دانشگاه مجازی توسط هوش مصنوعی</p>
+      <p>پلتفرم انجام دهنده تکلیف و امتحان توسط هوش مصنوعی</p>
+      <p>پلتفرم کلاس درس مدرسه و دانشگاه و موسسه کنکوری مجازی</p>
+      <p>پلتفرم موسسه کنکور و دانشگاه مجازی توسط هوش مصنوعی</p>
     </article>
     <article class="card glow">
       <h2>یادگیری و ارزیابی مجازی</h2>
-      <p>پلتفرم تکلیف کتبی مجازی توسط هوش مصنوعی</p>
-      <p>پلتفرم تکلیف شفاهی مجازی توسط هوش مصنوعی</p>
-      <p>پلتفرم امتحان کتبی مجازی توسط هوش مصنوعی</p>
-      <p>پلتفرم امتحان شفاهی مجازی توسط هوش مصنوعی</p>
+      <p>پلتفرم تکلیف کتبی و شفاهی مجازی توسط هوش مصنوعی</p>
+      <p>پلتفرم امتحان کتبی و شفاهی مجازی توسط هوش مصنوعی</p>
     </article>
     <article class="card glow">
-      <h2>مدیریت: حسین لعلیان (رتبه ۳۲ کنکور دکتری)</h2>
-      <p>تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی آی‌تی و صنایع</p>
+      <h2>مدیریت: حسین لعلیان</h2>
+      <p>رتبه ۳۲ کنکور دکتری و دانش‌آموخته ۶ دانشکده تخصصی</p>
       <p>صحت موضوع را از وزارت علوم جویا شوید!</p>
     </article>
   </section>
 
   <section class="panel benefit-card">
     <div class="benefit-copy">
-      <strong>مزیت خرید بسته ها:</strong>
-      <span>اگر مدتی از بسته خود استفاده نکنید، اعتبار شما هرگز منقضی نمی‌شود!</span>
+      <strong>مزیت خرید بسته‌ها:</strong>
+      <span>اعتبار شما هرگز منقضی و باطل نمی‌شود!</span>
     </div>
   </section>
 
   <section class="panel" id="workspace">
     <h2 class="section-title" style="margin-top:0">ورودی پرسش</h2>
-    <textarea id="question" class="question" placeholder="سوال خود را بنویسید یا عکسی انتخاب کنید..."></textarea>
-    
+    <textarea id="question" class="question" placeholder="سوال خود را اینجا بنویسید..."></textarea>
     <div class="row" style="margin-top:12px">
       <label class="action" for="imageFile">📷 انتخاب عکس</label>
       <input id="imageFile" type="file" accept="image/*" hidden>
-      <button class="action answer-action" id="askBtn" type="button">🚀 دریافت پاسخ سریع</button>
+      <button class="action answer-action" id="askBtn" type="button">🚀 دریافت پاسخ هوشمند</button>
       <button class="action mic" id="micBtn" type="button">🎤 ورودی صوتی</button>
-      <button class="action" id="voiceBtn" type="button">🔊 پخش صوتی</button>
+      <button class="action" id="voiceBtn" type="button">🔊 پاسخ صوتی</button>
+      <button class="action" id="saveAudio" type="button">💾 ذخیره صوت</button>
     </div>
-
-    <div id="preview" class="preview" hidden>
-      <img id="thumb" alt="پیش‌نمایش">
-      <button id="removeImage" class="action" type="button">حذف عکس</button>
-    </div>
+    <div id="preview" class="preview" hidden><img id="thumb"><button id="removeImage" class="action">حذف</button></div>
     <p id="status" class="status"></p>
   </section>
 
@@ -266,29 +260,28 @@
     <div class="row" style="justify-content:space-between;margin-bottom:10px">
       <h2 class="section-title" style="margin:0">نتایج پردازش علمی</h2>
       <div class="row">
-        <button id="copyAnswer" class="action" type="button">📋 کپی</button>
-        <button id="clear" class="action" type="button">🗑️ پاکسازی</button>
+        <button id="copyAnswer" class="action">📋 کپی</button>
+        <button id="clear" class="action">🗑️ پاک کردن</button>
       </div>
     </div>
     <div id="result" class="results"></div>
   </section>
 
-  <h2 class="section-title">ابزارهای هوشمند تحصیلی</h2>
+  <h2 class="section-title">ابزارهای هوشمند</h2>
   <section id="groups" class="level-grid"></section>
 
-  <h2 class="section-title">ابزارهای تکمیلی تخصصی</h2>
+  <h2 class="section-title">ابزارهای تکمیلی</h2>
   <section id="tools" class="tools"></section>
 
   <section class="bottom">
     <article class="bottom-card">
-      <h3>لیست بسته های اعتباری</h3>
+      <h3>لیست بسته‌های اعتباری</h3>
       <div class="price-list" id="prices"></div>
     </article>
     <article class="bottom-card">
-      <h3>روش خرید آفلاین</h3>
-      <p>فقط واریز به کارت و ارسال رسید به ایمیل پذیرفته می‌شود.</p>
-      <p>شماره کارت: <code>6037991555549678</code></p>
-      <p>ایمیل: <code>AI.Algorithms.Ballistics@gmail.com</code></p>
+      <h3>اطلاعات واریز</h3>
+      <p>شماره کارت: 6037-9915-5554-9678</p>
+      <p>ایمیل: AI.Algorithms.Ballistics@gmail.com</p>
     </article>
   </section>
 
@@ -301,6 +294,11 @@
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
 
+  // --- تنظیمات کلید GapGPT ---
+  // حسین عزیز، کلید خود را جایگزین 'sk-ajWeLnwkpjMjklWADQAvcNx4RuuUhKxJvUzmWyIy9sIWyuSr' کنید
+  const GAPGPT_API_KEY = 'Bearer GAPGPTMASKTOKEN9jpcpqjar2X0X'; 
+  const API_ENDPOINT = 'https://api.gapgpt.app/v1/chat/completions';
+
   const levels = ['ابتدایی', 'متوسطه اول', 'متوسطه دوم', 'تیزهوشان', 'المپیادی', 'کنکوری', 'لیسانس', 'فوق لیسانس', 'دکتری'];
   const groups = [
     ['پاسخ سوال', 1], ['آنالیز سوال', 2], ['آنالیز تله درون سوال', 3], ['آنالیز پاسخ', 4],
@@ -310,7 +308,7 @@
   ];
 
   const tools = [
-    'تدریس کامل تمامی دروس مدرسه و دانشگاه', 'تدریس کنکوری دروس', 'تشریح فرمول‌ها و اثبات‌ها', 'حل تمرین گام‌به‌گام',
+    'تدریس کامل تمامی دروس', 'تدریس کنکوری', 'تشریح فرمول‌ها', 'حل تمرین گام‌به‌گام',
     'طرح سوال امتحانی', 'تحلیل و رسم نمودار', 'مشاوره تحصیلی', 'ترجمه متون تخصصی', 'رفع اشکال آنلاین'
   ];
 
@@ -344,7 +342,6 @@
 
   let lastAnswer = '', imageData = null;
 
-  // رندر متن و کدها
   function render(text) {
     return text.replace(/
 ```([\s\S]*?)
@@ -353,7 +350,6 @@
                .replace(/\n/g, '<br>');
   }
 
-  // مدیریت تصویر
   $('#imageFile').onchange = e => {
     const f = e.target.files[0];
     if(!f) return;
@@ -363,29 +359,35 @@
   };
   $('#removeImage').onclick = () => { imageData = null; $('#preview').hidden = true; $('#imageFile').value = ''; };
 
-  // اتصال به GapGPT با قابلیت استریمینگ (Streaming)
+  // تابع اصلی ارسال درخواست با قابلیت Streaming (تایپ زنده)
   async function ask(action) {
     const q = $('#question').value.trim();
     if(!q && !imageData) return alert('لطفاً سوال یا تصویر را وارد کنید.');
 
-    $('#result').innerHTML = 'در حال پردازش سریع...';
-    $('#status').textContent = 'در حال دریافت پاسخ به صورت زنده...';
+    $('#result').innerHTML = 'در حال برقراری ارتباط...';
+    $('#status').textContent = 'در حال دریافت پاسخ زنده...';
     lastAnswer = '';
 
     const payload = {
+      model: "gpt-4",
       messages: [{ role: 'user', content: [
-        { type: 'text', text: `نقش: دستیار آموزشی Class-AI. عملیات: ${action}. پرسش: ${q}` }
+        { type: 'text', text: `نقش: دستیار آموزشی Class-AI مدیریت حسین لعلیان. عملیات: ${action}. پرسش کاربر: ${q}` }
       ]}],
       stream: true
     };
     if(imageData) payload.messages[0].content.push({ type: 'image_url', image_url: { url: imageData } });
 
     try {
-      const res = await fetch('https://api.gapgpt.app/v1/chat/completions', {
+      const res = await fetch(API_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer gap-gpt-pro-key-ai' },
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': GAPGPT_API_KEY 
+        },
         body: JSON.stringify(payload)
       });
+
+      if(!res.ok) throw new Error();
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -398,8 +400,10 @@
         const lines = chunk.split('\n');
         for (const line of lines) {
           if (line.startsWith('data: ')) {
+            const jsonStr = line.slice(6);
+            if (jsonStr === '[DONE]') break;
             try {
-              const data = JSON.parse(line.slice(6));
+              const data = JSON.parse(jsonStr);
               const content = data.choices[0].delta.content || '';
               lastAnswer += content;
               $('#result').innerHTML = render(lastAnswer);
@@ -407,17 +411,25 @@
           }
         }
       }
-      $('#status').textContent = 'پاسخ کامل شد.';
+      $('#status').textContent = 'پردازش با موفقیت انجام شد.';
     } catch (err) {
-      $('#result').innerHTML = '<span class="error">خطا در اتصال به سرور GapGPT. مجدد تلاش کنید.</span>';
+      $('#result').innerHTML = '<span class="error">خطا! احتمالاً کلید شما اعتبار ندارد یا اتصال اینترنت ضعیف است.</span>';
     }
   }
 
-  $('#askBtn').onclick = () => ask('تحلیل جامع پرسش');
+  $('#askBtn').onclick = () => ask('تحلیل جامع');
   $('#copyAnswer').onclick = () => navigator.clipboard.writeText(lastAnswer);
   $('#clear').onclick = () => { $('#question').value = ''; $('#result').innerHTML = ''; lastAnswer = ''; };
   
-  // صوت
+  $('#micBtn').onclick = () => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR) return alert('مرورگر شما از میکروفن پشتیبانی نمی‌کند.');
+    const r = new SR(); r.lang = 'fa-IR';
+    r.onstart = () => $('#status').textContent = 'در حال شنیدن...';
+    r.onresult = e => { $('#question').value += e.results[0][0].transcript; };
+    r.start();
+  };
+
   $('#voiceBtn').onclick = () => {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(lastAnswer);
