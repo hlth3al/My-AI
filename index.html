@@ -116,7 +116,7 @@ textarea{min-height:160px;resize:vertical}
       <li>تحلیل تشریحی متناسب با پایه تحصیلی</li>
       <li>پوشش تمامی مقاطع تحصیلی از دبستان تا دکتری</li>
       <li>پشتیبانی کامل از فرمول‌ها و تصاویر مسائل</li>
-      <li>اتصال مستقیم و پایدار به هسته هوش مصنوعی GapGPT</li>
+      <li>سیستم اتصال چندمسیره مقاوم در برابر اختلالات شبکه</li>
     </ul>
     <span class="pill">آموزش مفهومی</span>
     <span class="pill">حل مسئله</span>
@@ -234,13 +234,14 @@ textarea{min-height:160px;resize:vertical}
 <script>
 'use strict';
 
-// کلید GapGPT فعال شما
-const API_KEY = "GAPGPTMASKTOKEN52s5f4cme8rX0X";
+const API_KEY = "GAPGPTMASKTOKENt8bbc4zq2vX0X";
 
-// هر دو سرور رسمی گپ جی‌پی‌تی: داخلی (بدون فیلتر) و CDN جهانی
-const GAPGPT_ENDPOINTS = [
-  'https://api.gapgpt.app/v1/chat/completions',
-  'https://api.gapapi.com/v1/chat/completions'
+// مسیرهای ارتباطی هوشمند: سرور مستقیم داخلی، سرور جهانی، و پروکسی‌های اختصاصی رفع محدودیت CORS
+const ENDPOINT_ROUTES = [
+  { url: 'https://api.gapgpt.app/v1/chat/completions', useProxy: false, name: 'سرور اصلی گپ جی‌پی‌تی' },
+  { url: 'https://api.gapapi.com/v1/chat/completions', useProxy: false, name: 'سرور CDN بین‌المللی' },
+  { url: 'https://corsproxy.io/?url=' + encodeURIComponent('https://api.gapgpt.app/v1/chat/completions'), useProxy: true, name: 'تونل کمکی اول (ضد تحریم و CORS)' },
+  { url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://api.gapgpt.app/v1/chat/completions'), useProxy: true, name: 'تونل کمکی دوم' }
 ];
 
 const levels = [
@@ -370,18 +371,21 @@ function setStatus(text, kind = ''){
 
 function makeSystemPrompt(){
   const lvl = byId('level').value;
-  return `شما استاد و مشاور ارشد علمی در سامانه My-AI (مدیریت: حسین لعلیان، رتبه ۳۲ آزمون دکتری) هستید. پاسخ را مستند، دقیق و سازگار با سطح علمی «${lvl}» بنویسید و تمام مراحل تحلیلی را شرح دهید.`;
+  return `شما استاد و مشاور ارشد علمی در سامانه My-AI (مدیریت: حسین لعلیان، رتبه ۳۲ آزمون دکتری) هستید. پاسخ را مستند، جامع، علمی و متناسب با سطح «${lvl}» ارائه فرمایید.`;
 }
 
-// تابع ارسال مستقیم با مکانیزم Fallback و بدون دستکاری پروکسی
+// موتور اتصال خودکار چندمسیره
 async function callGapGPT(payload){
-  let lastErr = null;
-  for (const url of GAPGPT_ENDPOINTS) {
-    try {
-      const ctrl = new AbortController();
-      const tid = setTimeout(() => ctrl.abort(), 25000);
+  let lastError = null;
 
-      const resp = await fetch(url, {
+  for (let i = 0; i < ENDPOINT_ROUTES.length; i++) {
+    const route = ENDPOINT_ROUTES[i];
+    try {
+      setStatus(`در حال پردازش از طریق ${route.name}…`);
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 30000);
+
+      const resp = await fetch(route.url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -390,21 +394,23 @@ async function callGapGPT(payload){
         body: JSON.stringify(payload),
         signal: ctrl.signal
       });
+
       clearTimeout(tid);
 
       if (!resp.ok) {
-        const errorBody = await resp.text();
-        throw new Error(`خطای سرور (${resp.status}): ${errorBody}`);
+        const errorText = await resp.text();
+        throw new Error(`وضعیت ${resp.status}: ${errorText}`);
       }
 
       const resData = await resp.json();
       return resData;
     } catch(err) {
-      lastErr = err;
-      // اگر سرور اول پاسخ نداد سرور دوم GapGPT آزمایش می‌شود
+      console.warn(`مسیر ${route.name} ناموفق بود:`, err);
+      lastError = err;
     }
   }
-  throw lastErr;
+
+  throw new Error('اتصال به سرورهای هوش مصنوعی برقرار نشد. لطفاً در صورت امکان فیلترشکن را متصل یا قطع کنید و دوباره ارسال را بزنید.');
 }
 
 byId('send').onclick = async () => {
@@ -416,14 +422,14 @@ byId('send').onclick = async () => {
   const btn = byId('send');
   btn.classList.add('busy');
   btn.disabled = true;
-  setStatus('در حال ارتباط با سرورهای گپ جی‌پی‌تی…');
-  byId('result').textContent = 'در حال تحلیل و نگارش پاسخ، لطفاً منتظر بمانید…';
+  setStatus('در حال برقراری ارتباط با سامانه هوش مصنوعی…');
+  byId('result').textContent = 'در حال تحلیل، فرمول‌بندی و نگارش پاسخ… لطفاً شکیبا باشید.';
 
   try{
     let userContent;
     if(imageData){
       userContent = [
-        {type: 'text', text: text || 'لطفاً مسئله موجود در این تصویر را با دقت تشریح فرمایید.'},
+        {type: 'text', text: text || 'لطفاً این سوال/تصویر را با جزئیات کامل و تشریحی حل کنید.'},
         {type: 'image_url', image_url: {url: imageData}}
       ];
     } else {
@@ -436,19 +442,19 @@ byId('send').onclick = async () => {
         {role: 'system', content: makeSystemPrompt()},
         {role: 'user', content: userContent}
       ],
-      temperature: 0.5
+      temperature: 0.6
     };
 
     const data = await callGapGPT(payload);
     const reply = data?.choices?.[0]?.message?.content;
-    if(!reply) throw new Error('محتوایی از مدل دریافت نشد.');
+    if(!reply) throw new Error('پاسخی از مدل دریافت نشد.');
 
     byId('result').textContent = reply;
-    setStatus('پاسخ با موفقیت دریافت شد.', 'ok');
+    setStatus('پاسخ تشریحی با موفقیت آماده شد.', 'ok');
   } catch(err){
     console.error(err);
-    setStatus('خطا: ' + err.message, 'error');
-    byId('result').textContent = 'خطا در ارتباط با سرور GapGPT:\n' + err.message + '\n\nنکته: در صورت قطع بودن اتصال، فیلترشکن را متصل یا قطع کنید و دوباره دکمه ارسال را بزنید.';
+    setStatus('خطا در دریافت پاسخ', 'error');
+    byId('result').textContent = 'خطا در ارتباط با هوش مصنوعی:\n' + err.message;
   } finally {
     btn.classList.remove('busy');
     btn.disabled = false;
@@ -465,20 +471,20 @@ byId('clear').onclick = () => {
 byId('copy').onclick = async () => {
   try {
     await navigator.clipboard.writeText(byId('result').textContent);
-    setStatus('پاسخ کپی شد.', 'ok');
+    setStatus('پاسخ در کلیپ‌بورد کپی شد.', 'ok');
   } catch(e){
-    setStatus('کپی خودکار پشتیبانی نشد؛ دستی کپی کنید.', 'error');
+    setStatus('کپی خودکار انجام نشد؛ لطفاً متن را دستی کپی نمایید.', 'error');
   }
 };
 
 byId('copyCard').onclick = () => {
   navigator.clipboard.writeText('6037991555549678');
-  setStatus('شماره کارت کپی شد.', 'ok');
+  setStatus('شماره کارت با موفقیت کپی شد.', 'ok');
 };
 
 byId('copyEmail').onclick = () => {
   navigator.clipboard.writeText('Ai.Algorithms.Ballistics@gmail.com');
-  setStatus('ایمیل کپی شد.', 'ok');
+  setStatus('آدرس ایمیل با موفقیت کپی شد.', 'ok');
 };
 </script>
 </body>
