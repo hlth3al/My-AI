@@ -43,16 +43,14 @@
   .card{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px; }
 
   /* Workspace */
-  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  @media(max-width:720px){ .grid2{ grid-template-columns:1fr; } }
   label{ display:block; font-size:.85rem; color:var(--muted); margin:12px 0 6px; }
   select, textarea, input[type=text]{
     width:100%; background:var(--card2); border:1px solid var(--line); color:var(--txt); border-radius:12px; padding:12px; font-size:.92rem; outline:none; transition:.2s;
   }
   select:focus, textarea:focus, input[type=text]:focus{ border-color:var(--acc); }
-  textarea{ min-height:130px; resize:vertical; line-height:1.7; }
+  textarea{ min-height:140px; resize:vertical; line-height:1.8; }
 
-  .filebox{ display:flex; align-items:center; gap:12px; margin-top:12px; flex-wrap:wrap; }
+  .filebox{ display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap; }
   .filebtn{ background:var(--card2); border:1px dashed var(--line); border-radius:12px; padding:10px 16px; font-size:.85rem; color:var(--muted); cursor:pointer; transition:.2s; }
   .filebtn:hover{ border-color:var(--acc2); color:var(--txt); }
   #imgName{ font-size:.82rem; color:var(--acc2); }
@@ -64,7 +62,7 @@
   #answerHead h3{ font-size:1.05rem; font-weight:800; }
   .mini{ background:var(--card2); border:1px solid var(--line); color:var(--muted); border-radius:10px; padding:6px 12px; font-size:.78rem; cursor:pointer; }
   .mini:hover{ color:var(--txt); border-color:var(--acc); }
-  #answerBox{ background:var(--card2); border:1px solid var(--line); border-radius:14px; padding:18px; min-height:80px; white-space:pre-wrap; font-size:.95rem; }
+  #answerBox{ background:var(--card2); border:1px solid var(--line); border-radius:14px; padding:18px; min-height:80px; white-space:pre-wrap; font-size:.95rem; line-height:1.9; }
   .spin{ display:inline-block; width:16px; height:16px; border:2px solid var(--acc); border-top-color:transparent; border-radius:50%; animation:sp 1s linear infinite; vertical-align:-3px; margin-left:6px; }
   @keyframes sp{ to{ transform:rotate(360deg);} }
 
@@ -118,31 +116,20 @@
   <p class="sec-desc">سوال، تمرین یا موضوع خود را مطرح کنید تا پاسخ تحلیلی و مستند برای شما نگارش شود.</p>
 
   <div class="card">
-    <div class="grid2">
-      <div>
-        <label for="modelSel">مدل تحلیل‌گر</label>
-        <select id="modelSel">
-          <option value="gapgpt-fast" selected>⚡ GapGPT Turbo (فوق سریع و پایدار در ایران)</option>
-          <option value="gapgpt-pro">🧠 GapGPT Pro (تحلیل عمیق و پیشرفته)</option>
-          <option value="openai">OpenAI (استاندارد بین‌المللی)</option>
-          <option value="mistral">Mistral (سبک)</option>
-        </select>
-      </div>
-      <div>
-        <label for="levelSel">مقطع و سطح علمی</label>
-        <select id="levelSel">
-          <option>عمومی</option>
-          <option>پیش‌دبستانی و اول دبستان</option>
-          <option>دبستان (دوم تا ششم)</option>
-          <option>متوسطه اول (هفتم تا نهم)</option>
-          <option>دهم</option>
-          <option>یازدهم</option>
-          <option>دوازدهم و کنکور</option>
-          <option>کارشناسی (لیسانس)</option>
-          <option>کارشناسی ارشد و دکتری</option>
-          <option>مقاله ISI و پژوهشی</option>
-        </select>
-      </div>
+    <div>
+      <label for="levelSel">مقطع و سطح علمی</label>
+      <select id="levelSel">
+        <option>عمومی</option>
+        <option>پیش‌دبستانی و اول دبستان</option>
+        <option>دبستان (دوم تا ششم)</option>
+        <option>متوسطه اول (هفتم تا نهم)</option>
+        <option>دهم</option>
+        <option>یازدهم</option>
+        <option>دوازدهم و کنکور</option>
+        <option>کارشناسی (لیسانس)</option>
+        <option>کارشناسی ارشد و دکتری</option>
+        <option>مقاله ISI و پژوهشی</option>
+      </select>
     </div>
 
     <label for="qInput">متن سوال یا مبحث مورد نظر</label>
@@ -230,22 +217,21 @@ document.getElementById("imgInput").addEventListener("change", function(e){
   r.readAsDataURL(f);
 });
 
-/* درخواست دارای مهلت زمانی (Timeout) */
-async function fetchWithTimeout(resource, options = {}) {
-  const { timeout = 12000 } = options;
+/* تایم‌اوت کوتاه و سریع برای جلوگیری از معطلی روی پورت‌های مسدود */
+async function fetchSafe(url, options = {}, timeoutMs = 7000) {
   const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
+  const id = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetch(resource, { ...options, signal: controller.signal });
+    const res = await fetch(url, { ...options, signal: controller.signal });
     clearTimeout(id);
-    return response;
+    return res;
   } catch (err) {
     clearTimeout(id);
     throw err;
   }
 }
 
-/* ---------- ارسال هوشمند سوال با چند گیت‌وی پرسرعت ---------- */
+/* ---------- پردازش هوشمند پشت‌صحنه با GapGPT Engine ---------- */
 async function sendQuestionToAI(){
   const qEl  = document.getElementById("qInput");
   const box  = document.getElementById("answerBox");
@@ -253,82 +239,65 @@ async function sendQuestionToAI(){
   const btn  = document.getElementById("sendBtn");
   const question = qEl.value.trim();
   const level  = document.getElementById("levelSel").value;
-  const modelChoice = document.getElementById("modelSel").value;
 
   if(!question && !imgBase64){ alert("لطفاً ابتدا سوال خود را بنویسید یا تصویر سوال را بارگذاری کنید."); return; }
 
   wrap.style.display = "block";
-  box.innerHTML = '<span class="spin"></span> در حال ارتباط با هسته پردازشی، تحلیل علمی و نگارش پاسخ...';
+  box.innerHTML = '<span class="spin"></span> در حال نگارش و تحلیل گام‌به‌گام پاسخ، لطفاً شکیبا باشید...';
   btn.disabled = true; btn.style.opacity = .6;
   document.getElementById("answerWrap").scrollIntoView({behavior:"smooth", block:"nearest"});
 
-  const system = "شما دستیار هوشمند، دقیق و تحلیل‌گر ارشد علمی پلتفرم My-AI تحت هدایت علمی حسین لعلیان (رتبه ۳۲ کنکور دکتری) هستید. " +
-    "پاسخ را برای مقطع «" + level + "» کاملاً گام‌به‌گام، مستند، با شماره‌گذاری مراحل، بدون حشو و به زبان فارسی علمی و سلیس ارائه دهید.";
-
-  let targetModel = "openai";
-  if(modelChoice === "gapgpt-fast") targetModel = "mistral";
-  else if(modelChoice === "gapgpt-pro") targetModel = "openai";
-  else targetModel = modelChoice;
-
-  const messagesPayload = [
-    { role: "system", content: system },
-    {
-      role: "user",
-      content: imgBase64
-        ? [ {type: "text", text: question || "مسئله تصویر را بخوان و گام‌به‌گام تحلیل کن."}, {type: "image_url", image_url: {url: imgBase64}} ]
-        : (question + "\n\nسطح: " + level)
-    }
-  ];
+  const promptText = "مقطع علمی: " + level + "\n" +
+    "دستورالعمل: به عنوان دستیار تخصصی پلتفرم My-AI، مسئله زیر را کاملاً تشریحی، گام‌به‌گام، مستند و به زبان سلیس فارسی حل و تحلیل کن.\n\n" +
+    "سوال:\n" + (question || "لطفاً محتوای تصویر پیوست را بخوان و کامل حل کن.");
 
   let answer = null;
 
-  /* گیت‌وی ۱: ارسال سریع JSON POST مستقیم */
+  /* لایه ۱: ارتباط با درگاه ابری سریع POST */
   try {
-    const r1 = await fetchWithTimeout("https://text.pollinations.ai/openai", {
+    const res1 = await fetchSafe("https://text.pollinations.ai/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ model: targetModel, messages: messagesPayload, cache: true }),
-      timeout: 10000
-    });
-    if(r1.ok){
-      const data = await r1.json();
-      if(data?.choices?.[0]?.message?.content) {
-        answer = data.choices[0].message.content;
-      }
+      body: JSON.stringify({
+        messages: [
+          { role: "system", content: "پاسخ‌ها را با کیفیت آموزشی بالا، ساختاریافته و با شماره‌گذاری مراحل بنویس." },
+          { role: "user", content: promptText }
+        ],
+        seed: Math.floor(Math.random() * 100000)
+      })
+    }, 7000);
+    if(res1.ok) {
+      const txt = await res1.text();
+      if(txt && txt.length > 15) answer = txt;
     }
   } catch(e) {}
 
-  /* گیت‌وی ۲ (پشتیبان ۱): استفاده از درگاه Edge با ساختار متنی مستقیم */
+  /* لایه ۲: اتصال مستقیم متنی در صورت اختلال لایه اول */
   if(!answer) {
     try {
-      const fullText = system + "\n\nسوال کاربر:\n" + (question || "تصویر سوال تحلیل شود.");
-      const r2 = await fetchWithTimeout("https://text.pollinations.ai/" + encodeURIComponent(fullText) + "?model=" + targetModel + "&cache=true", {
-        method: "GET",
-        timeout: 11000
-      });
-      if(r2.ok) {
-        const textResp = await r2.text();
-        if(textResp && textResp.length > 10) answer = textResp;
+      const res2 = await fetchSafe("https://text.pollinations.ai/" + encodeURIComponent(promptText) + "?code=beautify", {
+        method: "GET"
+      }, 8000);
+      if(res2.ok) {
+        const txt2 = await res2.text();
+        if(txt2 && txt2.length > 15) answer = txt2;
       }
     } catch(e) {}
   }
 
-  /* گیت‌وی ۳ (پشتیبان ۲ اضطراری): مدل فوق‌سریع Mistral */
+  /* لایه ۳: مسیر پشتیبان اضطراری فوق سبک */
   if(!answer) {
     try {
-      const fallbackPrompt = encodeURIComponent(question + " (پاسخ تشریحی و گام‌به‌گام)");
-      const r3 = await fetchWithTimeout("https://text.pollinations.ai/" + fallbackPrompt + "?model=mistral", {
-        method: "GET",
-        timeout: 12000
-      });
-      if(r3.ok) {
-        const fallbackText = await r3.text();
-        if(fallbackText && fallbackText.length > 5) answer = fallbackText;
+      const shortPrompt = encodeURIComponent(question + " (پاسخ تشریحی و کامل فارسی)");
+      const res3 = await fetchSafe("https://text.pollinations.ai/" + shortPrompt, { method: "GET" }, 8000);
+      if(res3.ok) {
+        const txt3 = await res3.text();
+        if(txt3 && txt3.length > 10) answer = txt3;
       }
     } catch(e) {}
   }
 
-  /* نمایش خروجی نهایی */
+  /* خروجی نهایی */
   if(answer && answer.trim()){
     box.innerText = answer.trim();
   } else {
@@ -338,7 +307,7 @@ async function sendQuestionToAI(){
   btn.disabled = false; btn.style.opacity = 1;
 }
 
-/* ارسال با فشردن کلیدهای ترکیبی Ctrl+Enter */
+/* ارسال با فشردن کلیدهای میانبر Ctrl+Enter */
 document.getElementById("qInput").addEventListener("keydown", function(e){
   if((e.ctrlKey || e.metaKey) && e.key === "Enter") sendQuestionToAI();
 });
