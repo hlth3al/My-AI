@@ -92,7 +92,7 @@
     }
     .answer-action:hover{filter:brightness(1.15)}
 
-    /* شبکه‌بندی دکمه‌های هوشمند */
+    /* شبکه‌بندی دکمه‌ها */
     .level-grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
@@ -125,7 +125,7 @@
     }
     .task:active{transform:scale(.96)}
 
-    /* کلاس‌های رنگی دسته‌بندی‌ها */
+    /* دسته‌بندی رنگ‌ها */
     .c1{--color:#39dbc4}.c2{--color:#ffbd4a}.c3{--color:#bd8cff}.c4{--color:#ff6d91}
     .c5{--color:#63b7ff}.c6{--color:#9ce15c}.c7{--color:#ff8d4d}.c8{--color:#4ed6e8}
     .c9{--color:#f28adb}.c10{--color:#c9df5a}.c11{--color:#f17661}.c12{--color:#a28cff}
@@ -245,7 +245,7 @@
     </div>
   </section>
 
-  <!-- ورودی پرسش -->
+  <!-- بخش ورودی -->
   <section class="panel" id="workspace">
     <h2 class="section-title" style="margin-top:0">ورودی پرسش</h2>
     <textarea id="question" class="question" placeholder="سوال، تمرین یا موضوع خود را اینجا بنویسید یا یکی از دکمه‌های هوشمند پایین را بزنید..."></textarea>
@@ -271,7 +271,7 @@
     <p id="status" class="status" aria-live="polite"></p>
   </section>
 
-  <!-- نتایج -->
+  <!-- بخش نتایج -->
   <section class="panel" id="resultsSection">
     <div class="row" style="justify-content:space-between;margin-bottom:10px">
       <h2 class="section-title" style="margin:0">نتایج پردازش علمی</h2>
@@ -291,7 +291,7 @@
   <h2 class="section-title">ابزارهای تکمیلی درخواستی</h2>
   <section id="tools" class="tools"></section>
 
-  <!-- بسته‌های اعتباری و مالی -->
+  <!-- بسته‌های اعتباری -->
   <h2 class="section-title">بسته‌های اعتباری Class-AI</h2>
   <section class="bottom">
     <article class="bottom-card">
@@ -327,15 +327,14 @@
   'use strict';
 
   // =========================================================================
-  // 🔑 محل قرار دادن کلید اختصاصی گپ‌جی‌پی‌تی (GAPGPT API KEY)
+  // 🔑 کلید اختصاصی GapGPT خود را دقیقاً بین علامت‌های کوتیشن زیر قرار دهید:
   // =========================================================================
   const GAPGPT_API_KEY = "sk-ajWeLnwkpjMjklWADQAvcNx4RuuUhKxJvUzmWyIy9sIWyuSr";
 
-  // آدرس‌های معتبر سرویس
-  const ENDPOINTS = [
-    "https://api.gapgpt.com/v1/chat/completions",
-    "https://api.openai.com/v1/chat/completions",
-    "https://corsproxy.io/?" + encodeURIComponent("https://api.gapgpt.com/v1/chat/completions")
+  // آدرس‌های رسمی GapGPT طبق مستندات (بدون فیلتر و مستقیم در ایران)
+  const GAPGPT_ENDPOINTS = [
+    "https://api.gapgpt.app/v1/chat/completions",
+    "https://api.gapapi.com/v1/chat/completions"
   ];
   const MODEL_NAME = "gpt-4o";
 
@@ -344,7 +343,6 @@
 
   const levels = ['ابتدایی', 'متوسطه اول', 'متوسطه دوم', 'تیزهوشان', 'المپیادی', 'کنکوری', 'لیسانس', 'فوق لیسانس', 'دکتری'];
 
-  // فهرست کامل ابزارهای هوشمند اصلی
   const groups = [
     ['پاسخ سوال', 1],
     ['آنالیز سوال', 2],
@@ -362,7 +360,6 @@
     ['آنالیز تله سوالات دارای جدول-فرمول-نمودار', 14]
   ];
 
-  // ابزارهای تکمیلی درخواستی
   const tools = [
     'تدریس کامل دروس مقاطع مدرسه (اول ابتدایی تا دوازدهم) و دانشگاه (تمامی رشته‌ها و گرایش‌ها)',
     'تدریس کنکوری دروس مقاطع مدرسه و دانشگاه',
@@ -385,7 +382,7 @@
     'رفع اشکال آنلاین و پاسخ به سوالات'
   ];
 
-  // ساخت داینامیک دکمه‌های سطوح
+  // دکمه‌های سطوح هوشمند
   const host = $('#groups');
   groups.forEach(([title, n]) => {
     const box = document.createElement('article');
@@ -409,7 +406,7 @@
     host.append(box);
   });
 
-  // ساخت دکمه‌های تکمیلی
+  // دکمه‌های تکمیلی
   tools.forEach((t, i) => {
     const b = document.createElement('button');
     b.className = 'task tool c' + (i % 14 + 1);
@@ -419,7 +416,7 @@
     $('#tools').append(b);
   });
 
-  // لیست مبالغ بسته‌ها
+  // بسته‌ها
   ['۵', '۱۰', '۲۰', '۵۰', '۱۰۰', '۱۵۰', '۲۰۰', '۲۵۰'].forEach(x => {
     const d = document.createElement('div');
     d.className = 'price';
@@ -429,7 +426,6 @@
 
   let lastAnswer = '', imageData = null, recorder = null, chunks = [];
 
-  // افکت صوتی کلیک
   function beep(){
     try{
       const ctx = beep.ctx || (beep.ctx = new(window.AudioContext || window.webkitAudioContext)());
@@ -447,7 +443,6 @@
     if(e.target.closest('button, .card, .panel, .group, .bottom-card')) beep();
   });
 
-  // هندلر آپلود عکس
   $('#imageFile').onchange = e => {
     const f = e.target.files[0];
     if(!f) return;
@@ -470,7 +465,7 @@
     $('#preview').hidden = true;
   };
 
-  // ارسال درخواست پردازش با سیستم Multi-Route ضد‌تحریم و ضد‌خطای شبکه
+  // تابع فراخوانی API بهینه شده مخصوص GapGPT
   async function ask(actionTitle){
     const qInput = $('#question');
     const q = qInput.value.trim();
@@ -480,19 +475,26 @@
       return;
     }
 
-    $('#status').textContent = 'در حال پردازش هوشمند و تحلیل علمی مسئله...';
+    if(!GAPGPT_API_KEY || GAPGPT_API_KEY.includes('کلید_گپ_جی_پی_تی')){
+      $('#result').textContent = '⚠️ کلید API گپ‌جی‌پی‌تی وارد نشده است! لطفاً کلید خود را در خط GAPGPT_API_KEY قرار دهید.';
+      $('#result').classList.add('error');
+      $('#status').textContent = 'کلید API یافت نشد.';
+      return;
+    }
+
+    $('#status').textContent = 'در حال اتصال به سرور هوش مصنوعی GapGPT...';
     $('#result').classList.remove('error');
-    $('#result').textContent = 'در حال تحلیل علمی مسئله و فرمول‌بندی، لطفاً شکیبا باشید...';
+    $('#result').textContent = 'در حال تحلیل علمی مسئله و محاسبه گام‌به‌گام، لطفاً شکیبا باشید...';
     $('#resultsSection').scrollIntoView({behavior:'smooth'});
 
-    const systemPrompt = `شما دستیار ارشد هوشمند، دقیق و تخصصی سامانه جامع علمی Class-AI هستید. وظیفه شما: "${actionTitle}". به زبان فارسی علمی، گام‌به‌گام، تشریحی و کامل پاسخ دهید. فرمول‌ها، تحلیل تله‌ها و نکات کلیدی را شفاف و خوانا بیان کنید.`;
+    const systemPrompt = `شما دستیار ارشد هوشمند، دقیق و تخصصی سامانه جامع علمی Class-AI هستید. وظیفه شما: "${actionTitle}". به زبان فارسی علمی، گام‌به‌گام، تشریحی و کامل پاسخ دهید. فرمول‌ها، تحلیل تله‌ها و نکات کلیدی را شفاف بیان کنید.`;
 
     const userContent = imageData
       ? [
-          { type: 'text', text: systemPrompt + '\n\nمتن پرسش کاربر:\n' + (q || 'تصویر سوال پیوست شده است؛ متن و جزئیات آن را بررسی و دقیق تحلیل کنید.') },
+          { type: 'text', text: systemPrompt + '\n\nمتن پرسش:\n' + (q || 'لطفاً تصویر ضمیمه شده را دقیق تحلیل کنید.') },
           { type: 'image_url', image_url: { url: imageData } }
         ]
-      : systemPrompt + '\n\nمتن پرسش کاربر:\n' + q;
+      : systemPrompt + '\n\nمتن پرسش:\n' + q;
 
     const requestBody = {
       model: MODEL_NAME,
@@ -503,27 +505,49 @@
       temperature: 0.5
     };
 
-    const hasCustomKey = GAPGPT_API_KEY && !GAPGPT_API_KEY.includes('کلید_گپ_جی_پی_تی');
     let answer = null;
-    let lastError = null;
+    let errorDetail = '';
 
-    // ۱. تلاش با کلید GapGPT روی مسیرهای مختلف
-    if (hasCustomKey) {
-      for (const endpoint of ENDPOINTS) {
+    // حلقه تلاش روی اندپوینت‌های رسمی GapGPT
+    for (const url of GAPGPT_ENDPOINTS) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + GAPGPT_API_KEY.trim()
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data?.choices?.[0]?.message?.content) {
+            answer = data.choices[0].message.content;
+            break;
+          }
+        } else {
+          const errData = await response.json().catch(() => ({}));
+          errorDetail = errData?.error?.message || response.statusText;
+        }
+      } catch (err) {
+        errorDetail = err.message || 'خطای شبکه';
+      }
+    }
+
+    // اگر مستقیم به دلیل محدودیت مرورگر بلاک شد، از طریق پروکسی ایمن به GapGPT هدایت می‌شود
+    if (!answer) {
+      for (const url of GAPGPT_ENDPOINTS) {
         try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 20000);
-          const response = await fetch(endpoint, {
+          const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+          const response = await fetch(proxyUrl, {
             method: 'POST',
-            signal: controller.signal,
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${GAPGPT_API_KEY.trim()}`
+              'Authorization': 'Bearer ' + GAPGPT_API_KEY.trim()
             },
             body: JSON.stringify(requestBody)
           });
-          clearTimeout(timeoutId);
-
           if (response.ok) {
             const data = await response.json();
             if (data?.choices?.[0]?.message?.content) {
@@ -531,61 +555,32 @@
               break;
             }
           }
-        } catch (err) {
-          lastError = err;
-        }
-      }
-    }
-
-    // ۲. مسیر پشتیبان مستقیم در صورت بروز قطعی/CORS/پراکسی
-    if (!answer) {
-      try {
-        const fallbackRes = await fetch('https://text.pollinations.ai/openai', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        });
-        if (fallbackRes.ok) {
-          const fbData = await fallbackRes.json();
-          answer = fbData?.choices?.[0]?.message?.content;
-        }
-      } catch (e) {
-        // روش متنی جایگزین ثانویه
-        try {
-          const promptText = systemPrompt + '\n\nسوال:\n' + (q || 'لطفاً تصویر ارسالی را به دقت تحلیل کن.');
-          const r3 = await fetch('https://text.pollinations.ai/' + encodeURIComponent(promptText));
-          if (r3.ok) answer = await r3.text();
-        } catch (e2) {
-          lastError = e2;
-        }
+        } catch (e) {}
       }
     }
 
     if (answer && answer.trim()) {
       lastAnswer = answer;
       $('#result').textContent = answer;
-      $('#status').textContent = 'پاسخ با موفقیت دریافت و درج شد.';
+      $('#status').textContent = 'پاسخ با موفقیت از سرور GapGPT دریافت شد ✅';
     } else {
-      console.error(lastError);
-      $('#result').textContent = '⚠️ خطا در برقراری ارتباط با سرور. لطفاً وضعیت اینترنت یا فعال بودن فیلترشکن را بررسی کرده و مجدداً تلاش فرمایید.';
+      $('#result').textContent = '⚠️ خطا در دریافت پاسخ از GapGPT:\n' + (errorDetail || 'لطفاً اعتبار کلید یا اتصال اینترنت را چک فرمایید.');
       $('#result').classList.add('error');
-      $('#status').textContent = 'خطا در شبکه.';
+      $('#status').textContent = 'خطا در ارتباط با GapGPT.';
     }
   }
 
   $('#askBtn').addEventListener('click', () => ask('پاسخ و تحلیل جامع مسئله'));
 
-  // کپی پاسخ
   $('#copyAnswer').onclick = async () => {
     try{
       await navigator.clipboard.writeText(lastAnswer || $('#result').innerText);
       $('#status').textContent = 'پاسخ با موفقیت کپی شد ✅';
     }catch(e){
-      $('#status').textContent = 'امکان کپی خودکار فراهم نشد؛ دستی انتخاب کنید.';
+      $('#status').textContent = 'امکان کپی خودکار فراهم نشد.';
     }
   };
 
-  // پاک کردن فرم
   $('#clear').onclick = () => {
     $('#question').value = '';
     $('#result').textContent = '';
@@ -594,7 +589,6 @@
     $('#removeImage').click();
   };
 
-  // کپی مشخصات در بخش آفلاین
   $$('[data-copy]').forEach(b => {
     b.onclick = async () => {
       try{
@@ -606,7 +600,7 @@
     };
   });
 
-  // گفتار به نوشتار (میکروفن)
+  // گفتار به نوشتار
   $('#micBtn').onclick = () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if(!SR){
@@ -643,7 +637,7 @@
   }
   $('#voiceBtn').onclick = speak;
 
-  // ضبط و دانلود صدای پاسخ
+  // ذخیره فایل صوتی
   $('#saveAudio').onclick = async () => {
     if(!lastAnswer){
       $('#status').textContent = 'ابتدا پاسخی دریافت فرمایید.';
@@ -678,7 +672,6 @@
     }
   };
 
-  // ارسال با فشردن کلید Ctrl+Enter
   $('#question').addEventListener('keydown', e => {
     if((e.ctrlKey || e.metaKey) && e.key === 'Enter') ask('پاسخ و تحلیل مسئله');
   });
