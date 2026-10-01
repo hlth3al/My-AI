@@ -72,7 +72,6 @@ h1{
 }
 .btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:1000;border:none}
 .btn.busy{opacity:.6;pointer-events:none}
-.small{font-size:.86rem;color:var(--muted)}
 
 .hero-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
 .hero-card ul{padding-right:20px;margin:12px 0;color:var(--muted)}
@@ -81,7 +80,7 @@ h1{
 
 .section{padding:40px 0;border-top:1px solid var(--line)}
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:15px;flex-wrap:wrap}
-.section-head h2,.section-head h3{margin:0 0 6px}
+.section-head h2{margin:0 0 6px}
 .section-head p{margin:0;color:var(--muted);font-size:.92rem}
 
 .workspace{display:grid;grid-template-columns:1fr 1fr;gap:20px}
@@ -136,27 +135,22 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 @media(max-width:900px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.grid,.packages{grid-template-columns:1fr}.navlinks{display:none}}
 
-/* افکت لرزش، بزرگ‌نمایی و حاشیه نئونی */
+/* افکت لرزش و حاشیه نئونی */
+.box,.hero-card,.card,details.card,details.tool,.package,.btn,textarea,input[type="text"],details summary,.navlinks a{
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18:24px 0;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;margin-top:40px}
+.spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
+.btn.busy .spinner{display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:900px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid,.packages{grid-template-columns:1fr}.navlinks{display:none}}
+
+/* افکت لرزش و حاشیه نئونی */
 .box,.hero-card,.card,details.card,details.tool,.package,.btn,textarea,input[type="text"],details summary,.navlinks a{
   transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease,background .18s ease;
   will-change:transform,border-color,box-shadow;
 }
 .box,.hero-card,.card,details.card,details.tool,.package{
-  background:linear-gradient(135deg, rgba(56,189,248,.14), rgba(168,85,247,.10), rgba(250,204,21,.08));
-  border:1px solid rgba(148,163,184,.22);
-}
-@keyframes kidShake{
-  0%{transform:scale(1.03) translate(0,0)}
-  25%{transform:scale(1.10) translate(-2px, 1px)}
-  50%{transform:scale(1.03) translate(2px, -2px)}
-  75%{transform:scale(1.10) translate(-1px, 2px)}
-  100%{transform:scale(1.06) translate(0,0)}
-}
-.box:hover,.hero-card:hover,.card:hover,details.card:hover,details.tool:hover,.package:hover,
-.box:active,.hero-card:active,.card:active,details.card:active,details.tool:active,.package:active,
-.box.fx-on,.hero-card.fx-on,.card.fx-on,details.card.fx-on,details.tool.fx-on,.package.fx-on{
-  border-color:var(--redNeon) !important;
-  box-shadow:0 0 22px rgba(255,0,51,.95), 0 0 45px rgba(255,0,51,.65), inset 0 0 16px rgba(255,0,51,.35) !important;
+  background:linear-gradient(135deg, rgba(56,189,248,.14), rgba(168,85,247,.10), rgba(250,204,px rgba(255,0,51,.95), 0 0 45px rgba(255,0,51,.65), inset 0 0 16px rgba(255,0,51,.35) !important;
   animation:kidShake .32s ease-in-out !important;
   transform:scale(1.05);
   filter:drop-shadow(0 0 10px rgba(255,0,51,.7));
@@ -231,57 +225,52 @@ details summary:hover,details summary:active,details summary.fx-on,
   </aside>
 </section>
 
+<!-- بخش دستیار هوشمند: یک کادر ورودی (راست) و یک کادر خروجی پاسخ (چپ) -->
 <section class="wrap section" id="assistant">
   <div class="section-head">
     <div>
       <h2>دستیار هوشمند کلاس هوش مصنوعی</h2>
-      <p>پرسش خود را بنویسید و پاسخ کامل و دقیق را بلادرنگ دریافت کنید.</p>
+      <p>پرسش خود را بنویسید و پاسخ کامل و دقیق را دریافت کنید.</p>
     </div>
     <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن پاسخ با صدا</label>
   </div>
 
   <div class="workspace">
+    <!-- کادر ورودی سوال -->
     <div class="box">
       <label class="field" for="prompt">ورودی پرسش / متن درس یا تمرین</label>
       <textarea id="prompt" placeholder="سوال، تمرین یا موضوع موردنظر را اینجا بنویسید…"></textarea>
 
-      <div class=" طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور
-    </p>
+      <div class="fileline">
+        <label class="btn" for="image">📷 انتخاب عکس مسئله</label>
+        <input type="file" id="image" accept="image/*">
+        <button class="btn" id="removeImage" type="button">حذف عکس</button>
+        <img id="preview" class="preview" alt="پیش‌نمایش تصویر">
+      </div>
 
-    <div class="actions">
-      <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
-      <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
+      <div class="actions">
+        <button class="btn primary" id="send" type="button">
+          <span class="spinner"></span>
+          ارسال و دریافت پاسخ هوشمند
+        </button>
+        <button class="btn" id="clear" type="button">پاک کردن فرم</button>
+      </div>
+
+      <div id="status" class="status"></div>
+    </div>
+
+    <!-- کادر نمایش پاسخ هوش مصنوعی -->
+    <div class="box">
+      <label class="field">پاسخ تشریحی و تحلیلی هوش مصنوعی</label>
+      <div id="result" class="result">پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.</div>
+
+      <div class="actions">
+        <button class="btn" id="copy" type="button">📋 کپی کردن پاسخ</button>
+        <button class="btn" id="saveAudio" type="button">💾 دانلود صوتی</button>
+      </div>
     </div>
   </div>
-
-  <aside class="hero-card">
-    <strong style="font-size:1.1rem">پشتیبان یادگیری شما</strong>
-    <ul>
-      <li>تدریس، حل تمرین و تحلیل گام‌به‌گام</li>
-      <li>مدرسه، کنکور، کارشناسی تا دکتری تخصصی</li>
-      <li>کار با تصویر پرسش و مسائل چندرسانه‌ای</li>
-      <li>اتصال مستقیم و پایدار هوش مصنوعی</li>
-    </ul>
-    <span class="pill">آموزش حضوری و مجازی</span>
-    <span class="pill">یادگیری و ارزیابی هوشمند</span>
-  </aside>
 </section>
-
-<section class="wrap section" id="assistant">
-  <div class="section-head">
-    <div>
-      <h2>دستیار هوشمند کلاس هوش مصنوعی</h2>
-      <p>پرسش خود را بنویسید و پاسخ کامل و دقیق را بلادرنگ دریافت کنید.</p>
-    </div>
-    <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن پاسخ با صدا</label>
-  </div>
-
-  <div class="workspace">
-    <div class="box">
-      <label class="field" for="prompt">ورودی پرسش / متن درس یا تمرین</label>
-      <textarea id="prompt" placeholder="سوال، تمرین یا موضوع موردنظر را اینجا بنویسید…"></textarea>
-
-      <div class=">
 
 <section class="wrap section" id="services">
   <div class="toolgroups" id="serviceList"></div>
@@ -611,7 +600,6 @@ async function requestAI(promptText, imageData){
     }catch(e){}
   }
 
-  // متد POST کمکی
   try{
     const postRes = await fetch('https://text.pollinations.ai/',{
       method:'POST',
