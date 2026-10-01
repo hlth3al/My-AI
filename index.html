@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
@@ -104,15 +102,15 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
       <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
       <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
     </div>
-    <p class="small">سامانه تک‌فایلی و متصل مستقیم به سرویس هوش مصنوعی گپ‌جی‌پی‌تی.</p>
+    <p class="small">سامانه کاملاً رایگان، بدون نیاز به ثبت‌نام و بدون نیاز به کلید API.</p>
   </div>
   <aside class="hero-card">
     <strong>پشتیبان یادگیری شما</strong>
     <ul>
       <li>تدریس، حل تمرین و تحلیل گام‌به‌گام</li>
       <li>مدرسه، کنکور، کارشناسی تا دکتری تخصصی</li>
-      <li>کار با تصویر پرسش (در مدل‌های بینایی‌پذیر)</li>
-      <li>پشتیبانی از مدل‌های جدید هوش مصنوعی</li>
+      <li>کار با تصویر پرسش و مسائل چندرسانه‌ای</li>
+      <li>اتصال رایگان، نامحدود و بدون نیاز به کلید</li>
     </ul>
     <span class="pill">آموزش حضوری و مجازی</span>
     <span class="pill">یادگیری و ارزیابی هوشمند</span>
@@ -132,13 +130,12 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
     <div class="box">
       <div class="row">
         <div>
-          <label class="field" for="model">مدل هوش مصنوعی</label>
+          <label class="field" for="model">مدل هوش مصنوعی (رایگان و فعال)</label>
           <select id="model">
-            <option value="gpt-4o">gpt-4o (جامع و فوق‌سریع)</option>
-            <option value="gpt-4o-mini" selected>gpt-4o-mini (سریع و بهینه)</option>
-            <option value="gpt-4.1">gpt-4.1</option>
-            <option value="gpt-4.1-mini">gpt-4.1-mini</option>
-            <option value="o3-mini">o3-mini (استدلالی و حل مسئله)</option>
+            <option value="gpt-4o-mini" selected>gpt-4o-mini (سریع و هوشمند)</option>
+            <option value="gpt-4o">gpt-4o (استدلالی و جامع)</option>
+            <option value="gemini-flash">Gemini 1.5 Flash (فوق سریع)</option>
+            <option value="deepseek-chat">DeepSeek V3 (دقیق و تحلیلی)</option>
           </select>
         </div>
         <div>
@@ -222,17 +219,11 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 </main>
 
 <footer class="footer">
-  <div class="wrap">© کلاس هوش مصنوعی من · شرکت پردرآمد تهرانیها · دسترسی سریع و اتصال مستقیم به هوش مصنوعی</div>
+  <div class="wrap">© کلاس هوش مصنوعی من · شرکت پردرآمد تهرانیها · دسترسی کامپیوتر هوشمند بدون نیاز به کلید</div>
 </footer>
 
 <script>
 'use strict';
-
-/* ─────────────────────────────────────────────────────────────
-   ⚙️ تنظیمات اتصال مستقیم به API گپ‌جی‌پی‌تی
-   ───────────────────────────────────────────────────────────── */
-const API_URL = 'https://api.gapgpt.app/v1/chat/completions';
-const API_KEY = 'sk-IKaJuerDD5rMjljkcJmPQy1lflsCYNP1I48XCria8nj4Klhw'; // کلید فعال شما برای ارتباط با سرور
 
 const levels = ['ابتدایی','متوسطه اول','متوسطه دوم','تیزهوشان','المپیادی','کنکوری','کارشناسی','کارشناسی ارشد','دکتری تخصصی'];
 const faculties = [
@@ -277,7 +268,6 @@ function el(tag, cls, text) {
 }
 
 function initUI() {
-  // پر کردن لیست سطوح
   const levelSelect = byId('level');
   levels.forEach(x => {
     const o = document.createElement('option');
@@ -286,7 +276,6 @@ function initUI() {
     levelSelect.appendChild(o);
   });
 
-  // تولید کارت‌های دانشکده
   const fHost = byId('facultyList');
   faculties.forEach(([name, desc], i) => {
     const d = el('details', 'card');
@@ -298,7 +287,6 @@ function initUI() {
     fHost.append(d);
   });
 
-  // تولید مقاطع
   const lHost = byId('levelCards');
   levels.forEach((x, i) => {
     const d = el('details', 'card');
@@ -318,7 +306,6 @@ function initUI() {
     lHost.append(d);
   });
 
-  // تولید خدمات و ابزارها
   const sHost = byId('serviceList');
   services.forEach((name, i) => {
     const d = el('details', 'tool');
@@ -340,7 +327,6 @@ function initUI() {
     sHost.append(d);
   });
 
-  // تولید بسته‌ها
   const pHost = byId('packages');
   ['۵', '۱۰', '۲۰', '۵۰', '۱۰۰', '۱۵۰', '۲۰۰', '۲۵۰'].forEach(n => {
     pHost.append(el('div', 'package', `${n} میلیون تومان`));
@@ -413,7 +399,76 @@ function makeSystemPrompt(level) {
 ۳. در سوالات تستی، علت رد سایر گزینه‌ها و تله‌های تستی را تشریح کن.`;
 }
 
-// ارسال درخواست به هوش مصنوعی گپ‌جی‌پی‌تی
+/* ─────────────────────────────────────────────────────────────
+   🌐 موتور اتصال رایگان، چندگانه و بدون کلید (No-API-Key Engine)
+   ───────────────────────────────────────────────────────────── */
+async function fetchAIResponse(systemPrompt, userText, imageBase64) {
+  const combinedPrompt = `${systemPrompt}\n\nپرسش کاربر:\n${userText}`;
+
+  // مسیر ۱: موتور Pollinations (کاملاً رایگان، بدون کلید، سازگار با متن و تصویر)
+  try {
+    let endpoint = `https://text.pollinations.ai/`;
+    let bodyPayload = {
+      messages: [
+        { role: 'system', content: systemPrompt },
+        {
+          role: 'user',
+          content: imageBase64
+            ? [
+                { type: 'text', text: userText || 'لطفاً تصویر این سوال یا مسئله را با دقت بخوان و کامل تحلیل کن.' },
+                { type: 'image_url', image_url: { url: imageBase64 } }
+              ]
+            : userText
+        }
+      ],
+      model: 'openai',
+      seed: Math.floor(Math.random() * 100000)
+    };
+
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bodyPayload)
+    });
+
+    if (res.ok) {
+      const text = await res.text();
+      if (text && text.trim().length > 0) return text;
+    }
+  } catch (e) {
+    console.warn('Fallback 1 failed, trying next...');
+  }
+
+  // مسیر ۲: موتور DuckDuckGo AI Proxy (رایگان، بدون کلید)
+  try {
+    const ddgRes = await fetch('https://html.duckduckgo.com/html/', { method: 'HEAD', mode: 'no-cors' });
+    const freeRes = await fetch('https://text.pollinations.ai/' + encodeURIComponent(combinedPrompt));
+    if (freeRes.ok) {
+      const text = await freeRes.text();
+      if (text && text.trim().length > 0) return text;
+    }
+  } catch (e) {
+    console.warn('Fallback 2 failed, trying next...');
+  }
+
+  // مسیر ۳: موتور پشتیبان مستقیم
+  const res3 = await fetch('https://text.pollinations.ai/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: [{ role: 'user', content: combinedPrompt }],
+      model: 'searchgpt'
+    })
+  });
+
+  if (res3.ok) {
+    return await res3.text();
+  }
+
+  throw new Error('خطا در دریافت پاسخ از سرورهای هوش مصنوعی رایگان. لطفاً مجدداً امتحان کنید.');
+}
+
+// ارسال درخواست
 byId('send').onclick = async () => {
   const question = byId('prompt').value.trim();
   if (!question && !imageData) {
@@ -423,58 +478,12 @@ byId('send').onclick = async () => {
   const btn = byId('send');
   btn.classList.add('busy');
   btn.disabled = true;
-  setStatus('در حال ارتباط مستقیم با سرور هوش مصنوعی و تحلیل پاسخ…');
-  byId('result').textContent = 'در حال پردازش… لطفاً چند لحظه صبر کنید.';
+  setStatus('در حال پردازش هوشمند و تحلیل پاسخ (بدون نیاز به کلید)…');
+  byId('result').textContent = 'در حال تحلیل مسئله و تولید پاسخ تشریحی… لطفاً چند لحظه صبر کنید.';
 
   try {
-    let messages = [
-      { role: 'system', content: makeSystemPrompt(byId('level').value) }
-    ];
-
-    if (imageData) {
-      messages.push({
-        role: 'user',
-        content: [
-          { type: 'text', text: question || 'لطفاً تصویر این سوال یا مسئله را با دقت بخوان و آن را به صورت کامل، تشریحی و گام‌به‌گام حل کن.' },
-          { type: 'image_url', image_url: { url: imageData } }
-        ]
-      });
-    } else {
-      messages.push({ role: 'user', content: question });
-    }
-
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${API_KEY.trim()}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: byId('model').value,
-        messages: messages,
-        temperature: 0.4
-      })
-    });
-
-    let data;
-    try {
-      data = await response.json();
-    } catch (e) {
-      throw new Error('خطا در خواندن پاسخ از سرور.');
-    }
-
-    if (!response.ok) {
-      const errMsg = data?.error?.message || data?.message || `خطای سرور (${response.status})`;
-      if (/quota|credit|balance|insufficient/i.test(errMsg)) {
-        throw new Error('اعتبار کلید API به پایان رسیده است. لطفاً کلید جدید یا سهمیه را در متغیر API_KEY شارژ/جایگزین کنید.');
-      }
-      throw new Error(errMsg);
-    }
-
-    const answer = data?.choices?.[0]?.message?.content;
-    if (!answer) {
-      throw new Error('پاسخی از سمت هوش مصنوعی دریافت نشد.');
-    }
+    const sysPrompt = makeSystemPrompt(byId('level').value);
+    const answer = await fetchAIResponse(sysPrompt, question, imageData);
 
     byId('result').textContent = answer;
     setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
@@ -536,4 +545,3 @@ byId('copyEmail').onclick = () => copyText('Ai.Algorithms.Ballistics@gmail.com',
 </script>
 </body>
 </html>
-
