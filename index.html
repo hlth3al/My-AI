@@ -19,76 +19,83 @@
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
 .wrap{width:min(1160px,calc(100% - 32px));margin:auto}
-.topbar{position:sticky;top:0;z-index:9;background:#0b1120f0;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;gap:15px}
-.brand{font-weight:1000;color:#fff;text-decoration:none;font-size:1.05rem}
+.topbar{position:sticky;top:0;z-index:9;background:#0b1120f0;backdrop-filter:blur(14px);padding:6px 0}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:15px}
+.brand{font-weight:1000;color:#fff;text-decoration:none;font-size:1.05rem;padding:8px 12px;border-radius:10px;background:var(--panel2);border:1px solid var(--line)}
 .brand b{color:var(--gold)}
-.navlinks{display:flex;gap:16px;flex-wrap:wrap}
-.navlinks a{color:var(--muted);font-size:.92rem;text-decoration:none;transition:.2s}
-.navlinks a:hover{color:var(--gold)}
-.toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);cursor:pointer}
+.navlinks{display:flex;gap:10px;flex-wrap:wrap}
+.navlinks a{color:var(--muted);font-size:.92rem;text-decoration:none;padding:6px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line)}
+.toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line)}
 
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:44px 0;align-items:center}
-.eyebrow{color:var(--teal);font-weight:900;font-size:1.02rem;margin-bottom:10px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:30px 0;align-items:center}
+.section{padding:25px 0}
+
+/* کادربندی سراسری همه المان‌ها */
+.info-card, .box, .hero-card, .card, details.card, details.tool, .package, .navlinks a, .brand, .toggleline, .btn, textarea, input[type="text"]{
+  background:linear-gradient(135deg, rgba(56,189,248,.12), rgba(168,85,247,.08), rgba(250,204,21,.06));
+  border:1px solid rgba(148,163,184,.22);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
+  will-change:transform,border-color,box-shadow;
+}
+
+.info-card{padding:16px 20px;margin-bottom:14px}
+.heroBigCard{padding:20px;margin-bottom:16px}
+.eyebrow{color:var(--teal);font-weight:900;font-size:1.02rem;margin:0}
 
 h1{
-  font-size:clamp(1.75rem,3.9vw,3.35rem);
-  margin:0 0 12px;
-  line-height:1.55;
+  font-size:clamp(1.4rem,3.2vw,2.5rem);
+  margin:0;
+  line-height:1.6;
   font-weight:1000;
   color:#fff;
-  text-shadow:0 0 18px rgba(56,189,248,.22),0 0 30px rgba(250,204,21,.12);
 }
 .heroBigLine{
-  font-size:clamp(1.15rem,2.2vw,1.65rem);
+  font-size:clamp(1.05rem,1.8vw,1.4rem);
   color:#fde68a;
   font-weight:900;
-  margin:10px 0 0;
+  margin-top:10px;
 }
 .bigTitle{
   display:block;
-  margin-top:6px;
-  font-size:clamp(1.45rem,4.8vw,3.25rem);
+  font-size:clamp(1.3rem,3.8vw,2.4rem);
   font-weight:1000;
   color:#fff;
+  margin-bottom:12px;
 }
 .bigTitle .homeai{
   display:inline-block;
   direction:ltr;
-  padding:6px 14px;
+  padding:4px 14px;
   border-radius:999px;
   background:linear-gradient(135deg,#22c55e,#38bdf8,#a855f7);
   color:#05070f;
-  box-shadow:0 0 18px rgba(56,189,248,.45);
-  letter-spacing:1.1px;
+  box-shadow:0 0 16px rgba(56,189,248,.4);
+  letter-spacing:1px;
 }
 
-.lead{color:var(--muted);font-size:1.06rem}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.lead{color:var(--muted);font-size:1.02rem;margin:0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 0}
 .btn{
-  background:var(--panel2);color:var(--ink);border:1px solid var(--line);
+  background:var(--panel2);color:var(--ink);
   padding:10px 18px;border-radius:10px;text-decoration:none;display:inline-flex;
-  align-items:center;justify-content:center;gap:8px;font-size:.95rem;transition:.2s;cursor:pointer
+  align-items:center;justify-content:center;gap:8px;font-size:.95rem;cursor:pointer
 }
 .btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:1000;border:none}
 .btn.busy{opacity:.6;pointer-events:none}
 
-.hero-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+.hero-card{padding:22px}
 .hero-card ul{padding-right:20px;margin:12px 0;color:var(--muted)}
 .hero-card li{margin-bottom:6px}
 .pill{display:inline-block;background:#26395e;color:var(--teal);padding:4px 10px;border-radius:20px;font-size:.84rem;margin:4px 2px}
 
-.section{padding:40px 0;border-top:1px solid var(--line)}
-.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:15px;flex-wrap:wrap}
-.section-head h2{margin:0 0 6px}
-.section-head p{margin:0;color:var(--muted);font-size:.92rem}
-
 .workspace{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+.box{padding:20px}
 .field{display:block;font-size:.9rem;color:var(--muted);margin-bottom:6px}
 textarea,input[type="text"]{
-  width:100%;background:var(--bg);border:1px solid var(--line);
-  color:var(--ink);padding:10px 12px;border-radius:8px;outline:none;font-family:inherit
+  width:100%;background:var(--bg);
+  color:var(--ink);padding:10px 12px;outline:none;font-family:inherit
 }
 textarea{height:180px;resize:vertical}
 .fileline{display:flex;align-items:center;gap:10px;margin:12px 0;flex-wrap:wrap}
@@ -106,8 +113,6 @@ textarea{height:180px;resize:vertical}
 .result p{margin:10px 0}
 .result ul,.result ol{padding-right:22px;margin:10px 0}
 .result li{margin:6px 0}
-.result h3{color:var(--gold);margin:14px 0 8px;border-bottom:1px dashed var(--line);padding-bottom:4px}
-.result h4{color:var(--teal);margin:12px 0 6px}
 .result pre,.result code{background:#0a1224;border:1px solid #223352;border-radius:10px;padding:10px;overflow:auto;direction:ltr}
 .result table{width:100%;border-collapse:collapse;margin:12px 0;border-radius:10px;overflow:hidden;border:1px solid #223352}
 .result th,.result td{border:1px solid #223352;padding:8px 10px;text-align:right;vertical-align:top}
@@ -116,54 +121,46 @@ textarea{height:180px;resize:vertical}
 .result .katex-display{direction:ltr;overflow-x:auto;padding:8px 0;border-radius:10px;border:1px solid #223352;background:#0a1224}
 
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-details.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;transition:.2s}
-details.card[open]{border-color:var(--teal)}
-details summary{cursor:pointer;font-weight:1000;color:var(--ink);outline:none;user-select:none}
-.inside{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);font-size:.92rem}
+details.card{padding:12px 16px}
+details summary{cursor:pointer;font-weight:1000;color:var(--ink);outline:none;user-select:none;padding:6px 0}
+.inside{margin-top:10px;padding-top:10px;color:var(--muted);font-size:.92rem}
 .toolgroups{display:flex;flex-direction:column;gap:12px}
-details.tool{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+details.tool{padding:12px 16px}
 .tool-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .packages{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.package{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center;font-weight:1000;color:var(--gold)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.package{padding:16px;text-align:center;font-weight:1000;color:var(--gold)}
 .payment .cardnum{font-size:1.4rem;letter-spacing:2px;font-family:monospace;direction:ltr;background:var(--bg);padding:10px;border-radius:8px;border:1px dashed var(--gold);color:var(--gold);text-align:center;margin:8px 0}
-.notice{color:var(--muted);font-size:.9rem}
-.footer{padding:24px 0;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;margin-top:40px}
+.notice{color:var(--muted);font-size:.9rem;margin:0 0 10px}
+.footer{padding:24px 0;text-align:center;color:var(--muted);font-size:.9rem;margin-top:30px}
 .spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
 .btn.busy .spinner{display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
+
 @media(max-width:900px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.grid,.packages{grid-template-columns:1fr}.navlinks{display:none}}
 
-/* افکت لرزش و حاشیه نئونی */
-.box,.hero-card,.card,details.card,details.tool,.package,.btn,textarea,input[type="text"],details summary,.navlinks a{
-  transition:transform .18s ease,border-color .18s ease,box-shadow .18:24px 0;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;margin-top:40px}
-.spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
-.btn.busy .spinner{display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:900px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.grid,.packages{grid-template-columns:1fr}.navlinks{display:none}}
-
-/* افکت لرزش و حاشیه نئونی */
-.box,.hero-card,.card,details.card,details.tool,.package,.btn,textarea,input[type="text"],details summary,.navlinks a{
-  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease,background .18s ease;
-  will-change:transform,border-color,box-shadow;
+/* افکت لرزش، بزرگ‌نمایی و حاشیه قرمز نئونی */
+@keyframes kidShake{
+  0%{transform:scale(1.02) translate(0,0)}
+  25%{transform:scale(1.06) translate(-2px, 1px)}
+  50%{transform:scale(1.02) translate(2px, -2px)}
+  75%{transform:scale(1.06) translate(-1px, 2px)}
+  100%{transform:scale(1.04) translate(0,0)}
 }
-.box,.hero-card,.card,details.card,details.tool,.package{
-  background:linear-gradient(135deg, rgba(56,189,248,.14), rgba(168,85,247,.10), rgba(250,204,px rgba(255,0,51,.95), 0 0 45px rgba(255,0,51,.65), inset 0 0 16px rgba(255,0,51,.35) !important;
-  animation:kidShake .32s ease-in-out !important;
-  transform:scale(1.05);
-  filter:drop-shadow(0 0 10px rgba(255,0,51,.7));
-}
-.btn:hover,.btn:active,.btn:focus,.btn.fx-on,
-textarea:hover,textarea:focus,textarea.fx-on,
-input[type="text"]:hover,input[type="text"]:focus,input[type="text"].fx-on,
-details summary:hover,details summary:active,details summary.fx-on,
-.navlinks a:hover,.navlinks a:active,.navlinks a.fx-on{
+.info-card:hover, .box:hover, .hero-card:hover, .card:hover, details.card:hover, details.tool:hover, .package:hover,
+.info-card:active, .box:active, .hero-card:active, .card:active, details.card:active, details.tool:active, .package:active,
+.info-card.fx-on, .box.fx-on, .hero-card.fx-on, .card.fx-on, details.card.fx-on, details.tool.fx-on, .package.fx-on,
+.btn:hover, .btn:active, .btn:focus, .btn.fx-on,
+textarea:hover, textarea:focus, textarea.fx-on,
+input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
+.navlinks a:hover, .navlinks a:active, .navlinks a.fx-on,
+.brand:hover, .brand:active, .brand.fx-on,
+.toggleline:hover, .toggleline.fx-on{
   border-color:var(--redNeon) !important;
-  box-shadow:0 0 18px rgba(255,0,51,.95), 0 0 35px rgba(255,0,51,.55) !important;
-  animation:kidShake .26s ease-in-out !important;
-  transform:scale(1.08);
+  box-shadow:0 0 22px rgba(255,0,51,.95), 0 0 45px rgba(255,0,51,.65), inset 0 0 14px rgba(255,0,51,.35) !important;
+  animation:kidShake .30s ease-in-out !important;
+  transform:scale(1.03);
+  filter:drop-shadow(0 0 8px rgba(255,0,51,.65));
 }
 </style>
 </head>
@@ -177,7 +174,7 @@ details summary:hover,details summary:active,details summary.fx-on,
       <a href="#assistant">دستیار هوشمند</a>
       <a href="#services">ابزارها</a>
       <a href="#levels">مقاطع تحصیلی</a>
-      <a href="#payment">بسته‌ها و پرداخت</a>
+      <a href="#payment">روش خرید و پرداخت</a>
     </nav>
     <label class="toggleline"><input id="soundToggle" type="checkbox" checked> صدای تعاملی و لرزش</label>
   </div>
@@ -186,34 +183,41 @@ details summary:hover,details summary:active,details summary.fx-on,
 <main>
 <section class="wrap hero" id="home">
   <div>
-    <div class="eyebrow">یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خونه با موبایل و کامپیوتر توسط خونه هوش مصنوعی برلیان لعلیان</div>
-
-    <div class="bigTitle">
-      <span class="homeai">Home-AI</span>
-      <span style="display:block;margin-top:8px">خونه هوش مصنوعی برلیان لعلیان</span>
+    <div class="info-card">
+      <p class="eyebrow">یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خونه با موبایل و کامپیوتر توسط خونه هوش مصنوعی برلیان لعلیان</p>
     </div>
 
-    <h1>
-      بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط خونه هوش مصنوعی برلیان لعلیان
-      <div class="heroBigLine">دستیار هوشمند شماست این خونه هوش مصنوعی برلیان لعلیان</div>
-    </h1>
+    <div class="info-card">
+      <div class="bigTitle">
+        <span class="homeai">Home-AI</span>
+        <span style="display:block;margin-top:8px">خونه هوش مصنوعی برلیان لعلیان</span>
+      </div>
+    </div>
 
-    <p class="lead">
-      شرکت صنایع پردرآمد تهرانیها با مدیریت علمی حسین لعلیان رتبه ۳۲ کنکور دکتری و همچنین مفتخر به تحصیل در 6 دانشکده میباشند(شیلات-شیمی-زبان-مدیریت-مهندسی آی تی-مهندسی صنایع)
-      <br>
-      صحت موضوع را از وزارت علوم جویا شوید!
-      <br><br>
-      این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور
-    </p>
+    <div class="info-card heroBigCard">
+      <h1>
+        بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط خونه هوش مصنوعی برلیان لعلیان
+        <div class="heroBigLine">دستیار هوشمند شماست این خونه هوش مصنوعی برلیان لعلیان</div>
+      </h1>
+    </div>
 
-    <div class="actions">
-      <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
-      <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
+    <div class="info-card">
+      <p class="lead">
+        شرکت صنایع پردرآمد تهرانیها با مدیریت علمی حسین لعلیان رتبه ۳۲ کنکور دکتری و همچنین مفتخر به تحصیل در 6 دانشکده میباشند(شیلات-شیمی-زبان-مدیریت-مهندسی آی تی-مهندسی صنایع)
+        <br>
+        صحت موضوع را از وزارت علوم جویا شوید!
+        <br><br>
+        این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
+        <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
+      </div>
     </div>
   </div>
 
   <aside class="hero-card">
-    <strong style="font-size:1.1rem">پشتیبان یادگیری شما</strong>
+    <strong style="font-size:1.1rem;display:block;margin-bottom:8px">پشتیبان یادگیری شما</strong>
     <ul>
       <li>تدریس، حل تمرین و تحلیل گام‌به‌گام</li>
       <li>مدرسه، کنکور، کارشناسی تا دکتری تخصصی</li>
@@ -225,12 +229,12 @@ details summary:hover,details summary:active,details summary.fx-on,
   </aside>
 </section>
 
-<!-- بخش دستیار هوشمند: یک کادر ورودی (راست) و یک کادر خروجی پاسخ (چپ) -->
+<!-- بخش دستیار هوشمند با اتصال پایدار -->
 <section class="wrap section" id="assistant">
-  <div class="section-head">
+  <div class="info-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
     <div>
-      <h2>دستیار هوشمند کلاس هوش مصنوعی</h2>
-      <p>پرسش خود را بنویسید و پاسخ کامل و دقیق را دریافت کنید.</p>
+      <h2 style="margin:0 0 4px">دستیار هوشمند کلاس هوش مصنوعی</h2>
+      <p style="margin:0;color:var(--muted);font-size:.92rem">پرسش خود را بنویسید و پاسخ کامل و دقیق را دریافت کنید.</p>
     </div>
     <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن پاسخ با صدا</label>
   </div>
@@ -259,7 +263,7 @@ details summary:hover,details summary:active,details summary.fx-on,
       <div id="status" class="status"></div>
     </div>
 
-    <!-- کادر نمایش پاسخ هوش مصنوعی -->
+    <!-- کادر خروجی پاسخ -->
     <div class="box">
       <label class="field">پاسخ تشریحی و تحلیلی هوش مصنوعی</label>
       <div id="result" class="result">پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.</div>
@@ -284,12 +288,11 @@ details summary:hover,details summary:active,details summary.fx-on,
   <div class="packages" id="packages"></div>
 </section>
 
+<!-- بخش روش خرید بسته و پرداخت آفلاین -->
 <section class="wrap section" id="payment">
-  <div class="section-head">
-    <div>
-      <h2>روش پرداخت آفلاین و ثبت‌نام</h2>
-      <p>واریز مبلغ بسته و ارسال فیش جهت فعال‌سازی</p>
-    </div>
+  <div class="info-card">
+    <h2 style="margin:0 0 4px">روش خرید بسته و پرداخت آفلاین</h2>
+    <p style="margin:0;color:var(--muted);font-size:.92rem">واریز مبلغ بسته و ارسال فیش جهت فعال‌سازی</p>
   </div>
 
   <div class="box payment">
@@ -299,15 +302,17 @@ details summary:hover,details summary:active,details summary.fx-on,
     <div class="cardnum" id="cardNumber">6037991555549678</div>
     <div class="actions"><button class="btn primary" id="copyCard" type="button">کپی کردن شماره کارت</button></div>
 
-    <label class="field">ایمیل پشتیبانی و ارسال فیش</label>
-    <p dir="ltr" style="text-align:right;font-weight:1000;color:var(--teal)">Ai.Algorithms.Ballistics@gmail.com</p>
+    <label class="field" style="margin-top:14px">ایمیل پشتیبانی و ارسال فیش</label>
+    <p dir="ltr" style="text-align:right;font-weight:1000;color:var(--teal);margin:4px 0">Ai.Algorithms.Ballistics@gmail.com</p>
     <div class="actions"><button class="btn" id="copyEmail" type="button">کپی کردن ایمیل پشتیبانی</button></div>
   </div>
 </section>
 </main>
 
 <footer class="footer wrap">
-  خونه هوش مصنوعی برلیان لعلیان (Home-AI) | پشتیبانی: Ai.Algorithms.Ballistics@gmail.com | تمام حقوق محفوظ است.
+  <div class="info-card">
+    خونه هوش مصنوعی برلیان لعلیان (Home-AI) | پشتیبانی: Ai.Algorithms.Ballistics@gmail.com | تمام حقوق محفوظ است.
+  </div>
 </footer>
 
 <script>
@@ -427,7 +432,7 @@ function vibBeep(){
   }catch(e){}
 }
 function fxTarget(node){
-  return node && node.closest && node.closest('.box,.hero-card,.card,details.card,details.tool,.package,.btn,textarea,input[type="text"],details summary,.navlinks a');
+  return node && node.closest && node.closest('.info-card, .box, .hero-card, .card, details.card, details.tool, .package, .btn, textarea, input[type="text"], .navlinks a, .brand, .toggleline');
 }
 function fireFX(node){
   const t = fxTarget(node);
@@ -435,7 +440,7 @@ function fireFX(node){
   t.classList.add('fx-on');
   vibBeep();
   clearTimeout(t.__fxTimer);
-  t.__fxTimer = setTimeout(()=>t.classList.remove('fx-on'), 420);
+  t.__fxTimer = setTimeout(()=>t.classList.remove('fx-on'), 380);
 }
 document.addEventListener('pointerenter', e => fireFX(e.target), true);
 document.addEventListener('pointerdown', e => fireFX(e.target), true);
@@ -472,15 +477,13 @@ function setStatus(text, kind=''){
 }
 
 function makeSystemPrompt(){
-  return `نقش: «دستیار آموزشی و تحلیلی بسیار دقیق» در Home-AI / خونه هوش مصنوعی برلیان لعلیان.
-قواعد سخت:
-1) حدس نزن. اگر اطلاعات کم است، سوال تکمیلی بپرس.
-2) پاسخ ساختگی/بی‌ربط ممنوع.
-3) جواب را مرحله‌به‌مرحله، تشریحی و کامل بنویس.
-4) از علامت‌های اضافی مانند # و قالب‌های بی‌دلیل خودداری کن.
-5) فرمول‌ها را با LaTeX بنویس تا KaTeX رندر کند: $F=ma$, $\\Delta t$, $\\alpha$, $\\beta$, $\\mathrm{H_2O}$.
-6) متن عربی/قرآنی را بدون تغییر و دقیق حفظ کن.
-7) اگر سوال چندزبانه است، به همان زبان(ها) پاسخ بده.`;
+  return `نقش: «دستیار آموزشی، تخصصی و تحلیلی بسیار هوشمند» در پلتفرم Home-AI / خونه هوش مصنوعی برلیان لعلیان.
+قواعد تحلیل و حل:
+1) تحلیل عمیق، استدلالی و مرحله‌به‌مرحله به همراه ارائه نکات کلیدی.
+2) حدس بی‌مورد نزن؛ اگر اطلاعات سوال ناقص است، سوال تکمیلی بپرس.
+3) پاسخ بدون حاشیه و کاراکترهای اضافی Markdown نظیر # باشد.
+4) فرمول‌های ریاضی و فیزیک را در قالب LaTeX استاندارد با نمادهای $ یا $$ بنویس.
+5) متون عربی/قرآنی با اعراب کامل و املای صحیح ارائه شوند.`;
 }
 
 function sanitizeAndCleanText(raw){
@@ -574,7 +577,7 @@ function renderMath(container){
   }catch(e){}
 }
 
-/* موتور هوش مصنوعی چندکاناله، مستقیم و بدون نیاز به کلید */
+/* موتور هوش مصنوعی چندمسیره و مستقیم */
 async function requestAI(promptText, imageData){
   const fullPrompt = `${promptText}${imageData ? '\n[تصویر سوال ضمیمه شده است]' : ''}`;
   const encoded = encodeURIComponent(fullPrompt);
@@ -615,7 +618,7 @@ async function requestAI(promptText, imageData){
     }
   }catch(e){}
 
-  throw new Error('عدم برقراری ارتباط با سرور. لطفاً اتصال اینترنت خود را بررسی نمایید.');
+  throw new Error('عدم برقراری ارتباط با سرور هوش مصنوعی. اینترنت خود را بررسی نمایید.');
 }
 
 byId('send').onclick = async () => {
