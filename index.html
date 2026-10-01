@@ -7,16 +7,13 @@
 <meta name="description" content="کلاس هوش مصنوعی من؛ پلتفرم دستیار آموزش، تحلیل و یادگیری در همه مقاطع">
 <title>کلاس هوش مصنوعی من | My AI Class</title>
 
-<!-- (۳) KaTeX برای فرمول/یونانی/شیمی -->
+<!-- (۳) KaTeX برای فرمول/یونانی/شیمی/فیزیک -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
 <style>
-:root{
-  --bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;--line:#293852;
-  --red:#ff5263;--red-neon:#ff0033;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005
-}
+:root{--bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;--line:#293852;--red:#ff5263;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005;--redNeon:#ff0033}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.85}
@@ -34,35 +31,29 @@ button{cursor:pointer}
 .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:48px 0;align-items:center}
 .eyebrow{color:var(--teal);font-weight:bold;font-size:.92rem;margin-bottom:8px}
 
-/* (۱) عنوان بزرگ جدید + My AI بزرگ */
-.big-title{
-  font-size:clamp(1.65rem, 3.6vw, 3.2rem);
+/* (۱) عنوان بزرگ + My AI بزرگ (بدون حذف متن‌های قبلی) */
+h1{
+  font-size:clamp(1.6rem,3.4vw,3.1rem);
   margin:0 0 12px;
   line-height:1.45;
   font-weight:1000;
   color:#fff;
   text-shadow:0 0 18px rgba(56,189,248,.22),0 0 30px rgba(250,204,21,.12);
 }
-.big-title .myai{
+h1 span{display:block;font-size:1.1rem;color:var(--gold);font-weight:normal;margin-top:4px}
+.big-ai{
   display:inline-block;
   direction:ltr;
   font-family:"Segoe UI",Arial,sans-serif;
   font-weight:1000;
-  font-size:clamp(1.3rem, 4.2vw, 2.8rem);
+  font-size:clamp(1.4rem,4.4vw,2.9rem);
   letter-spacing:1.2px;
-  padding:6px 12px;
+  padding:6px 14px;
   border-radius:999px;
-  margin-top:10px;
+  margin:10px 0 6px;
   background:linear-gradient(135deg,#22c55e,#38bdf8,#a855f7);
   color:#05070f;
   box-shadow:0 0 18px rgba(56,189,248,.45);
-}
-.big-title .sub{
-  display:block;
-  font-size:1.05rem;
-  color:var(--gold);
-  font-weight:normal;
-  margin-top:8px;
 }
 
 .lead{color:var(--muted);font-size:1.02rem}
@@ -95,7 +86,7 @@ textarea{height:140px;resize:vertical}
 .status.error{color:var(--red)}
 .status.ok{color:var(--teal)}
 
-/* (۳) خروجی: HTML تمیز + آماده KaTeX */
+/* (۳) نتیجه: اجازه بده KaTeX رندر کنه (pre-wrap حذف میشه و HTML تمیز می‌سازیم) */
 .result{
   background:var(--bg);
   border:1px solid var(--line);
@@ -104,9 +95,9 @@ textarea{height:140px;resize:vertical}
   min-height:200px;
   max-height:480px;
   overflow-y:auto;
-  line-height:2;
-  font-size:.95rem;
   white-space:normal;
+  line-height:2;
+  font-size:.95rem
 }
 .result p{margin:10px 0}
 .result ul,.result ol{padding-right:22px;margin:10px 0}
@@ -140,31 +131,30 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 @media(max-width:800px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
 @media(max-width:540px){.grid,.packages{grid-template-columns:1fr}}
 
-/* (۲) رنگی شدن کادرها + افکت جذاب */
-.box, .hero-card, .card, details.card, details.tool, .package, .btn{
-  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, filter .18s ease;
-  will-change:transform, border-color, box-shadow;
+/* (۲) افکت رنگی + لرزش + قرمز نئونی + بزرگ/ک شدن برای کادرها/دکمه‌ها/آپ/آپشن‌ها */
+.box,.hero-card,.card,details.card,details.tool,.package,.btn,select,textarea,input[type="text"],details summary{
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease,background .18s ease;
+  will-change:transform,border-color,box-shadow;
 }
-.box, .hero-card, .card, details.card, details.tool, .package{
+.box,.hero-card,.card,details.card,details.tool,.package{
   background:linear-gradient(135deg, rgba(56,189,248,.14), rgba(168,85,247,.10), rgba(250,204,21,.08));
   border:1px solid rgba(148,163,184,.22);
 }
 @keyframes kidShake{
   0%{transform:scale(1.03) translate(0,0)}
-  25%{transform:scale(1.07) translate(-2px, 1px)}
+  25%{transform:scale(1.09) translate(-2px, 1px)}
   50%{transform:scale(1.03) translate(2px, -1px)}
-  75%{transform:scale(1.07) translate(-2px, -1px)}
+  75%{transform:scale(1.09) translate(-2px, -1px)}
   100%{transform:scale(1.03) translate(0,0)}
 }
-.is-hovering{
-  border-color:var(--red-neon)!important;
-  box-shadow:0 0 18px rgba(255,0,51,.65), 0 0 48px rgba(255,0,51,.22), 0 20px 55px rgba(0,0,0,.55)!important;
+.fx-on{
+  border-color:var(--redNeon)!important;
+  box-shadow:0 0 18px rgba(255,0,51,.65),0 0 48px rgba(255,0,51,.22),0 20px 55px rgba(0,0,0,.55)!important;
   animation:kidShake .25s ease-in-out infinite;
   filter:saturate(1.25);
 }
 </style>
 </head>
-
 <body>
 <header class="topbar">
   <div class="wrap nav">
@@ -185,12 +175,12 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
   <div>
     <div class="eyebrow">یادگیری، تحلیل و پیشرفت؛ در یک همراه آموزشی</div>
 
-    <!-- (۱) عنوان جدید -->
-    <h1 class="big-title">
+    <!-- (۱) فقط این قسمت عنوان تغییر کرده، بقیه متن‌ها سر جاشون -->
+    <h1>
       بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط هوش مصنوعی من
       <br>
-      <span class="myai">My AI</span>
-      <span class="sub">My AI Class Platform</span>
+      <span class="big-ai">My AI</span>
+      <span>My AI Class Platform</span>
     </h1>
 
     <p class="lead"><b>شرکت پردرآمد تهرانیها</b> با مدیریت <b>حسین لعلیان</b>، رتبه ۳۲ کنکور دکتری. این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور.</p>
@@ -200,7 +190,6 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
     </div>
     <p class="small">سامانه کاملاً رایگان، بدون نیاز به ثبت‌نام و بدون نیاز به کلید API.</p>
   </div>
-
   <aside class="hero-card">
     <strong>پشتیبان یادگیری شما</strong>
     <ul>
@@ -265,9 +254,7 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
           <button class="btn" id="saveAudio" type="button">ذخیره صوتی</button>
         </div>
       </div>
-
       <div id="result" class="result" aria-live="polite">پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.</div>
-
       <p class="small">پاسخ‌ها توسط موتور هوش مصنوعی با تحلیل مرحله‌به‌مرحله تولید می‌شوند.</p>
       <audio id="audioPlayer" controls hidden></audio>
     </div>
@@ -395,7 +382,6 @@ function initUI() {
     d.append(s, b);
     lHost.append(d);
   });
-
   extras.forEach(x => {
     const d = el('details', 'card');
     const s = el('summary', '', x);
@@ -411,23 +397,17 @@ function initUI() {
     if(i < 3) d.open = true;
     const s = el('summary', '', name);
     const inside = el('div', 'tool-buttons');
-
     levels.forEach(lvl => {
       const b = el('button', 'btn', `${name} · ${lvl}`);
       b.type = 'button';
       b.onclick = () => {
-        byId('prompt').value =
-`عنوان درخواست: ${name}
-سطح آموزشی: ${lvl}
-
-لطفاً پاسخ را دقیق، مرحله‌به‌مرحله، بدون علامت‌های اضافی و با فرمول‌نویسی استاندارد (LaTeX) ارائه کن.`;
+        byId('prompt').value = `عنوان درخواست: ${name}\nسطح آموزشی: ${lvl}\n\nلطفاً پاسخ را دقیق، آموزشی، مرحله‌به‌مرحله و با فرمول‌نویسی LaTeX (برای KaTeX) ارائه کن.`;
         byId('level').value = lvl;
         byId('prompt').focus();
         byId('assistant').scrollIntoView({ behavior: 'smooth' });
       };
       inside.append(b);
     });
-
     d.append(s, inside);
     sHost.append(d);
   });
@@ -437,16 +417,16 @@ function initUI() {
     pHost.append(el('div', 'package', `${n} میلیون تومان`));
   });
 }
+
 initUI();
 
-/* (۲) بوق + افکت روی همه کادرها با hover و touch */
+/* (۲) افکت صوتی + لرزش برای همه اجزای موردنظر */
 let audioCtx = null;
 function beep() {
   if (!byId('soundToggle').checked) return;
   try {
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
-
     const o = audioCtx.createOscillator(), g = audioCtx.createGain();
     o.type = 'square';
     o.frequency.value = 720;
@@ -458,19 +438,20 @@ function beep() {
     o.stop(audioCtx.currentTime + .075);
   } catch(e) {}
 }
-function hoverTarget(elm){
-  return elm && elm.closest && elm.closest('.box, .hero-card, .card, details.card, details.tool, .package, .btn');
+function fxTarget(node){
+  return node && node.closest && node.closest('.box,.hero-card,.card,details.card,details.tool,.package,.btn,select,textarea,input[type="text"],details summary');
 }
-function applyHoverFX(node){
-  const t = hoverTarget(node);
-  if (!t) return;
-  t.classList.add('is-hovering');
+function fireFX(node){
+  const t = fxTarget(node);
+  if(!t) return;
+  t.classList.add('fx-on');
   beep();
   clearTimeout(t.__fxTimer);
-  t.__fxTimer = setTimeout(()=>t.classList.remove('is-hovering'), 380);
+  t.__fxTimer = setTimeout(()=>t.classList.remove('fx-on'), 420);
 }
-document.addEventListener('pointerenter', e => applyHoverFX(e.target), true);
-document.addEventListener('pointerdown', e => applyHoverFX(e.target), true);
+document.addEventListener('pointerenter', e => fireFX(e.target), true);
+document.addEventListener('pointerdown', e => fireFX(e.target), true);
+document.addEventListener('focusin', e => fireFX(e.target), true);
 
 /* تصویر */
 const fileInput = byId('image');
@@ -491,6 +472,7 @@ fileInput.addEventListener('change', () => {
   };
   r.readAsDataURL(f);
 });
+
 byId('removeImage').onclick = () => {
   imageData = null;
   fileInput.value = '';
@@ -504,43 +486,40 @@ function setStatus(text, kind = '') {
   n.className = 'status ' + kind;
 }
 
-/* (۳) پرامپت سخت‌گیر برای کاهش پاسخ الکی */
+/* (۳) سیستم‌پرامپت سخت‌گیرتر برای کاهش پاسخ الکی */
 function makeSystemPrompt(level) {
-  return `نقش: استاد ارشد و معلم بسیار دقیق در سامانه «کلاس هوش مصنوعی من». سطح مخاطب: «${level}».
-قواعد:
-- فقط پاسخ واقعی، آموزشی و قابل دفاع بده. اگر اطلاعات کافی نیست، «اطلاعات کافی نیست» و سوال تکمیلی بپرس.
-- از پاسخ‌های ساختگی/حدسی پرهیز کن.
-- هیچ متن سیستمی، JSON، role، reasoning یا قالب عجیب چاپ نکن.
-- علائم اضافی مثل # و تیترهای شلوغ و فرمت‌های بی‌مورد نده.
+  return `نقش: استاد ارشد و بسیار دقیق در سامانه «کلاس هوش مصنوعی من». سطح مخاطب: «${level}».
+قواعد مهم:
+- اگر سوال مبهم است یا اطلاعات کافی نیست، اول سوال تکمیلی بپرس و حدس نزن.
+- پاسخ ساختگی/هذیانی/جعلی ممنوع.
+- خروجی را تمیز بده: از تیترهای بی‌مورد و علامت‌های اضافی مثل # خودداری کن.
 - فرمول‌ها را با LaTeX بنویس تا KaTeX رندر کند: $F=ma$, $\\Delta t$, $\\alpha$, $\\beta$, $\\mathrm{H_2O}$.
-- متن عربی/قرآنی را با اعراب و جهت درست حفظ کن.
-پاسخ را مرحله‌به‌مرحله و منظم ارائه کن.`;
+- متن عربی/قرآنی را درست و بدون به‌هم‌ریختگی حفظ کن.
+پاسخ را مرحله‌به‌مرحله و آموزشی ارائه کن.`;
 }
 
-/* (۳) پاکسازی خروجی: حذف # و junk */
+/* (۳) پاکسازی متن (حذف شارپ/جنگ و قالب‌های عجیب) */
 function sanitizeAndCleanText(raw){
   if(!raw) return '';
   let t = String(raw);
 
+  // حذف بلاک‌های JSON/کد که گاهی مدل‌ها می‌چسبانند
   t = t.replace(/
 ```json[\s\S]*?
 ```/gi, '');
   t = t.replace(/<\s*think\s*>[\s\S]*?<\s*\/\s*think\s*>/gi,'');
   t = t.replace(/^\s*think\s*:\s*.*$/gmi,'');
 
-  t = t.replace(/"reasoning"\s*:\s*[\s\S]*?(?=,\s*")/g, '');
-  t = t.replace(/"role"\s*:\s*".*?"/g, '');
-  t = t.replace(/"tool_calls"\s*:\s*\[[\s\S]*?\]/g, '');
+  // حذف تیترهای Markdown با #
+  t = t.replace(/^\s{0,3}#{1,6}\s*/gm, '');
 
-  t = t.replace(/^\s{0,3}#{1,6}\s*/gm, '');   // حذف شارپ تیتر
-  t = t.replace(/^\s*[-=]{3,}\s*$/gm, '');
-  t = t.replace(/\u200f|\u200e/g,'');
+  // کم‌کردن خط‌های خیلی اضافه
   t = t.replace(/\n{4,}/g, '\n\n').trim();
 
   return t;
 }
 
-/* تبدیل ساده متن به HTML تمیز (پاراگراف/لیست/تیتر) + حفظ $$ $ برای KaTeX */
+/* تبدیل خروجی به HTML تمیز + حفظ $ و $$ برای KaTeX */
 function escapeHTML(s){
   return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 }
@@ -605,11 +584,7 @@ function toCleanHTML(text){
 
     closeList();
 
-    if(line.length <= 80 && /:\s*$/.test(line)){
-      html += `<h3>${escapeHTML(line.replace(/:\s*$/,''))}</h3>`;
-      continue;
-    }
-
+    // عربی/قرآنی (دارای اعراب) را بلوک زیباتر نشان بده
     if(/[\u0600-\u06FF]/.test(line) && /[ًٌٍَُِّْٰ]/.test(line) && line.length > 15){
       html += `<p class="arabic-block">${escapeHTML(line)}</p>`;
       continue;
@@ -636,7 +611,9 @@ function renderMath(container){
   } catch(e){}
 }
 
-/* ✅ (اتصال AI) همان کد خودت، بدون قطع شدن */
+/* ─────────────────────────────────────────────────────────────
+   🌐 موتور اتصال ضد تحریم و بدون کلید چندکاناله (دست نخورده)
+   ───────────────────────────────────────────────────────────── */
 async function requestAI(promptText, imageData) {
   const fullPrompt = `${promptText}${imageData ? '\n[کاربر تصویری از سوال نیز بارگذاری کرده است]' : ''}`;
   const encoded = encodeURIComponent(fullPrompt);
@@ -677,7 +654,7 @@ async function requestAI(promptText, imageData) {
   throw new Error('عدم دریافت پاسخ از شبکه. در صورت فعال بودن فیلترشکن، سرور آن را تغییر دهید.');
 }
 
-/* ارسال پرسش (فقط خروجی را پاکسازی+رندر می‌کنیم) */
+/* ارسال پرسش (اتصال قطع نشده؛ فقط خروجی پاکسازی+رندر می‌شود) */
 byId('send').onclick = async () => {
   const question = byId('prompt').value.trim();
   if (!question && !imageData) {
@@ -687,14 +664,12 @@ byId('send').onclick = async () => {
   const btn = byId('send');
   btn.classList.add('busy');
   btn.disabled = true;
-
   setStatus('در حال ارتباط با سرور و پردازش پاسخ هوشمند…');
   byId('result').textContent = 'در حال تحلیل مسئله و نگارش پاسخ… لطفاً شکیبا باشید.';
 
   try {
     const sysPrompt = makeSystemPrompt(byId('level').value);
     const combined = `${sysPrompt}\n\nسوال کاربر:\n${question || 'لطفاً مسئله مطرح شده را تحلیل و حل نمایید.'}`;
-
     const raw = await requestAI(combined, imageData);
 
     const clean = sanitizeAndCleanText(raw);
@@ -705,8 +680,9 @@ byId('send').onclick = async () => {
 
     setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
 
-    if (byId('speechToggle').checked) speakAnswer();
-
+    if (byId('speechToggle').checked) {
+      speakAnswer();
+    }
   } catch (err) {
     setStatus('خطا: ' + (err.message || 'خطای شبکه.'), 'error');
     byId('result').textContent = 'در برقراری ارتباط مشکلی به وجود آمد. لطفاً اتصال اینترنت را بررسی و مجدداً کلیک کنید.';
@@ -716,7 +692,7 @@ byId('send').onclick = async () => {
   }
 };
 
-/* ابزارهای کمکی */
+// ابزارهای کمکی
 byId('clear').onclick = () => {
   byId('prompt').value = '';
   byId('result').textContent = 'پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.';
@@ -735,9 +711,4 @@ byId('copy').onclick = async () => {
 
 function speakAnswer() {
   if (!('speechSynthesis' in window)) {
-    setStatus('مرورگر شما از قابلیت خواندن صوتی پشتیبانی نمی‌کند.', 'error');
-    return;
-  }
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(byId('result').innerText);
-  u.lang = 'fa-
+    setStatus('مرورگر شما از قابلیت خواندن صوتی پش
