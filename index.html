@@ -102,7 +102,7 @@
 
         textarea {
             width: 100%;
-            height: 130px;
+            min-height: 140px;
             color: var(--ink);
             background: #0d1728;
             border: 1.5px solid var(--accent);
@@ -132,7 +132,7 @@
             color: #0b1120;
             width: 100%;
             padding: 14px;
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 1.1rem;
         }
 
@@ -144,15 +144,48 @@
             border-radius: 10px;
         }
 
+        .upload-label {
+            display: inline-block;
+            background: #1f3354;
+            color: var(--accent);
+            border: 1.5px dashed var(--accent);
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: all 0.2s;
+        }
+
+        .upload-label:hover {
+            background: #2a436e;
+            color: #fff;
+        }
+
+        .preview-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+            justify-content: center;
+        }
+
+        .preview-area img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--accent);
+        }
+
         #result-box {
-            min-height: 150px;
+            min-height: 160px;
             background: #070d18;
             border: 1.5px dashed var(--accent);
             padding: 16px;
             border-radius: 12px;
             text-align: right;
             white-space: pre-wrap;
-            margin-top: 12px;
+            margin-top: 14px;
             line-height: 1.9;
         }
 
@@ -185,13 +218,19 @@
     </section>
 
     <section class="card zoom-box" id="ai-section">
-        <h3 style="color:var(--gold); margin-bottom: 8px;">شروع حل سوالات با هوش مصنوعی ←</h3>
-        <p style="margin-bottom: 12px;">ورودی سوال دانش‌آموز / مبحث درس یا تمرین</p>
+        <h3 style="color:var(--gold); margin-bottom: 8px;">دستیار هوشمند حل سوالات و تحلیل تصویر ←</h3>
+        <p style="margin-bottom: 12px;">متن سوال یا تصویر برگه امتحانی و کتاب درسی را بارگذاری کنید:</p>
         
-        <textarea id="userInput" placeholder="متن سوال مدرسه، دانشگاه و موسسه کنکور، تمرین، تست یا امتحان خود را اینجا بنویسید تا در خانه هوش مصنوعی برلیان لعلیان بطور کامل حل شود..."></textarea>
+        <textarea id="userInput" placeholder="متن سوال مدرسه، دانشگاه و موسسه کنکور، تمرین، تست یا امتحان خود را اینجا بنویسید..."></textarea>
         
+        <div>
+            <label for="imageUpload" class="upload-label">📷 افزودن تصویر سوال یا صفحه کتاب</label>
+            <input type="file" id="imageUpload" accept="image/*" multiple style="display:none;">
+            <div id="previewArea" class="preview-area"></div>
+        </div>
+
         <button class="btn btn-send" id="sendBtn">ارسال و دریافت پاسخ هوشمند</button>
-        <button class="btn btn-secondary" id="clearBtn">پاک کردن فرم</button>
+        <button class="btn btn-secondary" id="clearBtn">پاک کردن فرم و تصاویر</button>
 
         <div style="margin-top:22px; text-align:right;">
             <h4 style="color:var(--accent); margin-bottom: 6px;">پاسخ تشریحی، فرمول‌ها و تحلیل هوش مصنوعی:</h4>
@@ -235,11 +274,9 @@
 </div>
 
 <script>
-    const AUTH_SECRET = "sk-JnXC9VUAnb5JsFWyTSOU7KPBRcaiLD3JZoW8fRmNxYOOzi9L";
-    const SERVICE_URL = "https://api.gapgpt.app/v1/chat/completions";
-    const ENGINE_MODEL = "gpt-4o-mini";
-
+    let uploadedImagesBase64 = [];
     let audioContext = null;
+
     function playBeepSound() {
         try {
             if (!audioContext) {
@@ -252,17 +289,33 @@
             const gain = audioContext.createGain();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(520, audioContext.currentTime);
-            gain.gain.setValueAtTime(0.08, audioContext.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.06, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.12);
             osc.connect(gain);
             gain.connect(audioContext.destination);
             osc.start();
-            osc.stop(audioContext.currentTime + 0.15);
+            osc.stop(audioContext.currentTime + 0.12);
         } catch (e) {}
     }
 
-    document.querySelectorAll('.zoom-box, .btn, .pkg-item').forEach(el => {
+    document.querySelectorAll('.zoom-box, .btn, .pkg-item, .upload-label').forEach(el => {
         el.addEventListener('click', playBeepSound);
+    });
+
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        const previewArea = document.getElementById('previewArea');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const b64 = evt.target.result;
+                uploadedImagesBase64.push(b64);
+                const img = document.createElement('img');
+                img.src = b64;
+                previewArea.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
     });
 
     function pickPackage(element) {
@@ -292,58 +345,103 @@
 
     document.getElementById('clearBtn').onclick = () => {
         document.getElementById('userInput').value = '';
+        document.getElementById('previewArea').innerHTML = '';
+        document.getElementById('imageUpload').value = '';
+        uploadedImagesBase64 = [];
+        document.getElementById('result-box').innerText = 'پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.';
     };
+
+    // لیست اندپوینت‌های آزاد چندگانه (سیستم سوئیچ خودکار در صورت قطعی)
+    const ENDPOINTS = [
+        {
+            url: "https://text.pollinations.ai/",
+            type: "pollinations"
+        },
+        {
+            url: "https://free.churchless.tech/v1/chat/completions",
+            type: "openai"
+        }
+    ];
+
+    async function requestAI(promptText, images) {
+        // روش اول: استفاده از موتور بینایی چندرسانه‌ای
+        try {
+            let fullPrompt = "شما هوش مصنوعی آموزشی خانه هوش مصنوعی برلیان لعلیان هستید. سوالات و تمارین را گام به گام و تشریحی حل کنید.\n\n" + promptText;
+            
+            const response = await fetch(ENDPOINTS[0].url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    messages: [
+                        {
+                            role: "user",
+                            content: images.length > 0 
+                                ? [
+                                    { type: "text", text: fullPrompt },
+                                    ...images.map(img => ({ type: "image_url", image_url: { url: img } }))
+                                  ]
+                                : fullPrompt
+                        }
+                    ],
+                    model: "openai",
+                    jsonMode: false
+                })
+            });
+
+            if (response.ok) {
+                const text = await response.text();
+                if (text && text.trim().length > 0) return text;
+            }
+        } catch (e) {
+            // سرور اول پاسخ نداد، سوئیچ خودکار به سرور پشتیبان
+        }
+
+        // روش دوم: سرور پشتیبان متنی
+        try {
+            const res2 = await fetch(ENDPOINTS[1].url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    model: "gpt-3.5-turbo",
+                    messages: [
+                        { role: "system", content: "شما دستیار حل مسائل آموزشی خانه هوش مصنوعی برلیان لعلیان هستید." },
+                        { role: "user", content: promptText }
+                    ]
+                })
+            });
+            if (res2.ok) {
+                const data2 = await res2.json();
+                if (data2?.choices?.[0]?.message?.content) {
+                    return data2.choices[0].message.content;
+                }
+            }
+        } catch (e) {}
+
+        throw new Error("UNAVAILABLE");
+    }
 
     document.getElementById('sendBtn').onclick = async () => {
         const userInput = document.getElementById('userInput').value.trim();
         const resultBox = document.getElementById('result-box');
+        const sendBtn = document.getElementById('sendBtn');
 
-        if (!userInput) {
-            alert('لطفاً ابتدا سوال خود را بنویسید.');
+        if (!userInput && uploadedImagesBase64.length === 0) {
+            alert('لطفاً ابتدا متن سوال یا تصویر آن را وارد نمایید.');
             return;
         }
 
+        sendBtn.disabled = true;
+        sendBtn.innerText = 'در حال ارتباط و پردازش هوشمند...';
         resultBox.innerText = 'در حال تحلیل در خانه هوش مصنوعی برلیان لعلیان... لطفاً شکیبا باشید.';
 
         try {
-            const response = await fetch(SERVICE_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${AUTH_SECRET.trim()}`
-                },
-                body: JSON.stringify({
-                    model: ENGINE_MODEL,
-                    messages: [
-                        {
-                            role: "system",
-                            content: "شما هوش مصنوعی خانه هوش مصنوعی برلیان لعلیان هستید. سوالات درسی، کنکور، تست و تکالیف را تشریحی، فرمولی و دقیق حل کنید."
-                        },
-                        {
-                            role: "user",
-                            content: userInput
-                        }
-                    ],
-                    temperature: 0.7
-                })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                const message = (data && data.error && data.error.message) ? data.error.message : ('کد وضعیت: ' + response.status);
-                resultBox.innerText = message;
-                return;
-            }
-
-            if (data && data.choices && data.choices.length > 0) {
-                resultBox.innerText = data.choices[0].message.content;
-            } else {
-                resultBox.innerText = 'پاسخی دریافت نشد.';
-            }
-
-        } catch (error) {
-            resultBox.innerText = error.message;
+            const answer = await requestAI(userInput, uploadedImagesBase64);
+            resultBox.innerText = answer;
+        } catch (err) {
+            resultBox.innerText = 'در حال حاضر ترافیک پردازش بالاست یا ارتباط موقتاً با اختلال مواجه شده است. لطفاً چند لحظه دیگر مجدداً دکمه ارسال را بزنید.';
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.innerText = 'ارسال و دریافت پاسخ هوشمند';
         }
     };
 </script>
