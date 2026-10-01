@@ -126,7 +126,7 @@ details summary{cursor:pointer;font-weight:1000;color:var(--ink);outline:none;us
 details.tool{padding:12px 16px}
 .tool-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 
-/* استایل بسته‌ها */
+/* استایل کادرهای بسته‌ها */
 .packages-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .package-card{
   padding:20px 14px;
@@ -176,7 +176,6 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
 
 <main>
 <section class="wrap section" id="home">
-  <!-- بنر بالای صفحه -->
   <div class="grand-banner">
     <div class="homeai-pill">Home-AI</div>
     <span class="banner-title">خونه هوش مصنوعی برلیان لعلیان</span>
@@ -250,12 +249,8 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
   <div class="grid" id="levelCards"></div>
 </section>
 
-<!-- بخش بسته‌های اعتباری -->
+<!-- کادرهای ۸ بسته درخواستی -->
 <section class="wrap section" id="packages">
-  <div class="info-card">
-    <h2 style="margin:0 0 4px">بسته‌های اعتباری و خدمات هوش مصنوعی</h2>
-    <p style="margin:0;color:var(--muted);font-size:.92rem">انتخاب بسته مورد نظر جهت ارتقا و استفاده نامحدود</p>
-  </div>
   <div class="packages-grid" id="packageList"></div>
 </section>
 
@@ -310,14 +305,14 @@ const services = [
 ];
 
 const packageData = [
-  { title: 'بسته ۵ میلیون تومانی', sub: 'دسترسی آموزشی و حل سوالات پایه' },
-  { title: 'بسته ۱۰ میلیون تومانی', sub: 'تحلیل تشریحی تمرینات و تکالیف' },
-  { title: 'بسته ۲۰ میلیون تومانی', sub: 'پشتیبانی تخصصی دروس متوسطه و تست' },
-  { title: 'بسته ۵۰ میلیون تومانی', sub: 'حل پیشرفته و آمادگی امتحانات کتبی و شفاهی' },
-  { title: 'بسته ۱۰۰ میلیون تومانی', sub: 'پکیج جامع کنکور و مقاطع دانشگاهی' },
-  { title: 'بسته ۱۵۰ میلیون تومانی', sub: 'مشاوره، آنالیز تله‌های تستی و تدریس کامل' },
-  { title: 'بسته ۲۰۰ میلیون تومانی', sub: 'پلتفرم اختصاصی آموزش و حل مسئله نامحدود' },
-  { title: 'بسته ۲۵۰ میلیون تومانی', sub: 'پکیج طلایی دکتری، ارشد و المپیادها' }
+  { title: 'بسته  ۵ میلیون تومانی', sub: 'دسترسی آموزشی و حل سوالات پایه' },
+  { title: 'بسته  ۱۰ میلیون تومانی', sub: 'تحلیل تشریحی تمرینات و تکالیف' },
+  { title: 'بسته  ۲۰ میلیون تومانی', sub: 'پشتیبانی تخصصی دروس متوسطه و تست' },
+  { title: 'بسته  ۵۰ میلیون تومانی', sub: 'حل پیشرفته و آمادگی امتحانات کتبی و شفاهی' },
+  { title: 'بسته  ۱۰۰ میلیون تومانی', sub: 'پکیج جامع کنکور و مقاطع دانشگاهی' },
+  { title: 'بسته  ۱۵۰ میلیون تومانی', sub: 'مشاوره، آنالیز تله‌های تستی و تدریس کامل' },
+  { title: 'بسته  ۲۰۰ میلیون تومانی', sub: 'پلتفرم اختصاصی آموزش و حل مسئله نامحدود' },
+  { title: 'بسته  ۲۵۰ میلیون تومانی', sub: 'پکیج طلایی دکتری، ارشد و المپیادها' }
 ];
 
 const byId = id => document.getElementById(id);
@@ -373,7 +368,7 @@ function initUI(){
     sHost.append(d);
   });
 
-  // تولید کارت‌های بسته‌ها
+  // تولید کادرهای بسته‌ها
   const pkgHost = byId('packageList');
   packageData.forEach(p => {
     const c = el('div', 'package-card');
@@ -424,38 +419,41 @@ function setStatus(text, kind=''){
 }
 
 function makeSystemPrompt(){
+  return `نقش: «استاد audioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.value = 170;
+    g.gain.setValueAtTime(.06, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .08);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + .085);
+  }catch(e){}
+}
+function fxTarget(node){
+  return node && node.closest && node.closest('.grand-banner, .info-card, .box, .card, details.card, details.tool, .package-card, .btn, textarea, input[type="text"]');
+}
+function fireFX(node){
+  const t = fxTarget(node);
+  if(!t) return;
+  t.classList.add('fx-on');
+  vibBeep();
+  clearTimeout(t.__fxTimer);
+  t.__fxTimer = setTimeout(()=>t.classList.remove('fx-on'), 380);
+}
+document.addEventListener('pointerenter', e => fireFX(e.target), true);
+document.addEventListener('pointerdown', e => fireFX(e.target), true);
+document.addEventListener('focusin', e => fireFX(e.target), true);
+
+function setStatus(text, kind=''){
+  const n = byId('status');
+  n.textContent = text;
+  n.className = 'status ' + kind;
+}
+
+function makeSystemPrompt(){
   return `نقش: «استاد و دستیار هوشمند آموزشی مدرسه و دانشگاه» در خونه هوش مصنوعی برلیان لعلیان.
 وظیفه: پاسخ دقیق، تشریحی و گام‌به‌گام به سوالات، تکالیف و امتحانات دانش‌آموزان و دانشجویان.
 قواعد:
-۱) پاسخ کاملاً به زبان فارسی، روان و تشریحی باشد.
-۲) تمامی فرمول‌های ریاضی و فیزیک را در نمادهای LaTeX قرار بده ($ یا $$).
-۳) از به کار بردن علامت‌های بدون کاربرد مثل # در عنوان‌ها خودداری کن.`;
-}
-
-function sanitizeAndCleanText(raw){
-  if(!raw) return '';
-  let t = String(raw);
-  t = t.replace(/<\s*think\s*>[\s\S]*?<\s*\/\s*think\s*>/gi,'');
-  t = t.replace(/
-```[\s\S]*?
-```/g,'');
-  t = t.replace(/^\s{0,3}#{1,6}\s*/gm,'');
-  t = t.replace(/\n{4,}/g,'\n\n').trim();
-  return t;
-}
-function escapeHTML(s){
-  return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-}
-function tableMarkdownToHtml(text){
-  const lines = text.split('\n');
-  let out = [];
-  let i = 0;
-  while(i < lines.length){
-    const line = lines[i].trim();
-    const isTableLine = /^\|.*\|$/.test(line);
-    const nextIsSep = i + 1 < lines.length && /^\|?[\s:-]+(\|[\s:-]+)+\|?$/.test(lines[i+1].trim());
-    if(isTableLine && nextIsSep){
-      const headers = line.split('|').slice(1,-1).map(x => x.trim());
+۱) پاسخ کاملاً به زبان فارسی، روان و تشری(1,-1).map(x => x.trim());
       i += 2;
       let rows = [];
       while(i < lines.length && /^\|.*\|$/.test(lines[i].trim())){
@@ -523,12 +521,12 @@ function renderMath(container){
   }catch(e){}
 }
 
-/* موتور هوش مصنوعی ضدقطعی (رفع کامل خطای ۵۰۳ بدون نیاز به کلید) */
+/* سیستم هوشمند اتصال بدون کلید و مقاوم در برابر خطای ۵۰۳ */
 async function requestAI(promptText){
   const promptFull = makeSystemPrompt() + '\n\nپرسش دانش‌آموز:\n' + promptText;
   const encoded = encodeURIComponent(promptFull);
 
-  const targets = [
+  const endpoints = [
     { url: `https://text.pollinations.ai/${encoded}?model=openai`, method: 'GET' },
     { url: `https://text.pollinations.ai/${encoded}?model=mistral`, method: 'GET' },
     { url: `https://api.allorigins.win/raw?url=${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`, method: 'GET' },
@@ -539,27 +537,25 @@ async function requestAI(promptText){
     }
   ];
 
-  for(const req of targets){
+  for(const ep of endpoints){
     try{
-      const options = {
-        method: req.method,
+      const opts = {
+        method: ep.method,
         headers: { 'Accept': 'text/plain, application/json', 'Content-Type': 'application/json' }
       };
-      if(req.body) options.body = req.body;
+      if(ep.body) opts.body = ep.body;
 
-      const res = await fetch(req.url, options);
+      const res = await fetch(ep.url, opts);
       if(res.ok){
         const txt = await res.text();
         if(txt && txt.trim().length > 10 && !txt.includes('503 Service') && !txt.includes('<!DOCTYPE html>')){
           return txt;
         }
       }
-    }catch(err){
-      // در صورت خطا به سرور بعدی سوئیچ می‌شود
-    }
+    }catch(err){}
   }
 
-  throw new Error('پاسخی از سرور دریافت نشد. لطفاً چند لحظه بعد مجدداً دکمه ارسال را بزنید.');
+  throw new Error('پاسخی از سرور دریافت نشد. لطفاً مجدداً دکمه ارسال را بزنید.');
 }
 
 byId('send').onclick = async () => {
