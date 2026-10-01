@@ -68,15 +68,6 @@
 
     .section-title{margin:30px 0 14px;font-size:1.45rem;color:#fff}
     .panel{margin:14px 0}
-    
-    .key-row{
-      display:flex;gap:10px;align-items:center;margin-bottom:14px;
-      background:rgba(0,0,0,0.25);padding:10px 14px;border-radius:10px;border:1px solid #333d5a;
-    }
-    .key-input{
-      flex:1;background:var(--panel2);border:1px solid #4a5779;border-radius:8px;
-      padding:6px 12px;color:#fff;direction:ltr;font-family:monospace;font-size:0.9rem;
-    }
 
     .question{
       width:100%;min-height:130px;
@@ -255,13 +246,6 @@
 
   <section class="panel" id="workspace">
     <h2 class="section-title" style="margin-top:0">ورودی پرسش</h2>
-    
-    <!-- بخش کلید فعال‌سازی -->
-    <div class="key-row">
-      <label for="apiKeyField" style="font-size:.88rem;font-weight:bold;color:#38d9c2">🔑 کلید فعال‌سازی سیستم:</label>
-      <input id="apiKeyField" type="password" class="key-input" placeholder="کلید فعال‌سازی API را اینجا وارد نمایید">
-      <button id="saveKeyBtn" class="action" style="padding:5px 12px;font-size:.8rem" type="button">ذخیره کلید</button>
-    </div>
 
     <textarea id="question" class="question" placeholder="سوال، تمرین یا موضوع خود را اینجا بنویسید یا یکی از دکمه‌های هوشمند پایین را بزنید..."></textarea>
     
@@ -338,25 +322,12 @@
   'use strict';
 
   // =========================================================================
-  // 🔑 متغیر پیش‌فرض کلید اتصال Class-AI (کلید شما در اینجا درج شده است):
+  // 🔑 متغیر اختصاصی کلید اتصال (کلید فقط در این بخش داخل کد قرار دارد):
   // =========================================================================
-  const DEFAULT_KEY = "Isk-E8BZu0kEAO4YilLpYNWjOVI4vzuh5vCvtos1r2UZ4hn3l9O9";
+  const API_KEY = "Isk-E8BZu0kEAO4YilLpYNWjOVI4vzuh5vCvtos1r2UZ4hn3l9O9";
 
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
-
-  // بارگذاری کلید از حافظه محلی یا مقدار پیش‌فرض
-  const keyField = $('#apiKeyField');
-  const storedKey = localStorage.getItem('CLASS_AI_KEY') || DEFAULT_KEY;
-  keyField.value = storedKey;
-
-  $('#saveKeyBtn').onclick = () => {
-    const val = keyField.value.trim();
-    if(val){
-      localStorage.setItem('CLASS_AI_KEY', val);
-      $('#status').textContent = 'کلید با موفقیت در سیستم ذخیره شد ✅';
-    }
-  };
 
   const levels = ['ابتدایی', 'متوسطه اول', 'متوسطه دوم', 'تیزهوشان', 'المپیادی', 'کنکوری', 'لیسانس', 'فوق لیسانس', 'دکتری'];
 
@@ -480,57 +451,55 @@
   };
 
   async function executeRequest(payload) {
-    const activeKey = (keyField.value.trim() || DEFAULT_KEY);
     const bodyStr = JSON.stringify(payload);
 
+    // تلاش اول: اتصال مستقیم به سرور پردازش
     try {
       const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), 22000);
+      const id = setTimeout(() => controller.abort(), 25000);
 
       const res = await fetch('https://api.gapgpt.app/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + activeKey
+          'Authorization': 'Bearer ' + API_KEY
         },
         body: bodyStr,
         signal: controller.signal
       });
       clearTimeout(id);
 
-      if (res.ok) {
-        const d = await res.json();
-        if (d?.choices?.[0]?.message?.content) {
-          return { ok: true, text: d.choices[0].message.content };
-        }
-      } else {
-        const err = await res.json().catch(() => ({}));
-        return { ok: false, error: err?.error?.message || ('کد خطای سرور: ' + res.status) };
+      const d = await res.json().catch(() => null);
+      if (res.ok && d?.choices?.[0]?.message?.content) {
+        return { ok: true, text: d.choices[0].message.content };
+      } else if (d?.error?.message) {
+        return { ok: false, error: d.error.message };
       }
     } catch (e) {
-      // مسیر جایگزین در صورت بروز اختلال شبکه
+      // ادامه به مسیر کمکی
     }
 
+    // تلاش دوم: مسیر کمکی ضد تحریم و CORS
     try {
       const fallbackUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://api.gapgpt.app/v1/chat/completions');
       const res = await fetch(fallbackUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + activeKey
+          'Authorization': 'Bearer ' + API_KEY
         },
         body: bodyStr
       });
 
-      if (res.ok) {
-        const d = await res.json();
-        if (d?.choices?.[0]?.message?.content) {
-          return { ok: true, text: d.choices[0].message.content };
-        }
+      const d = await res.json().catch(() => null);
+      if (res.ok && d?.choices?.[0]?.message?.content) {
+        return { ok: true, text: d.choices[0].message.content };
+      } else if (d?.error?.message) {
+        return { ok: false, error: d.error.message };
       }
     } catch (e) {}
 
-    return { ok: false, error: 'عدم دریافت پاسخ از سرور. لطفاً اتصال اینترنت/ابزار تغییر IP را بررسی فرمایید.' };
+    return { ok: false, error: 'عدم دریافت پاسخ از سرور. لطفاً اتصال اینترنت خود را بررسی نمایید.' };
   }
 
   async function ask(actionTitle){
