@@ -27,8 +27,8 @@ body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transpare
 .navlinks a{color:var(--muted);font-size:.92rem;text-decoration:none;padding:6px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line)}
 .toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line)}
 
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:30px 0;align-items:center}
-.section{padding:25px 0}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:25px 0 15px;align-items:center}
+.section{padding:15px 0}
 
 /* کادربندی سراسری همه المان‌ها */
 .info-card, .box, .hero-card, .card, details.card, details.tool, .package, .navlinks a, .brand, .toggleline, .btn, textarea, input[type="text"]{
@@ -92,7 +92,7 @@ h1{
 
 .workspace{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .box{padding:20px}
-.field{display:block;font-size:.9rem;color:var(--muted);margin-bottom:6px}
+.field{display:block;font-size:.95rem;color:var(--gold);font-weight:900;margin-bottom:8px}
 textarea,input[type="text"]{
   width:100%;background:var(--bg);
   color:var(--ink);padding:10px 12px;outline:none;font-family:inherit
@@ -131,7 +131,7 @@ details.tool{padding:12px 16px}
 .package{padding:16px;text-align:center;font-weight:1000;color:var(--gold)}
 .payment .cardnum{font-size:1.4rem;letter-spacing:2px;font-family:monospace;direction:ltr;background:var(--bg);padding:10px;border-radius:8px;border:1px dashed var(--gold);color:var(--gold);text-align:center;margin:8px 0}
 .notice{color:var(--muted);font-size:.9rem;margin:0 0 10px}
-.footer{padding:24px 0;text-align:center;color:var(--muted);font-size:.9rem;margin-top:30px}
+.footer{padding:24px 0;text-align:center;color:var(--muted);font-size:.9rem;margin-top:20px}
 .spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
 .btn.busy .spinner{display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -229,16 +229,8 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
   </aside>
 </section>
 
-<!-- بخش دستیار هوشمند با اتصال پایدار -->
+<!-- بخش دستیار هوشمند -->
 <section class="wrap section" id="assistant">
-  <div class="info-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-    <div>
-      <h2 style="margin:0 0 4px">دستیار هوشمند کلاس هوش مصنوعی</h2>
-      <p style="margin:0;color:var(--muted);font-size:.92rem">پرسش خود را بنویسید و پاسخ کامل و دقیق را دریافت کنید.</p>
-    </div>
-    <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن پاسخ با صدا</label>
-  </div>
-
   <div class="workspace">
     <!-- کادر ورودی سوال -->
     <div class="box">
@@ -577,7 +569,7 @@ function renderMath(container){
   }catch(e){}
 }
 
-/* موتور هوش مصنوعی چندمسیره و مستقیم */
+/* موتور هوش مصنوعی چندمسیره و پایدار */
 async function requestAI(promptText, imageData){
   const fullPrompt = `${promptText}${imageData ? '\n[تصویر سوال ضمیمه شده است]' : ''}`;
   const encoded = encodeURIComponent(fullPrompt);
@@ -645,8 +637,6 @@ byId('send').onclick = async () => {
     renderMath(byId('result'));
 
     setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
-
-    if(byId('speechToggle').checked) speakAnswer();
   }catch(err){
     setStatus('خطا: ' + (err.message || 'خطای شبکه.'), 'error');
     byId('result').textContent = 'در برقراری ارتباط مشکلی به وجود آمد. لطفاً اتصال اینترنت را بررسی و مجدداً تلاش نمایید.';
@@ -667,11 +657,11 @@ byId('copy').onclick = async () => {
     await navigator.clipboard.writeText(byId('result').innerText);
     setStatus('پاسخ با موفقیت در کلیپ‌بورد کپی شد.', 'ok');
   }catch{
-    setStatus('کپی خودکار انجام نشد؛ متن را انتخاب و کپی کنید.', 'error');
+    setStatus('کپی انجام نشد؛ متن را دستی انتخاب و کپی کنید.', 'error');
   }
 };
 
-function speakAnswer(){
+byId('saveAudio').onclick = () => {
   if(!('speechSynthesis' in window)){
     setStatus('مرورگر شما از قابلیت خواندن صوتی پشتیبانی نمی‌کند.', 'error');
     return;
@@ -680,10 +670,7 @@ function speakAnswer(){
   const u = new SpeechSynthesisUtterance(byId('result').innerText);
   u.lang = 'fa-IR';
   speechSynthesis.speak(u);
-}
-
-byId('saveAudio').onclick = () => {
-  setStatus('ذخیره صوتی در این نسخه به‌صورت مستقیم از مرورگر (TTS) قابل دانلود نیست.', 'error');
+  setStatus('در حال قرائت صوتی پاسخ…', 'ok');
 };
 
 async function copyText(text, label){
