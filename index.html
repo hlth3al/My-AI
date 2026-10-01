@@ -3,101 +3,108 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101827">
-<meta name="description" content="کلاس هوش مصنوعی من؛ پلتفرم دستیار آموزش، تحلیل و یادگیری در همه مقاطع">
-<title>کلاس هوش مصنوعی من | My AI Class</title>
+<meta name="theme-color" content="#0b1120">
+<title>Home-AI | خونه هوش مصنوعی برلیان لعلیان</title>
 
-<!-- (۳) KaTeX برای فرمول/یونانی/شیمی/فیزیک -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
 <style>
-:root{--bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;--line:#293852;--red:#ff5263;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005;--redNeon:#ff0033}
+:root{
+  --bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;
+  --line:#293852;--red:#ff5263;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005;
+  --redNeon:#ff0033;
+}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.85}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
+body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
 .wrap{width:min(1160px,calc(100% - 32px));margin:auto}
-.topbar{position:sticky;top:0;z-index:9;background:#0b1120eF;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.topbar{position:sticky;top:0;z-index:9;background:#0b1120f0;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
 .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;gap:15px}
-.brand{font-weight:900;color:#fff;text-decoration:none}
+.brand{font-weight:1000;color:#fff;text-decoration:none;font-size:1.05rem}
 .brand b{color:var(--gold)}
 .navlinks{display:flex;gap:16px;flex-wrap:wrap}
-.navlinks a{color:var(--muted);font-size:.88rem;text-decoration:none;transition:.2s}
+.navlinks a{color:var(--muted);font-size:.92rem;text-decoration:none;transition:.2s}
 .navlinks a:hover{color:var(--gold)}
-.toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--muted);cursor:pointer}
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:48px 0;align-items:center}
-.eyebrow{color:var(--teal);font-weight:bold;font-size:.92rem;margin-bottom:8px}
+.toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);cursor:pointer}
 
-/* (۱) عنوان بزرگ + My AI بزرگ */
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:44px 0;align-items:center}
+.eyebrow{color:var(--teal);font-weight:900;font-size:1.02rem;margin-bottom:10px}
+
+/* متن‌ها را بزرگ */
 h1{
-  font-size:clamp(1.65rem,3.6vw,3.2rem);
+  font-size:clamp(1.75rem,3.9vw,3.35rem);
   margin:0 0 12px;
-  line-height:1.45;
+  line-height:1.55;
   font-weight:1000;
   color:#fff;
   text-shadow:0 0 18px rgba(56,189,248,.22),0 0 30px rgba(250,204,21,.12);
 }
-h1 span{display:block;font-size:1.1rem;color:var(--gold);font-weight:normal;margin-top:6px}
-.big-ai{
+.heroBigLine{
+  font-size:clamp(1.15rem,2.2vw,1.65rem);
+  color:#fde68a;
+  font-weight:900;
+  margin:10px 0 0;
+}
+.bigTitle{
+  display:block;
+  margin-top:6px;
+  font-size:clamp(1.45rem,4.8vw,3.25rem);
+  font-weight:1000;
+  color:#fff;
+}
+.bigTitle .homeai{
   display:inline-block;
   direction:ltr;
-  font-family:"Segoe UI",Arial,sans-serif;
-  font-weight:1000;
-  font-size:clamp(1.45rem,4.6vw,3.05rem);
-  letter-spacing:1.2px;
   padding:6px 14px;
   border-radius:999px;
-  margin:10px 0 6px;
   background:linear-gradient(135deg,#22c55e,#38bdf8,#a855f7);
   color:#05070f;
   box-shadow:0 0 18px rgba(56,189,248,.45);
+  letter-spacing:1.1px;
 }
 
-.lead{color:var(--muted);font-size:1.02rem}
+.lead{color:var(--muted);font-size:1.06rem}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
-.btn{background:var(--panel2);color:var(--ink);border:1px solid var(--line);padding:10px 18px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.92rem;transition:.2s}
-.btn:hover{border-color:var(--gold);color:#fff}
-.btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:bold;border:none}
-.btn.primary:hover{opacity:.9}
+.btn{
+  background:var(--panel2);color:var(--ink);border:1px solid var(--line);
+  padding:10px 18px;border-radius:10px;text-decoration:none;display:inline-flex;
+  align-items:center;justify-content:center;gap:8px;font-size:.95rem;transition:.2s
+}
+.btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:1000;border:none}
 .btn.busy{opacity:.6;pointer-events:none}
-.small{font-size:.82rem;color:var(--muted)}
-.hero-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+.small{font-size:.86rem;color:var(--muted)}
+
+.hero-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
 .hero-card ul{padding-right:20px;margin:12px 0;color:var(--muted)}
 .hero-card li{margin-bottom:6px}
-.pill{display:inline-block;background:#26395e;color:var(--teal);padding:4px 10px;border-radius:20px;font-size:.8rem;margin:4px 2px}
+.pill{display:inline-block;background:#26395e;color:var(--teal);padding:4px 10px;border-radius:20px;font-size:.84rem;margin:4px 2px}
+
 .section{padding:40px 0;border-top:1px solid var(--line)}
-.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;gap:15px;flex-wrap:wrap}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:15px;flex-wrap:wrap}
 .section-head h2,.section-head h3{margin:0 0 6px}
-.section-head p{margin:0;color:var(--muted);font-size:.20px}
-.box{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.section-head p{margin:0;color:var(--muted);font-size:.92rem}
+
+.workspace{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.field{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
-select,textarea,input[type="text"]{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:10px 12px;border-radius:8px;outline:none}
-select:focus,textarea:focus,input[type="text"]:focus{border-color:var(--teal)}
-textarea{height:140px;resize:vertical}
+.field{display:block;font-size:.9rem;color:var(--muted);margin-bottom:6px}
+select,textarea,input[type="text"]{
+  width:100%;background:var(--bg);border:1px solid var(--line);
+  color:var(--ink);padding:10px 12px;border-radius:8px;outline:none
+}
+textarea{height:150px;resize:vertical}
 .fileline{display:flex;align-items:center;gap:10px;margin:12px 0;flex-wrap:wrap}
 .fileline input[type="file"]{display:none}
 .preview{max-height:80px;border-radius:8px;border:1px solid var(--line);display:none}
-.status{font-size:.88rem;margin:10px 0 0;min-height:22px}
+
+.status{font-size:.92rem;margin:10px 0 0;min-height:22px}
 .status.error{color:var(--red)}
 .status.ok{color:var(--teal)}
 
-/* (۳) خروجی تمیز + آماده KaTeX */
 .result{
-  background:var(--bg);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:16px;
-  min-height:200px;
-  max-height:480px;
-  overflow-y:auto;
-  white-space:normal;
-  line-height:2;
-  font-size:.95rem
+  background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;
+  min-height:220px;max-height:520px;overflow-y:auto;white-space:normal;line-height:2;font-size:1rem
 }
 .result p{margin:10px 0}
 .result ul,.result ol{padding-right:22px;margin:10px 0}
@@ -114,25 +121,25 @@ textarea{height:140px;resize:vertical}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 details.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;transition:.2s}
 details.card[open]{border-color:var(--teal)}
-details summary{cursor:pointer;font-weight:bold;color:var(--ink);outline:none;user-select:none}
-.inside{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);font-size:.9rem}
+details summary{cursor:pointer;font-weight:1000;color:var(--ink);outline:none;user-select:none}
+.inside{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);font-size:.92rem}
 .toolgroups{display:flex;flex-direction:column;gap:12px}
 details.tool{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
 .tool-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .packages{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.package{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center;font-weight:bold;color:var(--gold)}
+.package{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center;font-weight:1000;color:var(--gold)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
 .payment .cardnum{font-size:1.4rem;letter-spacing:2px;font-family:monospace;direction:ltr;background:var(--bg);padding:10px;border-radius:8px;border:1px dashed var(--gold);color:var(--gold);text-align:center;margin:8px 0}
-.notice{color:var(--muted);font-size:.86rem}
-.footer{padding:24px 0;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;margin-top:40px}
+.notice{color:var(--muted);font-size:.9rem}
+.footer{padding:24px 0;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;margin-top:40px}
 .spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
 .btn.busy .spinner{display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:800px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
-@media(max-width:540px){.grid,.packages{grid-template-columns:1fr}}
+@media(max-width:900px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid,.packages{grid-template-columns:1fr}.navlinks{display:none}}
 
-/* (۲) افکت‌ها روی کادرها + دکمه‌ها + آپشن‌ها */
-.box,.hero-card,.card,details.card,details.tool,.package,.btn,select,textarea,input[type="text"],details summary{
+/* افکت‌ها برای جذابیت دانش‌آموز */
+.box,.hero-card,.card,details.card,details.tool,.package,.btn,select,textarea,input[type="text"],details summary,.navlinks a{
   transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease,background .18s ease;
   will-change:transform,border-color,box-shadow;
 }
@@ -142,9 +149,9 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 }
 @keyframes kidShake{
   0%{transform:scale(1.03) translate(0,0)}
-  25%{transform:scale(1.09) translate(-2px, 1px)}
+  25%{transform:scale(1.10) translate(-2px, 1px)}
   50%{transform:scale(1.03) translate(2px, -1px)}
-  75%{transform:scale(1.09) translate(-2px, -1px)}
+  75%{transform:scale(1.10) translate(-2px, -1px)}
   100%{transform:scale(1.03) translate(0,0)}
 }
 .fx-on{
@@ -155,48 +162,59 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 }
 </style>
 </head>
+
 <body>
 <header class="topbar">
   <div class="wrap nav">
-    <!-- متن برند طبق خواسته شما -->
-    <a class="brand" href="#home">MY-<b>AI</b> | کلاس هوش مصنوعی لعلیان</a>
+    <a class="brand" href="#home"><b>Home-AI</b> | خونه هوش مصنوعی برلیان لعلیان</a>
     <nav class="navlinks">
+      <a href="#home">Home-AI</a>
       <a href="#assistant">دستیار هوشمند</a>
       <a href="#faculties">دانشکده‌ها</a>
       <a href="#services">خدمات</a>
       <a href="#levels">مقاطع</a>
       <a href="#payment">پرداخت</a>
     </nav>
-    <label class="toggleline"><input id="soundToggle" type="checkbox" checked> صدای تعامل</label>
+    <label class="toggleline"><input id="soundToggle" type="checkbox" checked> صدای ویبره</label>
   </div>
 </header>
 
 <main>
 <section class="wrap hero" id="home">
   <div>
-    <div class="eyebrow">یادگیری، تحلیل و پیشرفت؛ در یک همراه آموزشی</div>
+    <div class="eyebrow">یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خونه با موبایل و کامپیوتر توسط خونه هوش مصنوعی برلیان لعلیان</div>
+
+    <div class="bigTitle">
+      <span class="homeai">Home-AI</span>
+      <span style="display:block;margin-top:8px">خونه هوش مصنوعی برلیان لعلیان</span>
+    </div>
 
     <h1>
-      بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط هوش مصنوعی من
-      <br>
-      <span class="big-ai">My AI</span>
-      <span>My AI Class Platform</span>
+      بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط خونه هوش مصنوعی برلیان لعلیان
+      <div class="heroBigLine">دستیار هوشمند شماست این خونه هوش مصنوعی برلیان لعلیان</div>
     </h1>
 
-    <p class="lead"><b>شرکت پردرآمد تهرانیها</b> با مدیریت <b>حسین لعلیان</b>، رتبه ۳۲ کنکور دکتری. این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور.</p>
+    <p class="lead">
+      شرکت صنایع پردرآمد تهرانیها با مدیریت علمی حسین لعلیان رتبه ۳۲ کنکور دکتری و همچنین مفتخر به تحصیل در 6 دانشکده میباشند(شیلات-شیمی-زبان-مدیریت-مهندسی آی تی-مهندسی صنایع)
+      <br>
+      صحت موضوع را از وزارت علوم جویا شوید!
+      <br><br>
+      این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور
+    </p>
+
     <div class="actions">
       <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
       <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
     </div>
-    <p class="small">سامانه کاملاً رایگان، بدون نیاز به ثبت‌نام و بدون نیاز به کلید API.</p>
   </div>
+
   <aside class="hero-card">
-    <strong>پشتیبان یادگیری شما</strong>
+    <strong style="font-size:1.1rem">پشتیبان یادگیری شما</strong>
     <ul>
       <li>تدریس، حل تمرین و تحلیل گام‌به‌گام</li>
       <li>مدرسه، کنکور، کارشناسی تا دکتری تخصصی</li>
       <li>کار با تصویر پرسش و مسائل چندرسانه‌ای</li>
-      <li>اتصال بهینه، ضد اختلال و بدون کلید</li>
+      <li>اتصال بهینه، ضد اختلال</li>
     </ul>
     <span class="pill">آموزش حضوری و مجازی</span>
     <span class="pill">یادگیری و ارزیابی هوشمند</span>
@@ -206,7 +224,7 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 <section class="wrap section" id="assistant">
   <div class="section-head">
     <div>
-      <h2>دستیار هوشمند کلاس هوش مصنوعی من</h2>
+      <h2>دستیار هوشمند کلاس هوش مصنوعی</h2>
       <p>پرسش خود را بنویسید، سطح و مدل را انتخاب کنید و پاسخ را بلادرنگ دریافت کنید.</p>
     </div>
     <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن پاسخ با صدا</label>
@@ -216,11 +234,11 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
     <div class="box">
       <div class="row">
         <div>
-          <label class="field" for="model">مدل هوش مصنوعی (رایگان)</label>
+          <label class="field" for="model">هوش مصنوعی سریع و استاندارد</label>
           <select id="model">
             <option value="gpt-4o-mini" selected>gpt-4o-mini (سریع و استاندارد)</option>
-            <option value="gpt-4o">gpt-4o (جامع و استدلالی)</option>
-            <option value="claude">Claude Sonnet (تشریحی و علمی)</option>
+            <option value="gpt-4o">gpt-4o (جامع و دقیق‌تر)</option>
+            <option value="claude">Claude (تشریحی و آموزشی)</option>
           </select>
         </div>
         <div>
@@ -243,6 +261,7 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
         <button class="btn primary" id="send" type="button">دریافت پاسخ هوشمند <span class="spinner"></span></button>
         <button class="btn" id="clear" type="button">پاک کردن فرم</button>
       </div>
+
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </div>
 
@@ -254,7 +273,11 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
           <button class="btn" id="saveAudio" type="button">ذخیره صوتی</button>
         </div>
       </div>
-      <div id="result" class="result" aria-live="polite">پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.</div>
+
+      <div id="result" class="result" aria-live="polite">
+        پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.
+      </div>
+
       <p class="small">پاسخ‌ها توسط موتور هوش مصنوعی با تحلیل مرحله‌به‌مرحله تولید می‌شوند.</p>
       <audio id="audioPlayer" controls hidden></audio>
     </div>
@@ -262,49 +285,77 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 </section>
 
 <section class="wrap section" id="faculties">
-  <div class="section-head"><div><h2>شش دانشکده تخصصی</h2><p>حوزه‌های علمی و مهارتی مجموعه</p></div></div>
+  <div class="section-head">
+    <div>
+      <h2>شش دانشکده تخصصی</h2>
+      <p>پشتیبانی آموزشی متناسب با سطح و هدف یادگیری شما.</p>
+    </div>
+  </div>
   <div class="grid" id="facultyList"></div>
 </section>
 
 <section class="wrap section" id="services">
-  <div class="section-head"><div><h2>خدمات تخصصی و ابزارهای هوشمند</h2><p>روی هر ابزار و مقطع کلیک کنید تا قالب درخواست در ورودی دستیار تنظیم شود.</p></div></div>
+  <div class="section-head">
+    <div>
+      <h2>خدمات تخصصی و ابزارهای هوشمند</h2>
+      <p>روی هر ابزار و مقطع کلیک کنید تا قالب درخواست در ورودی دستیار تنظیم شود.</p>
+    </div>
+  </div>
   <div class="toolgroups" id="serviceList"></div>
 </section>
 
 <section class="wrap section" id="levels">
-  <div class="section-head"><div><h2>مقاطع و مسیرهای آموزشی</h2><p>از آموزش پایه تا دکتری تخصصی</p></div></div>
+  <div class="section-head">
+    <div>
+      <h2>مقاطع و مسیرهای آموزشی</h2>
+      <p>از آموزش پایه تا دکتری تخصصی</p>
+    </div>
+  </div>
   <div class="grid" id="levelCards"></div>
 </section>
 
 <section class="wrap section">
-  <div class="section-head"><div><h2>بسته‌های اعتباری کلاس هوش مصنوعی من</h2><p>اعتبار خریداری‌شده بدون تاریخ انقضا محفوظ خواهد بود.</p></div></div>
+  <div class="section-head">
+    <div>
+      <h2>بسته‌های اعتباری کلاس هوش مصنوعی من</h2>
+      <p>اعتبار خریداری‌شده بدون تاریخ انقضا محفوظ خواهد بود.</p>
+    </div>
+  </div>
   <div class="packages" id="packages"></div>
 </section>
 
 <section class="wrap section" id="payment">
-  <div class="section-head"><div><h2>روش پرداخت آفلاین و ثبت‌نام</h2><p>واریز مبلغ بسته و ارسال فیش جهت فعال‌سازی</p></div></div>
+  <div class="section-head">
+    <div>
+      <h2>روش پرداخت آفلاین و ثبت‌نام</h2>
+      <p>واریز مبلغ بسته و ارسال فیش جهت فعال‌سازی</p>
+    </div>
+  </div>
+
   <div class="box payment">
     <p class="notice">به‌دلیل امنیت تبادلات، پرداخت‌ها به‌صورت واریز کارت‌به‌کارت و ارسال شناسه/تصویر رسید به ایمیل پشتیبانی انجام می‌گردد.</p>
+
     <label class="field">شماره کارت بانکی (بانک ملی - به نام حسین لعلیان)</label>
     <div class="cardnum" id="cardNumber">6037991555549678</div>
-    <div class="actions"><button class="btn primary" id="copyCard">کپی کردن شماره کارت</button></div>
+    <div class="actions"><button class="btn primary" id="copyCard" type="button">کپی کردن شماره کارت</button></div>
+
     <label class="field">ایمیل پشتیبانی و ارسال فیش</label>
-    <p dir="ltr" style="text-align:right;font-weight:bold;color:var(--teal)">Ai.Algorithms.Ballistics@gmail.com</p>
-    <button class="btn" id="copyEmail">کپی کردن آدرس ایمیل</button>
+    <p dir="ltr" style="text-align:right;font-weight:1000;color:var(--teal);margin:0 0 10px">Ai.Algorithms.Ballistics@gmail.com</p>
+    <button class="btn" id="copyEmail" type="button">کپی کردن آدرس ایمیل</button>
   </div>
 </section>
 
 <section class="wrap section">
   <div class="card">
-    <h3>درباره مجموعه و مدیر علمی</h3>
-    <p>شرکت پردرآمد تهرانیها با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)، ارائه‌دهنده خدمات آموزش هوشمند در زمینه‌های مهندسی شیلات و محیط زیست، شیمی، زبان، مدیریت، فناوری اطلاعات و مهندسی صنایع می‌باشد.</p>
-    <p class="small">تمامی حقوق مادی و معنوی این پلتفرم محفوظ است.</p>
+    <p style="margin:0;color:#fca5a5;font-weight:1000">
+      تمامی حقوق مادی و معنوی این پلتفرم محفوظ است و هر گونه کپی برداری غیر قانونی و سوء استفاده پیگرد قانونی دارد!
+    </p>
   </div>
 </section>
 </main>
 
 <footer class="footer">
-  <div class="wrap">© کلاس هوش مصنوعی لعلیان · شرکت پردرآمد تهرانیها · دسترسی سریع و پایدار بدون نیاز به کلید</div>
+  <div class="wrap">© Home-AI · خونه هوش مصنوعی برلیان لعلیان · دسترسی سریع و پایدار بدون نیاز به کلید</div>
 </footer>
 
 <script>
@@ -345,19 +396,18 @@ const extras = [
 ];
 
 const byId = id => document.getElementById(id);
-function el(tag, cls, text) {
+function el(tag, cls, text){
   const n = document.createElement(tag);
   if(cls) n.className = cls;
-  if(text) n.textContent = text;
+  if(text !== undefined) n.textContent = text;
   return n;
 }
 
-function initUI() {
+function initUI(){
   const levelSelect = byId('level');
   levels.forEach(x => {
     const o = document.createElement('option');
-    o.value = x;
-    o.textContent = x;
+    o.value = x; o.textContent = x;
     levelSelect.appendChild(o);
   });
 
@@ -376,9 +426,9 @@ function initUI() {
   levels.forEach((x, i) => {
     const d = el('details', 'card');
     if(i === 0) d.open = true;
-    const s = el('summary', '', x);
+    const s = el('summary', '', 'مقاطع و مسیرهای آموزشی: ' + x);
     const b = el('div', 'inside');
-    b.append(el('p', '', `آموزش مفهومی، تدریس، تحلیل پرسش و حل تمرین تخصصی مقطع ${x}.`));
+    b.append(el('p','',`آموزش مفهومی، تدریس، تحلیل پرسش و حل تمرین تخصصی مقطع ${x}.`));
     d.append(s, b);
     lHost.append(d);
   });
@@ -397,6 +447,7 @@ function initUI() {
     if(i < 3) d.open = true;
     const s = el('summary', '', name);
     const inside = el('div', 'tool-buttons');
+
     levels.forEach(lvl => {
       const b = el('button', 'btn', `${name} · ${lvl}`);
       b.type = 'button';
@@ -405,48 +456,57 @@ function initUI() {
 `عنوان درخواست: ${name}
 سطح آموزشی: ${lvl}
 
-لطفاً پاسخ را دقیق، مرحله‌به‌مرحله، بدون علامت‌های اضافی و با فرمول‌نویسی استاندارد (LaTeX) ارائه کن.`;
+قواعد پاسخ:
+- دقیق و آموزشی و مرحله‌به‌مرحله
+- اگر داده کافی نیست، سوال تکمیلی بپرس؛ حدس نزن
+- فرمول‌ها را با LaTeX بنویس: $F=ma$, $\\Delta t$, $\\alpha$, $\\mathrm{H_2O}$
+- متن عربی/قرآنی را دقیق حفظ کن
+- از علامت‌های اضافی مثل # خودداری کن
+
+متن سوال/تمرین من:
+`;
         byId('level').value = lvl;
         byId('prompt').focus();
-        byId('assistant').scrollIntoView({ behavior: 'smooth' });
+        byId('assistant').scrollIntoView({behavior:'smooth'});
       };
       inside.append(b);
     });
+
     d.append(s, inside);
     sHost.append(d);
   });
 
   const pHost = byId('packages');
-  ['۵', '۱۰', '۲۰', '۵۰', '۱۰۰', '۱۵۰', '۲۰۰', '۲۵۰'].forEach(n => {
-    pHost.append(el('div', 'package', `${n} میلیون تومان`));
-  });
+  ['۵ میلیون تومان','۱۰ میلیون تومان','۲۰ میلیون تومان','۵۰ میلیون تومان','۱۰۰ میلیون تومان','۱۵۰ میلیون تومان','۲۰۰ میلیون تومان','۲۵۰ میلیون تومان']
+    .forEach(t => pHost.append(el('div','package',t)));
 }
 initUI();
 
-/* (۲) بوق + لرزش + قرمز شدن روی hover/touch/focus */
+/* ویبره/بوق + افکت قرمز و لرزش */
 let audioCtx = null;
-function beep() {
-  if (!byId('soundToggle').checked) return;
-  try {
+function vibBeep(){
+  if(!byId('soundToggle').checked) return;
+  try{
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.type = 'square';
-    o.frequency.value = 720;
-    g.gain.setValueAtTime(.035, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .07);
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type =.createGain();
+    o.type = = 170;          // نزدیک به حس ویبره
+    g.gain.setValueAtTime(.06, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .08);
     o.connect(g); g.connect(audioCtx.destination);
-    o.start(); o.stop(audioCtx.currentTime + .075);
-  } catch(e) {}
+    o.start(); o.stop(audioCtx.currentTime + .085);
+  }catch(e){}
 }
 function fxTarget(node){
-  return node && node.closest && node.closest('.box,.hero-card,.card,details.card,details.tool,.package,.btn,select,textarea,input[type="text"],details summary');
+  return node && node.closest && node.closest('.box,.hero-card,.card,details.card,details.tool,.package,.btn,select,textarea,input[type="text"],details summary,.navlinks a');
 }
 function fireFX(node){
   const t = fxTarget(node);
   if(!t) return;
   t.classList.add('fx-on');
-  beep();
+  vibBeep();
   clearTimeout(t.__fxTimer);
   t.__fxTimer = setTimeout(()=>t.classList.remove('fx-on'), 420);
 }
@@ -459,11 +519,10 @@ const fileInput = byId('image');
 let imageData = null;
 fileInput.addEventListener('change', () => {
   const f = fileInput.files[0];
-  if (!f) return;
-  if (f.size > 8 * 1024 * 1024) {
+  if(!f) return;
+  if(f.size > 8*1024*1024){
     setStatus('حجم تصویر نباید بیشتر از ۸ مگابایت باشد.', 'error');
-    fileInput.value = '';
-    return;
+    fileInput.value = ''; return;
   }
   const r = new FileReader();
   r.onload = () => {
@@ -480,37 +539,46 @@ byId('removeImage').onclick = () => {
   byId('preview').style.display = 'none';
 };
 
-function setStatus(text, kind = '') {
+/* وضعیت */
+function setStatus(text, kind=''){
   const n = byId('status');
   n.textContent = text;
   n.className = 'status ' + kind;
 }
 
-/* (۳) کاهش پاسخ الکی + فرمول LaTeX + فرمول LaTeX) {
-  return `نقش: استاد ارشد و بسیار دقیق در سامانه «کلاس هوش مصنوعی من». سطح مخاطب: «${level}».
-قواعد:
-- اگر اطلاعات کافی نیست، حدس نزن؛ سوال تکمیلی بپرس.
-- پاسخ ساختگی/هذیانی ممنوع.
-- از علائم اضافی مثل # و فرمت‌های عجیب خودداری کن.
-- فرمول‌ها را با LaTeX بنویس تا KaTeX رندر کند: $F=ma$, $\\Delta t$, $\\alpha$, $\\beta$, $\\mathrm{H_2O}$.
-- متن عربی/قرآنی را دقیق و صحیح حفظ کن.
-پاسخ را مرحله‌به‌مرحله و آموزشی ارائه کن.`;
+/* ضد پاسخ الکی + همه زبان‌ها + فرمول */
+function makeSystemPrompt(level, model){
+  return `نقش: «دستیار آموزشی بسیار دقیق» در Home-AI / خونه هوش مصنوعی برلیان لعلیان.
+سطح مخاطب: ${level}
+مدل انتخابی (برای ثبت در متن): ${model}
+
+قواعد سخت:
+1) حدس نزن. اگر اطلاعات کم است، سوال تکمیلی بپرس.
+2) پاسخ ساختگی/بی‌ربط ممنوع.
+3) جواب را مرحله‌به‌مرحله و آموزشی بنویس.
+4) از علامت‌های اضافی مانند # و قالب‌های بی‌دلیل خودداری کن.
+5) فرمول‌ها را با LaTeX بنویس تا KaTeX رندر کند: $F=ma$, $\\Delta t$, $\\alpha$, $\\beta$, $\\mathrm{H_2O}$.
+6) متن عربی/قرآنی را بدون تغییر و دقیق حفظ کن.
+7) اگر سوال چندزبانه است، به همان زبان(ها) پاسخ بده.`;
 }
+
+/* پاکسازی خروجی: حذف شارپ و زوائد */
 function sanitizeAndCleanText(raw){
   if(!raw) return '';
   let t = String(raw);
-  t = t.replace(/
-```json[\s\S]*?
-```/gi, '');
+
   t = t.replace(/<\s*think\s*>[\s\S]*?<\s*\/\s*think\s*>/gi,'');
-  t = t.replace(/^\s*think\s*:\s*.*$/gmi,'');
-  t = t.replace(/^\s{0,3}#{1,6}\s*/gm, ''); // حذف شارپ
-  t = t.replace(/\n{4,}/g, '\n\n').trim();
+  t = t.replace(/
+```[\s\S]*?
+```/g,'');                 // حذف بلاک‌های کد
+  t = t.replace(/^\s{0,3}#{1,6}\s*/gm,'');            // حذف شارپ‌های Markdown
+  t = t.replace(/\n{4,}/g,'\n\n').trim();
   return t;
 }
 function escapeHTML(s){
   return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 }
+/* جدول ساده Markdown -> HTML */
 function tableMarkdownToHtml(text){
   const lines = text.split('\n');
   let out = [];
@@ -576,8 +644,8 @@ function toCleanHTML(text){
 function renderMath(container){
   if(!window.renderMathInElement) return;
   try{
-    renderMathInElement(container, {
-      delimiters: [
+    renderMathInElement(container,{
+      delimiters:[
         {left:"$$", right:"$$", display:true},
         {left:"$", right:"$", display:false},
         {left:"\\(", right:"\\)", display:false},
@@ -585,14 +653,12 @@ function renderMath(container){
       ],
       throwOnError:false
     });
-  } catch(e){}
+  }catch(e){}
 }
 
-/* ─────────────────────────────────────────────
-   اتصال AI (همان کد خودت - قطع نشده)
-   ───────────────────────────────────────────── */
-async function requestAI(promptText, imageData) {
-  const fullPrompt = `${promptText}${imageData ? '\n[کاربر تصویری از سوال نیز بارگذاری کرده است]' : ''}`;
+/* اتصال بدون کلید (چند مسیر پشتیبان) */
+async function requestAI(promptText, imageData){
+  const fullPrompt = `${promptText}${imageData ? '\n[کاربر تصویر سوال نیز ارسال کرده است]' : ''}`;
   const encoded = encodeURIComponent(fullPrompt);
 
   const endpoints = [
@@ -601,52 +667,45 @@ async function requestAI(promptText, imageData) {
     `https://corsproxy.io/?${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`
   ];
 
-  for (let i = 0; i < endpoints.length; i++) {
-    try {
-      const res = await fetch(endpoints[i], {
-        method: 'GET',
-        headers: { 'Accept': 'text/plain, application/json' }
-      });
-      if (res.ok) {
+  for(let i=0;i<endpoints.length;i++){
+    try{
+      const res = await fetch(endpoints[i], {method:'GET', headers:{'Accept':'text/plain, application/json'}});
+      if(res.ok){
         const text = await res.text();
-        if (text && text.trim().length > 0 && !text.includes('<!DOCTYPE') && !text.includes('<html')) {
-          return text;
-        }
+        if(text && text.trim().length>0 && !text.includes('<!DOCTYPE') && !text.includes('<html')) return text;
       }
-    } catch (e) {
-      console.warn(`Tunnel ${i + 1} failed, trying next...`);
-    }
+    }catch(e){}
   }
 
-  const postRes = await fetch('https://text.pollinations.ai/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const postRes = await fetch('https://text.pollinations.ai/',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      messages: [{ role: 'user', content: fullPrompt }],
-      model: 'openai'
+      messages:[{role:'user', content: fullPrompt}],
+      model:'openai'
     })
   });
-  if (postRes.ok) return await postRes.text();
+  if(postRes.ok) return await postRes.text();
 
-  throw new Error('عدم دریافت پاسخ از شبکه. در صورت فعال بودن فیلترشکن، سرور آن را تغییر دهید.');
+  throw new Error('عدم دریافت پاسخ از شبکه. فیلترشکن یا سرور آن را تغییر دهید.');
 }
 
-/* ارسال پرسش (فقط پاکسازی+رندر اضافه شده، اتصال همان است) */
+/* ارسال */
 byId('send').onclick = async () => {
   const question = byId('prompt').value.trim();
-  if (!question && !imageData) {
-    return setStatus('لطفاً سوال خود را بنویسید یا عکسی از مسئله انتخاب کنید.', 'error');
+  if(!question && !imageData){
+    setStatus('لطفاً سوال خود را بنویسید یا عکسی از مسئله انتخاب کنید.', 'error');
+    return;
   }
 
   const btn = byId('send');
-  btn.classList.add('busy');
-  btn.disabled = true;
+  btn.classList.add('busy'); btn.disabled = true;
   setStatus('در حال ارتباط با سرور و پردازش پاسخ هوشمند…');
   byId('result').textContent = 'در حال تحلیل مسئله و نگارش پاسخ… لطفاً شکیبا باشید.';
 
-  try {
-    const sysPrompt = makeSystemPrompt(byId('level').value);
-    const combined = `${sysPrompt}\n\nسوال کاربر:\n${question || 'لطفاً مسئله مطرح شده را تحلیل و حل نمایید.'}`;
+  try{
+    const sys = makeSystemPrompt(byId('level').value, byId('model').value);
+    const combined = `${sys}\n\nسوال کاربر:\n${question || 'لطفاً مسئله مطرح شده را تحلیل و حل نمایید.'}`;
     const raw = await requestAI(combined, imageData);
 
     const clean = sanitizeAndCleanText(raw);
@@ -657,17 +716,16 @@ byId('send').onclick = async () => {
 
     setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
 
-    if (byId('speechToggle').checked) speakAnswer();
-  } catch (err) {
+    if(byId('speechToggle').checked) speakAnswer();
+  }catch(err){
     setStatus('خطا: ' + (err.message || 'خطای شبکه.'), 'error');
     byId('result').textContent = 'در برقراری ارتباط مشکلی به وجود آمد. لطفاً اتصال اینترنت را بررسی و مجدداً کلیک کنید.';
-  } finally {
-    btn.classList.remove('busy');
-    btn.disabled = false;
+  }finally{
+    btn.classList.remove('busy'); btn.disabled = false;
   }
 };
 
-/* ابزارهای کمکی */
+/* پاک کردن */
 byId('clear').onclick = () => {
   byId('prompt').value = '';
   byId('result').textContent = 'پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.';
@@ -675,39 +733,21 @@ byId('clear').onclick = () => {
   byId('removeImage').click();
 };
 
+/* کپی */
 byId('copy').onclick = async () => {
-  try {
+  try{
     await navigator.clipboard.writeText(byId('result').innerText);
     setStatus('پاسخ با موفقیت در کلیپ‌بورد کپی شد.', 'ok');
-  } catch {
+  }catch{
     setStatus('کپی خودکار انجام نشد؛ متن را انتخاب و کپی کنید.', 'error');
   }
 };
 
-function speakAnswer() {
-  if (!('speechSynthesis' in window)) {
+/* صدا */
+function speakAnswer(){
+  if(!('speechSynthesis' in window)){
     setStatus('مرورگر شما از قابلیت خواندن صوتی پشتیبانی نمی‌کند.', 'error');
     return;
   }
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(byId('result').innerText);
-  u.lang = 'fa-IR';
-  speechSynthesis.speak(u);
-}
-byId('speechToggle').onchange = () => {
-  if (byId('speechToggle').checked && byId('result').innerText) speakAnswer();
-};
-
-async function copyText(text, label) {
-  try {
-    await navigator.clipboard.writeText(text);
-    setStatus(label + ' کپی شد.', 'ok');
-  } catch {
-    setStatus('کپی انجام نشد.', 'error');
-  }
-}
-byId('copyCard').onclick = () => copyText('6037991555549678', 'شماره کارت');
-byId('copyEmail').onclick = () => copyText('Ai.Algorithms.Ballistics@gmail.com', 'ایمیل');
-</script>
-</body>
-</html>
+  const u = new SpeechSyn
