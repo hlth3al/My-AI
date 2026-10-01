@@ -14,7 +14,7 @@
 :root{
   --bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;
   --line:#293852;--red:#ff5263;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005;
-  --redNeon:#ff0033;
+  --accent:#38bdf8;
 }
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
@@ -26,9 +26,9 @@ body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transpare
   100%{background-position:0% 50%}
 }
 @keyframes pulseBanner{
-  0%{transform:scale(1);box-shadow:0 0 25px rgba(255,0,51,.5), 0 0 50px rgba(56,189,248,.3);}
-  50%{transform:scale(1.03);box-shadow:0 0 45px rgba(255,0,51,.9), 0 0 80px rgba(236,72,153,.7);}
-  100%{transform:scale(1);box-shadow:0 0 25px rgba(255,0,51,.5), 0 0 50px rgba(56,189,248,.3);}
+  0%{transform:scale(1);box-shadow:0 0 25px rgba(244,198,106,.4), 0 0 50px rgba(56,189,248,.3);}
+  50%{transform:scale(1.015);box-shadow:0 0 38px rgba(244,198,106,.7), 0 0 70px rgba(236,72,153,.5);}
+  100%{transform:scale(1);box-shadow:0 0 25px rgba(244,198,106,.4), 0 0 50px rgba(56,189,248,.3);}
 }
 
 .grand-banner{
@@ -38,8 +38,8 @@ body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transpare
   border-radius:24px;
   background:linear-gradient(-45deg, #0b1120, #1e1b4b, #172554, #3b0764, #0b1120);
   background-size:400% 400%;
-  animation:rainbowFlow 7s ease infinite, pulseBanner 3.2s ease-in-out infinite;
-  border:2.5px solid rgba(244,198,106,.8);
+  animation:rainbowFlow 7s ease infinite, pulseBanner 4s ease-in-out infinite;
+  border:2px solid rgba(244,198,106,.8);
   position:relative;
   overflow:hidden;
 }
@@ -67,14 +67,24 @@ body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transpare
   line-height:1.5;
 }
 
-.info-card, .box, .card, details.card, details.tool, .package-card, .btn, textarea, input[type="text"]{
-  background:linear-gradient(135deg, rgba(56,189,248,.12), rgba(168,85,247,.08), rgba(250,204,21,.06));
+/* افکت کادرها: نئونی، بسیار نرم، شفاف و چشم‌نواز بدون لرزش زننده */
+.info-card, .box, .card, details.card, details.tool, .btn, textarea, input[type="text"], .pkg-item{
+  background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(168,85,247,.05), rgba(250,204,21,.04));
   border:1px solid rgba(148,163,184,.25);
   border-radius:14px;
-  box-shadow:0 8px 32px rgba(0,0,0,.35);
+  box-shadow:0 8px 30px rgba(0,0,0,.3);
   backdrop-filter:blur(8px);
-  transition:all .25s ease-in-out;
+  transition:transform .22s cubic-bezier(.2,.8,.2,1), border-color .22s ease, box-shadow .22s ease;
 }
+
+.info-card:hover, .box:hover, .card:hover, details.card:hover, details.tool:hover,
+.info-card.fx-on, .box.fx-on, .card.fx-on, details.card.fx-on, details.tool.fx-on,
+.btn:hover, .btn.fx-on, textarea:focus, input[type="text"]:focus{
+  border-color:var(--gold) !important;
+  box-shadow:0 0 22px rgba(244,198,106,.55), 0 0 45px rgba(56,189,248,.35) !important;
+  transform:translateY(-2px) scale(1.008);
+}
+
 .section{margin-bottom:24px}
 .info-card{padding:18px 22px;margin-bottom:16px}
 .eyebrow{color:var(--gold);font-weight:900;font-size:1.1rem;margin:0 0 6px}
@@ -126,56 +136,37 @@ details summary{cursor:pointer;font-weight:1000;color:var(--ink);outline:none;us
 details.tool{padding:12px 16px}
 .tool-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 
-/* استایل کادرهای بسته‌ها */
-.packages-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.package-card{
-  padding:20px 14px;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
+/* استایل بسته‌های تعبیه‌شده در کادر پرداخت */
+.packages-offline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 20px}
+.pkg-item{
+  padding:14px;text-align:center;cursor:pointer;
+  border:1px solid rgba(244,198,106,.3);
+  display:flex;flex-direction:column;gap:6px;
 }
-.package-card .pkg-title{font-size:1.15rem;font-weight:1000;color:var(--gold)}
-.package-card .pkg-sub{font-size:.85rem;color:var(--muted)}
+.pkg-item:hover, .pkg-item.selected{
+  border-color:var(--gold);
+  background:rgba(244,198,106,.15);
+  box-shadow:0 0 16px rgba(244,198,106,.5);
+}
+.pkg-item .p-title{font-size:1rem;font-weight:1000;color:var(--gold)}
+.pkg-item .p-desc{font-size:.8rem;color:var(--muted)}
 
 .payment .cardnum{font-size:1.4rem;letter-spacing:2px;font-family:monospace;direction:ltr;background:var(--bg);padding:10px;border-radius:8px;border:1px dashed var(--gold);color:var(--gold);text-align:center;margin:8px 0}
-.notice{color:var(--muted);font-size:.9rem;margin:0 0 10px}
+.notice{color:var(--muted);font-size:.92rem;margin:0 0 10px}
 .footer{padding:24px 0;text-align:center;color:var(--muted);font-size:.9rem;margin-top:20px}
 .spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
 .btn.busy .spinner{display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-@media(max-width:900px){.workspace{grid-template-columns:1fr}.grid,.packages-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.grid,.packages-grid{grid-template-columns:1fr}}
-
-@keyframes kidShake{
-  0%{transform:scale(1.02) translate(0,0)}
-  25%{transform:scale(1.04) translate(-2px, 1px)}
-  50%{transform:scale(1.02) translate(2px, -2px)}
-  75%{transform:scale(1.04) translate(-1px, 2px)}
-  100%{transform:scale(1.02) translate(0,0)}
-}
-.info-card:hover, .box:hover, .card:hover, details.card:hover, details.tool:hover, .package-card:hover,
-.info-card:active, .box:active, .card:active, details.card:active, details.tool:active, .package-card:active,
-.info-card.fx-on, .box.fx-on, .card.fx-on, details.card.fx-on, details.tool.fx-on, .package-card.fx-on,
-.btn:hover, .btn:active, .btn:focus, .btn.fx-on,
-textarea:hover, textarea:focus, textarea.fx-on,
-input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
-.grand-banner:hover, .grand-banner.fx-on{
-  border-color:var(--redNeon) !important;
-  box-shadow:0 0 24px rgba(255,0,51,.95), 0 0 50px rgba(255,0,51,.65), inset 0 0 16px rgba(255,0,51,.4) !important;
-  animation:kidShake .30s ease-in-out !important;
-  transform:scale(1.025);
-  filter:drop-shadow(0 0 10px rgba(255,0,51,.7));
-}
+@media(max-width:900px){.workspace{grid-template-columns:1fr}.grid,.packages-offline{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid,.packages-offline{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <main>
 <section class="wrap section" id="home">
+  <!-- بنر بزرگ بالای صفحه -->
   <div class="grand-banner">
     <div class="homeai-pill">Home-AI</div>
     <span class="banner-title">خونه هوش مصنوعی برلیان لعلیان</span>
@@ -202,7 +193,7 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
     </p>
     <div class="actions">
       <a class="btn primary" href="#assistant">شروع حل سوالات با هوش مصنوعی ←</a>
-      <a class="btn" href="#packages">مشاهده بسته‌ها و تعرفه‌ها</a>
+      <a class="btn" href="#payment">مشاهده بسته‌ها و پرداخت آفلاین</a>
     </div>
   </div>
 </section>
@@ -249,26 +240,57 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
   <div class="grid" id="levelCards"></div>
 </section>
 
-<!-- کادرهای ۸ بسته درخواستی -->
-<section class="wrap section" id="packages">
-  <div class="packages-grid" id="packageList"></div>
-</section>
-
-<!-- بخش پرداخت آفلاین -->
+<!-- بخش روش خرید بسته و پرداخت آفلاین (شامل ۸ بسته انتخابی) -->
 <section class="wrap section" id="payment">
-  <div class="info-card">
-    <h2 style="margin:0 0 4px">روش خرید بسته و پرداخت آفلاین</h2>
-    <p style="margin:0;color:var(--muted);font-size:.92rem">واریز مبلغ بسته به شماره کارت و ارسال فیش جهت فعال‌سازی</p>
-  </div>
-
   <div class="box payment">
-    <p class="notice">پس از واریز مبلغ بسته، تصویر فیش و شناسه را به ایمیل پشتیبانی ارسال فرمایید تا بلافاصله دسترسی شما فعال گردد.</p>
+    <h2 style="margin:0 0 6px;color:var(--gold)">روش خرید بسته و پرداخت آفلاین</h2>
+    <p class="notice">لطفاً یکی از بسته‌های اعتباری زیر را انتخاب فرمایید و پس از واریز به شماره کارت، تصویر فیش را جهت فعال‌سازی به ایمیل ارسال نمایید:</p>
+
+    <!-- بسته‌های ۸‌گانه درون کادر خرید -->
+    <div class="packages-offline" id="offlinePackageList">
+      <div class="pkg-item selected" onclick="selectPkg(this, 'بسته ۵ میلیون تومانی')">
+        <span class="p-title">بسته ۵ میلیون تومانی</span>
+        <span class="p-desc">دسترسی آموزشی و حل سوالات پایه</span>
+      </div>
+      <div class="pkg-item" onclick="selectPkg(this, 'بسته ۱۰ میلیون تومانی')">
+        <span class="p-title">بسته ۱۰ میلیون تومانی</span>
+        <span class="p-desc">تحلیل تشریحی تمرینات و تکالیف</span>
+      </div>
+      <div class="pkg-item" onclick="selectPkg(this, 'بسته ۲۰ میلیون تومانی')">
+        <span class="p-title">بسته ۲۰ میلیون تومانی</span>
+        <span class="p-desc">پشتیبانی تخصصی دروس متوسطه و تست</span>
+      </div>
+      <div class="pkg-item" onclick="selectPkg(this, 'بسته ۵۰ میلیون تومانی')">
+        <span class="p-title">بسته ۵۰ میلیون تومانی</span>
+        <span class="p-desc">حل پیشرفته و آمادگی امتحانات کتبی و شفاهی</span>
+      </div>
+      <div class="pkg-item" onclick="selectPkg(this, 'بسته ۱۰۰ میلیون تومانی')">
+        <span class="p-title">بسته ۱۰۰ میلیون تومانی</span>
+        <span class="p-desc">پکیج جامع کنکور و مقاطع دانشگاهی</span>
+      </div>
+      <div class="pkg-item" onclick="selectPkg(this, 'بسته ۱۵۰ میلیون تومانی')">
+        <span class="p-title">بسته ۱۵۰ میلیون تومانی</span>
+        <span class="p-desc">مشاوره، آنالیز تله‌های تستی و تدریس کامل</span>
+      </div>
+      <div class="pkg-item" onclick="selectPkg(this, 'بسته ۲۰۰ میلیون تومانی')">
+        <span class="p-title">بسته ۲۰۰ میلیون تومانی</span>
+        <span class="p-desc">پلتفرم اختصاصی آموزش و حل مسئله نامحدود</span>
+      </div>
+      <div class="pkg-item" onclick="selectPkg(this, 'بسته ۲۵۰ میلیون تومانی')">
+        <span class="p-title">بسته ۲۵۰ میلیون تومانی</span>
+        <span class="p-desc">پکیج طلایی دکتری، ارشد و المپیادها</span>
+      </div>
+    </div>
+
+    <div id="selectedPkgNotice" style="background:#14213a;border:1px solid var(--line);padding:10px 14px;border-radius:10px;margin-bottom:14px;color:var(--gold);font-weight:900">
+      بسته انتخاب شده: بسته ۵ میلیون تومانی
+    </div>
 
     <label class="field">شماره کارت بانکی (بانک ملی - به نام حسین لعلیان)</label>
     <div class="cardnum" id="cardNumber">6037991555549678</div>
     <div class="actions"><button class="btn primary" id="copyCard" type="button">کپی کردن شماره کارت</button></div>
 
-    <label class="field" style="margin-top:14px">ایمیل پشتیبانی و ارسال فیش</label>
+    <label class="field" style="margin-top:14px">ایمیل پشتیبانی و ارسال فیش واریزی</label>
     <p dir="ltr" style="text-align:right;font-weight:1000;color:var(--teal);margin:4px 0">Ai.Algorithms.Ballistics@gmail.com</p>
     <div class="actions"><button class="btn" id="copyEmail" type="button">کپی کردن ایمیل پشتیبانی</button></div>
   </div>
@@ -302,17 +324,6 @@ const services = [
   'ترجمه و نگارش متون تخصصی','تصحیح و خطایابی متن و پاسخ','جمع‌بندی و خلاصه درس',
   'طراحی آزمون تستی و تشریحی','رفع اشکال آنلاین و پاسخ به سوالات','تدریس کنکوری دروس مدرسه و دانشگاه',
   'آموزش تکلیف کتبی و شفاهی','آمادگی امتحان کتبی و شفاهی'
-];
-
-const packageData = [
-  { title: 'بسته  ۵ میلیون تومانی', sub: 'دسترسی آموزشی و حل سوالات پایه' },
-  { title: 'بسته  ۱۰ میلیون تومانی', sub: 'تحلیل تشریحی تمرینات و تکالیف' },
-  { title: 'بسته  ۲۰ میلیون تومانی', sub: 'پشتیبانی تخصصی دروس متوسطه و تست' },
-  { title: 'بسته  ۵۰ میلیون تومانی', sub: 'حل پیشرفته و آمادگی امتحانات کتبی و شفاهی' },
-  { title: 'بسته  ۱۰۰ میلیون تومانی', sub: 'پکیج جامع کنکور و مقاطع دانشگاهی' },
-  { title: 'بسته  ۱۵۰ میلیون تومانی', sub: 'مشاوره، آنالیز تله‌های تستی و تدریس کامل' },
-  { title: 'بسته  ۲۰۰ میلیون تومانی', sub: 'پلتفرم اختصاصی آموزش و حل مسئله نامحدود' },
-  { title: 'بسته  ۲۵۰ میلیون تومانی', sub: 'پکیج طلایی دکتری، ارشد و المپیادها' }
 ];
 
 const byId = id => document.getElementById(id);
@@ -352,7 +363,6 @@ function initUI(){
 
 قواعد پاسخ:
 - حل کامل، آموزشی و مرحله‌به‌مرحله برای دانش‌آموز
-- اگر سوال ناقص است، سوال تکمیلی بپرس
 - فرمول‌ها را با LaTeX بنویس: $F=ma$, $\\Delta t$, $\\alpha$
 - از نوشتن کاراکتر اضافی مثل # خودداری کن
 
@@ -367,50 +377,49 @@ function initUI(){
     d.append(s, inside);
     sHost.append(d);
   });
-
-  // تولید کادرهای بسته‌ها
-  const pkgHost = byId('packageList');
-  packageData.forEach(p => {
-    const c = el('div', 'package-card');
-    const t = el('div', 'pkg-title', p.title);
-    const sub = el('div', 'pkg-sub', p.sub);
-    const btn = el('a', 'btn primary', 'خرید و فعال‌سازی');
-    btn.href = '#payment';
-    c.append(t, sub, btn);
-    pkgHost.append(c);
-  });
 }
 initUI();
 
+/* سیستم صوتی ملایم و دلنشین تعاملی بدون ایجاد مزاحمت */
 let audioCtx = null;
-function vibBeep(){
+function playSoftChime(){
   try{
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     if(audioCtx.state === 'suspended') audioCtx.resume();
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type = 'sine';
-    o.frequency.value = 170;
-    g.gain.setValueAtTime(.06, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .08);
-    o.connect(g); g.connect(audioCtx.destination);
-    o.start(); o.stop(audioCtx.currentTime + .085);
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // نت D5 دلنشین
+    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.08); // پرش به A5
+    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.12);
   }catch(e){}
 }
+
 function fxTarget(node){
-  return node && node.closest && node.closest('.grand-banner, .info-card, .box, .card, details.card, details.tool, .package-card, .btn, textarea, input[type="text"]');
+  return node && node.closest && node.closest('.info-card, .box, .card, details.card, details.tool, .btn, textarea, input[type="text"], .pkg-item');
 }
 function fireFX(node){
   const t = fxTarget(node);
   if(!t) return;
   t.classList.add('fx-on');
-  vibBeep();
+  playSoftChime();
   clearTimeout(t.__fxTimer);
-  t.__fxTimer = setTimeout(()=>t.classList.remove('fx-on'), 380);
+  t.__fxTimer = setTimeout(()=>t.classList.remove('fx-on'), 250);
 }
-document.addEventListener('pointerenter', e => fireFX(e.target), true);
 document.addEventListener('pointerdown', e => fireFX(e.target), true);
 document.addEventListener('focusin', e => fireFX(e.target), true);
+
+function selectPkg(el, title){
+  document.querySelectorAll('.pkg-item').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  byId('selectedPkgNotice').textContent = 'بسته انتخاب شده: ' + title;
+  playSoftChime();
+}
 
 function setStatus(text, kind=''){
   const n = byId('status');
@@ -419,41 +428,38 @@ function setStatus(text, kind=''){
 }
 
 function makeSystemPrompt(){
-  return `نقش: «استاد audioCtx.createGain();
-    o.type = 'sine';
-    o.frequency.value = 170;
-    g.gain.setValueAtTime(.06, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .08);
-    o.connect(g); g.connect(audioCtx.destination);
-    o.start(); o.stop(audioCtx.currentTime + .085);
-  }catch(e){}
-}
-function fxTarget(node){
-  return node && node.closest && node.closest('.grand-banner, .info-card, .box, .card, details.card, details.tool, .package-card, .btn, textarea, input[type="text"]');
-}
-function fireFX(node){
-  const t = fxTarget(node);
-  if(!t) return;
-  t.classList.add('fx-on');
-  vibBeep();
-  clearTimeout(t.__fxTimer);
-  t.__fxTimer = setTimeout(()=>t.classList.remove('fx-on'), 380);
-}
-document.addEventListener('pointerenter', e => fireFX(e.target), true);
-document.addEventListener('pointerdown', e => fireFX(e.target), true);
-document.addEventListener('focusin', e => fireFX(e.target), true);
-
-function setStatus(text, kind=''){
-  const n = byId('status');
-  n.textContent = text;
-  n.className = 'status ' + kind;
-}
-
-function makeSystemPrompt(){
-  return `نقش: «استاد و دستیار هوشمند آموزشی مدرسه و دانشگاه» در خونه هوش مصنوعی برلیان لعلیان.
-وظیفه: پاسخ دقیق، تشریحی و گام‌به‌گام به سوالات، تکالیف و امتحانات دانش‌آموزان و دانشجویان.
+  return `نقش: استاد و دستیار هوشمند آموزشی مدرسه و دانشگاه در خونه هوش مصنوعی برلیان لعلیان.
+وظیفه: پاسخ تشریحی، گام‌به‌گام و مفهومی به پرسش‌ها و تکالیف دانش‌آموزان و دانشجویان.
 قواعد:
-۱) پاسخ کاملاً به زبان فارسی، روان و تشری(1,-1).map(x => x.trim());
+۱) پاسخ کاملاً به زبان فارسی و روان باشد.
+۲) تمامی فرمول‌های ریاضی و فیزیک را حتماً در نمادهای LaTeX قرار بده ($ یا $$).
+۳) از به کار بردن علامت‌های بدون کاربرد مثل # در عنوان‌ها خودداری کن.`;
+}
+
+function sanitizeAndCleanText(raw){
+  if(!raw) return '';
+  let t = String(raw);
+  t = t.replace(/<\s*think\s*>[\s\S]*?<\s*\/\s*think\s*>/gi,'');
+  t = t.replace(/
+```[\s\S]*?
+```/g,'');
+  t = t.replace(/^\s{0,3}#{1,6}\s*/gm,'');
+  t = t.replace(/\n{4,}/g,'\n\n').trim();
+  return t;
+}
+function escapeHTML(s){
+  return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+function tableMarkdownToHtml(text){
+  const lines = text.split('\n');
+  let out = [];
+  let i = 0;
+  while(i < lines.length){
+    const line = lines[i].trim();
+    const isTableLine = /^\|.*\|$/.test(line);
+    const nextIsSep = i + 1 < lines.length && /^\|?[\s:-]+(\|[\s:-]+)+\|?$/.test(lines[i+1].trim());
+    if(isTableLine && nextIsSep){
+      const headers = line.split('|').slice(1,-1).map(x => x.trim());
       i += 2;
       let rows = [];
       while(i < lines.length && /^\|.*\|$/.test(lines[i].trim())){
@@ -521,31 +527,35 @@ function renderMath(container){
   }catch(e){}
 }
 
-/* سیستم هوشمند اتصال بدون کلید و مقاوم در برابر خطای ۵۰۳ */
+/* موتور هوشمند ۶ لایه پاسخ‌دهی به دانش‌آموزان بدون تحریم و قطعی */
 async function requestAI(promptText){
-  const promptFull = makeSystemPrompt() + '\n\nپرسش دانش‌آموز:\n' + promptText;
-  const encoded = encodeURIComponent(promptFull);
+  const fullPrompt = `${makeSystemPrompt()}\n\nسوال دانش‌آموز:\n${promptText}`;
+  const encoded = encodeURIComponent(fullPrompt);
 
-  const endpoints = [
+  const targets = [
     { url: `https://text.pollinations.ai/${encoded}?model=openai`, method: 'GET' },
     { url: `https://text.pollinations.ai/${encoded}?model=mistral`, method: 'GET' },
     { url: `https://api.allorigins.win/raw?url=${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`, method: 'GET' },
     { 
       url: 'https://text.pollinations.ai/',
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: [{role:'system', content:makeSystemPrompt()},{role:'user', content:promptText}], model:'openai' })
     }
   ];
 
-  for(const ep of endpoints){
+  for(const req of targets){
     try{
-      const opts = {
-        method: ep.method,
-        headers: { 'Accept': 'text/plain, application/json', 'Content-Type': 'application/json' }
-      };
-      if(ep.body) opts.body = ep.body;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 12000);
+      const res = await fetch(req.url, {
+        method: req.method,
+        headers: req.headers || { 'Accept': 'text/plain, application/json' },
+        body: req.body,
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
 
-      const res = await fetch(ep.url, opts);
       if(res.ok){
         const txt = await res.text();
         if(txt && txt.trim().length > 10 && !txt.includes('503 Service') && !txt.includes('<!DOCTYPE html>')){
@@ -555,30 +565,30 @@ async function requestAI(promptText){
     }catch(err){}
   }
 
-  throw new Error('پاسخی از سرور دریافت نشد. لطفاً مجدداً دکمه ارسال را بزنید.');
+  throw new Error('سرور در حال حاضر مشغول است، لطفاً مجدداً دکمه ارسال را بزنید.');
 }
 
 byId('send').onclick = async () => {
   const question = byId('prompt').value.trim();
   if(!question){
-    setStatus('لطفاً ابتدا سوال یا تمرین را بنویسید.', 'error');
+    setStatus('لطفاً ابتدا متن سوال یا تمرین دانش‌آموز را بنویسید.', 'error');
     return;
   }
 
   const btn = byId('send');
   btn.classList.add('busy'); btn.disabled = true;
-  setStatus('هوش مصنوعی در حال تحلیل و نوشتن پاسخ تشریحی برای دانش‌آموز است…');
-  byId('result').textContent = 'در حال پردازش گام‌به‌گام… لطفاً چند ثانیه شکیبا باشید.';
+  setStatus('هوش مصنوعی در حال تحلیل و حل تشریحی سوال دانش‌آموز است…');
+  byId('result').textContent = 'در حال آماده‌سازی پاسخ گام‌به‌گام و نگارش فرمول‌ها…';
 
   try{
     const raw = await requestAI(question);
     const cleaned = sanitizeAndCleanText(raw);
     byId('result').innerHTML = toCleanHTML(cleaned);
     renderMath(byId('result'));
-    setStatus('پاسخ کامل سوال دانش‌آموز آماده شد.', 'ok');
+    setStatus('پاسخ کامل سوال با موفقیت آماده شد.', 'ok');
   }catch(err){
     setStatus(err.message, 'error');
-    byId('result').textContent = 'متاسفانه در برقراری ارتباط خطایی رخ داد. لطفاً مجدداً دکمه ارسال را کلیک کنید.';
+    byId('result').textContent = 'خطا در برقراری ارتباط با سرور. لطفاً دوباره روی ارسال کلیک کنید.';
   }finally{
     btn.classList.remove('busy'); btn.disabled = false;
   }
@@ -595,7 +605,7 @@ byId('copy').onclick = async () => {
   if(!t) return;
   try{
     await navigator.clipboard.writeText(t);
-    setStatus('پاسخ تشریحی در کلیپ‌بورد کپی شد.', 'ok');
+    setStatus('پاسخ تشریحی کپی شد.', 'ok');
   }catch(e){
     setStatus('خطا در کپی متن.', 'error');
   }
@@ -612,9 +622,9 @@ byId('saveAudio').onclick = () => {
     const ut = new SpeechSynthesisUtterance(t);
     ut.lang = 'fa-IR';
     window.speechSynthesis.speak(ut);
-    setStatus('در حال خواندن صوتی پاسخ…', 'ok');
+    setStatus('در حال قرائت صوتی پاسخ…', 'ok');
   }else{
-    setStatus('مرورگر از خواندن صوتی پشتیبانی نمی‌کند.', 'error');
+    setStatus('مرورگر از قابلیت خواندن صوتی پشتیبانی نمی‌کند.', 'error');
   }
 };
 
