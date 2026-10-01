@@ -3,163 +3,114 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b1120">
 <title>Home-AI | خونه هوش مصنوعی برلیان لعلیان</title>
-
-<!-- لود کتابخانه‌های لازم -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
 <style>
 :root{
-  --bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;
-  --line:#293852;--red:#ff5263;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005;
-  --accent:#38bdf8;
+  --bg:#0b1120; --gold:#f4c66a; --ink:#eef4ff; --panel:#121c2e;
+  --accent:#38bdf8; --transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
-.wrap{width:min(1160px,calc(100% - 32px));margin:auto}
+body{background:var(--bg);color:var(--ink);font-family:Tahoma,sans-serif;margin:0;padding:20px;line-height:1.6}
+.container{max-width:1000px;margin:auto}
+.banner{text-align:center;padding:40px;border-bottom:2px solid var(--panel);margin-bottom:30px}
+.banner h1{color:var(--gold);font-size:2rem;margin:0}
+.box{background:var(--panel);padding:20px;border-radius:15px;margin-bottom:20px;border:1px solid #2a3a5a}
 
-/* استایل‌های مخملی و حذف لرزش */
-.info-card, .box, .card, details.card, details.tool, .btn, textarea, input[type="text"], .pkg-item{
-  background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(168,85,247,.05), rgba(250,204,21,.04));
-  border:1px solid rgba(148,163,184,.25);
-  border-radius:14px;
-  box-shadow:0 8px 30px rgba(0,0,0,.3);
-  backdrop-filter:blur(8px);
-  transition:transform .22s cubic-bezier(.2,.8,.2,1), border-color .22s ease, box-shadow .22s ease;
-}
-
-.info-card:hover, .box:hover, .card:hover, details.card:hover, details.tool:hover,
-.info-card.fx-on, .box.fx-on, .card.fx-on, details.card.fx-on, details.tool.fx-on,
-.btn:hover, .btn.fx-on, textarea:focus, input[type="text"]:focus{
-  border-color:var(--gold) !important;
-  box-shadow:0 0 22px rgba(244,198,106,.55), 0 0 45px rgba(56,189,248,.35) !important;
-  transform:translateY(-2px) scale(1.008);
-}
-
-/* بخش بسته‌های مالی */
-.packages-offline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 20px}
+/* استایل بسته‌ها */
+.grid-packages{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .pkg-item{
-  padding:14px;text-align:center;cursor:pointer;
-  border:1px solid rgba(244,198,106,.3);
-  display:flex;flex-direction:column;gap:6px;
+  padding:15px;background:var(--bg);border:1px solid var(--gold);
+  border-radius:10px;text-align:center;cursor:pointer;transition:var(--transition);
 }
-.pkg-item:hover, .pkg-item.selected{
-  border-color:var(--gold);
-  background:rgba(244,198,106,.15);
-  box-shadow:0 0 16px rgba(244,198,106,.5);
-}
-.pkg-item .p-title{font-size:1rem;font-weight:1000;color:var(--gold)}
+.pkg-item:hover{background:var(--gold);color:var(--bg);transform:scale(1.05)}
+.pkg-item.selected{border-width:3px;background:rgba(;padding:20px;line-height:1.6}
+.container{max-width:1000px;margin:auto}
+.banner{text-align:center;padding:40px;border-bottom:2px solid var(--panel);margin-bottom:30px}
+.banner h1{color:var(--gold);font-size:2rem;margin:0}
+.box{background:var(--panel);padding:20px;border-radius:15px;margin-bottom:20px;border:1px solid #2a3a5a}
 
-/* سایر استایل‌ها */
-.btn{padding:10px 18px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.95rem;cursor:pointer;color:var(--ink);border:1px solid var(--line)}
-.btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:1000;border:none}
-.btn.busy{opacity:.6;pointer-events:none}
-.result{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;min-height:200px;overflow-y:auto;line-height:2;font-size:1rem}
-.spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
-.btn.busy .spinner{display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* استایل بسته‌ها */
+.grid-packages{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.pkg-item{
+  padding:15px;background:var(--bg);border:1px solid var(--gold);
+  border-radius:10px;text-align:center;cursor:pointer;transition:var(--transition);
+}
+.pkg-item:hover{background:var(--gold);color:var(--bg);transform:scale(1.05)}
+.pkg-item.selected{border-width:3px;background:rgba(244,198,106,0.2)}
+
+/* المان‌های تعاملی */
+button, textarea{padding:12px;border-radius:8px;border:1px solid var(--gold);background:var(--bg);color:var(--ink);width:100%;font-family:inherit}
+button{cursor:pointer;font-weight:bold;transition:var(--transition);background:var(--gold);color:var(--bg);border:none}
+button:hover{filter:brightness(1.2)}
+#result{min-height:100px;background:#050914;padding:15px;border-radius:8px;margin-top:10px;white-space:pre-wrap}
 </style>
 </head>
-<body>
-
-<main class="wrap">
-  <!-- بخش اصلی سوالات -->
-  <section class="box" id="assistant" style="margin-top:30px">
-    <label class="field" for="prompt" style="color:var(--gold)">ورودی سوال دانش‌آموز</label>
-    <textarea id="prompt" style="height:150px;width:100%;background:var(--bg);color:var(--ink);padding:10px;border-radius:10px" placeholder="سوال خود را اینجا بنویسید..."></textarea>
-    <div class="actions" style="margin-top:15px">
-      <button class="btn primary" id="send">
-        <span class="spinner"></span>
-        دریافت پاسخ هوشمند
-      </button>
-    </div>
-    <div id="status" style="margin-top:10px;font-size:.9rem;color:var(--muted)"></div>
-    <div id="result" class="result" style="margin-top:15px">پاسخ در اینجا نمایش داده می‌شود.</div>
-  </section>
-
-  <!-- بخش بسته‌ها -->
-  <section class="box" id="payment" style="margin-top:30px">
-    <h2 style="color:var(--gold)">بسته‌های اعتباری (پرداخت آفلاین)</h2>
-    <div class="packages-offline">
-      <div class="pkg-item" onclick="selectPkg(this, '۵ میلیون')"><span class="p-title">۵ میلیون تومان</span></div>
-      <div class="pkg-item" onclick="selectPkg(this, '۱۰ میلیون')"><span class="p-title">۱۰ میلیون تومان</span></div>
-      <div class="pkg-item" onclick="selectPkg(this, '۲۰ میلیون')"><span class="p-title">۲۰ میلیون تومان</span></div>
-      <div class="pkg-item" onclick="selectPkg(this, '۵۰ میلیون')"><span class="p-title">۵۰ میلیون تومان</span></div>
-      <div class="pkg-item" onclick="selectPkg(this, '۱۰۰ میلیون')"><span class="p-title">۱۰۰ میلیون تومان</span></div>
-      <div class="pkg-item" onclick="selectPkg(this, '۱۵۰ میلیون')"><span class="p-title">۱۵۰ میلیون تومان</span></div>
-      <div class="pkg-item" onclick="selectPkg(this, '۲۰۰ میلیون')"><span class="p-title">۲۰۰ میلیون تومان</span></div>
-      <div class="pkg-item" onclick="selectPkg(this, '۲۵۰ میلیون')"><span class="p-title">۲۵۰ میلیون تومان</span></div>
-    </div>
-  </section>
-</main>
+="selectPkg(this)">۵۰ میلیون تومانی</div>
+            <div class="pkg-item" onclick="selectPkg(this)">۱۰۰ میلیون تومانی</div>
+            <div class="pkg-item" onclick="selectPkg(this)">۱۵۰ میلیون تومانی</div>
+            <div class="pkg-item" onclick="selectPkg(this)">۲۰۰ میلیون تومانی</div>
+            <div class="pkg-item" onclick="selectPkg(this)">۲۵۰ میلیون تومانی</div>
+        </div>
+    </section>
+</div>
 
 <script>
-/* سیستم صدای ملایم تعاملی */
-let audioCtx = null;
-function playSoftChime(){
-  try{
-    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+// ۱. سیستم صدای تعاملی (Chime)
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playBeep() {
     if(audioCtx.state === 'suspended') audioCtx.resume();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
+    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     osc.start();
-    osc.stop(audioCtx.currentTime + 0.12);
-  }catch(e){}
+    osc.stop(audioCtx.currentTime + 0.2);
 }
 
-/* مدیریت تعاملات و افکت‌ها */
-document.addEventListener('pointerdown', e => {
-  const t = e.target.closest('.pkg-item, .btn, textarea, input');
-  if(t) {
-    t.classList.add('fx-on');
-    playSoftChime();
-    setTimeout(()=>t.classList.remove('fx-on'), 250);
-  }
-}, true);
+// گوش دادن به کلیک‌ها برای پخش صدا
+document.addEventListener('click', (e) => {
+    if(e.target.matches('button, .pkg-item, textarea')) playBeep();
+});
 
-function selectPkg(el, title){
-  document.querySelectorAll('.pkg-item').forEach(x => x.classList.remove('selected'));
-  el.classList.add('selected');
+// ۲. انتخاب بسته
+function selectPkg(el) {
+    document.querySelectorAll('.pkg-item').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
 }
 
-/* موتور ۶ لایه اتصال هوشمند (برای حل مشکل ۵۰۳) */
-async function requestAI(prompt){
-  const endpoints = [
-    `https://text.pollinations.ai/${encodeURIComponent(prompt)}?model=openai`,
-    `https://text.pollinations.ai/${encodeURIComponent(prompt)}?model=mistral`
-  ];
-  for(const url of endpoints){
-    try{
-      const res = await fetch(url);
-      if(res.ok) return await res.text();
-    }catch(e){}
-  }
-  throw new Error("خطا در ارتباط با سرور - لطفاً دوباره تلاش کنید");
+// ۳. موتور هوشمند با سیستم Fallback (جلوگیری از ۵۰۳)
+async function getAIResponse(text) {
+    const endpoints = [
+        `https://text.pollinations.ai/${encodeURIComponent(text)}?model=openai`,
+        `https://text.pollinations.ai/${encodeURIComponent(text)}?model=mistral`
+    ];
+
+    for (let url of endpoints) {
+        try {
+            const response = await fetch(url);
+            if (response.ok) return await response.text();
+        } catch (err) {
+            console.warn("تلاش مجدد با سرور بعدی...");
+        }
+    }
+    throw new Error("سرویس‌دهنده‌ها شلوغ هستند. لطفاً دوباره کلیک کنید.");
 }
 
-document.getElementById('send').onclick = async () => {
-  const prompt = document.getElementById('prompt').value;
-  const btn = document.getElementById('send');
-  const resDiv = document.getElementById('result');
-  
-  btn.classList.add('busy');
-  try{
-    const response = await requestAI(prompt);
-    resDiv.innerText = response;
-  } catch(e){
-    resDiv.innerText = "متاسفانه سرویس‌دهنده‌ها شلوغ هستند. لطفاً دوباره کلیک کنید.";
-  } finally {
-    btn.classList.remove('busy');
-  }
+document.getElementById('sendBtn').onclick = async () => {
+    const input = document.getElementById('userInput').value;
+    const output = document.getElementById('result');
+    if(!input) return alert("لطفاً سوال را وارد کنید.");
+    
+    output.innerText = "در حال اتصال و تحلیل...";
+    try {
+        const answer = await getAIResponse(input);
+        output.innerText = answer;
+    } catch(err) {
+        output.innerText = err.message;
+    }
 };
 </script>
 </body>
