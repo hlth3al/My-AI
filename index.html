@@ -7,44 +7,23 @@
 <meta name="description" content="کلاس هوش مصنوعی من؛ پلتفرم دستیار آموزش، تحلیل و یادگیری در همه مقاطع">
 <title>کلاس هوش مصنوعی من | My AI Class</title>
 
+<!-- (۳) KaTeX برای فرمول/یونانی/شیمی -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
 <style>
 :root{
-  --bg:#0b1120;
-  --panel:#121c2e;
-  --panel2:#17243a;
-  --ink:#eef4ff;
-  --muted:#a8b5ca;
-  --line:#293852;
-  --red:#ff5263;
-  --red-neon:#ff0033;
-  --gold:#f4c66a;
-  --teal:#59d5c4;
-  --shadow:0 18px 55px #0005
+  --bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;--line:#293852;
+  --red:#ff5263;--red-neon:#ff0033;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0;
-  background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);
-  color:var(--ink);
-  font-family:Tahoma,"Segoe UI",sans-serif;
-  line-height:1.85
-}
+body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.85}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 .wrap{width:min(1160px,calc(100% - 32px));margin:auto}
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:9;
-  background:#0b1120eF;
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(14px)
-}
+.topbar{position:sticky;top:0;z-index:9;background:#0b1120eF;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
 .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;gap:15px}
 .brand{font-weight:900;color:#fff;text-decoration:none}
 .brand b{color:var(--gold)}
@@ -52,30 +31,30 @@ button{cursor:pointer}
 .navlinks a{color:var(--muted);font-size:.88rem;text-decoration:none;transition:.2s}
 .navlinks a:hover{color:var(--gold)}
 .toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--muted);cursor:pointer}
-
 .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:48px 0;align-items:center}
 .eyebrow{color:var(--teal);font-weight:bold;font-size:.92rem;margin-bottom:8px}
 
-/* عنوان بزرگ جدید */
+/* (۱) عنوان بزرگ جدید + My AI بزرگ */
 .big-title{
-  font-size:clamp(1.7rem,3.7vw,3.25rem);
+  font-size:clamp(1.65rem, 3.6vw, 3.2rem);
   margin:0 0 12px;
   line-height:1.45;
   font-weight:1000;
   color:#fff;
-  text-shadow:0 0 18px rgba(56,189,248,.22), 0 0 30px rgba(250,204,21,.12);
+  text-shadow:0 0 18px rgba(56,189,248,.22),0 0 30px rgba(250,204,21,.12);
 }
-.big-title .myai-big{
+.big-title .myai{
   display:inline-block;
   direction:ltr;
-  font-size:clamp(1.4rem,4.4vw,3rem);
+  font-family:"Segoe UI",Arial,sans-serif;
   font-weight:1000;
-  letter-spacing:1px;
-  padding:4px 12px;
-  margin-top:10px;
+  font-size:clamp(1.3rem, 4.2vw, 2.8rem);
+  letter-spacing:1.2px;
+  padding:6px 12px;
   border-radius:999px;
+  margin-top:10px;
   background:linear-gradient(135deg,#22c55e,#38bdf8,#a855f7);
-  color:#09111f;
+  color:#05070f;
   box-shadow:0 0 18px rgba(56,189,248,.45);
 }
 .big-title .sub{
@@ -88,80 +67,25 @@ button{cursor:pointer}
 
 .lead{color:var(--muted);font-size:1.02rem}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
-.btn{
-  background:var(--panel2);
-  color:var(--ink);
-  border:1px solid var(--line);
-  padding:10px 18px;
-  border-radius:10px;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  font-size:.92rem;
-  transition:.2s
-}
+.btn{background:var(--panel2);color:var(--ink);border:1px solid var(--line);padding:10px 18px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.92rem;transition:.2s}
 .btn:hover{border-color:var(--gold);color:#fff}
 .btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:bold;border:none}
 .btn.primary:hover{opacity:.9}
 .btn.busy{opacity:.6;pointer-events:none}
 .small{font-size:.82rem;color:var(--muted)}
-
-.hero-card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:24px;
-  box-shadow:var(--shadow)
-}
+.hero-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
 .hero-card ul{padding-right:20px;margin:12px 0;color:var(--muted)}
 .hero-card li{margin-bottom:6px}
-.pill{
-  display:inline-block;
-  background:#26395e;
-  color:var(--teal);
-  padding:4px 10px;
-  border-radius:20px;
-  font-size:.8rem;
-  margin:4px 2px
-}
-
+.pill{display:inline-block;background:#26395e;color:var(--teal);padding:4px 10px;border-radius:20px;font-size:.8rem;margin:4px 2px}
 .section{padding:40px 0;border-top:1px solid var(--line)}
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;gap:15px;flex-wrap:wrap}
 .section-head h2,.section-head h3{margin:0 0 6px}
 .section-head p{margin:0;color:var(--muted);font-size:.9rem}
 .workspace{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-
-/* کادرهای رنگی */
-.box,
-.hero-card,
-details.card,
-details.tool,
-.package,
-.card{
-  background:
-    linear-gradient(135deg, rgba(56,189,248,.12), rgba(168,85,247,.09), rgba(250,204,21,.08)),
-    var(--panel);
-  border:1px solid rgba(148,163,184,.24);
-  border-radius:14px;
-  padding:20px;
-  box-shadow:var(--shadow);
-  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
-  will-change:transform,border-color,box-shadow;
-}
-
+.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .field{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
-select,textarea,input[type="text"]{
-  width:100%;
-  background:var(--bg);
-  border:1px solid var(--line);
-  color:var(--ink);
-  padding:10px 12px;
-  border-radius:8px;
-  outline:none
-}
+select,textarea,input[type="text"]{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:10px 12px;border-radius:8px;outline:none}
 select:focus,textarea:focus,input[type="text"]:focus{border-color:var(--teal)}
 textarea{height:140px;resize:vertical}
 .fileline{display:flex;align-items:center;gap:10px;margin:12px 0;flex-wrap:wrap}
@@ -171,7 +95,7 @@ textarea{height:140px;resize:vertical}
 .status.error{color:var(--red)}
 .status.ok{color:var(--teal)}
 
-/* خروجی تمیز */
+/* (۳) خروجی: HTML تمیز + آماده KaTeX */
 .result{
   background:var(--bg);
   border:1px solid var(--line);
@@ -180,117 +104,67 @@ textarea{height:140px;resize:vertical}
   min-height:200px;
   max-height:480px;
   overflow-y:auto;
-  line-height:1.95;
+  line-height:2;
   font-size:.95rem;
   white-space:normal;
 }
 .result p{margin:10px 0}
 .result ul,.result ol{padding-right:22px;margin:10px 0}
 .result li{margin:6px 0}
-.result h3{
-  margin:14px 0 8px;
-  color:var(--gold);
-  border-bottom:1px dashed var(--line);
-  padding-bottom:4px
-}
-.result h4{margin:12px 0 6px;color:var(--teal)}
-.result pre,.result code{
-  direction:ltr;
-  background:#0a1224;
-  border:1px solid #223352;
-  border-radius:10px;
-  padding:10px;
-  overflow:auto
-}
-.result table{
-  width:100%;
-  border-collapse:collapse;
-  margin:12px 0;
-  overflow:hidden;
-  border-radius:10px;
-  border:1px solid #223352
-}
-.result th,.result td{
-  border:1px solid #223352;
-  padding:8px 10px;
-  text-align:right;
-  vertical-align:top
-}
+.result h3{color:var(--gold);margin:14px 0 8px;border-bottom:1px dashed var(--line);padding-bottom:4px}
+.result h4{color:var(--teal);margin:12px 0 6px}
+.result pre,.result code{background:#0a1224;border:1px solid #223352;border-radius:10px;padding:10px;overflow:auto;direction:ltr}
+.result table{width:100%;border-collapse:collapse;margin:12px 0;border-radius:10px;overflow:hidden;border:1px solid #223352}
+.result th,.result td{border:1px solid #223352;padding:8px 10px;text-align:right;vertical-align:top}
 .result th{background:#14213a;color:var(--gold)}
-.result .arabic-block{
-  font-family:"Traditional Arabic","Amiri",Tahoma,serif;
-  font-size:1.18rem;
-  line-height:2.2;
-  color:#fde68a;
-  background:#0a1224;
-  border:1px solid #223352;
-  border-radius:10px;
-  padding:10px
-}
-.result .katex-display{
-  direction:ltr;
-  overflow-x:auto;
-  padding:8px 0;
-  background:#0a1224;
-  border:1px solid #223352;
-  border-radius:10px
-}
+.result .arabic-block{font-family:"Traditional Arabic","Amiri",Tahoma,serif;font-size:1.18rem;line-height:2.2;color:#fde68a;background:#0a1224;border:1px solid #223352;border-radius:10px;padding:10px}
+.result .katex-display{direction:ltr;overflow-x:auto;padding:8px 0;border-radius:10px;border:1px solid #223352;background:#0a1224}
 
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-details.card{padding:12px 16px}
+details.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;transition:.2s}
 details.card[open]{border-color:var(--teal)}
 details summary{cursor:pointer;font-weight:bold;color:var(--ink);outline:none;user-select:none}
 .inside{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);font-size:.9rem}
 .toolgroups{display:flex;flex-direction:column;gap:12px}
-details.tool{padding:12px 16px}
+details.tool{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
 .tool-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .packages{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.package{text-align:center;font-weight:bold;color:var(--gold)}
-.card{padding:18px}
-.payment .cardnum{
-  font-size:1.4rem;
-  letter-spacing:2px;
-  font-family:monospace;
-  direction:ltr;
-  background:var(--bg);
-  padding:10px;
-  border-radius:8px;
-  border:1px dashed var(--gold);
-  color:var(--gold);
-  text-align:center;
-  margin:8px 0
-}
+.package{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center;font-weight:bold;color:var(--gold)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.payment .cardnum{font-size:1.4rem;letter-spacing:2px;font-family:monospace;direction:ltr;background:var(--bg);padding:10px;border-radius:8px;border:1px dashed var(--gold);color:var(--gold);text-align:center;margin:8px 0}
 .notice{color:var(--muted);font-size:.86rem}
 .footer{padding:24px 0;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;margin-top:40px}
 .spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
 .btn.busy .spinner{display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:800px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
+@media(max-width:540px){.grid,.packages{grid-template-columns:1fr}}
 
-/* افکت لرزش و قرمز و بزرگ/کوچک */
+/* (۲) رنگی شدن کادرها + افکت جذاب */
+.box, .hero-card, .card, details.card, details.tool, .package, .btn{
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, filter .18s ease;
+  will-change:transform, border-color, box-shadow;
+}
+.box, .hero-card, .card, details.card, details.tool, .package{
+  background:linear-gradient(135deg, rgba(56,189,248,.14), rgba(168,85,247,.10), rgba(250,204,21,.08));
+  border:1px solid rgba(148,163,184,.22);
+}
 @keyframes kidShake{
   0%{transform:scale(1.03) translate(0,0)}
-  25%{transform:scale(1.07) translate(-2px,1px)}
-  50%{transform:scale(1.03) translate(2px,-1px)}
-  75%{transform:scale(1.:scale(1.07) translate(-2px,-1px)}
-  scale(1.03) translate(0,0)}
+  25%{transform:scale(1.07) translate(-2px, 1px)}
+  50%{transform:scale(1.03) translate(2px, -1px)}
+  75%{transform:scale(1.07) translate(-2px, -1px)}
+  100%{transform:scale(1.03) translate(0,0)}
 }
 .is-hovering{
   border-color:var(--red-neon)!important;
-  box-shadow:0 0 18px rgba(255,0,51,.68),0 0 44px rgba(255,0,51,.22),0 20px 55px rgba(0,0,0,.55)!important;
+  box-shadow:0 0 18px rgba(255,0,51,.65), 0 0 48px rgba(255,0,51,.22), 0 20px 55px rgba(0,0,0,.55)!important;
   animation:kidShake .25s ease-in-out infinite;
-  filter:saturate(1.22);
-}
-
-@media(max-width:800px){
-  .hero,.workspace{grid-template-columns:1fr}
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .navlinks{display:none}
-}
-@media(max-width:540px){
-  .grid,.packages{grid-template-columns:1fr}
+  filter:saturate(1.25);
 }
 </style>
 </head>
+
 <body>
 <header class="topbar">
   <div class="wrap nav">
@@ -311,10 +185,11 @@ details.tool{padding:12px 16px}
   <div>
     <div class="eyebrow">یادگیری، تحلیل و پیشرفت؛ در یک همراه آموزشی</div>
 
+    <!-- (۱) عنوان جدید -->
     <h1 class="big-title">
       بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط هوش مصنوعی من
       <br>
-      <span class="myai-big">My AI</span>
+      <span class="myai">My AI</span>
       <span class="sub">My AI Class Platform</span>
     </h1>
 
@@ -390,7 +265,9 @@ details.tool{padding:12px 16px}
           <button class="btn" id="saveAudio" type="button">ذخیره صوتی</button>
         </div>
       </div>
+
       <div id="result" class="result" aria-live="polite">پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.</div>
+
       <p class="small">پاسخ‌ها توسط موتور هوش مصنوعی با تحلیل مرحله‌به‌مرحله تولید می‌شوند.</p>
       <audio id="audioPlayer" controls hidden></audio>
     </div>
@@ -481,11 +358,10 @@ const extras = [
 ];
 
 const byId = id => document.getElementById(id);
-
 function el(tag, cls, text) {
   const n = document.createElement(tag);
-  if (cls) n.className = cls;
-  if (text) n.textContent = text;
+  if(cls) n.className = cls;
+  if(text) n.textContent = text;
   return n;
 }
 
@@ -501,7 +377,7 @@ function initUI() {
   const fHost = byId('facultyList');
   faculties.forEach(([name, desc], i) => {
     const d = el('details', 'card');
-    if (i === 0) d.open = true;
+    if(i === 0) d.open = true;
     const s = el('summary', '', name);
     const inside = el('div', 'inside');
     inside.append(el('p', '', desc), el('p', 'small', 'پشتیبانی آموزشی متناسب با سطح و هدف یادگیری شما.'));
@@ -512,7 +388,7 @@ function initUI() {
   const lHost = byId('levelCards');
   levels.forEach((x, i) => {
     const d = el('details', 'card');
-    if (i === 0) d.open = true;
+    if(i === 0) d.open = true;
     const s = el('summary', '', x);
     const b = el('div', 'inside');
     b.append(el('p', '', `آموزش مفهومی، تدریس، تحلیل پرسش و حل تمرین تخصصی مقطع ${x}.`));
@@ -532,7 +408,7 @@ function initUI() {
   const sHost = byId('serviceList');
   services.forEach((name, i) => {
     const d = el('details', 'tool');
-    if (i < 3) d.open = true;
+    if(i < 3) d.open = true;
     const s = el('summary', '', name);
     const inside = el('div', 'tool-buttons');
 
@@ -540,10 +416,11 @@ function initUI() {
       const b = el('button', 'btn', `${name} · ${lvl}`);
       b.type = 'button';
       b.onclick = () => {
-        byId('prompt').value = `عنوان درخواست: ${name}
+        byId('prompt').value =
+`عنوان درخواست: ${name}
 سطح آموزشی: ${lvl}
 
-لطفاً پاسخ را دقیق، تمیز، مرحله‌به‌مرحله، بدون علامت‌های اضافی و با فرمول‌نویسی درست ارائه کن.`;
+لطفاً پاسخ را دقیق، مرحله‌به‌مرحله، بدون علامت‌های اضافی و با فرمول‌نویسی استاندارد (LaTeX) ارائه کن.`;
         byId('level').value = lvl;
         byId('prompt').focus();
         byId('assistant').scrollIntoView({ behavior: 'smooth' });
@@ -562,7 +439,7 @@ function initUI() {
 }
 initUI();
 
-/* افکت بوق + لرزش */
+/* (۲) بوق + افکت روی همه کادرها با hover و touch */
 let audioCtx = null;
 function beep() {
   if (!byId('soundToggle').checked) return;
@@ -570,10 +447,9 @@ function beep() {
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
 
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
     o.type = 'square';
-    o.frequency.setValueAtTime(720, audioCtx.currentTime);
+    o.frequency.value = 720;
     g.gain.setValueAtTime(.035, audioCtx.currentTime);
     g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .07);
     o.connect(g);
@@ -582,7 +458,6 @@ function beep() {
     o.stop(audioCtx.currentTime + .075);
   } catch(e) {}
 }
-
 function hoverTarget(elm){
   return elm && elm.closest && elm.closest('.box, .hero-card, .card, details.card, details.tool, .package, .btn');
 }
@@ -592,7 +467,7 @@ function applyHoverFX(node){
   t.classList.add('is-hovering');
   beep();
   clearTimeout(t.__fxTimer);
-  t.__fxTimer = setTimeout(() => t.classList.remove('is-hovering'), 380);
+  t.__fxTimer = setTimeout(()=>t.classList.remove('is-hovering'), 380);
 }
 document.addEventListener('pointerenter', e => applyHoverFX(e.target), true);
 document.addEventListener('pointerdown', e => applyHoverFX(e.target), true);
@@ -600,7 +475,6 @@ document.addEventListener('pointerdown', e => applyHoverFX(e.target), true);
 /* تصویر */
 const fileInput = byId('image');
 let imageData = null;
-
 fileInput.addEventListener('change', () => {
   const f = fileInput.files[0];
   if (!f) return;
@@ -617,7 +491,6 @@ fileInput.addEventListener('change', () => {
   };
   r.readAsDataURL(f);
 });
-
 byId('removeImage').onclick = () => {
   imageData = null;
   fileInput.value = '';
@@ -631,52 +504,46 @@ function setStatus(text, kind = '') {
   n.className = 'status ' + kind;
 }
 
-/* پرامپت بهتر برای کاهش پاسخ الکی */
+/* (۳) پرامپت سخت‌گیر برای کاهش پاسخ الکی */
 function makeSystemPrompt(level) {
-  return `نقش: استاد و معلم بسیار دقیق در سامانه «کلاس هوش مصنوعی من».
-سطح مخاطب: «${level}».
-
-قواعد اجباری:
-- فقط پاسخ واقعی، آموزشی و قابل دفاع بده.
-- اگر اطلاعات کافی نیست، صریح بگو «اطلاعات کافی نیست».
-- هیچ متن سیستمی، role، reasoning، json، ابزار، یا فرمت اضافی چاپ نکن.
-- از علامت‌های بیهوده مثل # زیاد، عنوان‌های شلوغ و فرمت‌های عجیب خودداری کن.
-- پاسخ را مرحله‌به‌مرحله، روشن و تمیز بنویس.
-- اگر فرمول لازم است، با لاتک بنویس: مثل $F=ma$ ، $\\alpha$ ، $\\beta$ ، $\\Delta t$ ، $\\mathrm{H_2O}$.
-- برای متون عربی و قرآنی، اعراب و جهت درست متن را حفظ کن.
-- برای همه رشته‌ها و همه مقاطع، لحن پاسخ باید آموزشی و دقیق باشد.`;
+  return `نقش: استاد ارشد و معلم بسیار دقیق در سامانه «کلاس هوش مصنوعی من». سطح مخاطب: «${level}».
+قواعد:
+- فقط پاسخ واقعی، آموزشی و قابل دفاع بده. اگر اطلاعات کافی نیست، «اطلاعات کافی نیست» و سوال تکمیلی بپرس.
+- از پاسخ‌های ساختگی/حدسی پرهیز کن.
+- هیچ متن سیستمی، JSON، role، reasoning یا قالب عجیب چاپ نکن.
+- علائم اضافی مثل # و تیترهای شلوغ و فرمت‌های بی‌مورد نده.
+- فرمول‌ها را با LaTeX بنویس تا KaTeX رندر کند: $F=ma$, $\\Delta t$, $\\alpha$, $\\beta$, $\\mathrm{H_2O}$.
+- متن عربی/قرآنی را با اعراب و جهت درست حفظ کن.
+پاسخ را مرحله‌به‌مرحله و منظم ارائه کن.`;
 }
 
-/* پاکسازی خروجی */
+/* (۳) پاکسازی خروجی: حذف # و junk */
 function sanitizeAndCleanText(raw){
   if(!raw) return '';
   let t = String(raw);
 
   t = t.replace(/
 ```json[\s\S]*?
-```/gi,'');
+```/gi, '');
   t = t.replace(/<\s*think\s*>[\s\S]*?<\s*\/\s*think\s*>/gi,'');
   t = t.replace(/^\s*think\s*:\s*.*$/gmi,'');
-  t = t.replace(/"reasoning"\s*:\s*[\s\S]*?(?=,\s*")/g,'');
-  t = t.replace(/"role"\s*:\s*".*?"/g,'');
-  t = t.replace(/"tool_calls"\s*:\s*\[[\s\S]*?\]/g,'');
-  t = t.replace(/^\s{0,3}#{1,6}\s*/gm,'');
-  t = t.replace(/^\s*[-=]{3,}\s*$/gm,'');
+
+  t = t.replace(/"reasoning"\s*:\s*[\s\S]*?(?=,\s*")/g, '');
+  t = t.replace(/"role"\s*:\s*".*?"/g, '');
+  t = t.replace(/"tool_calls"\s*:\s*\[[\s\S]*?\]/g, '');
+
+  t = t.replace(/^\s{0,3}#{1,6}\s*/gm, '');   // حذف شارپ تیتر
+  t = t.replace(/^\s*[-=]{3,}\s*$/gm, '');
   t = t.replace(/\u200f|\u200e/g,'');
-  t = t.replace(/\n{4,}/g,'\n\n').trim();
+  t = t.replace(/\n{4,}/g, '\n\n').trim();
 
   return t;
 }
 
+/* تبدیل ساده متن به HTML تمیز (پاراگراف/لیست/تیتر) + حفظ $$ $ برای KaTeX */
 function escapeHTML(s){
-  return s.replace(/[&<>"]/g, c => ({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;'
-  }[c]));
+  return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 }
-
 function tableMarkdownToHtml(text){
   const lines = text.split('\n');
   let out = [];
@@ -684,7 +551,6 @@ function tableMarkdownToHtml(text){
 
   while(i < lines.length){
     const line = lines[i].trim();
-
     const isTableLine = /^\|.*\|$/.test(line);
     const nextIsSep = i + 1 < lines.length && /^\|?[\s:-]+(\|[\s:-]+)+\|?$/.test(lines[i+1].trim());
 
@@ -716,40 +582,23 @@ function tableMarkdownToHtml(text){
 
   return out.join('\n');
 }
-
 function toCleanHTML(text){
   const prepared = tableMarkdownToHtml(text);
   const lines = prepared.split('\n');
   let html = '';
   let inList = false;
 
-  const closeList = () => {
-    if(inList){
-      html += '</ul>';
-      inList = false;
-    }
-  };
+  const closeList = () => { if(inList){ html += '</ul>'; inList=false; } };
 
   for(const rawLine of lines){
     const line = rawLine.trim();
 
-    if(!line){
-      closeList();
-      html += '<p></p>';
-      continue;
-    }
+    if(!line){ closeList(); html += '<p></p>'; continue; }
 
-    if(line.startsWith('<table>')){
-      closeList();
-      html += line;
-      continue;
-    }
+    if(line.startsWith('<table>')){ closeList(); html += line; continue; }
 
     if(/^[-•]\s+/.test(line)){
-      if(!inList){
-        html += '<ul>';
-        inList = true;
-      }
+      if(!inList){ html += '<ul>'; inList=true; }
       html += `<li>${escapeHTML(line.replace(/^[-•]\s+/,''))}</li>`;
       continue;
     }
@@ -758,11 +607,6 @@ function toCleanHTML(text){
 
     if(line.length <= 80 && /:\s*$/.test(line)){
       html += `<h3>${escapeHTML(line.replace(/:\s*$/,''))}</h3>`;
-      continue;
-    }
-
-    if(/^[0-9۰-۹]+\./.test(line)){
-      html += `<h4>${escapeHTML(line)}</h4>`;
       continue;
     }
 
@@ -777,23 +621,22 @@ function toCleanHTML(text){
   closeList();
   return html;
 }
-
 function renderMath(container){
   if(!window.renderMathInElement) return;
   try{
-    renderMathInElement(container,{
-      delimiters:[
-        {left:"$$",right:"$$",display:true},
-        {left:"$",right:"$",display:false},
-        {left:"\\(",right:"\\)",display:false},
-        {left:"\\[",right:"\\]",display:true}
+    renderMathInElement(container, {
+      delimiters: [
+        {left:"$$", right:"$$", display:true},
+        {left:"$", right:"$", display:false},
+        {left:"\\(", right:"\\)", display:false},
+        {left:"\\[", right:"\\]", display:true}
       ],
       throwOnError:false
     });
-  }catch(e){}
+  } catch(e){}
 }
 
-/* ارتباط با هوش مصنوعی - حفظ شده */
+/* ✅ (اتصال AI) همان کد خودت، بدون قطع شدن */
 async function requestAI(promptText, imageData) {
   const fullPrompt = `${promptText}${imageData ? '\n[کاربر تصویری از سوال نیز بارگذاری کرده است]' : ''}`;
   const encoded = encodeURIComponent(fullPrompt);
@@ -816,7 +659,9 @@ async function requestAI(promptText, imageData) {
           return text;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn(`Tunnel ${i + 1} failed, trying next...`);
+    }
   }
 
   const postRes = await fetch('https://text.pollinations.ai/', {
@@ -827,13 +672,12 @@ async function requestAI(promptText, imageData) {
       model: 'openai'
     })
   });
-
   if (postRes.ok) return await postRes.text();
 
   throw new Error('عدم دریافت پاسخ از شبکه. در صورت فعال بودن فیلترشکن، سرور آن را تغییر دهید.');
 }
 
-/* ارسال */
+/* ارسال پرسش (فقط خروجی را پاکسازی+رندر می‌کنیم) */
 byId('send').onclick = async () => {
   const question = byId('prompt').value.trim();
   if (!question && !imageData) {
@@ -849,21 +693,20 @@ byId('send').onclick = async () => {
 
   try {
     const sysPrompt = makeSystemPrompt(byId('level').value);
-    const userPrompt = question || 'لطفاً مسئله مطرح شده را تحلیل و حل نمایید.';
-    const combined = `${sysPrompt}\n\nسوال کاربر:\n${userPrompt}`;
+    const combined = `${sysPrompt}\n\nسوال کاربر:\n${question || 'لطفاً مسئله مطرح شده را تحلیل و حل نمایید.'}`;
 
-    const rawAnswer = await requestAI(combined, imageData);
-    const clean = sanitizeAndCleanText(rawAnswer);
-    const html = toCleanHTML(clean || 'اطلاعات کافی نیست.');
+    const raw = await requestAI(combined, imageData);
+
+    const clean = sanitizeAndCleanText(raw);
+    const html = toCleanHTML(clean);
 
     byId('result').innerHTML = html;
     renderMath(byId('result'));
 
     setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
 
-    if (byId('speechToggle').checked) {
-      speakAnswer();
-    }
+    if (byId('speechToggle').checked) speakAnswer();
+
   } catch (err) {
     setStatus('خطا: ' + (err.message || 'خطای شبکه.'), 'error');
     byId('result').textContent = 'در برقراری ارتباط مشکلی به وجود آمد. لطفاً اتصال اینترنت را بررسی و مجدداً کلیک کنید.';
@@ -873,6 +716,7 @@ byId('send').onclick = async () => {
   }
 };
 
+/* ابزارهای کمکی */
 byId('clear').onclick = () => {
   byId('prompt').value = '';
   byId('result').textContent = 'پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.';
@@ -896,5 +740,4 @@ function speakAnswer() {
   }
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(byId('result').innerText);
-  u.lang = 'fa-IR';
-  sp
+  u.lang = 'fa-
