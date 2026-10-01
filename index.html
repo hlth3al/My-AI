@@ -2,125 +2,243 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home-AI | خونه هوش مصنوعی برلیان لعلیان</title>
     <style>
         :root {
-            --bg: #0b1120; --panel: #17243a; --gold: #f4c66a; --ink: #eef4ff;
-            --accent: #38bdf8; --red: #ff5263;
+            --bg: #0b1120;
+            --panel: #17243a;
+            --panel-hover: #1f314f;
+            --gold: #f4c66a;
+            --gold-glow: rgba(244, 198, 106, 0.4);
+            --ink: #eef4ff;
+            --accent: #38bdf8;
+            --red: #ff5263;
         }
-        * { box-sizing: border-box; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background: var(--bg); color: var(--ink); font-family: Tahoma, sans-serif;
-            margin: 0; padding: 20px; line-height: 1.8; text-align: center;
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: Tahoma, 'Vazirmatn', sans-serif;
+            padding: 20px 12px;
+            line-height: 1.9;
+            text-align: center;
         }
-        .container { max-width: 900px; margin: auto; }
-        
-        /* افکت‌های بنری و کادرها */
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* ساختار کادرها و افکت نرم بزرگ و کوچک شدن */
         .card, .pkg-item, .btn, textarea {
-            background: var(--panel); border: 2px solid #2a3a5a;
-            border-radius: 15px; padding: 20px; margin-bottom: 20px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative; overflow: hidden;
+            background: var(--panel);
+            border: 2px solid #283a5c;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 22px;
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+            position: relative;
         }
 
-        /* افکت ویبره، بوق و بزرگ‌نمایی */
-        .card:active, .pkg-item:active, .btn:active {
-            transform: scale(0.95);
-            filter: brightness(1.2);
-        }
-        
-        .interactive-fx:hover {
-            border-color: var(--gold);
-            box-shadow: 0 0 20px rgba(244, 198, 106, 0.4);
+        /* فقط بزرگ و کوچک شدن بدون هیچ لرزش */
+        .zoom-box:hover {
             transform: scale(1.02);
-            animation: soft-vibrate 0.2s linear infinite;
+            border-color: var(--gold);
+            box-shadow: 0 8px 24px var(--gold-glow);
         }
 
-        @keyframes soft-vibrate {
-            0% { transform: translate(1px, 1px) rotate(0deg) scale(1.02); }
-            50% { transform: translate(-1px, -1px) rotate(0.2deg) scale(1.02); }
-            100% { transform: translate(1px, 1px) rotate(0deg) scale(1.02); }
+        .zoom-box:active, .btn:active, .pkg-item:active {
+            transform: scale(0.97);
         }
 
-        .banner-main { border: 3px solid var(--gold); background: linear-gradient(145deg, #1e293b, #0f172a); }
-        .banner-main h1 { font-size: 2.5rem; color: var(--gold); margin: 10px 0; }
-        
-        /* بخش بسته‌ها */
-        .grid-pkgs { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .pkg-item { cursor: pointer; border: 1px solid var(--gold); text-align: right; }
-        .pkg-item h3 { color: var(--gold); margin-top: 0; }
-        .pkg-item.selected { background: rgba(244, 198, 106, 0.15); border-width: 3px; }
+        .banner-main {
+            border: 3px solid var(--gold);
+            background: linear-gradient(145deg, #1b2840, #0f182b);
+        }
 
-        /* بخش هوش مصنوعی */
-        textarea { width: 100%; height: 120px; color: var(--ink); font-size: 1rem; border-color: var(--accent); }
-        .btn { cursor: pointer; font-weight: bold; font-size: 1.1rem; border: none; }
-        .btn-send { background: var(--gold); color: var(--bg); width: 100%; }
-        .btn-copy { background: #334155; color: white; margin-top: 10px; width: auto; display: inline-block; padding: 10px 20px; }
-        
+        .banner-main h1 {
+            font-size: 2.3rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .banner-main h2 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        /* بسته‌های اعتباری */
+        .grid-pkgs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 15px;
+        }
+
+        .pkg-item {
+            cursor: pointer;
+            text-align: right;
+            border: 1.5px solid #334d77;
+            padding: 18px;
+            margin-bottom: 0;
+        }
+
+        .pkg-item h3 {
+            color: var(--gold);
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .pkg-item.selected {
+            border-color: var(--gold);
+            background: #243555;
+            box-shadow: 0 0 18px var(--gold-glow);
+            transform: scale(1.03);
+        }
+
+        /* بخش ورودی و فرم هوش مصنوعی */
+        textarea {
+            width: 100%;
+            height: 130px;
+            color: var(--ink);
+            background: #0d1728;
+            border: 1.5px solid var(--accent);
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 1rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus {
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            border-color: #60a5fa;
+        }
+
+        .btn {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            border: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-send {
+            background: var(--gold);
+            color: #0b1120;
+            width: 100%;
+            padding: 14px;
+            margin-top: 8px;
+            font-size: 1.1rem;
+        }
+
+        .btn-secondary {
+            background: #334460;
+            color: #e2e8f0;
+            padding: 10px 18px;
+            margin: 6px 4px;
+            border-radius: 10px;
+        }
+
         #result-box {
-            min-height: 150px; background: #050914; border: 1px dashed var(--accent);
-            padding: 15px; border-radius: 10px; text-align: right; white-space: pre-wrap;
+            min-height: 150px;
+            background: #070d18;
+            border: 1.5px dashed var(--accent);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: right;
+            white-space: pre-wrap;
+            margin-top: 12px;
+            line-height: 1.9;
         }
-        
-        .footer-note { font-size: 0.8rem; color: var(--red); border-top: 1px solid #334155; padding-top: 20px; }
+
+        .status-badge {
+            display: inline-block;
+            background: #14532d;
+            color: #86efac;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .footer-note {
+            font-size: 0.85rem;
+            color: var(--red);
+            border-top: 1px solid #23344e;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <section class="card banner-main interactive-fx">
+
+    <section class="card banner-main zoom-box">
         <h1>Home-AI</h1>
         <h2>خانه هوش مصنوعی برلیان لعلیان</h2>
         <p>یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر توسط خانه هوش مصنوعی برلیان لعلیان</p>
     </section>
 
-    <section class="card interactive-fx">
+    <section class="card zoom-box">
         <p>بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خانه توسط خونه هوش مصنوعی برلیان لعلیان</p>
         <p><strong>دستیار هوشمند شماست این خانه هوش مصنوعی برلیان لعلیان</strong></p>
-        <hr>
+        <hr style="border:0; border-top: 1px solid #283a5c; margin: 15px 0;">
         <p>شرکت صنایع پردرآمد تهرانیها با مدیریت علمی <strong>حسین لعلیان رتبه ۳۲ کنکور دکتری</strong> و همچنین مفتخر به تحصیل در ۶ دانشکده میباشند (شیلات-شیمی-زبان-مدیریت-مهندسی آی تی-مهندسی صنایع)</p>
-        <p style="color: var(--accent)">صحت موضوع را از وزارت علوم جویا شوید!</p>
+        <p style="color: var(--accent); font-weight: bold;">صحت موضوع را از وزارت علوم جویا شوید!</p>
         <p>این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور</p>
     </section>
 
-    <section class="card interactive-fx" id="ai-section">
-        <h3 style="color:var(--gold)">شروع حل سوالات با هوش مصنوعی ←</h3>
-        <p>ورودی سوال دانش‌آموز / مبحث درس یا تمرین</p>
-        <textarea id="userInput" placeholder="متن سوال مدرسه، دانشگاه و موسسه کنکور، تمرین، تست یا امتحان خود را اینجا بنویسید تا در خانه هوش مصنوعی برلیان لعلیان بطور کامل حل شود..."></textarea>
-        <button class="btn btn-send" id="sendBtn">ارسال و دریافت پاسخ هوشمند</button>
-        <button class="btn" style="background:#4b5563; margin-top:5px;" onclick="document.getElementById('userInput').value=''; playBeep();">پاک کردن فرم</button>
+    <section class="card zoom-box" id="ai-section">
+        <span class="status-badge">متصل به موتور پردازش گپ‌جی‌پی‌تی (GapGPT Engine)</span>
+        <h3 style="color:var(--gold); margin-bottom: 8px;">شروع حل سوالات با هوش مصنوعی ←</h3>
+        <p style="margin-bottom: 12px;">ورودی سوال دانش‌آموز / مبحث درس یا تمرین</p>
         
-        <div style="margin-top:20px; text-align:right;">
-            <h4 style="color:var(--accent)">پاسخ تشریحی، فرمول‌ها و تحلیل هوش مصنوعی:</h4>
+        <textarea id="userInput" placeholder="متن سوال مدرسه، دانشگاه و موسسه کنکور، تمرین، تست یا امتحان خود را اینجا بنویسید تا در خانه هوش مصنوعی برلیان لعلیان بطور کامل حل شود..."></textarea>
+        
+        <button class="btn btn-send" id="sendBtn">ارسال و دریافت پاسخ هوشمند</button>
+        <button class="btn btn-secondary" id="clearBtn">پاک کردن فرم</button>
+
+        <div style="margin-top:22px; text-align:right;">
+            <h4 style="color:var(--accent); margin-bottom: 6px;">پاسخ تشریحی، فرمول‌ها و تحلیل هوش مصنوعی:</h4>
             <div id="result-box">پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.</div>
-            <button class="btn btn-copy" onclick="copyText('result-box')">📋 کپی کردن پاسخ</button>
-            <button class="btn btn-copy" style="background:#0891b2" onclick="speakResult()">🔊 خواندن صوتی پاسخ</button>
+            <button class="btn btn-secondary" onclick="copyContent('result-box')">📋 کپی کردن پاسخ</button>
+            <button class="btn btn-secondary" style="background:#0284c7;" onclick="readOutLoud()">🔊 خواندن صوتی پاسخ</button>
         </div>
     </section>
 
-    <section class="card interactive-fx">
+    <section class="card zoom-box">
         <h3 style="color:var(--gold)">روش خرید بسته و پرداخت آفلاین</h3>
         <p>لطفاً یکی از بسته‌های اعتباری زیر را انتخاب فرمایید و پس از واریز به شماره کارت، تصویر فیش را جهت فعال‌سازی به ایمیل ارسال نمایید:</p>
-        
+
         <div class="grid-pkgs">
-            <div class="pkg-item" onclick="selectPkg(this)"><h3>بسته ۵ میلیون تومانی</h3><p>دسترسی آموزشی و حل سوالات پایه</p></div>
-            <div class="pkg-item" onclick="selectPkg(this)"><h3>بسته ۱۰ میلیون تومانی</h3><p>تحلیل تشریحی تمرینات و تکالیف</p></div>
-            <div class="pkg-item" onclick="selectPkg(this)"><h3>بسته ۲۰ میلیون تومانی</h3><p>پشتیبانی تخصصی دروس متوسطه و تست</p></div>
-            <div class="pkg-item" onclick="selectPkg(this)"><h3>بسته ۵۰ میلیون تومانی</h3><p>حل پیشرفته و آمادگی امتحانات کتبی و شفاهی</p></div>
-            <div class="pkg-item" onclick="selectPkg(this)"><h3>بسته ۱۰۰ میلیون تومانی</h3><p>پکیج جامع کنکور و مقاطع دانشگاهی</p></div>
-            <div class="pkg-item" onclick="selectPkg(this)"><h3>بسته ۱۵۰ میلیون تومانی</h3><p>مشاوره، آنالیز تله‌های تستی و تدریس کامل</p></div>
-            <div class="pkg-item" onclick="selectPkg(this)"><h3>بسته ۲۰۰ میلیون تومانی</h3><p>پلتفرم اختصاصی آموزش و حل مسئله نامحدود</p></div>
-            <div class="pkg-item" onclick="selectPkg(this)"><h3>بسته ۲۵۰ میلیون تومانی</h3><p>پکیج طلایی دکتری، ارشد و المپیادها</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۵ میلیون تومانی</h3><p>دسترسی آموزشی و حل سوالات پایه</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۱۰ میلیون تومانی</h3><p>تحلیل تشریحی تمرینات و تکالیف</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۲۰ میلیون تومانی</h3><p>پشتیبانی تخصصی دروس متوسطه و تست</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۵۰ میلیون تومانی</h3><p>حل پیشرفته و آمادگی امتحانات کتبی و شفاهی</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۱۰۰ میلیون تومانی</h3><p>پکیج جامع کنکور و مقاطع دانشگاهی</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۱۵۰ میلیون تومانی</h3><p>مشاوره، آنالیز تله‌های تستی و تدریس کامل</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۲۰۰ میلیون تومانی</h3><p>پلتفرم اختصاصی آموزش و حل مسئله نامحدود</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۲۵۰ میلیون تومانی</h3><p>پکیج طلایی دکتری، ارشد و المپیادها</p></div>
         </div>
 
-        <div style="margin-top:30px; padding:20px; border:2px dashed var(--gold); border-radius:10px;">
+        <div style="margin-top:25px; padding:20px; border:2px dashed var(--gold); border-radius:14px; background: rgba(0,0,0,0.25);">
             <p>شماره کارت بانکی (بانک ملی - به نام حسین لعلیان)</p>
-            <h2 id="card-num" style="letter-spacing: 2px;">6037991555549678</h2>
-            <button class="btn btn-copy" onclick="copyText('card-num')">کپی کردن شماره کارت</button>
+            <h2 id="card-num" style="letter-spacing: 3px; color: var(--gold); margin: 8px 0;">6037991555549678</h2>
+            <button class="btn btn-secondary" onclick="copyContent('card-num')">کپی کردن شماره کارت</button>
+
             <p style="margin-top:20px;">ایمیل پشتیبانی و ارسال فیش واریزی</p>
-            <strong id="email-addr">Ai.Algorithms.Ballistics@gmail.com</strong><br>
-            <button class="btn btn-copy" onclick="copyText('email-addr')">کپی کردن ایمیل پشتیبانی</button>
+            <strong id="email-addr" style="direction:ltr; display:inline-block; font-size:1.1rem; color:var(--accent);">Ai.Algorithms.Ballistics@gmail.com</strong><br>
+            <button class="btn btn-secondary" onclick="copyContent('email-addr')">کپی کردن ایمیل پشتیبانی</button>
         </div>
     </section>
 
@@ -128,114 +246,137 @@
         <p>خانه هوش مصنوعی برلیان لعلیان (Home-AI)</p>
         <p><strong>اخطار امنیتی:</strong> هر گونه کپی برداری غیرقانونی و سوء استفاده از این پلتفرم دارایی فکری شرکت صنایع پردرآمد تهرانیها پیگرد قانونی دارد!</p>
     </footer>
+
 </div>
 
 <script>
-    // تنظیمات هوش مصنوعی (کلید خود را اینجا قرار دهید)
-    const API_KEY = 'sk-bW23XTrVaoc5Z3UpNJEcj1fM2oiGjrXI9JnPNvk14zoy0PlW';
+    /* ============================================================
+       تنظیمات اختصاصی سرور پنل GapGPT
+       کلید دریافتی از پنل توسعه‌دهندگان گپ‌جی‌پی‌تی را جایگزین کنید:
+       ============================================================ */
+    const GAPGPT_API_KEY = "GAPGPTMASKTOKENd96paa7vyspX0X";
+    const GAPGPT_ENDPOINT = "https://api.gapgpt.app/v1/chat/completions";
+    const MODEL_NAME = "gpt-4o"; // یا مدل‌های دیگر موجود در پنل شما مانند gpt-3.5-turbo
 
-    // سیستم صوتی (Beep)
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playBeep() {
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.3);
+    // صدای بیپ هنگام لمس یا کلیک
+    let audioContext = null;
+    function playBeepSound() {
+        try {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(520, audioContext.currentTime);
+            gain.gain.setValueAtTime(0.08, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.start();
+            osc.stop(audioContext.currentTime + 0.15);
+        } catch (e) {}
     }
 
-    // تعامل با عناصر
-    document.querySelectorAll('.interactive-fx, button, .pkg-item').forEach(el => {
-        el.addEventListener('click', playBeep);
+    // پخش صدا روی همه دکمه‌ها و کادرها
+    document.querySelectorAll('.zoom-box, .btn, .pkg-item').forEach(el => {
+        el.addEventListener('click', playBeepSound);
     });
 
-    function selectPkg(el) {
-        document.querySelectorAll('.pkg-item').forEach(p => p.classList.remove('selected'));
-        el.classList.add('selected');
+    // انتخاب بسته با افکت نرم
+    function pickPackage(element) {
+        document.querySelectorAll('.pkg-item').forEach(item => item.classList.remove('selected'));
+        element.classList.add('selected');
     }
 
-    function copyText(id) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
-        alert('کپی شد!');
+    // کپی کردن مقادیر
+    function copyContent(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('متن با موفقیت کپی شد: ' + text);
+        }).catch(() => {
+            alert('خطا در کپی! متن را دستی انتخاب کنید.');
+        });
     }
 
-    function speakResult() {
+    // خواندن صوتی متن پاسخ
+    function readOutLoud() {
         const text = document.getElementById('result-box').innerText;
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.lang = 'fa-IR';
-        window.speechSynthesis.speak(msg);
+        if (!text || text.includes('پاسخ گام‌به‌گام')) return;
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fa-IR';
+            window.speechSynthesis.speak(utterance);
+        }
     }
 
-    // اتصال به هوش مصنوعی (GapGPT / OpenAI compatible)
+    // پاکسازی فرم
+    document.getElementById('clearBtn').onclick = () => {
+        document.getElementById('userInput').value = '';
+    };
+
+    // ارتباط با سرور پنل GapGPT
     document.getElementById('sendBtn').onclick = async () => {
-        const prompt = document.getElementById('userInput').value;
+        const userInput = document.getElementById('userInput').value.trim();
         const resultBox = document.getElementById('result-box');
-        if (!prompt) return alert('لطفاً سوال را وارد کنید.');
 
-        resultBox.innerText = 'در حال تحلیل در خانه هوش مصنوعی برلیان لعلیان... لطفاً شکیبا باشید.';
-        
+        if (!userInput) {
+            alert('لطفاً ابتدا صورت سوال یا مبحث خود را بنویسید.');
+            return;
+        }
+
+        if (GAPGPT_API_KEY.includes('YOUR_GAPGPT_KEY_HERE')) {
+            alert('لطفاً ابتدا کلید معتبر دریافتی از پنل GapGPT را در متغیر GAPGPT_API_KEY قرار دهید.');
+            return;
+        }
+
+        resultBox.innerText = 'در حال ارسال به سرور گپ‌جی‌پی‌تی و تحلیل در خانه هوش مصنوعی برلیان لعلیان... لطفاً شکیبا باشید.';
+
         try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
+            const response = await fetch(GAPGPT_ENDPOINT, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-
-    }
-
-    // تعامل با عناصر
-    document.querySelectorAll('.interactive-fx, button, .pkg-item').forEach(el => {
-        el.addEventListener('click', playBeep);
-    });
-
-    function selectPkg(el) {
-        document.querySelectorAll('.pkg-item').forEach(p => p.classList.remove('selected'));
-        el.classList.add('selected');
-    }
-
-    function copyText(id) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
-        alert('کپی شد!');
-    }
-
-    function speakResult() {
-        const text = document.getElementById('result-box').innerText;
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.lang = 'fa-IR';
-        window.speechSynthesis.speak(msg);
-    }
-
-    // اتصال به هوش مصنوعی (GapGPT / OpenAI compatible)
-    document.getElementById('sendBtn').onclick = async () => {
-        const prompt = document.getElementById('userInput').value;
-        const resultBox = document.getElementById('result-box');
-        if (!prompt) return alert('لطفاً سوال را وارد کنید.');
-
-        resultBox.innerText = 'در حال تحلیل در خانه هوش مصنوعی برلیان لعلیان... لطفاً شکیبا باشید.';
-        
-        try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${GAPGPT_API_KEY}`
                 },
                 body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
-                    messages: [{role: "user", content: prompt}]
+                    model: MODEL_NAME,
+                    messages: [
+                        {
+                            role: "system",
+                            content: "شما هسته هوشمند خانه هوش مصنوعی برلیان لعلیان (شرکت صنایع پردرآمد تهرانیها) هستید. سوالات درسی، کنکور، تست و تکالیف را به طور کامل، دقیق، تشریحی و با اخلاق آموزشی و انگیزشی پاسخ دهید."
+                        },
+                        {
+                            role: "user",
+                            content: userInput
+                        }
+                    ],
+                    temperature: 0.7
                 })
             });
 
-            if (!response.ok) throw new Error('خطای سرور (۵۰۳ یا عدم اعتبار کلید)');
-            
+            if (!response.ok) {
+                const errData = await response.json().catch(() => null);
+                const errMsg = errData?.error?.message || `کد خطا: ${response.status}`;
+                throw new Error(errMsg);
+            }
+
             const data = await response.json();
-            resultBox.innerText = data.choices[0].message.content;
-        } catch (err) {
-            resultBox.innerText = 'متاسفانه سرویس
+            if (data.choices && data.choices.length > 0) {
+                resultBox.innerText = data.choices[0].message.content;
+            } else {
+                resultBox.innerText = 'پاسخی از سرور دریافت نشد.';
+            }
+
+        } catch (error) {
+            resultBox.innerText = `خطا در برقراری ارتباط با سرور گپ‌جی‌پی‌تی:\n${error.message}\n(بررسی فرمایید: اتصال اینترنت، صحت کلید API و موجودی اعتبار پنل)`;
+        }
+    };
+</script>
+
+</body>
+</html>
