@@ -6,6 +6,12 @@
 <meta name="theme-color" content="#101827">
 <meta name="description" content="کلاس هوش مصنوعی من؛ پلتفرم دستیار آموزش، تحلیل و یادگیری در همه مقاطع">
 <title>کلاس هوش مصنوعی من | My AI Class</title>
+
+<!-- بارگذاری کتابخانه رندر فرمول‌های ریاضی و فیزیک KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
 <style>
 :root{--bg:#0b1120;--panel:#121c2e;--panel2:#17243a;--ink:#eef4ff;--muted:#a8b5ca;--line:#293852;--red:#ff5263;--gold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005}
 *{box-sizing:border-box}
@@ -55,7 +61,17 @@ textarea{height:140px;resize:vertical}
 .status{font-size:.88rem;margin:10px 0 0;min-height:22px}
 .status.error{color:var(--red)}
 .status.ok{color:var(--teal)}
-.result{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;min-height:200px;max-height:480px;overflow-y:auto;white-space:pre-wrap;line-height:1.9;font-size:.95rem}
+
+/* بخش رندر اختصاصی نتایج و فرمول‌ها */
+.result{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px;min-height:200px;max-height:520px;overflow-y:auto;line-height:2;font-size:.96rem}
+.result h3{color:var(--gold);margin:14px 0 6px;font-size:1.15rem;border-bottom:1px dashed var(--line);padding-bottom:4px}
+.result h4{color:var(--teal);margin:10px 0 4px;font-size:1.02rem}
+.result p{margin:6px 0}
+.result ul, .result ol{padding-right:22px;margin:6px 0}
+.result li{margin-bottom:4px}
+.result code{background:#1a273e;padding:2px 6px;border-radius:4px;font-family:Consolas,monospace;color:var(--teal);direction:ltr;display:inline-block}
+.result .katex-display{margin:12px 0;overflow-x:auto;overflow-y:hidden;padding:6px 0;direction:ltr}
+
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 details.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;transition:.2s}
 details.card[open]{border-color:var(--teal)}
@@ -95,25 +111,25 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 <main>
 <section class="wrap hero" id="home">
   <div>
-    <div class="eyebrow">یادگیری، تحلیل و پیشرفت؛ در یک همراه آموزشی</div>
+    <div class="eyebrow">پلتفرم جامع آموزش، تحلیل و یادگیری هوشمند</div>
     <h1>کلاس هوش مصنوعی من<span>My AI Class Platform</span></h1>
-    <p class="lead"><b>شرکت پردرآمد تهرانیها</b> با مدیریت <b>حسین لعلیان</b>، رتبه ۳۲ کنکور دکتری. این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور.</p>
+    <p class="lead"><b>شرکت پردرآمد تهرانیها</b> با مدیریت <b>حسین لعلیان</b> (رتبه ۳۲ کنکور دکتری). همراه تخصصی دانش‌آموزان، دانشجویان و داوطلبان کنکور در حل مسائل، آموزش مفهومی و تحلیل علمی.</p>
     <div class="actions">
       <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
-      <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
+      <a class="btn" href="#services">مشاهده ابزارها و خدمات</a>
     </div>
-    <p class="small">سامانه کاملاً رایگان، بدون نیاز به ثبت‌نام و بدون نیاز به کلید API.</p>
+    <p class="small">اتصال کاملاً رایگان، بدون نیاز به ثبت‌نام و بدون نیاز به کلید API.</p>
   </div>
   <aside class="hero-card">
-    <strong>پشتیبان یادگیری شما</strong>
+    <strong>امکانات پردازشی سامانه</strong>
     <ul>
-      <li>تدریس، حل تمرین و تحلیل گام‌به‌گام</li>
-      <li>مدرسه، کنکور، کارشناسی تا دکتری تخصصی</li>
-      <li>کار با تصویر پرسش و مسائل چندرسانه‌ای</li>
-      <li>اتصال بهینه، ضد اختلال و بدون کلید</li>
+      <li>حل گام‌به‌گام با رندر فرمول‌های ریاضی و فیزیک</li>
+      <li>تشخیص مسائل عربی، معارف، آیات و احادیث</li>
+      <li>پوشش دروس از دبستان تا دکتری تخصصی</li>
+      <li>پاسخ‌دهی پیوسته با ساختار پالایش‌شده</li>
     </ul>
-    <span class="pill">آموزش حضوری و مجازی</span>
-    <span class="pill">یادگیری و ارزیابی هوشمند</span>
+    <span class="pill">فرمول‌نویسی لاتک</span>
+    <span class="pill">آموزش تشریحی و تستی</span>
   </aside>
 </section>
 
@@ -121,20 +137,20 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
   <div class="section-head">
     <div>
       <h2>دستیار هوشمند کلاس هوش مصنوعی من</h2>
-      <p>پرسش خود را بنویسید، سطح و مدل را انتخاب کنید و پاسخ را بلادرنگ دریافت کنید.</p>
+      <p>پرسش، تست، فرمول یا موضوع درسی خود را مطرح کنید.</p>
     </div>
-    <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن پاسخ با صدا</label>
+    <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن صوتی پاسخ</label>
   </div>
 
   <div class="workspace">
     <div class="box">
       <div class="row">
         <div>
-          <label class="field" for="model">مدل هوش مصنوعی (رایگان)</label>
+          <label class="field" for="model">مدل پردازشگر هوشمند</label>
           <select id="model">
-            <option value="gpt-4o-mini" selected>gpt-4o-mini (سریع و استاندارد)</option>
-            <option value="gpt-4o">gpt-4o (جامع و استدلالی)</option>
-            <option value="claude">Claude Sonnet (تشریحی و علمی)</option>
+            <option value="openai" selected>OpenAI GPT-4o (بهینه‌شده)</option>
+            <option value="qwen-coder">Qwen Deep (محاسباتی و فرمولی)</option>
+            <option value="mistral">Mistral Large (علمی و زبانی)</option>
           </select>
         </div>
         <div>
@@ -143,82 +159,72 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
         </div>
       </div>
 
-      <label class="field" for="prompt">ورودی پرسش / متن درس یا تمرین</label>
-      <textarea id="prompt" placeholder="سوال، تمرین یا موضوع موردنظر را اینجا بنویسید…"></textarea>
+      <label class="field" for="prompt">متن پرسش / مسئله / فرمول / سوال کنکور</label>
+      <textarea id="prompt" placeholder="پرسش یا مسئله خود را بنویسید (مثال: أمن یجیب المضطر در چه سوره‌ای است؟ یا حل معادله حرکت f=ma)..."></textarea>
 
       <div class="fileline">
-        <label class="btn" for="image">📎 انتخاب عکس مسئله / سوال</label>
+        <label class="btn" for="image">📎 انتخاب تصویر سوال</label>
         <input id="image" type="file" accept="image/*">
-        <button class="btn" id="removeImage" type="button">حذف عکس</button>
+        <button class="btn" id="removeImage" type="button">حذف تصویر</button>
         <img id="preview" class="preview" alt="پیش‌نمایش تصویر">
       </div>
 
       <div class="actions">
-        <button class="btn primary" id="send" type="button">دریافت پاسخ هوشمند <span class="spinner"></span></button>
-        <button class="btn" id="clear" type="button">پاک کردن فرم</button>
+        <button class="btn primary" id="send" type="button">ارسال و تحلیل هوشمند <span class="spinner"></span></button>
+        <button class="btn" id="clear" type="button">پاک کردن</button>
       </div>
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </div>
 
     <div class="box">
       <div class="section-head">
-        <h3>نتایج و پاسخ تشریحی</h3>
+        <h3>پاسخ تشریحی و ساختاریافته</h3>
         <div class="actions" style="margin:0">
-          <button class="btn" id="copy" type="button">کپی کردن پاسخ</button>
-          <button class="btn" id="saveAudio" type="button">ذخیره صوتی</button>
+          <button class="btn" id="copy" type="button">کپی پاسخ</button>
         </div>
       </div>
-      <div id="result" class="result" aria-live="polite">پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.</div>
-      <p class="small">پاسخ‌ها توسط موتور هوش مصنوعی با تحلیل مرحله‌به‌مرحله تولید می‌شوند.</p>
-      <audio id="audioPlayer" controls hidden></audio>
+      <div id="result" class="result" aria-live="polite">پاسخ علمی، دقیق و پالایش‌شده پس از ارسال در اینجا نمایش می‌یابد.</div>
+      <p class="small">فرمول‌های ریاضی، فیزیک و نمادهای یونانی به صورت خودکار رندر می‌شوند.</p>
     </div>
   </div>
 </section>
 
 <section class="wrap section" id="faculties">
-  <div class="section-head"><div><h2>شش دانشکده تخصصی</h2><p>حوزه‌های علمی و مهارتی مجموعه</p></div></div>
+  <div class="section-head"><div><h2>دانشکده‌های تخصصی</h2><p>حوزه‌های مهارتی و پژوهشی مجموعه</p></div></div>
   <div class="grid" id="facultyList"></div>
 </section>
 
 <section class="wrap section" id="services">
-  <div class="section-head"><div><h2>خدمات تخصصی و ابزارهای هوشمند</h2><p>روی هر ابزار و مقطع کلیک کنید تا قالب درخواست در ورودی دستیار تنظیم شود.</p></div></div>
+  <div class="section-head"><div><h2>خدمات و ابزارهای تحلیلی</h2><p>انتخاب مستقیم برای اعمال در ورودی دستیار</p></div></div>
   <div class="toolgroups" id="serviceList"></div>
 </section>
 
 <section class="wrap section" id="levels">
-  <div class="section-head"><div><h2>مقاطع و مسیرهای آموزشی</h2><p>از آموزش پایه تا دکتری تخصصی</p></div></div>
+  <div class="section-head"><div><h2>مقاطع آموزشی تحت پوشش</h2><p>از آموزش پایه تا پژوهش‌های عالی</p></div></div>
   <div class="grid" id="levelCards"></div>
 </section>
 
 <section class="wrap section">
-  <div class="section-head"><div><h2>بسته‌های اعتباری کلاس هوش مصنوعی من</h2><p>اعتبار خریداری‌شده بدون تاریخ انقضا محفوظ خواهد بود.</p></div></div>
+  <div class="section-head"><div><h2>بسته‌های حمایتی و اعتباری</h2><p>بدون محدودیت زمانی</p></div></div>
   <div class="packages" id="packages"></div>
 </section>
 
 <section class="wrap section" id="payment">
-  <div class="section-head"><div><h2>روش پرداخت آفلاین و ثبت‌نام</h2><p>واریز مبلغ بسته و ارسال فیش جهت فعال‌سازی</p></div></div>
+  <div class="section-head"><div><h2>روش پرداخت و فعال‌سازی</h2><p>واریز و ارسال اطلاعات فیش</p></div></div>
   <div class="box payment">
-    <p class="notice">به‌دلیل امنیت تبادلات، پرداخت‌ها به‌صورت واریز کارت‌به‌کارت و ارسال شناسه/تصویر رسید به ایمیل پشتیبانی انجام می‌گردد.</p>
+    <p class="notice">واریز به‌صورت کارت‌به‌کارت و ارسال شناسه/عکس فیش به ایمیل پشتیبانی انجام می‌شود.</p>
     <label class="field">شماره کارت بانکی (بانک ملی - به نام حسین لعلیان)</label>
     <div class="cardnum" id="cardNumber">6037991555549678</div>
-    <div class="actions"><button class="btn primary" id="copyCard">کپی کردن شماره کارت</button></div>
-    <label class="field">ایمیل پشتیبانی و ارسال فیش</label>
+    <div class="actions"><button class="btn primary" id="copyCard">کپی شماره کارت</button></div>
+    <label class="field">ایمیل رسمی پشتیبانی</label>
     <p dir="ltr" style="text-align:right;font-weight:bold;color:var(--teal)">Ai.Algorithms.Ballistics@gmail.com</p>
-    <button class="btn" id="copyEmail">کپی کردن آدرس ایمیل</button>
-  </div>
-</section>
-
-<section class="wrap section">
-  <div class="card">
-    <h3>درباره مجموعه و مدیر علمی</h3>
-    <p>شرکت پردرآمد تهرانیها با مدیریت حسین لعلیان (رتبه ۳۲ کنکور دکتری)، ارائه‌دهنده خدمات آموزش هوشمند در زمینه‌های مهندسی شیلات و محیط زیست، شیمی، زبان، مدیریت، فناوری اطلاعات و مهندسی صنایع می‌باشد.</p>
-    <p class="small">تمامی حقوق مادی و معنوی این پلتفرم محفوظ است.</p>
+    <button class="btn" id="copyEmail">کپی ایمیل</button>
   </div>
 </section>
 </main>
 
 <footer class="footer">
-  <div class="wrap">© کلاس هوش مصنوعی من · شرکت پردرآمد تهرانیها · دسترسی سریع و پایدار بدون نیاز به کلید</div>
+  <div class="wrap">© کلاس هوش مصنوعی من · شرکت پردرآمد تهرانیها · مدیریت حسین لعلیان</div>
 </footer>
 
 <script>
@@ -249,15 +255,6 @@ const services = [
   'آموزش تکلیف کتبی و شفاهی','آمادگی امتحان کتبی و شفاهی'
 ];
 
-const extras = [
-  'تدریس کامل دروس مدرسه (اول ابتدایی تا دوازدهم) و دانشگاه در رشته‌ها و گرایش‌های گوناگون',
-  'تحلیل و تشریح فرمول‌ها و اثبات‌ها در سطح مدرسه و دانشگاه',
-  'یادگیری و ارزیابی مجازی',
-  'پلتفرم کلاس درس مدرسه، دانشگاه و موسسه کنکوری مجازی در خانه',
-  'پلتفرم موسسه کنکور مجازی توسط هوش مصنوعی',
-  'پلتفرم دانشگاه مجازی توسط هوش مصنوعی'
-];
-
 const byId = id => document.getElementById(id);
 function el(tag, cls, text) {
   const n = document.createElement(tag);
@@ -281,7 +278,7 @@ function initUI() {
     if(i === 0) d.open = true;
     const s = el('summary', '', name);
     const inside = el('div', 'inside');
-    inside.append(el('p', '', desc), el('p', 'small', 'پشتیبانی آموزشی متناسب با سطح و هدف یادگیری شما.'));
+    inside.append(el('p', '', desc), el('p', 'small', 'پشتیبانی آموزشی متناسب با مقطع تحصیلی شما.'));
     d.append(s, inside);
     fHost.append(d);
   });
@@ -292,15 +289,7 @@ function initUI() {
     if(i === 0) d.open = true;
     const s = el('summary', '', x);
     const b = el('div', 'inside');
-    b.append(el('p', '', `آموزش مفهومی، تدریس، تحلیل پرسش و حل تمرین تخصصی مقطع ${x}.`));
-    d.append(s, b);
-    lHost.append(d);
-  });
-  extras.forEach(x => {
-    const d = el('details', 'card');
-    const s = el('summary', '', x);
-    const b = el('div', 'inside');
-    b.append(el('p', '', 'راهنمایی جامع، تدریس و حل تمرین هوشمند.'));
+    b.append(el('p', '', `آموزش مفهومی، تدریس، تحلیل پرسش و حل تمرین مقطع ${x}.`));
     d.append(s, b);
     lHost.append(d);
   });
@@ -334,7 +323,7 @@ function initUI() {
 
 initUI();
 
-// افکت صوتی کلیک
+// افکت صوتی
 let audioCtx = null;
 function beep() {
   if (!byId('soundToggle').checked) return;
@@ -343,30 +332,25 @@ function beep() {
     if (audioCtx.state === 'suspended') audioCtx.resume();
     const o = audioCtx.createOscillator(), g = audioCtx.createGain();
     o.type = 'sine';
-    o.frequency.value = 620;
-    g.gain.setValueAtTime(.03, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .05);
+    o.frequency.value = 600;
+    g.gain.setValueAtTime(.02, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .04);
     o.connect(g);
     g.connect(audioCtx.destination);
     o.start();
-    o.stop(audioCtx.currentTime + .055);
+    o.stop(audioCtx.currentTime + .045);
   } catch(e) {}
 }
 document.addEventListener('pointerover', e => {
   if (e.target.closest('.btn, details summary, .package')) beep();
 });
 
-// مدیریت آپلود و پیش‌نمایش تصویر
+// مدیریت تصویر
 const fileInput = byId('image');
 let imageData = null;
 fileInput.addEventListener('change', () => {
   const f = fileInput.files[0];
   if (!f) return;
-  if (f.size > 8 * 1024 * 1024) {
-    setStatus('حجم تصویر نباید بیشتر از ۸ مگابایت باشد.', 'error');
-    fileInput.value = '';
-    return;
-  }
   const r = new FileReader();
   r.onload = () => {
     imageData = r.result;
@@ -389,130 +373,28 @@ function setStatus(text, kind = '') {
   n.className = 'status ' + kind;
 }
 
-function makeSystemPrompt(level) {
-  return `نقش: استاد ارشد در سامانه «کلاس هوش مصنوعی من». سطح مخاطب: «${level}».
-دستورالعمل: پاسخ به فارسی روان، تشریحی، مرحله‌به‌مرحله و با بررسی کامل فرمول‌ها و نکات تستی.`;
-}
-
 /* ─────────────────────────────────────────────────────────────
-   🌐 موتور اتصال ضد تحریم و بدون کلید چندکاناله
+   ✨ موتور پالایش و تمیزکاری متن و رندر فرمول و مارک‌داون
    ───────────────────────────────────────────────────────────── */
-async function requestAI(promptText, imageData) {
-  const fullPrompt = `${promptText}${imageData ? '\n[کاربر تصویری از سوال نیز بارگذاری کرده است]' : ''}`;
-  const encoded = encodeURIComponent(fullPrompt);
+function sanitizeAndFormatAIOutput(raw) {
+  if (!raw) return '';
+  let text = raw;
 
-  const endpoints = [
-    `https://text.pollinations.ai/${encoded}?model=openai`,
-    `https://api.allorigins.win/raw?url=${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`,
-    `https://corsproxy.io/?${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`
-  ];
-
-  for (let i = 0; i < endpoints.length; i++) {
+  // ۱. حذف ساختارهای جیسون خام (در صورت بازگشت خطای مدل)
+  if (text.trim().startsWith('{') && text.includes('"reasoning"')) {
     try {
-      const res = await fetch(endpoints[i], {
-        method: 'GET',
-        headers: { 'Accept': 'text/plain, application/json' }
-      });
-      if (res.ok) {
-        const text = await res.text();
-        if (text && text.trim().length > 0 && !text.includes('<!DOCTYPE') && !text.includes('<html')) {
-          return text;
-        }
-      }
-    } catch (e) {
-      console.warn(`Tunnel ${i + 1} failed, trying next...`);
+      const parsed = JSON.parse(text);
+      if (parsed.content) text = parsed.content;
+      else if (parsed.response) text = parsed.response;
+      else if (parsed.text) text = parsed.text;
+      else text = text.replace(/\{"role":.*?"reasoning":".*?"\}/gs, '').replace(/\{.*?\}/gs, '');
+    } catch(e) {
+      text = text.replace(/"role"\s*:\s*"assistant"/g, '')
+                 .replace(/"reasoning"\s*:\s*".*?"/gs, '')
+                 .replace(/"tool_calls"\s*:\s*\[\]/g, '')
+                 .replace(/[{}"]/g, '');
     }
   }
 
-  // تلاش نهایی با متد POST ساده
-  const postRes = await fetch('https://text.pollinations.ai/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      messages: [{ role: 'user', content: fullPrompt }],
-      model: 'openai'
-    })
-  });
-  if (postRes.ok) return await postRes.text();
-
-  throw new Error('عدم دریافت پاسخ از شبکه. در صورت فعال بودن فیلترشکن، سرور آن را تغییر دهید.');
-}
-
-// ارسال پرسش
-byId('send').onclick = async () => {
-  const question = byId('prompt').value.trim();
-  if (!question && !imageData) {
-    return setStatus('لطفاً سوال خود را بنویسید یا عکسی از مسئله انتخاب کنید.', 'error');
-  }
-
-  const btn = byId('send');
-  btn.classList.add('busy');
-  btn.disabled = true;
-  setStatus('در حال ارتباط با سرور و پردازش پاسخ هوشمند…');
-  byId('result').textContent = 'در حال تحلیل مسئله و نگارش پاسخ… لطفاً شکیبا باشید.';
-
-  try {
-    const sysPrompt = makeSystemPrompt(byId('level').value);
-    const combined = `${sysPrompt}\n\nسوال کاربر:\n${question || 'لطفاً مسئله مطرح شده را تحلیل و حل نمایید.'}`;
-    const answer = await requestAI(combined, imageData);
-
-    byId('result').textContent = answer;
-    setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
-
-    if (byId('speechToggle').checked) {
-      speakAnswer();
-    }
-  } catch (err) {
-    setStatus('خطا: ' + (err.message || 'خطای شبکه.'), 'error');
-    byId('result').textContent = 'در برقراری ارتباط مشکلی به وجود آمد. لطفاً اتصال اینترنت را بررسی و مجدداً کلیک کنید.';
-  } finally {
-    btn.classList.remove('busy');
-    btn.disabled = false;
-  }
-};
-
-// ابزارهای کمکی
-byId('clear').onclick = () => {
-  byId('prompt').value = '';
-  byId('result').textContent = 'پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.';
-  setStatus('');
-  byId('removeImage').click();
-};
-
-byId('copy').onclick = async () => {
-  try {
-    await navigator.clipboard.writeText(byId('result').textContent);
-    setStatus('پاسخ با موفقیت در کلیپ‌بورد کپی شد.', 'ok');
-  } catch {
-    setStatus('کپی خودکار انجام نشد؛ متن را انتخاب و کپی کنید.', 'error');
-  }
-};
-
-function speakAnswer() {
-  if (!('speechSynthesis' in window)) {
-    setStatus('مرورگر شما از قابلیت خواندن صوتی پشتیبانی نمی‌کند.', 'error');
-    return;
-  }
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(byId('result').textContent);
-  u.lang = 'fa-IR';
-  speechSynthesis.speak(u);
-}
-
-byId('speechToggle').onchange = () => {
-  if (byId('speechToggle').checked && byId('result').textContent) speakAnswer();
-};
-
-async function copyText(text, label) {
-  try {
-    await navigator.clipboard.writeText(text);
-    setStatus(label + ' کپی شد.', 'ok');
-  } catch {
-    setStatus('کپی انجام نشد.', 'error');
-  }
-}
-byId('copyCard').onclick = () => copyText('6037991555549678', 'شماره کارت');
-byId('copyEmail').onclick = () => copyText('Ai.Algorithms.Ballistics@gmail.com', 'ایمیل');
-</script>
-</body>
-</html>
+  // ۲. حذف تگ‌های تفکر درونی DeepSeek یا مدل‌های مشابه ()
+  text = text.replace(/
