@@ -19,85 +19,77 @@
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
 .wrap{width:min(1160px,calc(100% - 32px));margin:auto}
-.topbar{position:sticky;top:0;z-index:9;background:#0b1120f0;backdrop-filter:blur(14px);padding:6px 0}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:15px}
-.brand{font-weight:1000;color:#fff;text-decoration:none;font-size:1.05rem;padding:8px 12px;border-radius:10px;background:var(--panel2);border:1px solid var(--line)}
-.brand bgold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005;
-  --redNeon:#ff0033;
+
+/* انیمیشن جریان رنگین‌کمانی و تپش (بزرگ و کوچک شدن مداوم) بنر */
+@keyframes rainbowFlow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
-.wrap{width:min(1160px,calc(100% - 32px));margin:auto}
-.topbar{position:sticky;top:0;z-index:9;background:#0b1120f0;backdrop-filter:blur(14px);padding:6px 0}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:15px}
-.brand{font-weight:1000;color:#fff;text-decoration:none;font-size:1.05rem;padding:8px 12px;border-radius:10px;background:var(--panel2);border:1px solid var(--line)}
-.brand b{color:var(--gold)}
-.navlinks{display:flex;gap:10px;flex-wrap:wrap}
-.navlinks a{color:var(--muted);font-size:.92rem;text-decoration:none;padding:6px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line)}
-.toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;background:var(--panel2);border:120px 0 15px;
-  padding: 30px 20px;
-  text-align: center;
-  border-radius: 20px;
-  background: linear-gradient(-45deg, #0b1120, #1e1b4b, #172554, #3b0764, #0b1120);
-  background-size: 400% 400%;
-  animation: rainbowFlow 8s ease infinite, pulseBanner 3s ease-in-out infinite;
-  border: 2px solid rgba(244,198,106,.6);
-  position: relative;
-  overflow: hidden;
-}
-.grand-banner .homeai-pill {
-  display: inline-block;
-  direction: ltr;
-  padding: 6px 24px;
-  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
-  font-weight: 1000;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #22c55e, #38bdf8, #ec4899, #eab308);
-  background-size: 300% 300%;
-  animation: rainbowFlow 4s ease infinite;
-  color: #05070f;
-  box-shadow: 0 0 25px rgba(56,189,248,.8);
-  letter-spacing: 2px;
-  margin-bottom: 12px;
-}
-.grand-banner .banner-title {
-  display: block;
-  font-size: clamp(1.5rem, 4.2vw, 2.7rem);
-  font-weight: 1000;
-  color: #ffffff;
-  text-shadow: 0 0 15px rgba(244,198,106,.8), 0 0 30px rgba(236,72,153,.6);
-  line-height: 1.5;
+@keyframes pulseBanner{
+  0%{transform:scale(1);box-shadow:0 0 25px rgba(255,0,51,.5), 0 0 50px rgba(56,189,248,.3);}
+  50%{transform:scale(1.035);box-shadow:0 0 45px rgba(255,0,51,.9), 0 0 80px rgba(236,72,153,.7);}
+  100%{transform:scale(1);box-shadow:0 0 25px rgba(255,0,51,.5), 0 0 50px rgba(56,189,248,.3);}
 }
 
-/* کادربندی سراسری همه المان‌ها */
-.info-card, .box, .card, details.card, details.tool, .package, .navlinks a, .brand, .toggleline, .btn, textarea, input[type="text"]{
-   clamp(1.4rem, 3.5vw, 2.2rem);
-  font-weight: 1000;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #22c55e, #38bdf8, #ec4899, #eab308);
-  background-size: 300% 300%;
-  animation: rainbowFlow 4s ease infinite;
-  color: #05070f;
-  box-shadow: 0 0 25px rgba(56,189,248,.8);
-  letter-spacing: 2px;
-  margin-bottom: 12px;
+/* بنر اصلی و فوق‌العاده شکیل در بالای صفحه */
+.grand-banner{
+  margin:25px auto 20px;
+  padding:32px 20px;
+  text-align:center;
+  border-radius:24px;
+  background:linear-gradient(-45deg, #0b1120, #1e1b4b, #172554, #3b0764, #0b1120);
+  background-size:400% 400%;
+  animation:rainbowFlow 7s ease infinite, pulseBanner 3.2s ease-in-out infinite;
+  border:2.5px solid rgba(244,198,106,.8);
+  position:relative;
+  overflow:hidden;
 }
-.grand-banner .banner-title {
-  display: block;
-  font-size: clamp(1.5rem, 4.2vw, 2.7rem);
-  font-weight: 1000;
-  color: #ffffff;
-  text-shadow: 0 0 15px rgba(244,198,106,.8), 0 0 30px rgba(236,72,153,.6);
-  line-height: 1.5;
+.grand-banner .homeai-pill{
+  display:inline-block;
+  direction:ltr;
+  padding:8px 30px;
+  font-size:clamp(1.5rem, 4vw, 2.3rem);
+  font-weight:1000;
+  border-radius:999px;
+  background:linear-gradient(135deg, #22c55e, #38bdf8, #ec4899, #eab308);
+  background-size:300% 300%;
+  animation:rainbowFlow 3.5s ease infinite;
+  color:#05070f;
+  box-shadow:0 0 25px rgba(56,189,248,.9);
+  letter-spacing:2px;
+  margin-bottom:14px;
+}
+.grand-banner .banner-title{
+  display:block;
+  font-size:clamp(1.6rem, 4.5vw, 2.8rem);
+  font-weight:1000;
+  color:#ffffff;
+  text-shadow:0 0 16px rgba(244,198,106,.9), 0 0 32px rgba(236,72,153,.7);
+  line-height:1.5;
 }
 
-/* کادربندی سراسری همه المان‌ها */
-.info-card, .box, .card, details.card, details.tool, .package, .navlinks a, .brand, .toggleline, .btn, textarea, input[type="text"]{
+/* کادربندی یکپارچه */
+.info-card, .box, .card, details.card, details.tool, .package, .btn, textarea, input[type="text"]{
   background:linear-gradient(135deg, rgba(56,189,248,.12), rgba(168,85,247,.08), rgba(250,204,21,.06));
-  border:1px solid rgba(148,163,184,.22);
+  border:1px solid rgba(148,163,184,.25);
   border-radius:14px;
-  box-shadow::inline-flex;
-  align-items:center;justify-content:center;gap:8px;font-size:.95rem;cursor:pointer
+  box-shadow:0 8px 32px rgba(0,0,0,.35);
+  backdrop-filter:blur(8px);
+  transition:all .25s ease-in-out;
+}
+.section{margin-bottom:24px}
+.info-card{padding:18px 22px;margin-bottom:16px}
+.eyebrow{color:var(--gold);font-weight:900;font-size:1.1rem;margin:0 0 6px}
+.heroBigCard h1{margin:0;font-size:clamp(1.3rem,2.8vw,1.9rem);line-height:1.8;color:#fff}
+.heroBigLine{color:var(--gold);font-weight:1000;margin-top:8px;font-size:clamp(1.15rem,2.4vw,1.5rem)}
+.lead{font-size:1.05rem;line-height:2.1;margin:0;color:var(--ink)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+.btn{
+  padding:10px 18px;border-radius:10px;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:.95rem;cursor:pointer;color:var(--ink);
 }
 .btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:1000;border:none}
 .btn.busy{opacity:.6;pointer-events:none}
@@ -106,8 +98,8 @@ body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transpare
 .box{padding:20px}
 .field{display:block;font-size:.95rem;color:var(--gold);font-weight:900;margin-bottom:8px}
 textarea,input[type="text"]{
-  width:100%;background:var(--bg);
-  color:var(--ink);padding:10px 12px;outline:none;font-family:inherit
+  width:100%;background:var(--bg);color:var(--ink);padding:10px 12px;
+  outline:none;font-family:inherit;
 }
 textarea{height:200px;resize:vertical}
 
@@ -146,9 +138,9 @@ details.tool{padding:12px 16px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 @media(max-width:900px){.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.grid,.packages{grid-template-columns:1fr}.navlinks{display:none}}
+@media(max-width:560px){.grid,.packages{grid-template-columns:1fr}}
 
-/* انیمیشن لرزش و هاله نئونی فعال */
+/* افکت لرزش و هاله نئونی فعال */
 @keyframes kidShake{
   0%{transform:scale(1.02) translate(0,0)}
   25%{transform:scale(1.05) translate(-2px, 1px)}
@@ -162,9 +154,6 @@ details.tool{padding:12px 16px}
 .btn:hover, .btn:active, .btn:focus, .btn.fx-on,
 textarea:hover, textarea:focus, textarea.fx-on,
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
-.navlinks a:hover, .navlinks a:active, .navlinks a.fx-on,
-.brand:hover, .brand:active, .brand.fx-on,
-.toggleline:hover, .toggleline.fx-on,
 .grand-banner:hover, .grand-banner.fx-on{
   border-color:var(--redNeon) !important;
   box-shadow:0 0 24px rgba(255,0,51,.95), 0 0 50px rgba(255,0,51,.65), inset 0 0 16px rgba(255,0,51,.4) !important;
@@ -175,20 +164,6 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
 </style>
 </head>
 <body>
-
-<header class="topbar">
-  <div class="wrap nav">
-    <a class="brand" href="#home">Home-AI | <b>برلیان لعلیان</b></a>
-    <nav class="navlinks">
-      <a href="#home">صفحه اصلی</a>
-      <a href="#assistant">دستیار هوشمند</a>
-      <a href="#services">ابزارها</a>
-      <a href="#levels">مقاطع تحصیلی</a>
-      <a href="#payment">روش خرید و پرداخت</a>
-    </nav>
-    <label class="toggleline"><input id="soundToggle" type="checkbox" checked> صدای تعاملی و لرزش</label>
-  </div>
-</header>
 
 <main>
 <section class="wrap section" id="home">
@@ -224,7 +199,7 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
   </div>
 </section>
 
-<!-- بخش دستیار هوشمند و حل مسئله -->
+<!-- بخش دستیار هوشمند -->
 <section class="wrap section" id="assistant">
   <div class="workspace">
     <!-- کادر ورودی سوال -->
@@ -397,7 +372,6 @@ initUI();
 
 let audioCtx = null;
 function vibBeep(){
-  if(!byId('soundToggle').checked) return;
   try{
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     if(audioCtx.state === 'suspended') audioCtx.resume();
@@ -412,7 +386,7 @@ function vibBeep(){
   }catch(e){}
 }
 function fxTarget(node){
-  return node && node.closest && node.closest('.grand-banner, .info-card, .box, .card, details.card, details.tool, .package, .btn, textarea, input[type="text"], .navlinks a, .brand, .toggleline');
+  return node && node.closest && node.closest('.grand-banner, .info-card, .box, .card, details.card, details.tool, .package, .btn, textarea, input[type="text"]');
 }
 function fireFX(node){
   const t = fxTarget(node);
@@ -535,7 +509,8 @@ function renderMath(container){
 
 /* اتصال چندمسیره، رایگان و بدون کلید هوش مصنوعی */
 async function requestAI(promptText){
-  const encoded = encodeURIComponent(promptText);
+  const fullPrompt = makeSystemPrompt() + '\n\n' + promptText;
+  const encoded = encodeURIComponent(fullPrompt);
 
   const endpoints = [
     `https://text.pollinations.ai/${encoded}?model=openai`,
@@ -563,7 +538,10 @@ async function requestAI(promptText){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
-        messages:[{role:'user', content: promptText}],
+        messages:[
+          {role:'system', content: makeSystemPrompt()},
+          {role:'user', content: promptText}
+        ],
         model:'openai'
       })
     });
@@ -589,59 +567,55 @@ byId('send').onclick = async () => {
   byId('result').textContent = 'در حال تحلیل مسئله و نگارش پاسخ… لطفاً شکیبا باشید.';
 
   try{
-    const sys = makeSystem [
-    `https://text.pollinations.ai/${encoded}?model=openai`,
-    `https://api.allorigins.win/raw?url=${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`,
-    `https://corsproxy.io/?${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`
-  ];
-
-  for(let i=0; i<endpoints.length; i++){
-    try{
-      const res = await fetch(endpoints[i], {
-        method:'GET',
-        headers:{'Accept':'text/plain, application/json'}
-      });
-      if(res.ok){
-        const text = await res.text();
-        if(text && text.trim().length > 0 && !text.includes('<!DOCTYPE') && !text.includes('<html')) {
-          return text;
-        }
-      }
-    }catch(e){}
+    const rawAnswer = await requestAI(question);
+    const cleaned = sanitizeAndCleanText(rawAnswer);
+    byId('result').innerHTML = toCleanHTML(cleaned);
+    renderMath(byId('result'));
+    setStatus('پاسخ با موفقیت دریافت و فرمول‌ها قالب‌بندی شدند.', 'ok');
+  }catch(err){
+    setStatus(err.message || 'خطا در دریافت پاسخ.', 'error');
+    byId('result').textContent = 'خطا در ارتباط با سرور. لطفاً دوباره تلاش کنید.';
+  }finally{
+    btn.classList.remove('busy'); btn.disabled = false;
   }
+};
 
+byId('clear').onclick = () => {
+  byId('prompt').value = '';
+  byId('result').innerHTML = 'پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.';
+  setStatus('فرم بازنشانی شد.');
+};
+
+byId('copy').onclick = async () => {
+  const t = byId('result').innerText.trim();
+  if(!t) return;
   try{
-    const postRes = await fetch('https://text.pollinations.ai/',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        messages:[{role:'user', content: promptText}],
-        model:'openai'
-      })
-    });
-    if(postRes.ok){
-      const t = await postRes.text();
-      if(t && t.trim().length > 0) return t;
-    }
-  }catch(e){}
+    await navigator.clipboard.writeText(t);
+    setStatus('پاسخ با موفقیت در کلیپ‌بورد کپی شد.', 'ok');
+  }catch(e){
+    setStatus('امکان کپی خودکار فراهم نشد.', 'error');
+  }
+};
 
-  throw new Error('عدم برقراری ارتباط با سرور هوش مصنوعی. لطفاً اینترنت خود را بررسی نمایید.');
-}
-
-byId('send').onclick = async () => {
-  const question = byId('prompt').value.trim();
-  if(!question){
-    setStatus('لطفاً سوال یا مبحث خود را در کادر بالا بنویسید.', 'error');
+byId('saveAudio').onclick = () => {
+  const t = byId('result').innerText.trim();
+  if(!t){
+    setStatus('متنی برای خواندن وجود ندارد.', 'error');
     return;
   }
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    const ut = new SpeechSynthesisUtterance(t);
+    ut.lang = 'fa-IR';
+    window.speechSynthesis.speak(ut);
+    setStatus('در حال خواندن صوتی پاسخ…', 'ok');
+  }else{
+    setStatus('مرورگر شما از قابلیت خواندن صوتی پشتیبانی نمی‌کند.', 'error');
+  }
+};
 
-  const btn = byId('send');
-  btn.classList.add('busy'); btn.disabled = true;
-  setStatus('در حال ارتباط مستقیم با سرور هوش مصنوعی و پردازش پاسخ…');
-  byId('result').textContent = 'در حال تحلیل مسئله و نگارش پاسخ… لطفاً شکیبا باشید.';
-
-  try{
-    const sys = makeSystemtext); setStatus(label + ' کپی شد.', 'ok'); }
+async function copyText(text, label){
+  try{ await navigator.clipboard.writeText(text); setStatus(label + ' کپی شد.', 'ok'); }
   catch{ setStatus('کپی انجام نشد.', 'error'); }
 }
 byId('copyCard').onclick = () => copyText('6037991555549678', 'شماره کارت');
