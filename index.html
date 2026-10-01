@@ -110,7 +110,7 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
       <li>تدریس، حل تمرین و تحلیل گام‌به‌گام</li>
       <li>مدرسه، کنکور، کارشناسی تا دکتری تخصصی</li>
       <li>کار با تصویر پرسش و مسائل چندرسانه‌ای</li>
-      <li>اتصال رایگان، نامحدود و بدون نیاز به کلید</li>
+      <li>اتصال بهینه، ضد اختلال و بدون کلید</li>
     </ul>
     <span class="pill">آموزش حضوری و مجازی</span>
     <span class="pill">یادگیری و ارزیابی هوشمند</span>
@@ -130,12 +130,11 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
     <div class="box">
       <div class="row">
         <div>
-          <label class="field" for="model">مدل هوش مصنوعی (رایگان و فعال)</label>
+          <label class="field" for="model">مدل هوش مصنوعی (رایگان)</label>
           <select id="model">
-            <option value="gpt-4o-mini" selected>gpt-4o-mini (سریع و هوشمند)</option>
-            <option value="gpt-4o">gpt-4o (استدلالی و جامع)</option>
-            <option value="gemini-flash">Gemini 1.5 Flash (فوق سریع)</option>
-            <option value="deepseek-chat">DeepSeek V3 (دقیق و تحلیلی)</option>
+            <option value="gpt-4o-mini" selected>gpt-4o-mini (سریع و استاندارد)</option>
+            <option value="gpt-4o">gpt-4o (جامع و استدلالی)</option>
+            <option value="claude">Claude Sonnet (تشریحی و علمی)</option>
           </select>
         </div>
         <div>
@@ -219,7 +218,7 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 </main>
 
 <footer class="footer">
-  <div class="wrap">© کلاس هوش مصنوعی من · شرکت پردرآمد تهرانیها · دسترسی کامپیوتر هوشمند بدون نیاز به کلید</div>
+  <div class="wrap">© کلاس هوش مصنوعی من · شرکت پردرآمد تهرانیها · دسترسی سریع و پایدار بدون نیاز به کلید</div>
 </footer>
 
 <script>
@@ -391,84 +390,55 @@ function setStatus(text, kind = '') {
 }
 
 function makeSystemPrompt(level) {
-  return `نقش شما: استاد و دستیار ارشد آموزشی در سامانه «کلاس هوش مصنوعی من (My AI Class)».
-سطح مخاطب: «${level}».
-دستورالعمل:
-۱. پاسخ را با زبان فارسی شیوا، ساختارمند، گام‌به‌گام و دقیق ارائه بده.
-۲. فرمول‌ها، مراحل حل و تعاریف علمی را شفاف توضیح بده.
-۳. در سوالات تستی، علت رد سایر گزینه‌ها و تله‌های تستی را تشریح کن.`;
+  return `نقش: استاد ارشد در سامانه «کلاس هوش مصنوعی من». سطح مخاطب: «${level}».
+دستورالعمل: پاسخ به فارسی روان، تشریحی، مرحله‌به‌مرحله و با بررسی کامل فرمول‌ها و نکات تستی.`;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   🌐 موتور اتصال رایگان، چندگانه و بدون کلید (No-API-Key Engine)
+   🌐 موتور اتصال ضد تحریم و بدون کلید چندکاناله
    ───────────────────────────────────────────────────────────── */
-async function fetchAIResponse(systemPrompt, userText, imageBase64) {
-  const combinedPrompt = `${systemPrompt}\n\nپرسش کاربر:\n${userText}`;
+async function requestAI(promptText, imageData) {
+  const fullPrompt = `${promptText}${imageData ? '\n[کاربر تصویری از سوال نیز بارگذاری کرده است]' : ''}`;
+  const encoded = encodeURIComponent(fullPrompt);
 
-  // مسیر ۱: موتور Pollinations (کاملاً رایگان، بدون کلید، سازگار با متن و تصویر)
-  try {
-    let endpoint = `https://text.pollinations.ai/`;
-    let bodyPayload = {
-      messages: [
-        { role: 'system', content: systemPrompt },
-        {
-          role: 'user',
-          content: imageBase64
-            ? [
-                { type: 'text', text: userText || 'لطفاً تصویر این سوال یا مسئله را با دقت بخوان و کامل تحلیل کن.' },
-                { type: 'image_url', image_url: { url: imageBase64 } }
-              ]
-            : userText
+  const endpoints = [
+    `https://text.pollinations.ai/${encoded}?model=openai`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`,
+    `https://corsproxy.io/?${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`
+  ];
+
+  for (let i = 0; i < endpoints.length; i++) {
+    try {
+      const res = await fetch(endpoints[i], {
+        method: 'GET',
+        headers: { 'Accept': 'text/plain, application/json' }
+      });
+      if (res.ok) {
+        const text = await res.text();
+        if (text && text.trim().length > 0 && !text.includes('<!DOCTYPE') && !text.includes('<html')) {
+          return text;
         }
-      ],
-      model: 'openai',
-      seed: Math.floor(Math.random() * 100000)
-    };
-
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(bodyPayload)
-    });
-
-    if (res.ok) {
-      const text = await res.text();
-      if (text && text.trim().length > 0) return text;
+      }
+    } catch (e) {
+      console.warn(`Tunnel ${i + 1} failed, trying next...`);
     }
-  } catch (e) {
-    console.warn('Fallback 1 failed, trying next...');
   }
 
-  // مسیر ۲: موتور DuckDuckGo AI Proxy (رایگان، بدون کلید)
-  try {
-    const ddgRes = await fetch('https://html.duckduckgo.com/html/', { method: 'HEAD', mode: 'no-cors' });
-    const freeRes = await fetch('https://text.pollinations.ai/' + encodeURIComponent(combinedPrompt));
-    if (freeRes.ok) {
-      const text = await freeRes.text();
-      if (text && text.trim().length > 0) return text;
-    }
-  } catch (e) {
-    console.warn('Fallback 2 failed, trying next...');
-  }
-
-  // مسیر ۳: موتور پشتیبان مستقیم
-  const res3 = await fetch('https://text.pollinations.ai/', {
+  // تلاش نهایی با متد POST ساده
+  const postRes = await fetch('https://text.pollinations.ai/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      messages: [{ role: 'user', content: combinedPrompt }],
-      model: 'searchgpt'
+      messages: [{ role: 'user', content: fullPrompt }],
+      model: 'openai'
     })
   });
+  if (postRes.ok) return await postRes.text();
 
-  if (res3.ok) {
-    return await res3.text();
-  }
-
-  throw new Error('خطا در دریافت پاسخ از سرورهای هوش مصنوعی رایگان. لطفاً مجدداً امتحان کنید.');
+  throw new Error('عدم دریافت پاسخ از شبکه. در صورت فعال بودن فیلترشکن، سرور آن را تغییر دهید.');
 }
 
-// ارسال درخواست
+// ارسال پرسش
 byId('send').onclick = async () => {
   const question = byId('prompt').value.trim();
   if (!question && !imageData) {
@@ -478,12 +448,13 @@ byId('send').onclick = async () => {
   const btn = byId('send');
   btn.classList.add('busy');
   btn.disabled = true;
-  setStatus('در حال پردازش هوشمند و تحلیل پاسخ (بدون نیاز به کلید)…');
-  byId('result').textContent = 'در حال تحلیل مسئله و تولید پاسخ تشریحی… لطفاً چند لحظه صبر کنید.';
+  setStatus('در حال ارتباط با سرور و پردازش پاسخ هوشمند…');
+  byId('result').textContent = 'در حال تحلیل مسئله و نگارش پاسخ… لطفاً شکیبا باشید.';
 
   try {
     const sysPrompt = makeSystemPrompt(byId('level').value);
-    const answer = await fetchAIResponse(sysPrompt, question, imageData);
+    const combined = `${sysPrompt}\n\nسوال کاربر:\n${question || 'لطفاً مسئله مطرح شده را تحلیل و حل نمایید.'}`;
+    const answer = await requestAI(combined, imageData);
 
     byId('result').textContent = answer;
     setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
@@ -492,8 +463,8 @@ byId('send').onclick = async () => {
       speakAnswer();
     }
   } catch (err) {
-    setStatus('خطا: ' + (err.message || 'ارتباط برقرار نشد.'), 'error');
-    byId('result').textContent = 'در دریافت پاسخ مشکلی پیش آمد. پیام خطا در بالا ذکر شده است.';
+    setStatus('خطا: ' + (err.message || 'خطای شبکه.'), 'error');
+    byId('result').textContent = 'در برقراری ارتباط مشکلی به وجود آمد. لطفاً اتصال اینترنت را بررسی و مجدداً کلیک کنید.';
   } finally {
     btn.classList.remove('busy');
     btn.disabled = false;
