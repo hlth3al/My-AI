@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101827">
-<meta name="description" content="کلاس هوش مصنوعی من؛ پلتفرم دستیار آموزش، تحلیل و یادگیری در همه مقاطع">
-<title>کلاس هوش مصنوعی من | My AI Class</title>
+<meta name="theme-color" content="#0b1120">
+<meta name="description" content="کلاس هوش مصنوعی من؛ حل تشریحی، فرمول‌های فیزیک و ریاضی، آنالیز سوالات و آموزش تخصصی">
+<title>کلاس هوش مصنوعی من | سامانه آموزش و حل مسائل علمی</title>
 
-<!-- بارگذاری کتابخانه رندر فرمول‌های ریاضی و فیزیک KaTeX -->
+<!-- موتور رندر فرمول‌های ریاضی، فیزیک و حروف یونانی -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
@@ -28,12 +28,12 @@ button{cursor:pointer}
 .navlinks a{color:var(--muted);font-size:.88rem;text-decoration:none;transition:.2s}
 .navlinks a:hover{color:var(--gold)}
 .toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--muted);cursor:pointer}
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:48px 0;align-items:center}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:40px 0;align-items:center}
 .eyebrow{color:var(--teal);font-weight:bold;font-size:.92rem;margin-bottom:8px}
-h1{font-size:2.2rem;margin:0 0 12px;line-height:1.3}
-h1 span{display:block;font-size:1.1rem;color:var(--gold);font-weight:normal;margin-top:4px}
-.lead{color:var(--muted);font-size:1.02rem}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+h1{font-size:2.1rem;margin:0 0 10px;line-height:1.3}
+h1 span{display:block;font-size:1.05rem;color:var(--gold);font-weight:normal;margin-top:4px}
+.lead{color:var(--muted);font-size:1rem}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
 .btn{background:var(--panel2);color:var(--ink);border:1px solid var(--line);padding:10px 18px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.92rem;transition:.2s}
 .btn:hover{border-color:var(--gold);color:#fff}
 .btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:bold;border:none}
@@ -62,20 +62,32 @@ textarea{height:140px;resize:vertical}
 .status.error{color:var(--red)}
 .status.ok{color:var(--teal)}
 
-/* بخش رندر اختصاصی نتایج و فرمول‌ها */
-.result{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px;min-height:200px;max-height:520px;overflow-y:auto;line-height:2;font-size:.96rem}
-.result h3{color:var(--gold);margin:14px 0 6px;font-size:1.15rem;border-bottom:1px dashed var(--line);padding-bottom:4px}
-.result h4{color:var(--teal);margin:10px 0 4px;font-size:1.02rem}
-.result p{margin:6px 0}
-.result ul, .result ol{padding-right:22px;margin:6px 0}
-.result li{margin-bottom:4px}
-.result code{background:#1a273e;padding:2px 6px;border-radius:4px;font-family:Consolas,monospace;color:var(--teal);direction:ltr;display:inline-block}
-.result .katex-display{margin:12px 0;overflow-x:auto;overflow-y:hidden;padding:6px 0;direction:ltr}
+/* ناحیه نمایش پاسخ بدون علائم اضافی و با پشتیبانی کامل از ریاضی و فیزیک */
+.result{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:20px;min-height:220px;max-height:540px;overflow-y:auto;line-height:2;font-size:.98rem}
+.result h3{color:var(--gold);margin:16px 0 8px;font-size:1.15rem;border-bottom:1px dashed var(--line);padding-bottom:4px}
+.result h4{color:var(--teal);margin:12px 0 6px;font-size:1.02rem}
+.result p{margin:8px 0}
+.result ul, .result ol{padding-right:22px;margin:8px 0}
+.result li{margin-bottom:5px}
+.result .katex-display{margin:14px 0;overflow-x:auto;overflow-y:hidden;padding:8px 0;direction:ltr;background:#151f33;border-radius:6px}
+.result .katex{font-size:1.1em;direction:ltr}
 
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 details.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;transition:.2s}
 details.card[open]{border-color:var(--teal)}
-details summary{cursor:pointer;font-weight:bold;color:var(--ink);outline:none;user-select:none}
+details summary{cursor:pointer;font-weight:bold;color:var(--ink);outline:none}
+.inside{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);font-size:.9rem}
+.toolgroups{display:flex;flex-direction:column;gap:12px}
+details.tool{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.tool-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.packages{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.package{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center;
+.result .katex{font-size:1.1em;direction:ltr}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+details.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;transition:.2s}
+details.card[open]{border-color:var(--teal)}
+details summary{cursor:pointer;font-weight:bold;color:var(--ink);outline:none}
 .inside{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);font-size:.9rem}
 .toolgroups{display:flex;flex-direction:column;gap:12px}
 details.tool{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
@@ -83,23 +95,7 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 .packages{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .package{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center;font-weight:bold;color:var(--gold)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
-.payment .cardnum{font-size:1.4rem;letter-spacing:2px;font-family:monospace;direction:ltr;background:var(--bg);padding:10px;border-radius:8px;border:1px dashed var(--gold);color:var(--gold);text-align:center;margin:8px 0}
-.notice{color:var(--muted);font-size:.86rem}
-.footer{padding:24px 0;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;margin-top:40px}
-.spinner{display:none;width:14px;height:14px;border:2px solid #0003;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
-.btn.busy .spinner{display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:800px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
-@media(max-width:540px){.grid,.packages{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<header class="topbar">
-  <div class="wrap nav">
-    <a class="brand" href="#home">MY-<b>AI</b> | کلاس هوش مصنوعی من</a>
-    <nav class="navlinks">
-      <a href="#assistant">دستیار هوشمند</a>
-      <a href="#faculties">دانشکده‌ها</a>
+.payment .cardnum{font-size:1.4rem;letter-spacing:2px;font-family:monospace;direction:ltr;background:var(--bg);padding:10px;border-radius:8px;border:1px dashed var(--gold);color:var(--gold);text-align:center;margin:‌ها</a>
       <a href="#services">خدمات</a>
       <a href="#levels">مقاطع</a>
       <a href="#payment">پرداخت</a>
@@ -111,33 +107,33 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 <main>
 <section class="wrap hero" id="home">
   <div>
-    <div class="eyebrow">پلتفرم جامع آموزش، تحلیل و یادگیری هوشمند</div>
-    <h1>کلاس هوش مصنوعی من<span>My AI Class Platform</span></h1>
-    <p class="lead"><b>شرکت پردرآمد تهرانیها</b> با مدیریت <b>حسین لعلیان</b> (رتبه ۳۲ کنکور دکتری). همراه تخصصی دانش‌آموزان، دانشجویان و داوطلبان کنکور در حل مسائل، آموزش مفهومی و تحلیل علمی.</p>
+    <div class="eyebrow">سامانه جامع تحلیل، آموزش و یادگیری در تمامی سطوح</div>
+    <h1>کلاس هوش مصنوعی من<span>پلتفرم تخصصی آموزش، حل مسئله و آمادگی کنکور</span></h1>
+    <p class="lead"><b>شرکت پردرآمد تهرانیها</b> با مدیریت <b>حسین لعلیان</b> (رتبه ۳۲ کنکور دکتری). پاسخگویی دقیق به تست‌ها، فرمول‌های فیزیک/ریاضی، متون عربی، قرآن و دروس دانشگاهی.</p>
     <div class="actions">
-      <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
+      <a class="btn primary" href="#assistant">شروع حل مسئله و تست ←</a>
       <a class="btn" href="#services">مشاهده ابزارها و خدمات</a>
     </div>
-    <p class="small">اتصال کاملاً رایگان، بدون نیاز به ثبت‌نام و بدون نیاز به کلید API.</p>
+    <p class="small">کاملاً رایگان، بدون نیاز به ثبت‌نام و بدون نیاز به کلید API.</p>
   </div>
   <aside class="hero-card">
-    <strong>امکانات پردازشی سامانه</strong>
+    <strong>ویژگی‌های موتور علمی سامانه</strong>
     <ul>
-      <li>حل گام‌به‌گام با رندر فرمول‌های ریاضی و فیزیک</li>
-      <li>تشخیص مسائل عربی، معارف، آیات و احادیث</li>
-      <li>پوشش دروس از دبستان تا دکتری تخصصی</li>
-      <li>پاسخ‌دهی پیوسته با ساختار پالایش‌شده</li>
+      <li>رندر فرمول‌های فیزیک، ریاضی و علائم یونانی</li>
+      <li>تسلط کامل بر آیات قرآن، احادیث، معارف و ادبیات عرب</li>
+      <li>پالایش کامل خروجی بدون علائم نامفهوم و شارپ</li>
+      <li>پشتیبانی از دبستان تا مقطع دکتری تخصصی</li>
     </ul>
     <span class="pill">فرمول‌نویسی لاتک</span>
-    <span class="pill">آموزش تشریحی و تستی</span>
+    <span class="pill">پاسخ تشریحی کنکوری</span>
   </aside>
 </section>
 
 <section class="wrap section" id="assistant">
   <div class="section-head">
     <div>
-      <h2>دستیار هوشمند کلاس هوش مصنوعی من</h2>
-      <p>پرسش، تست، فرمول یا موضوع درسی خود را مطرح کنید.</p>
+      <h2>دستیار هوشمند حل مسائل و دروس</h2>
+      <p>پرسش تستی، مسئله فیزیک/ریاضی، متن عربی یا سوال خود را وارد کنید.</p>
     </div>
     <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن صوتی پاسخ</label>
   </div>
@@ -146,11 +142,11 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
     <div class="box">
       <div class="row">
         <div>
-          <label class="field" for="model">مدل پردازشگر هوشمند</label>
+          <label class="field" for="model">موتور پردازشگر</label>
           <select id="model">
-            <option value="openai" selected>OpenAI GPT-4o (بهینه‌شده)</option>
-            <option value="qwen-coder">Qwen Deep (محاسباتی و فرمولی)</option>
-            <option value="mistral">Mistral Large (علمی و زبانی)</option>
+            <option value="openai" selected>OpenAI (جامع و ادبیات/قرآن)</option>
+            <option value="qwen-coder">Qwen Deep (محاسباتی و فرمول‌های فیزیک)</option>
+            <option value="mistral">Mistral (علمی و زبانی)</option>
           </select>
         </div>
         <div>
@@ -159,8 +155,8 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
         </div>
       </div>
 
-      <label class="field" for="prompt">متن پرسش / مسئله / فرمول / سوال کنکور</label>
-      <textarea id="prompt" placeholder="پرسش یا مسئله خود را بنویسید (مثال: أمن یجیب المضطر در چه سوره‌ای است؟ یا حل معادله حرکت f=ma)..."></textarea>
+      <label class="field" for="prompt">متن پرسش یا مسئله</label>
+      <textarea id="prompt" placeholder="پرسش را وارد کنید (مثلاً: امن یجیب المضطر اذا دعاه و یکشف السوء در چه سوره‌ای است؟ یا حل معادله فیزیک با نمادهای یونانی)..."></textarea>
 
       <div class="fileline">
         <label class="btn" for="image">📎 انتخاب تصویر سوال</label>
@@ -170,7 +166,7 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
       </div>
 
       <div class="actions">
-        <button class="btn primary" id="send" type="button">ارسال و تحلیل هوشمند <span class="spinner"></span></button>
+        <button class="btn primary" id="send" type="button">تحلیل و پاسخ تشریحی <span class="spinner"></span></button>
         <button class="btn" id="clear" type="button">پاک کردن</button>
       </div>
       <p id="status" class="status" role="status" aria-live="polite"></p>
@@ -178,19 +174,19 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 
     <div class="box">
       <div class="section-head">
-        <h3>پاسخ تشریحی و ساختاریافته</h3>
+        <h3>پاسخ علمی و پالایش‌شده</h3>
         <div class="actions" style="margin:0">
           <button class="btn" id="copy" type="button">کپی پاسخ</button>
         </div>
       </div>
-      <div id="result" class="result" aria-live="polite">پاسخ علمی، دقیق و پالایش‌شده پس از ارسال در اینجا نمایش می‌یابد.</div>
-      <p class="small">فرمول‌های ریاضی، فیزیک و نمادهای یونانی به صورت خودکار رندر می‌شوند.</p>
+      <div id="result" class="result" aria-live="polite">پاسخ تشریحی همراه با فرمول‌های علمی و متن ساختاریافته در این بخش نمایش می‌یابد.</div>
+      <p class="small">تمامی نمادهای فیزیک و حروف یونانی ($\alpha, \beta, \Delta, \lambda, \theta$) به صورت استاندارد رندر می‌شوند.</p>
     </div>
   </div>
 </section>
 
 <section class="wrap section" id="faculties">
-  <div class="section-head"><div><h2>دانشکده‌های تخصصی</h2><p>حوزه‌های مهارتی و پژوهشی مجموعه</p></div></div>
+  <div class="section-head"><div><h2>دانشکده‌های تخصصی</h2><p>حوزه‌های علمی و پژوهشی مجموعه</p></div></div>
   <div class="grid" id="facultyList"></div>
 </section>
 
@@ -245,38 +241,25 @@ const services = [
   'سوال دارای جدول-فرمول-نمودار (آنالیز)','حل تشریحی گام‌به‌گام و تیپ‌بندی تست‌ها',
   'استخراج مفاهیم کلیدی و خطاهای پرتکرار داوطلبان','رفع اشکال تکالیف و پروژه‌های کلاسی',
   'مشاوره و بهینه‌سازی مسیر تحصیلی و ارتقای تراز کنکور','آنالیز پاسخ','آنالیز سوال درون عکس',
+  'آنالیز عکس','چهار جوابی کردن','پاسخ به سوال چهار جو ['ابتدایی','متوسطه اول','متوسطه دوم','تیزهوشان','المپیادی','کنکوری','کارشناسی','کارشناسی ارشد','دکتری تخصصی'];
+const faculties = [
+  ['مهندسی شیلات و محیط زیست','آبزی‌پروری، بوم‌شناسی، منابع آب و محیط زیست'],
+  ['شیمی و مهندسی شیمی','شیمی پایه، فرایندها، آزمایشگاه و طراحی مهندسی'],
+  ['زبان‌های خارجی و ترجمه تخصصی','یادگیری زبان، ترجمه، نگارش و ویرایش تخصصی'],
+  ['مدیریت و اقتصاد و بازرگانی','مدیریت، اقتصاد، بازاریابی، مالی و کسب‌وکار'],
+  ['فناوری اطلاعات و کامپیوتر','برنامه‌نویسی، داده، شبکه، امنیت و هوش مصنوعی'],
+  ['مهندسی صنایع و سیستم‌ها','بهینه‌سازی، تحقیق در عملیات، کیفیت و طراحی سیستم']
+];
+
+const services = [
+  'پاسخ سوال','آنالیز سوال','آنالیز تله درون سوال','آنالیز سوال چهار جوابی',
+  'سوال دارای جدول-فرمول-نمودار (آنالیز)','حل تشریحی گام‌به‌گام و تیپ‌بندی تست‌ها',
+  'استخراج مفاهیم کلیدی و خطاهای پرتکرار داوطلبان','رفع اشکال تکالیف و پروژه‌های کلاسی',
+  'مشاوره و بهینه‌سازی مسیر تحصیلی و ارتقای تراز کنکور','آنالیز پاسخ','آنالیز سوال درون عکس',
   'آنالیز عکس','چهار جوابی کردن','پاسخ به سوال چهار جوابی','آنالیز پاسخ سوال چهار جوابی',
   'آنالیز تله درون سوال چهار جوابی','آنالیز سوال امتحانی، کنکوری و تکلیف کلاسی',
   'آنالیز تله سوالات دارای جدول-فرمول-نمودار','تدریس و توضیح کامل','حل تمرین و مسئله خط به خط',
-  'تکلیف خانگی با پاسخ تشریحی','طرح سوال امتحانی','تحلیل و تشریح فرمول‌ها و اثبات‌ها',
-  'تحلیل و رسم نمودار','بررسی جدول‌ها و داده‌ها','مشاوره تحصیلی و برنامه‌ریزی',
-  'ترجمه و نگارش متون تخصصی','تصحیح و خطایابی متن و پاسخ','جمع‌بندی و خلاصه درس',
-  'طراحی آزمون تستی و تشریحی','رفع اشکال آنلاین و پاسخ به سوالات','تدریس کنکوری دروس مدرسه و دانشگاه',
-  'آموزش تکلیف کتبی و شفاهی','آمادگی امتحان کتبی و شفاهی'
-];
-
-const byId = id => document.getElementById(id);
-function el(tag, cls, text) {
-  const n = document.createElement(tag);
-  if(cls) n.className = cls;
-  if(text) n.textContent = text;
-  return n;
-}
-
-function initUI() {
-  const levelSelect = byId('level');
-  levels.forEach(x => {
-    const o = document.createElement('option');
-    o.value = x;
-    o.textContent = x;
-    levelSelect.appendChild(o);
-  });
-
-  const fHost = byId('facultyList');
-  faculties.forEach(([name, desc], i) => {
-    const d = el('details', 'card');
-    if(i === 0) d.open = true;
-    const s = el('summary', '', name);
+  'تکلیف خانگی با پاسخ تشریحی','طرح سوال امتحانی','تحلیل و تش);
     const inside = el('div', 'inside');
     inside.append(el('p', '', desc), el('p', 'small', 'پشتیبانی آموزشی متناسب با مقطع تحصیلی شما.'));
     d.append(s, inside);
@@ -304,7 +287,7 @@ function initUI() {
       const b = el('button', 'btn', `${name} · ${lvl}`);
       b.type = 'button';
       b.onclick = () => {
-        byId('prompt').value = `عنوان درخواست: ${name}\nسطح آموزشی: ${lvl}\n\nلطفاً پاسخ را به صورت دقیق، ساختاریافته، آموزشی و مرحله‌به‌مرحله ارائه فرمایید.`;
+        byId('prompt').value = `عنوان درخواست: ${name}\nسطح آموزشی: ${lvl}\n\nلطفاً پاسخ را به صورت دقیق، علمی، ساختاریافته و با رندر فرمول‌ها ارائه فرمایید.`;
         byId('level').value = lvl;
         byId('prompt').focus();
         byId('assistant').scrollIntoView({ behavior: 'smooth' });
@@ -323,7 +306,7 @@ function initUI() {
 
 initUI();
 
-// افکت صوتی
+// مدیریت افکت صوتی
 let audioCtx = null;
 function beep() {
   if (!byId('soundToggle').checked) return;
@@ -374,27 +357,24 @@ function setStatus(text, kind = '') {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   ✨ موتور پالایش و تمیزکاری متن و رندر فرمول و مارک‌داون
+   ✨ موتور پالایش و تمیزکاری: حذف Reasoning، شارپ‌ها و ساختارهای نامناسب
    ───────────────────────────────────────────────────────────── */
 function sanitizeAndFormatAIOutput(raw) {
   if (!raw) return '';
-  let text = raw;
+  let text = String(raw);
 
-  // ۱. حذف ساختارهای جیسون خام (در صورت بازگشت خطای مدل)
-  if (text.trim().startsWith('{') && text.includes('"reasoning"')) {
+  // ۱. حذف کامل ساختارهای جیسون خام و تفکرات درونی مدل
+  if (text.includes('"role":"assistant"') || text.includes('"reasoning":')) {
     try {
       const parsed = JSON.parse(text);
-      if (parsed.content) text = parsed.content;
-      else if (parsed.response) text = parsed.response;
-      else if (parsed.text) text = parsed.text;
-      else text = text.replace(/\{"role":.*?"reasoning":".*?"\}/gs, '').replace(/\{.*?\}/gs, '');
+      text = parsed.content || parsed.response || parsed.text || '';
     } catch(e) {
-      text = text.replace(/"role"\s*:\s*"assistant"/g, '')
-                 .replace(/"reasoning"\s*:\s*".*?"/gs, '')
-                 .replace(/"tool_calls"\s*:\s*\[\]/g, '')
+      text = text.replace(/\{[\s\S]*?"reasoning":[\s\S]*?"tool_calls":\[\]\}/g, '')
+                 .replace(/\{"role":[\s\S]*?"content":/g, '')
+                 .replace(/"reasoning":".*?"/gs, '')
                  .replace(/[{}"]/g, '');
     }
   }
 
-  // ۲. حذف تگ‌های تفکر درونی DeepSeek یا مدل‌های مشابه ()
+  // ۲. حذف تگ‌های تفکر مدل‌های چینی/استدلالی مانند 
   text = text.replace(/
