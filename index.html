@@ -1,9 +1,10 @@
+
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home-AI | خونه هوش مصنوعی برلیان لعلیان</title>
+    <title>AI-Home | خونه هوش مصنوعی برلیان لعلیان</title>
     <style>
         :root {
             --bg: #0b1120;
@@ -17,36 +18,11 @@
 
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--ink);
-            font-family: Tahoma, 'Vazirmatn', sans-serif;
-            padding: 20px 12px;
-            line-height: 1.9;
-            text-align: center;
-        }
-
-        .container {
-            max-width: 920px;
-            margin: 0 auto;
-        }
-
-        /* ساختار کادرها و افکت نرم بزرگ و کوچک شدن */
-        .card, .pkg-item, .btn, textarea {
-            background: var(--panel);
-            border: 2px solid #283a5c;
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 22px;
-            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+            margin, border-color 0.22s ease, box-shadow 0.22s ease;
             position: relative;
         }
 
-        /* فقط بزرگ و کوچک شدن نرم بدون هرگونه لرزش */
+        /* فقط بزرگ و کوچک شدن ملایم */
         .zoom-box:hover {
             transform: scale(1.02);
             border-color: var(--gold);
@@ -63,9 +39,10 @@
         }
 
         .banner-main h1 {
-            font-size: 2.3rem;
+            font-size: 2.8rem;
             color: var(--gold);
             margin-bottom: 8px;
+            letter-spacing: 1px;
         }
 
         .banner-main h2 {
@@ -102,7 +79,7 @@
             transform: scale(1.03);
         }
 
-        /* بخش ورودی و فرم هوش مصنوعی */
+        /* بخش ورودی و فرم */
         textarea {
             width: 100%;
             height: 130px;
@@ -173,7 +150,7 @@
 <div class="container">
 
     <section class="card banner-main zoom-box">
-        <h1>Home-AI</h1>
+        <h1>AI-Home</h1>
         <h2>خانه هوش مصنوعی برلیان لعلیان</h2>
         <p>یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر توسط خانه هوش مصنوعی برلیان لعلیان</p>
     </section>
@@ -231,22 +208,17 @@
     </section>
 
     <footer class="footer-note">
-        <p>خانه هوش مصنوعی برلیان لعلیان (Home-AI)</p>
+        <p>خانه هوش مصنوعی برلیان لعلیان (AI-Home)</p>
         <p><strong>اخطار امنیتی:</strong> هر گونه کپی برداری غیرقانونی و سوء استفاده از این پلتفرم دارایی فکری شرکت صنایع پردرآمد تهرانیها پیگرد قانونی دارد!</p>
     </footer>
 
 </div>
 
 <script>
-    /* ============================================================
-       تنظیمات پنل GapGPT
-       کلید API دریافتی از پنل را دقیقاً داخل گیومه‌ها قرار دهید.
-       ============================================================ */
-    const GAPGPT_API_KEY = "sk-6pOfti0RKYJ79xp3xRfsJGjWE6G5i2myQ0G0cqqt8jUBIKNj";
-    const GAPGPT_ENDPOINT = "https://api.gapgpt.app/v1/chat/completions";
-    const MODEL_NAME = "gpt-4o-mini"; // مدل‌های پشتیبانی‌شده: gpt-4o-mini یا gpt-4o
+    const AUTH_SECRET = "sk-JnXC9VUAnb5JsFWyTSOU7KPBRcaiLD3JZoW8fRmNxYOOzi9L";
+    const SERVICE_URL = "https://api.gapgpt.app/v1/chat/completions";
+    const ENGINE_MODEL = "gpt-4o-mini";
 
-    // صدای بیپ هنگام لمس یا کلیک
     let audioContext = null;
     function playBeepSound() {
         try {
@@ -283,7 +255,7 @@
         navigator.clipboard.writeText(text).then(() => {
             alert('کپی شد: ' + text);
         }).catch(() => {
-            alert('خطا در کپی خودکار.');
+            alert('متن را دستی کپی نمایید.');
         });
     }
 
@@ -302,37 +274,30 @@
         document.getElementById('userInput').value = '';
     };
 
-    // ارسال درخواست به سرور GapGPT با پاکسازی خودکار فاصله‌های کلید
     document.getElementById('sendBtn').onclick = async () => {
         const userInput = document.getElementById('userInput').value.trim();
         const resultBox = document.getElementById('result-box');
-        const cleanApiKey = GAPGPT_API_KEY.trim();
 
         if (!userInput) {
             alert('لطفاً ابتدا سوال خود را بنویسید.');
             return;
         }
 
-        if (!cleanApiKey || cleanApiKey.includes('YOUR_GAPGPT_KEY_HERE')) {
-            alert('لطفاً کلید اختصاصی خود را در متغیر GAPGPT_API_KEY قرار دهید.');
-            return;
-        }
-
         resultBox.innerText = 'در حال تحلیل در خانه هوش مصنوعی برلیان لعلیان... لطفاً شکیبا باشید.';
 
         try {
-            const response = await fetch(GAPGPT_ENDPOINT, {
+            const response = await fetch(SERVICE_URL, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${cleanApiKey}`
+                    "Authorization": `Bearer ${AUTH_SECRET.trim()}`
                 },
                 body: JSON.stringify({
-                    model: MODEL_NAME,
+                    model: ENGINE_MODEL,
                     messages: [
                         {
                             role: "system",
-                            content: "شما هوش مصنوعی پیشرفته خانه هوش مصنوعی برلیان لعلیان هستید. تمام سوالات دانش‌آموزی، کنکور، تمرینات و تکالیف را کامل و دقیق و تشریحی حل کنید."
+                            content: "شما هوش مصنوعی خانه هوش مصنوعی برلیان لعلیان هستید. سوالات درسی، کنکور، تست و تکالیف را تشریحی، فرمولی و دقیق حل کنید."
                         },
                         {
                             role: "user",
@@ -343,21 +308,22 @@
                 })
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-                const errData = await response.json().catch(() => null);
-                const errMsg = errData?.error?.message || `کد خطا: ${response.status}`;
-                throw new Error(errMsg);
+                const message = (data && data.error && data.error.message) ? data.error.message : ('Status: ' + response.status);
+                resultBox.innerText = message;
+                return;
             }
 
-            const data = await response.json();
-            if (data.choices && data.choices.length > 0) {
+            if (data && data.choices && data.choices.length > 0) {
                 resultBox.innerText = data.choices[0].message.content;
             } else {
-                resultBox.innerText = 'پاسخی از هوش مصنوعی دریافت نشد.';
+                resultBox.innerText = 'پاسخی دریافت نشد.';
             }
 
         } catch (error) {
-            resultBox.innerText = `خطا در برقراری ارتباط:\n${error.message}\n(نکته: در صورت نمایش Invalid token، کلید جدیدی از بخش API Keys پنل GapGPT بسازید و جایگزین کنید)`;
+            resultBox.innerText = error.message;
         }
     };
 </script>
