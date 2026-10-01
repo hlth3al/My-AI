@@ -31,22 +31,22 @@ button{cursor:pointer}
 .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:48px 0;align-items:center}
 .eyebrow{color:var(--teal);font-weight:bold;font-size:.92rem;margin-bottom:8px}
 
-/* (۱) عنوان بزرگ + My AI بزرگ (بدون حذف متن‌های قبلی) */
+/* (۱) عنوان بزرگ + My AI بزرگ */
 h1{
-  font-size:clamp(1.6rem,3.4vw,3.1rem);
+  font-size:clamp(1.65rem,3.6vw,3.2rem);
   margin:0 0 12px;
   line-height:1.45;
   font-weight:1000;
   color:#fff;
   text-shadow:0 0 18px rgba(56,189,248,.22),0 0 30px rgba(250,204,21,.12);
 }
-h1 span{display:block;font-size:1.1rem;color:var(--gold);font-weight:normal;margin-top:4px}
+h1 span{display:block;font-size:1.1rem;color:var(--gold);font-weight:normal;margin-top:6px}
 .big-ai{
   display:inline-block;
   direction:ltr;
   font-family:"Segoe UI",Arial,sans-serif;
   font-weight:1000;
-  font-size:clamp(1.4rem,4.4vw,2.9rem);
+  font-size:clamp(1.45rem,4.6vw,3.05rem);
   letter-spacing:1.2px;
   padding:6px 14px;
   border-radius:999px;
@@ -71,8 +71,8 @@ h1 span{display:block;font-size:1.1rem;color:var(--gold);font-weight:normal;marg
 .section{padding:40px 0;border-top:1px solid var(--line)}
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;gap:15px;flex-wrap:wrap}
 .section-head h2,.section-head h3{margin:0 0 6px}
-.section-head p{margin:0;color:var(--muted);font-size:.9rem}
-.workspace{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.section-head p{margin:0;color:var(--muted);font-size:.20px}
+.box{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .field{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
@@ -86,7 +86,7 @@ textarea{height:140px;resize:vertical}
 .status.error{color:var(--red)}
 .status.ok{color:var(--teal)}
 
-/* (۳) نتیجه: اجازه بده KaTeX رندر کنه (pre-wrap حذف میشه و HTML تمیز می‌سازیم) */
+/* (۳) خروجی تمیز + آماده KaTeX */
 .result{
   background:var(--bg);
   border:1px solid var(--line);
@@ -131,7 +131,7 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 @media(max-width:800px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
 @media(max-width:540px){.grid,.packages{grid-template-columns:1fr}}
 
-/* (۲) افکت رنگی + لرزش + قرمز نئونی + بزرگ/ک شدن برای کادرها/دکمه‌ها/آپ/آپشن‌ها */
+/* (۲) افکت‌ها روی کادرها + دکمه‌ها + آپشن‌ها */
 .box,.hero-card,.card,details.card,details.tool,.package,.btn,select,textarea,input[type="text"],details summary{
   transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease,background .18s ease;
   will-change:transform,border-color,box-shadow;
@@ -158,7 +158,8 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 <body>
 <header class="topbar">
   <div class="wrap nav">
-    <a class="brand" href="#home">MY-<b>AI</b> | کلاس هوش مصنوعی من</a>
+    <!-- متن برند طبق خواسته شما -->
+    <a class="brand" href="#home">MY-<b>AI</b> | کلاس هوش مصنوعی لعلیان</a>
     <nav class="navlinks">
       <a href="#assistant">دستیار هوشمند</a>
       <a href="#faculties">دانشکده‌ها</a>
@@ -175,7 +176,6 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
   <div>
     <div class="eyebrow">یادگیری، تحلیل و پیشرفت؛ در یک همراه آموزشی</div>
 
-    <!-- (۱) فقط این قسمت عنوان تغییر کرده، بقیه متن‌ها سر جاشون -->
     <h1>
       بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط هوش مصنوعی من
       <br>
@@ -297,14 +297,14 @@ details.tool{background:var(--panel);border:1px solid var(--line);border-radius:
 <section class="wrap section">
   <div class="card">
     <h3>درباره مجموعه و مدیر علمی</h3>
-    <p>شرکت پردرآمد تهرانیها با مدیریت حسین لعلیان (رتبه ۳۲ کنکور دکتری)، ارائه‌دهنده خدمات آموزش هوشمند در زمینه‌های مهندسی شیلات و محیط زیست، شیمی، زبان، مدیریت، فناوری اطلاعات و مهندسی صنایع می‌باشد.</p>
+    <p>شرکت پردرآمد تهرانیها با مدیر عاملی حسین لعلیان (رتبه ۳۲ کنکور دکتری)، ارائه‌دهنده خدمات آموزش هوشمند در زمینه‌های مهندسی شیلات و محیط زیست، شیمی، زبان، مدیریت، فناوری اطلاعات و مهندسی صنایع می‌باشد.</p>
     <p class="small">تمامی حقوق مادی و معنوی این پلتفرم محفوظ است.</p>
   </div>
 </section>
 </main>
 
 <footer class="footer">
-  <div class="wrap">© کلاس هوش مصنوعی من · شرکت پردرآمد تهرانیها · دسترسی سریع و پایدار بدون نیاز به کلید</div>
+  <div class="wrap">© کلاس هوش مصنوعی لعلیان · شرکت پردرآمد تهرانیها · دسترسی سریع و پایدار بدون نیاز به کلید</div>
 </footer>
 
 <script>
@@ -401,7 +401,11 @@ function initUI() {
       const b = el('button', 'btn', `${name} · ${lvl}`);
       b.type = 'button';
       b.onclick = () => {
-        byId('prompt').value = `عنوان درخواست: ${name}\nسطح آموزشی: ${lvl}\n\nلطفاً پاسخ را دقیق، آموزشی، مرحله‌به‌مرحله و با فرمول‌نویسی LaTeX (برای KaTeX) ارائه کن.`;
+        byId('prompt').value =
+`عنوان درخواست: ${name}
+سطح آموزشی: ${lvl}
+
+لطفاً پاسخ را دقیق، مرحله‌به‌مرحله، بدون علامت‌های اضافی و با فرمول‌نویسی استاندارد (LaTeX) ارائه کن.`;
         byId('level').value = lvl;
         byId('prompt').focus();
         byId('assistant').scrollIntoView({ behavior: 'smooth' });
@@ -417,10 +421,9 @@ function initUI() {
     pHost.append(el('div', 'package', `${n} میلیون تومان`));
   });
 }
-
 initUI();
 
-/* (۲) افکت صوتی + لرزش برای همه اجزای موردنظر */
+/* (۲) بوق + لرزش + قرمز شدن روی hover/touch/focus */
 let audioCtx = null;
 function beep() {
   if (!byId('soundToggle').checked) return;
@@ -432,10 +435,8 @@ function beep() {
     o.frequency.value = 720;
     g.gain.setValueAtTime(.035, audioCtx.currentTime);
     g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .07);
-    o.connect(g);
-    g.connect(audioCtx.destination);
-    o.start();
-    o.stop(audioCtx.currentTime + .075);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + .075);
   } catch(e) {}
 }
 function fxTarget(node){
@@ -472,7 +473,6 @@ fileInput.addEventListener('change', () => {
   };
   r.readAsDataURL(f);
 });
-
 byId('removeImage').onclick = () => {
   imageData = null;
   fileInput.value = '';
@@ -486,40 +486,28 @@ function setStatus(text, kind = '') {
   n.className = 'status ' + kind;
 }
 
-/* (۳) سیستم‌پرامپت سخت‌گیرتر برای کاهش پاسخ الکی */
-function makeSystemPrompt(level) {
+/* (۳) کاهش پاسخ الکی + فرمول LaTeX + فرمول LaTeX) {
   return `نقش: استاد ارشد و بسیار دقیق در سامانه «کلاس هوش مصنوعی من». سطح مخاطب: «${level}».
-قواعد مهم:
-- اگر سوال مبهم است یا اطلاعات کافی نیست، اول سوال تکمیلی بپرس و حدس نزن.
-- پاسخ ساختگی/هذیانی/جعلی ممنوع.
-- خروجی را تمیز بده: از تیترهای بی‌مورد و علامت‌های اضافی مثل # خودداری کن.
+قواعد:
+- اگر اطلاعات کافی نیست، حدس نزن؛ سوال تکمیلی بپرس.
+- پاسخ ساختگی/هذیانی ممنوع.
+- از علائم اضافی مثل # و فرمت‌های عجیب خودداری کن.
 - فرمول‌ها را با LaTeX بنویس تا KaTeX رندر کند: $F=ma$, $\\Delta t$, $\\alpha$, $\\beta$, $\\mathrm{H_2O}$.
-- متن عربی/قرآنی را درست و بدون به‌هم‌ریختگی حفظ کن.
+- متن عربی/قرآنی را دقیق و صحیح حفظ کن.
 پاسخ را مرحله‌به‌مرحله و آموزشی ارائه کن.`;
 }
-
-/* (۳) پاکسازی متن (حذف شارپ/جنگ و قالب‌های عجیب) */
 function sanitizeAndCleanText(raw){
   if(!raw) return '';
   let t = String(raw);
-
-  // حذف بلاک‌های JSON/کد که گاهی مدل‌ها می‌چسبانند
   t = t.replace(/
 ```json[\s\S]*?
 ```/gi, '');
   t = t.replace(/<\s*think\s*>[\s\S]*?<\s*\/\s*think\s*>/gi,'');
   t = t.replace(/^\s*think\s*:\s*.*$/gmi,'');
-
-  // حذف تیترهای Markdown با #
-  t = t.replace(/^\s{0,3}#{1,6}\s*/gm, '');
-
-  // کم‌کردن خط‌های خیلی اضافه
+  t = t.replace(/^\s{0,3}#{1,6}\s*/gm, ''); // حذف شارپ
   t = t.replace(/\n{4,}/g, '\n\n').trim();
-
   return t;
 }
-
-/* تبدیل خروجی به HTML تمیز + حفظ $ و $$ برای KaTeX */
 function escapeHTML(s){
   return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 }
@@ -527,12 +515,10 @@ function tableMarkdownToHtml(text){
   const lines = text.split('\n');
   let out = [];
   let i = 0;
-
   while(i < lines.length){
     const line = lines[i].trim();
     const isTableLine = /^\|.*\|$/.test(line);
     const nextIsSep = i + 1 < lines.length && /^\|?[\s:-]+(\|[\s:-]+)+\|?$/.test(lines[i+1].trim());
-
     if(isTableLine && nextIsSep){
       const headers = line.split('|').slice(1,-1).map(x => x.trim());
       i += 2;
@@ -541,7 +527,6 @@ function tableMarkdownToHtml(text){
         rows.push(lines[i].trim().split('|').slice(1,-1).map(x => x.trim()));
         i++;
       }
-
       let html = '<table><thead><tr>';
       headers.forEach(h => html += `<th>${escapeHTML(h)}</th>`);
       html += '</tr></thead><tbody>';
@@ -554,11 +539,9 @@ function tableMarkdownToHtml(text){
       out.push(html);
       continue;
     }
-
     out.push(lines[i]);
     i++;
   }
-
   return out.join('\n');
 }
 function toCleanHTML(text){
@@ -566,14 +549,11 @@ function toCleanHTML(text){
   const lines = prepared.split('\n');
   let html = '';
   let inList = false;
-
   const closeList = () => { if(inList){ html += '</ul>'; inList=false; } };
 
   for(const rawLine of lines){
     const line = rawLine.trim();
-
     if(!line){ closeList(); html += '<p></p>'; continue; }
-
     if(line.startsWith('<table>')){ closeList(); html += line; continue; }
 
     if(/^[-•]\s+/.test(line)){
@@ -581,10 +561,8 @@ function toCleanHTML(text){
       html += `<li>${escapeHTML(line.replace(/^[-•]\s+/,''))}</li>`;
       continue;
     }
-
     closeList();
 
-    // عربی/قرآنی (دارای اعراب) را بلوک زیباتر نشان بده
     if(/[\u0600-\u06FF]/.test(line) && /[ًٌٍَُِّْٰ]/.test(line) && line.length > 15){
       html += `<p class="arabic-block">${escapeHTML(line)}</p>`;
       continue;
@@ -592,7 +570,6 @@ function toCleanHTML(text){
 
     html += `<p>${escapeHTML(line)}</p>`;
   }
-
   closeList();
   return html;
 }
@@ -611,9 +588,9 @@ function renderMath(container){
   } catch(e){}
 }
 
-/* ─────────────────────────────────────────────────────────────
-   🌐 موتور اتصال ضد تحریم و بدون کلید چندکاناله (دست نخورده)
-   ───────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+   اتصال AI (همان کد خودت - قطع نشده)
+   ───────────────────────────────────────────── */
 async function requestAI(promptText, imageData) {
   const fullPrompt = `${promptText}${imageData ? '\n[کاربر تصویری از سوال نیز بارگذاری کرده است]' : ''}`;
   const encoded = encodeURIComponent(fullPrompt);
@@ -654,7 +631,7 @@ async function requestAI(promptText, imageData) {
   throw new Error('عدم دریافت پاسخ از شبکه. در صورت فعال بودن فیلترشکن، سرور آن را تغییر دهید.');
 }
 
-/* ارسال پرسش (اتصال قطع نشده؛ فقط خروجی پاکسازی+رندر می‌شود) */
+/* ارسال پرسش (فقط پاکسازی+رندر اضافه شده، اتصال همان است) */
 byId('send').onclick = async () => {
   const question = byId('prompt').value.trim();
   if (!question && !imageData) {
@@ -680,9 +657,7 @@ byId('send').onclick = async () => {
 
     setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
 
-    if (byId('speechToggle').checked) {
-      speakAnswer();
-    }
+    if (byId('speechToggle').checked) speakAnswer();
   } catch (err) {
     setStatus('خطا: ' + (err.message || 'خطای شبکه.'), 'error');
     byId('result').textContent = 'در برقراری ارتباط مشکلی به وجود آمد. لطفاً اتصال اینترنت را بررسی و مجدداً کلیک کنید.';
@@ -692,7 +667,7 @@ byId('send').onclick = async () => {
   }
 };
 
-// ابزارهای کمکی
+/* ابزارهای کمکی */
 byId('clear').onclick = () => {
   byId('prompt').value = '';
   byId('result').textContent = 'پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.';
@@ -711,4 +686,28 @@ byId('copy').onclick = async () => {
 
 function speakAnswer() {
   if (!('speechSynthesis' in window)) {
-    setStatus('مرورگر شما از قابلیت خواندن صوتی پش
+    setStatus('مرورگر شما از قابلیت خواندن صوتی پشتیبانی نمی‌کند.', 'error');
+    return;
+  }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(byId('result').innerText);
+  u.lang = 'fa-IR';
+  speechSynthesis.speak(u);
+}
+byId('speechToggle').onchange = () => {
+  if (byId('speechToggle').checked && byId('result').innerText) speakAnswer();
+};
+
+async function copyText(text, label) {
+  try {
+    await navigator.clipboard.writeText(text);
+    setStatus(label + ' کپی شد.', 'ok');
+  } catch {
+    setStatus('کپی انجام نشد.', 'error');
+  }
+}
+byId('copyCard').onclick = () => copyText('6037991555549678', 'شماره کارت');
+byId('copyEmail').onclick = () => copyText('Ai.Algorithms.Ballistics@gmail.com', 'ایمیل');
+</script>
+</body>
+</html>
