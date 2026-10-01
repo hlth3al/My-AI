@@ -92,7 +92,6 @@
     }
     .answer-action:hover{filter:brightness(1.15)}
 
-    /* شبکه‌بندی دکمه‌ها */
     .level-grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
@@ -125,7 +124,6 @@
     }
     .task:active{transform:scale(.96)}
 
-    /* دسته‌بندی رنگ‌ها */
     .c1{--color:#39dbc4}.c2{--color:#ffbd4a}.c3{--color:#bd8cff}.c4{--color:#ff6d91}
     .c5{--color:#63b7ff}.c6{--color:#9ce15c}.c7{--color:#ff8d4d}.c8{--color:#4ed6e8}
     .c9{--color:#f28adb}.c10{--color:#c9df5a}.c11{--color:#f17661}.c12{--color:#a28cff}
@@ -245,7 +243,7 @@
     </div>
   </section>
 
-  <!-- بخش ورودی -->
+  <!-- ورودی -->
   <section class="panel" id="workspace">
     <h2 class="section-title" style="margin-top:0">ورودی پرسش</h2>
     <textarea id="question" class="question" placeholder="سوال، تمرین یا موضوع خود را اینجا بنویسید یا یکی از دکمه‌های هوشمند پایین را بزنید..."></textarea>
@@ -271,7 +269,7 @@
     <p id="status" class="status" aria-live="polite"></p>
   </section>
 
-  <!-- بخش نتایج -->
+  <!-- نتایج -->
   <section class="panel" id="resultsSection">
     <div class="row" style="justify-content:space-between;margin-bottom:10px">
       <h2 class="section-title" style="margin:0">نتایج پردازش علمی</h2>
@@ -283,15 +281,13 @@
     <div id="result" class="results" aria-live="polite"></div>
   </section>
 
-  <!-- ابزارهای هوشمند چند سطحی -->
+  <!-- ابزارهای هوشمند -->
   <h2 class="section-title">ابزارهای هوشمند</h2>
   <section id="groups" class="level-grid"></section>
 
-  <!-- ابزارهای تکمیلی -->
   <h2 class="section-title">ابزارهای تکمیلی درخواستی</h2>
   <section id="tools" class="tools"></section>
 
-  <!-- بسته‌های اعتباری -->
   <h2 class="section-title">بسته‌های اعتباری Class-AI</h2>
   <section class="bottom">
     <article class="bottom-card">
@@ -327,7 +323,7 @@
   'use strict';
 
   // =========================================================================
-  // 🔑 کلید اختصاصی سامانه Class-AI را درون گیومه قرار دهید:
+  // 🔑 توکن اتصال به هسته پردازش Class-AI:
   // =========================================================================
   const AI_SERVICE_TOKEN = "sk-ajWeLnwkpjMjklWADQAvcNx4RuuUhKxJvUzmWyIy9sIWyuSr";
 
@@ -375,7 +371,6 @@
     'رفع اشکال آنلاین و پاسخ به سوالات'
   ];
 
-  // رسم گروه‌ها
   const host = $('#groups');
   groups.forEach(([title, n]) => {
     const box = document.createElement('article');
@@ -399,7 +394,6 @@
     host.append(box);
   });
 
-  // رسم ابزارها
   tools.forEach((t, i) => {
     const b = document.createElement('button');
     b.className = 'task tool c' + (i % 14 + 1);
@@ -409,7 +403,6 @@
     $('#tools').append(b);
   });
 
-  // بسته‌ها
   ['۵', '۱۰', '۲۰', '۵۰', '۱۰۰', '۱۵۰', '۲۰۰', '۲۵۰'].forEach(x => {
     const d = document.createElement('div');
     d.className = 'price';
@@ -458,79 +451,72 @@
     $('#preview').hidden = true;
   };
 
-  // موتور ارسال درخواست شبکه مستقل و چندمسیره
+  // اتصال چندگانه ضدانسداد شبکه و ضد-CORS
   async function executeRequest(payload) {
-    const targetUrl = 'https://api.gapgpt.app/v1/chat/completions';
-    const altTargetUrl = 'https://api.gapapi.com/v1/chat/completions';
-
-    // استراتژی‌های آبشاری جهت عبور قطعی از محدودیت‌های شبکه و CORS
-    const attempts = [
-      // ۱. اتصال مستقیم
-      async () => {
-        const res = await fetch(targetUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
-          },
-          body: JSON.stringify(payload)
-        });
-        return await res.json();
-      },
-      // ۲. اتصال از طریق گیت دوم مستقیم
-      async () => {
-        const res = await fetch(altTargetUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
-          },
-          body: JSON.stringify(payload)
-        });
-        return await res.json();
-      },
-      // ۳. عبور از فیلتر مرورگر (پل اول)
-      async () => {
-        const pUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
-        const res = await fetch(pUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
-          },
-          body: JSON.stringify(payload)
-        });
-        return await res.json();
-      },
-      // ۴. عبور از فیلتر مرورگر (پل دوم - پشتیبان)
-      async () => {
-        const pUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl);
-        const res = await fetch(pUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
-          },
-          body: JSON.stringify(payload)
-        });
-        return await res.json();
-      }
+    const endpoints = [
+      'https://api.gapgpt.app/v1/chat/completions',
+      'https://api.gapapi.com/v1/chat/completions'
     ];
 
-    for (const attempt of attempts) {
+    let lastErrorMessage = '';
+
+    // تست مسیر مستقیم
+    for (const url of endpoints) {
       try {
-        const data = await attempt();
-        if (data?.choices?.[0]?.message?.content) {
-          return data.choices[0].message.content;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data?.choices?.[0]?.message?.content) {
+            return { ok: true, text: data.choices[0].message.content };
+          }
+        } else {
+          const errData = await response.json().catch(() => null);
+          if (errData?.error?.message) {
+            lastErrorMessage = errData.error.message;
+          } else {
+            lastErrorMessage = 'خطای وضعیت سرور: ' + response.status;
+          }
         }
       } catch (e) {
-        // ادامه به مسیر بعدی در صورت بروز هرگونه مانع شبکه‌ای
+        lastErrorMessage = e.message;
       }
     }
-    return null;
+
+    // تست از طریق واسط CORS استاندارد در صورت مسدود بودن اتصال محلی مرورگر
+    for (const url of endpoints) {
+      try {
+        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+        const response = await fetch(proxyUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + AI_SERVICE_TOKEN.trim()
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data?.choices?.[0]?.message?.content) {
+            return { ok: true, text: data.choices[0].message.content };
+          }
+        }
+      } catch (e) {
+        // ادامه به مسیر بعدی
+      }
+    }
+
+    return { ok: false, error: lastErrorMessage || 'عدم دسترسی به شبکه' };
   }
 
-  // هسته پردازش
   async function ask(actionTitle){
     const qInput = $('#question');
     const q = qInput.value.trim();
@@ -547,43 +533,42 @@
       return;
     }
 
-    $('#status').textContent = 'در حال پردازش درخواست در سامانه Class-AI...';
+    $('#status').textContent = 'در حال ارسال و تحلیل درخواست علمی...';
     $('#result').classList.remove('error');
-    $('#result').textContent = 'در حال تحلیل علمی مسئله و محاسبه گام‌به‌گام، لطفاً شکیبا باشید...';
+    $('#result').textContent = 'در حال محاسبه گام‌به‌گام و تدوین پاسخ کامل، لطفاً چند لحظه شکیبا باشید...';
     $('#resultsSection').scrollIntoView({behavior:'smooth'});
 
-    const systemPrompt = `شما هسته پردازش هوشمند سامانه تحلیلی Class-AI هستید. عملیات: "${actionTitle}". پاسخ باید کاملاً علمی، گام‌به‌گام، مستدل و تشریحی به زبان فارسی باشد و به تحلیل دقیق فرمول‌ها یا تله‌ها بپردازد.`;
+    const systemPrompt = `شما هسته هوشمند Class-AI هستید. عملیات: "${actionTitle}". پاسخ باید کاملاً جامع، مستدل، علمی و به زبان فارسی با تشریح دقیق فرمول‌ها، مراحل و نکات کلیدی باشد.`;
 
-    const userContent = imageData
+    const userMessage = imageData
       ? [
-          { type: 'text', text: systemPrompt + '\n\nمتن مسئله:\n' + (q || 'لطفاً تصویر ضمیمه شده را دقیق تحلیل کنید.') },
+          { type: 'text', text: systemPrompt + '\n\nمتن پرسش یا درخواست:\n' + (q || 'لطفاً تصویر ضمیمه را دقیق تحلیل کنید.') },
           { type: 'image_url', image_url: { url: imageData } }
         ]
-      : systemPrompt + '\n\nمتن مسئله:\n' + q;
+      : (systemPrompt + '\n\nمتن پرسش یا درخواست:\n' + q);
 
     const payload = {
       model: 'gpt-4o',
       messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userContent }
+        { role: 'user', content: userMessage }
       ],
-      temperature: 0.4
+      temperature: 0.3
     };
 
-    const response = await executeRequest(payload);
+    const res = await executeRequest(payload);
 
-    if (response && response.trim()) {
-      lastAnswer = response;
-      $('#result').textContent = response;
-      $('#status').textContent = 'پاسخ با موفقیت پردازش شد ✅';
+    if (res.ok && res.text) {
+      lastAnswer = res.text;
+      $('#result').textContent = res.text;
+      $('#status').textContent = 'پاسخ با موفقیت دریافت و آماده شد ✅';
     } else {
-      $('#result').textContent = '⚠️ امکان دریافت پاسخ در این لحظه میسر نشد. لطفاً اتصال اینترنت یا فعال بودن کلید سامانه را بررسی فرمایید.';
+      $('#result').textContent = '⚠️ ارتباط برقرار نشد: ' + res.error + '\n(در صورت استفاده از اینترنت همراه، لطفاً یک‌بار اتصال به فیلترشکن را بررسی یا وضعیت اعتبار کلید را چک کنید)';
       $('#result').classList.add('error');
-      $('#status').textContent = 'عدم برقراری ارتباط با هسته مرکزی.';
+      $('#status').textContent = 'خطا در ارتباط با سرور.';
     }
   }
 
-  $('#askBtn').addEventListener('click', () => ask('پاسخ و تحلیل جامع مسئله'));
+  $('#askBtn').addEventListener('click', () => ask('پاسخ و تحلیل کامل'));
 
   $('#copyAnswer').onclick = async () => {
     try{
@@ -613,26 +598,24 @@
     };
   });
 
-  // گفتار به نوشتار
   $('#micBtn').onclick = () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if(!SR){
-      $('#status').textContent = 'تشخیص گفتار در مرورگر فعال نیست.';
+      $('#status').textContent = 'تشخیص گفتار در این مرورگر فعال نیست.';
       return;
     }
     const r = new SR();
     r.lang = 'fa-IR';
     r.interimResults = false;
-    r.onstart = () => $('#status').textContent = 'گوش می‌دهم، صحبت کنید...';
+    r.onstart = () => $('#status').textContent = 'گوش می‌دهم، بفرمایید...';
     r.onresult = e => {
       $('#question').value += ($('#question').value ? ' ' : '') + e.results[0][0].transcript;
-      $('#status').textContent = 'گفتار به متن اضافه شد.';
+      $('#status').textContent = 'گفتار اضافه شد.';
     };
     r.onerror = () => $('#status').textContent = 'خطای دریافت صدا.';
     r.start();
   };
 
-  // پخش صدا
   function speak(){
     if(!lastAnswer){
       $('#status').textContent = 'ابتدا پاسخی دریافت فرمایید.';
@@ -650,7 +633,6 @@
   }
   $('#voiceBtn').onclick = speak;
 
-  // ذخیره فایل صوتی
   $('#saveAudio').onclick = async () => {
     if(!lastAnswer){
       $('#status').textContent = 'ابتدا پاسخی دریافت فرمایید.';
