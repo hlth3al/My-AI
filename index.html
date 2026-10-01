@@ -245,67 +245,53 @@ details summary:hover,details summary:active,details summary.fx-on,
       <label class="field" for="prompt">ورودی پرسش / متن درس یا تمرین</label>
       <textarea id="prompt" placeholder="سوال، تمرین یا موضوع موردنظر را اینجا بنویسید…"></textarea>
 
-      <div class="fileline">
-        <label class="btn" for="image">📎 انتخاب عکس مسئله / سوال</label>
-        <input id="image" type="file" accept="image/*">
-        <button class="btn" id="removeImage" type="button">حذف عکس</button>
-        <img id="preview" class="preview" alt="پیش‌نمایش تصویر">
-      </div>
+      <div class=" طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور
+    </p>
 
-      <div class="actions">
-        <button class="btn primary" id="send" type="button">دریافت پاسخ هوشمند <span class="spinner"></span></button>
-        <button class="btn" id="clear" type="button">پاک کردن فرم</button>
-      </div>
-
-      <p id="status" class="status" role="status" aria-live="polite"></p>
-    </div>
-
-    <div class="box">
-      <div class="section-head">
-        <h3>نتایج و پاسخ تشریحی</h3>
-        <div class="actions" style="margin:0">
-          <button class="btn" id="copy" type="button">کپی کردن پاسخ</button>
-          <button class="btn" id="saveAudio" type="button">ذخیره صوتی</button>
-        </div>
-      </div>
-
-      <div id="result" class="result" aria-live="polite">
-        پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.
-      </div>
-
-      <p class="small">پاسخ‌ها توسط موتور هوش مصنوعی با تحلیل مرحله‌به‌مرحله تولید می‌شوند.</p>
-      <audio id="audioPlayer" controls hidden></audio>
+    <div class="actions">
+      <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
+      <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
     </div>
   </div>
+
+  <aside class="hero-card">
+    <strong style="font-size:1.1rem">پشتیبان یادگیری شما</strong>
+    <ul>
+      <li>تدریس، حل تمرین و تحلیل گام‌به‌گام</li>
+      <li>مدرسه، کنکور، کارشناسی تا دکتری تخصصی</li>
+      <li>کار با تصویر پرسش و مسائل چندرسانه‌ای</li>
+      <li>اتصال مستقیم و پایدار هوش مصنوعی</li>
+    </ul>
+    <span class="pill">آموزش حضوری و مجازی</span>
+    <span class="pill">یادگیری و ارزیابی هوشمند</span>
+  </aside>
 </section>
 
-<section class="wrap section" id="services">
+<section class="wrap section" id="assistant">
   <div class="section-head">
     <div>
-      <h2>خدمات تخصصی و ابزارهای هوشمند</h2>
-      <p>روی هر ابزار و مقطع کلیک کنید تا قالب درخواست در ورودی دستیار تنظیم شود.</p>
+      <h2>دستیار هوشمند کلاس هوش مصنوعی</h2>
+      <p>پرسش خود را بنویسید و پاسخ کامل و دقیق را بلادرنگ دریافت کنید.</p>
     </div>
+    <label class="toggleline"><input id="speechToggle" type="checkbox"> خواندن پاسخ با صدا</label>
   </div>
+
+  <div class="workspace">
+    <div class="box">
+      <label class="field" for="prompt">ورودی پرسش / متن درس یا تمرین</label>
+      <textarea id="prompt" placeholder="سوال، تمرین یا موضوع موردنظر را اینجا بنویسید…"></textarea>
+
+      <div class=">
+
+<section class="wrap section" id="services">
   <div class="toolgroups" id="serviceList"></div>
 </section>
 
 <section class="wrap section" id="levels">
-  <div class="section-head">
-    <div>
-      <h2>مقاطع و مسیرهای آموزشی</h2>
-      <p>از آموزش پایه تا دکتری تخصصی</p>
-    </div>
-  </div>
   <div class="grid" id="levelCards"></div>
 </section>
 
 <section class="wrap section">
-  <div class="section-head">
-    <div>
-      <h2>بسته‌های اعتباری کلاس هوش مصنوعی من</h2>
-      <p>اعتبار خریداری‌شده بدون تاریخ انقضا محفوظ خواهد بود.</p>
-    </div>
-  </div>
   <div class="packages" id="packages"></div>
 </section>
 
@@ -380,7 +366,7 @@ function initUI(){
   levels.forEach((x, i) => {
     const d = el('details', 'card');
     if(i === 0) d.open = true;
-    const s = el('summary', '', 'مقاطع و مسیرهای آموزشی: ' + x);
+    const s = el('summary', '', x);
     const b = el('div', 'inside');
     b.append(el('p','',`آموزش مفهومی، تدریس، تحلیل پرسش و حل تمرین تخصصی مقطع ${x}.`));
     d.append(s, b);
@@ -599,7 +585,7 @@ function renderMath(container){
   }catch(e){}
 }
 
-/* معماری اتصال پایدار و چندکاناله هوش مصنوعی */
+/* موتور هوش مصنوعی چندکاناله، مستقیم و بدون نیاز به کلید */
 async function requestAI(promptText, imageData){
   const fullPrompt = `${promptText}${imageData ? '\n[تصویر سوال ضمیمه شده است]' : ''}`;
   const encoded = encodeURIComponent(fullPrompt);
@@ -625,7 +611,7 @@ async function requestAI(promptText, imageData){
     }catch(e){}
   }
 
-  // تلاش پشتیبان از طریق پروتکل POST
+  // متد POST کمکی
   try{
     const postRes = await fetch('https://text.pollinations.ai/',{
       method:'POST',
@@ -641,7 +627,7 @@ async function requestAI(promptText, imageData){
     }
   }catch(e){}
 
-  throw new Error('پاسخی از سرور دریافت نشد. وضعیت اتصال اینترنت یا پروکسی را بررسی کنید.');
+  throw new Error('عدم برقراری ارتباط با سرور. لطفاً اتصال اینترنت خود را بررسی نمایید.');
 }
 
 byId('send').onclick = async () => {
