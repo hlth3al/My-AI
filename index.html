@@ -99,6 +99,38 @@
       gap:14px;
     }
     .group{
+      padding:16px;margin:14px 0}
+
+    .question{
+      width:100%;min-height:130px;
+      background:var(--panel2);
+      color:var(--ink);
+      border:1px solid #4a5779;
+      border-radius:12px;
+      padding:12px;
+      resize:vertical;
+    }
+    .question:focus{border-color:var(--a);outline:none}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .action{
+      background:#252e4c;color:white;
+      border:1px solid #637096;border-radius:10px;
+      padding:9px 14px;font-weight:800;
+      transition:.2s;
+    }
+    .action:hover{background:#37466c}
+    .answer-action{
+      background:linear-gradient(100deg,#147c70,#176d9e);
+      border-color:#59e0cb;font-size:1rem;padding:10px 18px;
+    }
+    .answer-action:hover{filter:brightness(1.15)}
+
+    .level-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+      gap:14px;
+    }
+    .group{
       padding:16px;
       border-top:4px solid var(--color);
     }
@@ -109,26 +141,7 @@
     }
     .buttons{display:flex;gap:6px;flex-wrap:wrap}
     .task{
-      border:1px solid color-mix(in srgb,var(--color),white 15%);
-      background:color-mix(in srgb,var(--color),#111827 80%);
-      color:#fff;
-      border-radius:8px;
-      padding:7px 9px;
-      font-weight:700;
-      font-size:.82rem;
-      transition:transform .12s,border-color .15s;
-    }
-    .task:hover,.task:focus-visible,.card:hover,.panel:hover,.group:hover,.bottom-card:hover{
-      border-color:#ff384f;
-      animation:wobble .38s ease-in-out;
-      box-shadow:0 0 0 2px #ff384f44,0 12px 30px #0006;
-    }
-    .task:active{transform:scale(.96)}
-
-    .c1{--color:#39dbc4}.c2{--color:#ffbd4a}.c3{--color:#bd8cff}.c4{--color:#ff6d91}
-    .c5{--color:#63b7ff}.c6{--color:#9ce15c}.c7{--color:#ff8d4d}.c8{--color:#4ed6e8}
-    .c9{--color:#f28adb}.c10{--color:#c9df5a}.c11{--color:#f17661}.c12{--color:#a28cff}
-    .c13{--color:#44d69d}.c14{--color:#dfa447}
+      border:1px solid color-mix(in srgb,var(--color),white:#44d69d}.c14{--color:#dfa447}
 
     .tools{
       display:grid;
@@ -322,9 +335,9 @@
   'use strict';
 
   // =========================================================================
-  // 🔑 متغیر اختصاصی کلید اتصال (کلید فقط در این بخش داخل کد قرار دارد):
+  // 🔑 متغیر کلید اختصاصی API گپ جی پی تی
   // =========================================================================
-  const API_KEY = "GAPGPTMASKTOKENxbvvyric7uX0X";
+  const API_KEY = "Isk-E8BZu0kEAO4YilLpYNWjOVI4vzuh5vCvtos1r2UZ4hn3l9O9";
 
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
@@ -450,24 +463,20 @@
     $('#preview').hidden = true;
   };
 
+  // شیوه اتصال مستقیم فرم به سرور GapGPT
   async function executeRequest(payload) {
     const bodyStr = JSON.stringify(payload);
 
-    // تلاش اول: اتصال مستقیم به سرور پردازش
+    // ۱. ارسال مستقیم به اندپوینت رسمی گپ جی پی تی
     try {
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), 25000);
-
       const res = await fetch('https://api.gapgpt.app/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + API_KEY
         },
-        body: bodyStr,
-        signal: controller.signal
+        body: bodyStr
       });
-      clearTimeout(id);
 
       const d = await res.json().catch(() => null);
       if (res.ok && d?.choices?.[0]?.message?.content) {
@@ -476,10 +485,10 @@
         return { ok: false, error: d.error.message };
       }
     } catch (e) {
-      // ادامه به مسیر کمکی
+      // در صورت وجود محدودیت CORS در برخی شبکه‌ها، از مسیر پشتیبان عبور می‌کند
     }
 
-    // تلاش دوم: مسیر کمکی ضد تحریم و CORS
+    // ۲. مسیر اتصال پشتیبان در صورت بروز خطای شبکه
     try {
       const fallbackUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://api.gapgpt.app/v1/chat/completions');
       const res = await fetch(fallbackUrl, {
@@ -499,7 +508,7 @@
       }
     } catch (e) {}
 
-    return { ok: false, error: 'عدم دریافت پاسخ از سرور. لطفاً اتصال اینترنت خود را بررسی نمایید.' };
+    return { ok: false, error: 'برقراری ارتباط ممکن نشد. لطفاً اتصال اینترنت را بررسی فرمایید.' };
   }
 
   async function ask(actionTitle){
