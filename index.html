@@ -22,73 +22,85 @@ body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transpare
 .topbar{position:sticky;top:0;z-index:9;background:#0b1120f0;backdrop-filter:blur(14px);padding:6px 0}
 .nav{display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:15px}
 .brand{font-weight:1000;color:#fff;text-decoration:none;font-size:1.05rem;padding:8px 12px;border-radius:10px;background:var(--panel2);border:1px solid var(--line)}
+.brand bgold:#f4c66a;--teal:#59d5c4;--shadow:0 18px 55px #0005;
+  --redNeon:#ff0033;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 80% -15%,#26395e 0,transparent 42%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95}
+.wrap{width:min(1160px,calc(100% - 32px));margin:auto}
+.topbar{position:sticky;top:0;z-index:9;background:#0b1120f0;backdrop-filter:blur(14px);padding:6px 0}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:15px}
+.brand{font-weight:1000;color:#fff;text-decoration:none;font-size:1.05rem;padding:8px 12px;border-radius:10px;background:var(--panel2);border:1px solid var(--line)}
 .brand b{color:var(--gold)}
 .navlinks{display:flex;gap:10px;flex-wrap:wrap}
 .navlinks a{color:var(--muted);font-size:.92rem;text-decoration:none;padding:6px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line)}
-.toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line)}
-
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:25px 0 15px;align-items:center}
-.section{padding:15px 0}
+.toggleline{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;background:var(--panel2);border:120px 0 15px;
+  padding: 30px 20px;
+  text-align: center;
+  border-radius: 20px;
+  background: linear-gradient(-45deg, #0b1120, #1e1b4b, #172554, #3b0764, #0b1120);
+  background-size: 400% 400%;
+  animation: rainbowFlow 8s ease infinite, pulseBanner 3s ease-in-out infinite;
+  border: 2px solid rgba(244,198,106,.6);
+  position: relative;
+  overflow: hidden;
+}
+.grand-banner .homeai-pill {
+  display: inline-block;
+  direction: ltr;
+  padding: 6px 24px;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 1000;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #22c55e, #38bdf8, #ec4899, #eab308);
+  background-size: 300% 300%;
+  animation: rainbowFlow 4s ease infinite;
+  color: #05070f;
+  box-shadow: 0 0 25px rgba(56,189,248,.8);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.grand-banner .banner-title {
+  display: block;
+  font-size: clamp(1.5rem, 4.2vw, 2.7rem);
+  font-weight: 1000;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(244,198,106,.8), 0 0 30px rgba(236,72,153,.6);
+  line-height: 1.5;
+}
 
 /* کادربندی سراسری همه المان‌ها */
-.info-card, .box, .hero-card, .card, details.card, details.tool, .package, .navlinks a, .brand, .toggleline, .btn, textarea, input[type="text"]{
+.info-card, .box, .card, details.card, details.tool, .package, .navlinks a, .brand, .toggleline, .btn, textarea, input[type="text"]{
+   clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 1000;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #22c55e, #38bdf8, #ec4899, #eab308);
+  background-size: 300% 300%;
+  animation: rainbowFlow 4s ease infinite;
+  color: #05070f;
+  box-shadow: 0 0 25px rgba(56,189,248,.8);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.grand-banner .banner-title {
+  display: block;
+  font-size: clamp(1.5rem, 4.2vw, 2.7rem);
+  font-weight: 1000;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(244,198,106,.8), 0 0 30px rgba(236,72,153,.6);
+  line-height: 1.5;
+}
+
+/* کادربندی سراسری همه المان‌ها */
+.info-card, .box, .card, details.card, details.tool, .package, .navlinks a, .brand, .toggleline, .btn, textarea, input[type="text"]{
   background:linear-gradient(135deg, rgba(56,189,248,.12), rgba(168,85,247,.08), rgba(250,204,21,.06));
   border:1px solid rgba(148,163,184,.22);
   border-radius:14px;
-  box-shadow:var(--shadow);
-  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
-  will-change:transform,border-color,box-shadow;
-}
-
-.info-card{padding:16px 20px;margin-bottom:14px}
-.heroBigCard{padding:20px;margin-bottom:16px}
-.eyebrow{color:var(--teal);font-weight:900;font-size:1.02rem;margin:0}
-
-h1{
-  font-size:clamp(1.4rem,3.2vw,2.5rem);
-  margin:0;
-  line-height:1.6;
-  font-weight:1000;
-  color:#fff;
-}
-.heroBigLine{
-  font-size:clamp(1.05rem,1.8vw,1.4rem);
-  color:#fde68a;
-  font-weight:900;
-  margin-top:10px;
-}
-.bigTitle{
-  display:block;
-  font-size:clamp(1.3rem,3.8vw,2.4rem);
-  font-weight:1000;
-  color:#fff;
-  margin-bottom:12px;
-}
-.bigTitle .homeai{
-  display:inline-block;
-  direction:ltr;
-  padding:4px 14px;
-  border-radius:999px;
-  background:linear-gradient(135deg,#22c55e,#38bdf8,#a855f7);
-  color:#05070f;
-  box-shadow:0 0 16px rgba(56,189,248,.4);
-  letter-spacing:1px;
-}
-
-.lead{color:var(--muted);font-size:1.02rem;margin:0}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 0}
-.btn{
-  background:var(--panel2);color:var(--ink);
-  padding:10px 18px;border-radius:10px;text-decoration:none;display:inline-flex;
+  box-shadow::inline-flex;
   align-items:center;justify-content:center;gap:8px;font-size:.95rem;cursor:pointer
 }
 .btn.primary{background:linear-gradient(135deg,#eab308,#ca8a04);color:#0b1120;font-weight:1000;border:none}
 .btn.busy{opacity:.6;pointer-events:none}
-
-.hero-card{padding:22px}
-.hero-card ul{padding-right:20px;margin:12px 0;color:var(--muted)}
-.hero-card li{margin-bottom:6px}
-.pill{display:inline-block;background:#26395e;color:var(--teal);padding:4px 10px;border-radius:20px;font-size:.84rem;margin:4px 2px}
 
 .workspace{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .box{padding:20px}
@@ -97,10 +109,7 @@ textarea,input[type="text"]{
   width:100%;background:var(--bg);
   color:var(--ink);padding:10px 12px;outline:none;font-family:inherit
 }
-textarea{height:180px;resize:vertical}
-.fileline{display:flex;align-items:center;gap:10px;margin:12px 0;flex-wrap:wrap}
-.fileline input[type="file"]{display:none}
-.preview{max-height:80px;border-radius:8px;border:1px solid var(--line);display:none}
+textarea{height:200px;resize:vertical}
 
 .status{font-size:.92rem;margin:10px 0 0;min-height:22px}
 .status.error{color:var(--red)}
@@ -108,7 +117,7 @@ textarea{height:180px;resize:vertical}
 
 .result{
   background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;
-  min-height:220px;max-height:520px;overflow-y:auto;white-space:normal;line-height:2;font-size:1rem
+  min-height:200px;max-height:520px;overflow-y:auto;white-space:normal;line-height:2;font-size:1rem
 }
 .result p{margin:10px 0}
 .result ul,.result ol{padding-right:22px;margin:10px 0}
@@ -136,31 +145,32 @@ details.tool{padding:12px 16px}
 .btn.busy .spinner{display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-@media(max-width:900px){.hero,.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.workspace{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.grid,.packages{grid-template-columns:1fr}.navlinks{display:none}}
 
-/* افکت لرزش، بزرگ‌نمایی و حاشیه قرمز نئونی */
+/* انیمیشن لرزش و هاله نئونی فعال */
 @keyframes kidShake{
   0%{transform:scale(1.02) translate(0,0)}
-  25%{transform:scale(1.06) translate(-2px, 1px)}
+  25%{transform:scale(1.05) translate(-2px, 1px)}
   50%{transform:scale(1.02) translate(2px, -2px)}
-  75%{transform:scale(1.06) translate(-1px, 2px)}
-  100%{transform:scale(1.04) translate(0,0)}
+  75%{transform:scale(1.05) translate(-1px, 2px)}
+  100%{transform:scale(1.03) translate(0,0)}
 }
-.info-card:hover, .box:hover, .hero-card:hover, .card:hover, details.card:hover, details.tool:hover, .package:hover,
-.info-card:active, .box:active, .hero-card:active, .card:active, details.card:active, details.tool:active, .package:active,
-.info-card.fx-on, .box.fx-on, .hero-card.fx-on, .card.fx-on, details.card.fx-on, details.tool.fx-on, .package.fx-on,
+.info-card:hover, .box:hover, .card:hover, details.card:hover, details.tool:hover, .package:hover,
+.info-card:active, .box:active, .card:active, details.card:active, details.tool:active, .package:active,
+.info-card.fx-on, .box.fx-on, .card.fx-on, details.card.fx-on, details.tool.fx-on, .package.fx-on,
 .btn:hover, .btn:active, .btn:focus, .btn.fx-on,
 textarea:hover, textarea:focus, textarea.fx-on,
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
 .navlinks a:hover, .navlinks a:active, .navlinks a.fx-on,
 .brand:hover, .brand:active, .brand.fx-on,
-.toggleline:hover, .toggleline.fx-on{
+.toggleline:hover, .toggleline.fx-on,
+.grand-banner:hover, .grand-banner.fx-on{
   border-color:var(--redNeon) !important;
-  box-shadow:0 0 22px rgba(255,0,51,.95), 0 0 45px rgba(255,0,51,.65), inset 0 0 14px rgba(255,0,51,.35) !important;
+  box-shadow:0 0 24px rgba(255,0,51,.95), 0 0 50px rgba(255,0,51,.65), inset 0 0 16px rgba(255,0,51,.4) !important;
   animation:kidShake .30s ease-in-out !important;
   transform:scale(1.03);
-  filter:drop-shadow(0 0 8px rgba(255,0,51,.65));
+  filter:drop-shadow(0 0 10px rgba(255,0,51,.7));
 }
 </style>
 </head>
@@ -181,68 +191,46 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
 </header>
 
 <main>
-<section class="wrap hero" id="home">
-  <div>
-    <div class="info-card">
-      <p class="eyebrow">یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خونه با موبایل و کامپیوتر توسط خونه هوش مصنوعی برلیان لعلیان</p>
-    </div>
-
-    <div class="info-card">
-      <div class="bigTitle">
-        <span class="homeai">Home-AI</span>
-        <span style="display:block;margin-top:8px">خونه هوش مصنوعی برلیان لعلیان</span>
-      </div>
-    </div>
-
-    <div class="info-card heroBigCard">
-      <h1>
-        بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط خونه هوش مصنوعی برلیان لعلیان
-        <div class="heroBigLine">دستیار هوشمند شماست این خونه هوش مصنوعی برلیان لعلیان</div>
-      </h1>
-    </div>
-
-    <div class="info-card">
-      <p class="lead">
-        شرکت صنایع پردرآمد تهرانیها با مدیریت علمی حسین لعلیان رتبه ۳۲ کنکور دکتری و همچنین مفتخر به تحصیل در 6 دانشکده میباشند(شیلات-شیمی-زبان-مدیریت-مهندسی آی تی-مهندسی صنایع)
-        <br>
-        صحت موضوع را از وزارت علوم جویا شوید!
-        <br><br>
-        این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور
-      </p>
-      <div class="actions">
-        <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
-        <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
-      </div>
-    </div>
+<section class="wrap section" id="home">
+  <!-- بنر بزرگ، متحرک، تپنده و رنگین‌کمانی در ابتدای صفحه -->
+  <div class="grand-banner">
+    <div class="homeai-pill">Home-AI</div>
+    <span class="banner-title">خونه هوش مصنوعی برلیان لعلیان</span>
   </div>
 
-  <aside class="hero-card">
-    <strong style="font-size:1.1rem;display:block;margin-bottom:8px">پشتیبان یادگیری شما</strong>
-    <ul>
-      <li>تدریس، حل تمرین و تحلیل گام‌به‌گام</li>
-      <li>مدرسه، کنکور، کارشناسی تا دکتری تخصصی</li>
-      <li>کار با تصویر پرسش و مسائل چندرسانه‌ای</li>
-      <li>اتصال مستقیم و پایدار هوش مصنوعی</li>
-    </ul>
-    <span class="pill">آموزش حضوری و مجازی</span>
-    <span class="pill">یادگیری و ارزیابی هوشمند</span>
-  </aside>
+  <div class="info-card">
+    <p class="eyebrow">یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خونه با موبایل و کامپیوتر توسط خونه هوش مصنوعی برلیان لعلیان</p>
+  </div>
+
+  <div class="info-card heroBigCard">
+    <h1>
+      بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خونه توسط خونه هوش مصنوعی برلیان لعلیان
+      <div class="heroBigLine">دستیار هوشمند شماست این خونه هوش مصنوعی برلیان لعلیان</div>
+    </h1>
+  </div>
+
+  <div class="info-card">
+    <p class="lead">
+      شرکت صنایع پردرآمد تهرانیها با مدیریت علمی حسین لعلیان رتبه ۳۲ کنکور دکتری و همچنین مفتخر به تحصیل در 6 دانشکده میباشند(شیلات-شیمی-زبان-مدیریت-مهندسی آی تی-مهندسی صنایع)
+      <br>
+      صحت موضوع را از وزارت علوم جویا شوید!
+      <br><br>
+      این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="#assistant">شروع گفتگو با هوش مصنوعی ←</a>
+      <a class="btn" href="#services">دیدن ابزارهای آموزشی</a>
+    </div>
+  </div>
 </section>
 
-<!-- بخش دستیار هوشمند -->
+<!-- بخش دستیار هوشمند و حل مسئله -->
 <section class="wrap section" id="assistant">
   <div class="workspace">
     <!-- کادر ورودی سوال -->
     <div class="box">
       <label class="field" for="prompt">ورودی پرسش / متن درس یا تمرین</label>
-      <textarea id="prompt" placeholder="سوال، تمرین یا موضوع موردنظر را اینجا بنویسید…"></textarea>
-
-      <div class="fileline">
-        <label class="btn" for="image">📷 انتخاب عکس مسئله</label>
-        <input type="file" id="image" accept="image/*">
-        <button class="btn" id="removeImage" type="button">حذف عکس</button>
-        <img id="preview" class="preview" alt="پیش‌نمایش تصویر">
-      </div>
+      <textarea id="prompt" placeholder="سوال، تمرین یا مبحث موردنظر خود را اینجا بنویسید…"></textarea>
 
       <div class="actions">
         <button class="btn primary" id="send" type="button">
@@ -262,7 +250,7 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"].fx-on,
 
       <div class="actions">
         <button class="btn" id="copy" type="button">📋 کپی کردن پاسخ</button>
-        <button class="btn" id="saveAudio" type="button">💾 دانلود صوتی</button>
+        <button class="btn" id="saveAudio" type="button">🔊 خواندن صوتی</button>
       </div>
     </div>
   </div>
@@ -424,7 +412,7 @@ function vibBeep(){
   }catch(e){}
 }
 function fxTarget(node){
-  return node && node.closest && node.closest('.info-card, .box, .hero-card, .card, details.card, details.tool, .package, .btn, textarea, input[type="text"], .navlinks a, .brand, .toggleline');
+  return node && node.closest && node.closest('.grand-banner, .info-card, .box, .card, details.card, details.tool, .package, .btn, textarea, input[type="text"], .navlinks a, .brand, .toggleline');
 }
 function fireFX(node){
   const t = fxTarget(node);
@@ -437,30 +425,6 @@ function fireFX(node){
 document.addEventListener('pointerenter', e => fireFX(e.target), true);
 document.addEventListener('pointerdown', e => fireFX(e.target), true);
 document.addEventListener('focusin', e => fireFX(e.target), true);
-
-const fileInput = byId('image');
-let imageData = null;
-fileInput.addEventListener('change', () => {
-  const f = fileInput.files[0];
-  if(!f) return;
-  if(f.size > 8*1024*1024){
-    setStatus('حجم تصویر نباید بیشتر از ۸ مگابایت باشد.', 'error');
-    fileInput.value = ''; return;
-  }
-  const r = new FileReader();
-  r.onload = () => {
-    imageData = r.result;
-    byId('preview').src = imageData;
-    byId('preview').style.display = 'block';
-  };
-  r.readAsDataURL(f);
-});
-byId('removeImage').onclick = () => {
-  imageData = null;
-  fileInput.value = '';
-  byId('preview').removeAttribute('src');
-  byId('preview').style.display = 'none';
-};
 
 function setStatus(text, kind=''){
   const n = byId('status');
@@ -569,10 +533,9 @@ function renderMath(container){
   }catch(e){}
 }
 
-/* موتور هوش مصنوعی چندمسیره و پایدار */
-async function requestAI(promptText, imageData){
-  const fullPrompt = `${promptText}${imageData ? '\n[تصویر سوال ضمیمه شده است]' : ''}`;
-  const encoded = encodeURIComponent(fullPrompt);
+/* اتصال چندمسیره، رایگان و بدون کلید هوش مصنوعی */
+async function requestAI(promptText){
+  const encoded = encodeURIComponent(promptText);
 
   const endpoints = [
     `https://text.pollinations.ai/${encoded}?model=openai`,
@@ -600,7 +563,7 @@ async function requestAI(promptText, imageData){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
-        messages:[{role:'user', content: fullPrompt}],
+        messages:[{role:'user', content: promptText}],
         model:'openai'
       })
     });
@@ -610,71 +573,75 @@ async function requestAI(promptText, imageData){
     }
   }catch(e){}
 
-  throw new Error('عدم برقراری ارتباط با سرور هوش مصنوعی. اینترنت خود را بررسی نمایید.');
+  throw new Error('عدم برقراری ارتباط با سرور هوش مصنوعی. لطفاً اینترنت خود را بررسی نمایید.');
 }
 
 byId('send').onclick = async () => {
   const question = byId('prompt').value.trim();
-  if(!question && !imageData){
-    setStatus('لطفاً سوال خود را بنویسید یا عکسی از مسئله انتخاب کنید.', 'error');
+  if(!question){
+    setStatus('لطفاً سوال یا مبحث خود را در کادر بالا بنویسید.', 'error');
     return;
   }
 
   const btn = byId('send');
   btn.classList.add('busy'); btn.disabled = true;
-  setStatus('در حال ارتباط با سرور و پردازش پاسخ هوشمند…');
+  setStatus('در حال ارتباط مستقیم با سرور هوش مصنوعی و پردازش پاسخ…');
   byId('result').textContent = 'در حال تحلیل مسئله و نگارش پاسخ… لطفاً شکیبا باشید.';
 
   try{
-    const sys = makeSystemPrompt();
-    const combined = `${sys}\n\nسوال کاربر:\n${question || 'لطفاً مسئله مطرح شده در تصویر را تحلیل و حل نمایید.'}`;
-    const raw = await requestAI(combined, imageData);
+    const sys = makeSystem [
+    `https://text.pollinations.ai/${encoded}?model=openai`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`,
+    `https://corsproxy.io/?${encodeURIComponent('https://text.pollinations.ai/' + encoded)}`
+  ];
 
-    const clean = sanitizeAndCleanText(raw);
-    const html = toCleanHTML(clean);
-
-    byId('result').innerHTML = html;
-    renderMath(byId('result'));
-
-    setStatus('پاسخ با موفقیت دریافت و آماده شد.', 'ok');
-  }catch(err){
-    setStatus('خطا: ' + (err.message || 'خطای شبکه.'), 'error');
-    byId('result').textContent = 'در برقراری ارتباط مشکلی به وجود آمد. لطفاً اتصال اینترنت را بررسی و مجدداً تلاش نمایید.';
-  }finally{
-    btn.classList.remove('busy'); btn.disabled = false;
+  for(let i=0; i<endpoints.length; i++){
+    try{
+      const res = await fetch(endpoints[i], {
+        method:'GET',
+        headers:{'Accept':'text/plain, application/json'}
+      });
+      if(res.ok){
+        const text = await res.text();
+        if(text && text.trim().length > 0 && !text.includes('<!DOCTYPE') && !text.includes('<html')) {
+          return text;
+        }
+      }
+    }catch(e){}
   }
-};
 
-byId('clear').onclick = () => {
-  byId('prompt').value = '';
-  byId('result').textContent = 'پاسخ تشریحی و گام‌به‌گام هوش مصنوعی پس از ارسال پرسش در این بخش نمایش داده می‌شود.';
-  setStatus('');
-  byId('removeImage').click();
-};
-
-byId('copy').onclick = async () => {
   try{
-    await navigator.clipboard.writeText(byId('result').innerText);
-    setStatus('پاسخ با موفقیت در کلیپ‌بورد کپی شد.', 'ok');
-  }catch{
-    setStatus('کپی انجام نشد؛ متن را دستی انتخاب و کپی کنید.', 'error');
-  }
-};
+    const postRes = await fetch('https://text.pollinations.ai/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        messages:[{role:'user', content: promptText}],
+        model:'openai'
+      })
+    });
+    if(postRes.ok){
+      const t = await postRes.text();
+      if(t && t.trim().length > 0) return t;
+    }
+  }catch(e){}
 
-byId('saveAudio').onclick = () => {
-  if(!('speechSynthesis' in window)){
-    setStatus('مرورگر شما از قابلیت خواندن صوتی پشتیبانی نمی‌کند.', 'error');
+  throw new Error('عدم برقراری ارتباط با سرور هوش مصنوعی. لطفاً اینترنت خود را بررسی نمایید.');
+}
+
+byId('send').onclick = async () => {
+  const question = byId('prompt').value.trim();
+  if(!question){
+    setStatus('لطفاً سوال یا مبحث خود را در کادر بالا بنویسید.', 'error');
     return;
   }
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(byId('result').innerText);
-  u.lang = 'fa-IR';
-  speechSynthesis.speak(u);
-  setStatus('در حال قرائت صوتی پاسخ…', 'ok');
-};
 
-async function copyText(text, label){
-  try{ await navigator.clipboard.writeText(text); setStatus(label + ' کپی شد.', 'ok'); }
+  const btn = byId('send');
+  btn.classList.add('busy'); btn.disabled = true;
+  setStatus('در حال ارتباط مستقیم با سرور هوش مصنوعی و پردازش پاسخ…');
+  byId('result').textContent = 'در حال تحلیل مسئله و نگارش پاسخ… لطفاً شکیبا باشید.';
+
+  try{
+    const sys = makeSystemtext); setStatus(label + ' کپی شد.', 'ok'); }
   catch{ setStatus('کپی انجام نشد.', 'error'); }
 }
 byId('copyCard').onclick = () => copyText('6037991555549678', 'شماره کارت');
