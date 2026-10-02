@@ -13,7 +13,6 @@
             --ink: #eef4ff;
             --accent: #38bdf8;
             --red: #ff5263;
-            --green: #22c55e;
         }
 
         * {
@@ -145,7 +144,6 @@
             border-radius: 10px;
         }
 
-        /* بخش ۶ دکمه صوتی */
         .voice-suite-card {
             border: 2px solid var(--accent);
             background: #0f1c30;
@@ -291,37 +289,31 @@
             <h4 class="voice-suite-title">🎙️ مجموعه صوتی چندزبانه و هوشمند دانش‌آموز و دانشجو</h4>
             
             <div class="voice-grid">
-                <!-- دکمه ۱ -->
                 <div class="voice-box">
                     <p><strong>۱. تبدیل متن سوال به صوت:</strong> سوال تایپ‌شده یا کپی‌شده شما را با صدای رسا برای درک بهتر می‌خواند.</p>
                     <button class="btn voice-btn" onclick="vAction1()">🔊 خواندن متن سوال</button>
                 </div>
 
-                <!-- دکمه ۲ -->
                 <div class="voice-box">
                     <p><strong>۲. خواندن سوال تصویری:</strong> استخراج متن موجود در تصویر برگه امتحانی یا کتاب و قرائت صوتی آن.</p>
                     <button class="btn voice-btn" onclick="vAction2()">🖼️ قرائت سوال از روی عکس</button>
                 </div>
 
-                <!-- دکمه ۳ -->
                 <div class="voice-box">
                     <p><strong>۳. پاسخ به عکس با صدای من:</strong> تحلیل سوال تصویری و قرائت پاسخ با لحن و فرکانس صدای شبیه‌سازی‌شده شما.</p>
                     <button class="btn voice-btn" onclick="vAction3()">👤 پاسخ سوال عکسی با صدای من</button>
                 </div>
 
-                <!-- دکمه ۴ -->
                 <div class="voice-box">
                     <p><strong>۴. طرح سوال صوتی (همه زبان‌ها):</strong> با میکروفون صحبت کنید؛ سوال شما به هر زبانی تایپ و آماده ارسال می‌شود.</p>
                     <button class="btn voice-btn" id="micBtn" onclick="vAction4()">🎤 ضبط سوال صوتی کاربر</button>
                 </div>
 
-                <!-- دکمه ۵ -->
                 <div class="voice-box">
                     <p><strong>۵. پاسخ تشریحی با صدای من:</strong> قرائت متن پاسخنامه هوش مصنوعی با شبیه‌سازی فرکانس و لحن شخصی شما.</p>
                     <button class="btn voice-btn" onclick="vAction5()">🗣️ خواندن پاسخ با صدای من</button>
                 </div>
 
-                <!-- دکمه ۶ -->
                 <div class="voice-box">
                     <p><strong>۶. ذخیره و دانلود فایل صوتی:</strong> ضبط پاسخ صوتی در حافظه دستگاه جهت مرور آفلاین در شب‌های امتحان.</p>
                     <button class="btn voice-btn" id="recordDownloadBtn" onclick="vAction6()">💾 ذخیره پاسخ صوتی آفلاین</button>
@@ -437,17 +429,20 @@
         document.getElementById('result-box').innerText = 'پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.';
     };
 
-    // ===== پیکربندی اتصال به GapGPT با پراکسی و فال‌بک =====
-    const GAPGPT = {
-        apiKey: "sk-HWQSalfbr2WKOSWTbhnTI5eneH7jNmYYK0T4e3lOg9Ztd1LO",
+    // تنظیمات استاندارد GapGPT سازگار با وب و محیط‌های کلاینت
+    const AI_CONFIG = {
+        apiKeys: [
+            "GAPGPTMASKTOKENto31yk2jbeX0X",
+            "GAPGPTMASKTOKENto31yk2jbeX1X"
+        ],
         endpoints: [
-            "https://api.gapgpt.app/v1",
-            "https://api.gapapi.com/v1"
+            "https://api.gapgpt.app/v1/chat/completions",
+            "https://api.gapapi.com/v1/chat/completions"
         ],
         proxies: [
-            function(u) { return u; },
-            function(u) { return "https://corsproxy.io/?" + encodeURIComponent(u); },
-            function(u) { return "https://api.allorigins.win/raw?url=" + encodeURIComponent(u); }
+            url => url,
+            url => "https://corsproxy.io/?" + encodeURIComponent(url),
+            url => "https://api.allorigins.win/raw?url=" + encodeURIComponent(url)
         ]
     };
 
@@ -461,7 +456,7 @@
                 role: "user",
                 content: (images && images.length > 0)
                     ? [
-                        { type: "text", text: promptText || "لطفاً سوال این تصویر را بررسی و گام به گام حل کنید." },
+                        { type: "text", text: promptText || "لطفاً سوال این تصویر را تشریحی و کامل حل نمایید." },
                         ...images.map(img => ({ type: "image_url", image_url: { url: img } }))
                       ]
                     : promptText
@@ -470,52 +465,51 @@
 
         let lastErr = "عدم برقراری ارتباط";
 
-        for (let b = 0; b < GAPGPT.endpoints.length; b++) {
-            const directUrl = GAPGPT.endpoints[b].replace(/\/$/, "") + "/chat/completions";
+        for (const key of AI_CONFIG.apiKeys) {
+            for (const endpoint of AI_CONFIG.endpoints) {
+                for (const proxy of AI_CONFIG.proxies) {
+                    const targetUrl = proxy(endpoint);
 
-            for (let p = 0; p < GAPGPT.proxies.length; p++) {
-                const targetUrl = GAPGPT.proxies[p](directUrl);
+                    try {
+                        const ctrl = new AbortController();
+                        const timeout = setTimeout(() => ctrl.abort(), 20000);
 
-                try {
-                    const ctrl = new AbortController();
-                    const timeout = setTimeout(() => ctrl.abort(), 26000);
+                        const res = await fetch(targetUrl, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer " + key
+                            },
+                            body: JSON.stringify({
+                                model: "gpt-4o-mini",
+                                messages: messages,
+                                temperature: 0.4
+                            }),
+                            signal: ctrl.signal
+                        });
 
-                    const res = await fetch(targetUrl, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": "Bearer " + GAPGPT.apiKey
-                        },
-                        body: JSON.stringify({
-                            model: "gpt-4o-mini",
-                            messages: messages,
-                            temperature: 0.4
-                        }),
-                        signal: ctrl.signal
-                    });
+                        clearTimeout(timeout);
 
-                    clearTimeout(timeout);
+                        if (!res.ok) {
+                            lastErr = "HTTP " + res.status;
+                            continue;
+                        }
 
-                    if (!res.ok) {
-                        lastErr = "HTTP " + res.status;
-                        continue;
+                        const data = await res.json();
+                        const answer = data?.choices?.[0]?.message?.content;
+                        if (typeof answer === "string" && answer.trim().length > 0) {
+                            return answer;
+                        }
+                    } catch (e) {
+                        lastErr = e?.message || "CONN_TIMEOUT";
                     }
-
-                    const data = await res.json();
-                    const answer = data?.choices?.[0]?.message?.content;
-                    if (typeof answer === "string" && answer.trim().length > 0) {
-                        return answer;
-                    }
-                    lastErr = "EMPTY_DATA";
-                } catch (e) {
-                    lastErr = e?.message || "CONN_TIMEOUT";
                 }
             }
         }
+
         throw new Error(lastErr);
     }
 
-    // ارسال سوال اصلی
     document.getElementById('sendBtn').onclick = async () => {
         const userInput = document.getElementById('userInput').value.trim();
         const resultBox = document.getElementById('result-box');
@@ -534,17 +528,16 @@
             const answer = await requestAI(userInput, uploadedImagesBase64);
             resultBox.innerText = answer;
         } catch (err) {
-            resultBox.innerText = 'خطا در ارتباط با سرور: ' + err.message + '\nلطفاً فیلترشکن خود را بررسی کرده و چند ثانیه بعد مجدداً دکمه ارسال را بزنید.';
+            resultBox.innerText = 'خطا در ارتباط با سرور هوش مصنوعی: ' + err.message + '\nلطفاً در صورت استفاده از فیلترشکن، سرور آن را بررسی کرده و مجدداً تلاش کنید.';
         } finally {
             sendBtn.disabled = false;
             sendBtn.innerText = 'ارسال و دریافت پاسخ هوشمند';
         }
     };
 
-    // ===== توابع صوتی کمکی Web Speech =====
     function speakVoice(text, pitchValue, rateValue) {
         if (!('speechSynthesis' in window)) {
-            alert('مرورگر شما از قابلیت تبدیل متن به صوت پشتیبانی نمی‌کند.');
+            alert('مرورگر شما از تبدیل صوت پشتیبانی نمی‌کند.');
             return;
         }
         window.speechSynthesis.cancel();
@@ -563,7 +556,6 @@
         speakVoice(text, 1.0, 1.0);
     }
 
-    // ۱. دکمه تبدیل متن سوال به صوت
     function vAction1() {
         const txt = document.getElementById('userInput').value.trim();
         if (!txt) {
@@ -573,7 +565,6 @@
         speakVoice(txt, 1.0, 0.95);
     }
 
-    // ۲. دکمه استخراج و قرائت سوال تصویری
     async function vAction2() {
         if (uploadedImagesBase64.length === 0) {
             alert('لطفاً ابتدا از دکمه دوربین، عکسی انتخاب کنید.');
@@ -591,7 +582,6 @@
         }
     }
 
-    // ۳. پاسخ به سوال عکسی با صدای من
     async function vAction3() {
         if (uploadedImagesBase64.length === 0) {
             alert('لطفاً ابتدا تصویر سوال را آپلود نمایید.');
@@ -609,7 +599,6 @@
         }
     }
 
-    // ۴. طرح سوال صوتی چندزبانه (Speech-to-Text)
     let recognition = null;
     function vAction4() {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -640,7 +629,6 @@
         recognition.start();
     }
 
-    // ۵. پاسخ با صدای من
     function vAction5() {
         const text = document.getElementById('result-box').innerText;
         if (!text || text.includes('پاسخ گام‌به‌گام')) {
@@ -650,7 +638,6 @@
         speakVoice(text, 1.25, 0.92);
     }
 
-    // ۶. ذخیره پاسخ صوتی
     let mediaRecorder = null;
     let recordedChunks = [];
     async function vAction6() {
