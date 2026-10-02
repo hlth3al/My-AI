@@ -1,10 +1,11 @@
-
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AI-Home | خانه هوش مصنوعی برلیان لعلیان</title>
+    <!-- لود کتابخانه OCR برای استخراج واقعی متن تصاویر در دکمه دوم بدون فریز صفحه -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <style>
         :root {
             --bg: #0b1120;
@@ -14,6 +15,7 @@
             --ink: #eef4ff;
             --accent: #38bdf8;
             --red: #ff5263;
+            --green: #22c55e;
         }
 
         * {
@@ -147,8 +149,7 @@
 
         .upload-label {
             display: inline-block;
-
-background: #1f3354;
+            background: #1f3354;
             color: var(--accent);
             border: 1.5px dashed var(--accent);
             padding: 10px 18px;
@@ -189,6 +190,88 @@ background: #1f3354;
             white-space: pre-wrap;
             margin-top: 14px;
             line-height: 1.9;
+        }
+
+        /* استایل‌های اختصاصی مجموعه صوتی ۶ دکمه‌ای */
+        .audio-suite-container {
+            margin-top: 24px;
+            border: 1.5px solid #2d456f;
+            background: #101c30;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: right;
+        }
+
+        .audio-suite-title {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .audio-btn-card {
+            background: #182844;
+            border: 1px solid #2f4975;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .audio-btn-card p {
+            font-size: 0.82rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .audio-action-btn {
+            background: #253d66;
+            color: #e2e8f0;
+            border: 1px solid var(--accent);
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .audio-action-btn:hover {
+            background: var(--accent);
+            color: #0b1120;
+        }
+
+        .audio-action-btn.active-rec {
+            background: var(--red);
+            color: #fff;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        #audio-status-banner {
+            font-size: 0.88rem;
+            margin-top: 10px;
+            color: var(--accent);
+            text-align: center;
+            min-height: 24px;
         }
 
         .footer-note {
@@ -234,6 +317,71 @@ background: #1f3354;
         <button class="btn btn-send" id="sendBtn">ارسال و دریافت پاسخ هوشمند</button>
         <button class="btn btn-secondary" id="clearBtn">پاک کردن فرم و تصاویر</button>
 
+        <!-- مجموعه صوتی شش‌دکمه‌ای چندزبانه بدون اثر منفی بر هسته هوش مصنوعی -->
+        <div class="audio-suite-container">
+            <div class="audio-suite-title">
+                <span>🎙️ مجموعه صوتی پشتیبانی از همه زبان‌های زنده دنیا (ویژه دانش‌آموزان و دانشجویان)</span>
+            </div>
+            <div id="audio-status-banner">سیستم صوتی آماده استفاده است.</div>
+
+            <div class="audio-grid">
+                <!-- دکمه ۱ -->
+                <div class="audio-btn-card">
+                    <div>
+                        <strong style="color:var(--ink);">۱. تبدیل سوال متنی به صوت</strong>
+                        <p>تبدیل متن سوال تایپ‌شده یا کپی‌شده به خوانش صوتی روان برای مرور شنیداری مفاهیم قبل از حل.</p>
+                    </div>
+                    <button type="button" class="audio-action-btn" id="btnAudio1" onclick="voiceAction1()">🔊 خواندن صوتی متن سوال</button>
+                </div>
+
+                <!-- دکمه ۲ -->
+                <div class="audio-btn-card">
+                    <div>
+                        <strong style="color:var(--ink);">۲. تبدیل سوال عکسی به صوت</strong>
+                        <p>استخراج خودکار متن از تصویر بارگذاری‌شده از گالری (کتاب یا آزمون) و خوانش بی‌درنگ آن به صوت.</p>
+                    </div>
+                    <button type="button" class="audio-action-btn" id="btnAudio2" onclick="voiceAction2()">🖼️ استخراج و خواندن صوت تصویر</button>
+                </div>
+
+                <!-- دکمه ۳ -->
+                <div class="audio-btn-card">
+                    <div>
+                        <strong style="color:var(--ink);">۳. آزمون شفاهی روی عکس</strong>
+                        <p>تحلیل همزمان تصویر توسط هوش مصنوعی و فعال‌سازی فوری میکروفون جهت ضبط پاسخ شفاهی شما.</p>
+                    </div>
+                    <button type="button" class="audio-action-btn" id="btnAudio3" onclick="voiceAction3()">🎯 تحلیل عکس و ضبط پاسخ شفاهی من</button>
+                </div>
+
+                <!-- دکمه ۴ -->
+                <div class="audio-btn-card">
+                    <div>
+                        <strong style="color:var(--ink);">۴. پرسش صوتی چندزبانه</strong>
+                        <p>تبدیل صدای گفتار شما به متن در کادر سوال به تمام زبان‌ها، بدون نیاز به تایپ دستی سوالات طولانی.</p>
+                    </div>
+                    <button type="button" class="audio-action-btn" id="btnAudio4" onclick="voiceAction4()">🗣️ صحبت کنید (تبدیل صوت به متن)</button>
+                </div>
+
+                <!-- دکمه ۵ -->
+                <div class="audio-btn-card">
+                    <div>
+                        <strong style="color:var(--ink);">۵. ضبط پاسخ با صدای واقعی من</strong>
+                        <p>ضبط پاسخ تشریحی درس با صدای اختصاصی خود شما جهت ارائه به استاد یا تمرین آزمون‌های شفاهی.</p>
+                    </div>
+                    <button type="button" class="audio-action-btn" id="btnAudio5" onclick="voiceAction5()">🎙️ ضبط پاسخ تشریحی با صدای من</button>
+                </div>
+
+                <!-- دکمه ۶ -->
+                <div class="audio-btn-card">
+                    <div>
+                        <strong style="color:var(--ink);">۶. ذخیره و دانلود فایل صوتی</strong>
+                        <p>دریافت مستقیم فایل صوتی ضبط‌شده با فرمت استاندارد جهت ارسال به معلم، استاد یا آرشیو تمرینات.</p>
+                    </div>
+                    <button type="button" class="audio-action-btn" id="btnAudio6" onclick="voiceAction6()">💾 ذخیره و دانلود فایل صوتی پاسخ</button>
+                </div>
+            </div>
+            <audio id="recordedAudioPlayer" controls style="width: 100%; margin-top: 14px; display: none;"></audio>
+        </div>
+
         <div style="margin-top:22px; text-align:right;">
             <h4 style="color:var(--accent); margin-bottom: 6px;">پاسخ تشریحی، فرمول‌ها و تحلیل هوش مصنوعی:</h4>
             <div id="result-box">پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.</div>
@@ -242,7 +390,7 @@ background: #1f3354;
         </div>
     </section>
 
-<section class="card zoom-box">
+    <section class="card zoom-box">
         <h3 style="color:var(--gold)">روش خرید بسته و پرداخت آفلاین</h3>
         <p>لطفاً یکی از بسته‌های اعتباری زیر را انتخاب فرمایید و پس از واریز به شماره کارت، تصویر فیش را جهت فعال‌سازی به ایمیل ارسال نمایید:</p>
 
@@ -306,8 +454,7 @@ background: #1f3354;
 
     document.getElementById('imageUpload').addEventListener('change', function(e) {
         const files = Array.from(e.target.files);
-
-const previewArea = document.getElementById('previewArea');
+        const previewArea = document.getElementById('previewArea');
         files.forEach(file => {
             const reader = new FileReader();
             reader.onload = function(evt) {
@@ -352,6 +499,7 @@ const previewArea = document.getElementById('previewArea');
         document.getElementById('imageUpload').value = '';
         uploadedImagesBase64 = [];
         document.getElementById('result-box').innerText = 'پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.';
+        setAudioStatus('فرم و تصاویر با موفقیت پاک شدند.');
     };
 
     // لیست اندپوینت‌های آزاد چندگانه (سیستم سوئیچ خودکار در صورت قطعی)
@@ -406,8 +554,7 @@ const previewArea = document.getElementById('previewArea');
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     model: "gpt-3.5-turbo",
-
-messages: [
+                    messages: [
                         { role: "system", content: "شما دستیار حل مسائل آموزشی خانه هوش مصنوعی برلیان لعلیان هستید." },
                         { role: "user", content: promptText }
                     ]
@@ -448,7 +595,129 @@ messages: [
             sendBtn.innerText = 'ارسال و دریافت پاسخ هوشمند';
         }
     };
-</script>
 
-</body>
-</html>
+    /* ==============================================================
+       پیاده‌سازی کاملاً ایزوله مجموعه صوتی ۶ دکمه‌ای (بدون مداخله در ارسال هوش مصنوعی)
+       ============================================================== */
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordedAudioBlob = null;
+    let recognitionInstance = null;
+
+    function setAudioStatus(msg) {
+        const banner = document.getElementById('audio-status-banner');
+        if (banner) banner.innerText = msg;
+    }
+
+    // ۱. تبدیل سوال متنی به صوت
+    function voiceAction1() {
+        try {
+            const text = document.getElementById('userInput').value.trim();
+            if (!text) {
+                alert('لطفاً ابتدا متنی در کادر سوال وارد یا پیست کنید.');
+                return;
+            }
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                setAudioStatus('در حال پخش صوتی متن سوال...');
+                utter.onend = () => setAudioStatus('پایان خواندن صوتی سوال متنی.');
+                utter.onerror = () => setAudioStatus('سیستم صوتی مرورگر متوقف شد.');
+                window.speechSynthesis.speak(utter);
+            } else {
+                alert('قابلیت تبدیل متن به صوت توسط مرورگر شما پشتیبانی نمی‌شود.');
+            }
+        } catch (err) {
+            setAudioStatus('خطای غیرمنتظره در پخش صوتی متن.');
+        }
+    }
+
+    // ۲. استخراج متن از تصویر گالری و تبدیل به صوت (OCR واقعی بدون فریز کردن UI)
+    async function voiceAction2() {
+        try {
+            if (uploadedImagesBase64.length === 0) {
+                alert('لطفاً ابتدا تصویری از گالری بارگذاری کنید.');
+                return;
+            }
+            const btn = document.getElementById('btnAudio2');
+            btn.innerText = '⏳ در حال خواندن تصویر...';
+            btn.disabled = true;
+            setAudioStatus('در حال تحلیل نویسه‌های تصویر با هوش مصنوعی...');
+
+            const targetImg = uploadedImagesBase64[0];
+            const worker = await Tesseract.createWorker('fas+eng');
+            const res = await worker.recognize(targetImg);
+            await worker.terminate();
+
+            const extractedText = res?.data?.text?.trim();
+            btn.innerText = '🖼️ استخراج و خواندن صوت تصویر';
+            btn.disabled = false;
+
+            if (extractedText) {
+                document.getElementById('userInput').value = extractedText;
+                setAudioStatus('متن استخراج شد و اکنون پخش صوتی آن آغاز می‌شود.');
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utter = new SpeechSynthesisUtterance(extractedText);
+                    window.speechSynthesis.speak(utter);
+                }
+            } else {
+                setAudioStatus('متن واضحی از تصویر یافت نشد؛ تصویر خواناتر بارگذاری فرمایید.');
+            }
+        } catch (err) {
+            document.getElementById('btnAudio2').innerText = '🖼️ استخراج و خواندن صوت تصویر';
+            document.getElementById('btnAudio2').disabled = false;
+            setAudioStatus('پردازش تصویر با خطا مواجه شد. می‌توانید متن را دستی وارد کنید.');
+        }
+    }
+
+    // ۳. تحلیل تصویر و شروع ضبط پاسخ شفاهی دانش‌آموز/دانشجو
+    async function voiceAction3() {
+        try {
+            if (uploadedImagesBase64.length === 0) {
+                alert('لطفاً ابتدا تصویر سوال امتحانی را اضافه نمایید.');
+                return;
+            }
+            setAudioStatus('ارسال سوال تصویری به هوش مصنوعی و آماده‌سازی میکروفون برای آزمون شفاهی...');
+            document.getElementById('sendBtn').click();
+            await toggleAudioRecording('btnAudio3', '🎯 در حال ضبط پاسخ شفاهی شما (کلیک جهت اتمام)', '🎯 تحلیل عکس و ضبط پاسخ شفاهی من');
+        } catch (e) {
+            setAudioStatus('خطا در آغاز آزمون شفاهی تصویری.');
+        }
+    }
+
+    // ۴. تبدیل گفتار به متن (پرسش صوتی چندزبانه)
+    function voiceAction4() {
+        try {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert('قابلیت تشخیص گفتار صوتی در این مرورگر پشتیبانی نمی‌شود. از مرورگر Chrome روی موبایل/سیستم استفاده فرمایید.');
+                return;
+            }
+
+            const btn = document.getElementById('btnAudio4');
+
+            if (recognitionInstance) {
+                recognitionInstance.stop();
+                recognitionInstance = null;
+                btn.innerText = '🗣️ صحبت کنید (تبدیل صوت به متن)';
+                btn.classList.remove('active-rec');
+                setAudioStatus('تشخیص گفتار متوقف شد.');
+                return;
+            }
+
+            recognitionInstance = new SpeechRecognition();
+            recognitionInstance.lang = 'fa-IR';
+            recognitionInstance.continuous = false;
+            recognitionInstance.interimResults = true;
+
+            btn.innerText = '🛑 در حال شنیدن صدای شما... (کلیک جهت توقف)';
+            btn.classList.add('active-rec');
+            setAudioStatus('میکروفون فعال است. سوال خود را شمرده بفرمایید...');
+
+            recognitionInstance.onresult = (evt) => {
+                let spokenText = '';
+                for (let i = 0; i < evt.results.length; i++) {
+                    spokenText += evt.results[i][0].transcript;
+                }
+                document.g
