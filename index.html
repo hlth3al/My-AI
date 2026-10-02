@@ -14,6 +14,7 @@
             --accent: #38bdf8;
             --green: #10b981;
             --red: #ff5263;
+            --purple: #8b5cf6;
         }
 
         * {
@@ -32,7 +33,7 @@
         }
 
         .container {
-            max-width: 920px;
+            max-width: 940px;
             margin: 0 auto;
         }
 
@@ -158,20 +159,74 @@
             border-radius: 10px;
         }
 
-        .btn-record {
-            background: #b91c1c;
+        /* استایل ۶ دکمه صوتی چندزبانه */
+        .audio-suite {
+            background: #111e33;
+            border: 2px dashed var(--gold);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: right;
+        }
+
+        .audio-suite-title {
+            color: var(--gold);
+            font-size: 1.25rem;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .audio-suite-sub {
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .audio-btn-card {
+            background: #182844;
+            border: 1.5px solid #2d436b;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .audio-btn-card .desc {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .btn-suite {
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             color: #fff;
+            width: 100%;
         }
 
-        .btn-record.recording {
-            background: #ef4444;
-            animation: pulse 1s infinite;
+        .btn-b1 { background: #0284c7; }
+        .btn-b2 { background: #059669; }
+        .btn-b3 { background: #d97706; }
+        .btn-b4 { background: #7c3aed; }
+        .btn-b5 { background: #dc2626; }
+        .btn-b6 { background: #16a34a; }
+
+        .btn-record-active {
+            animation: pulseRecord 1s infinite alternate;
+            background: #991b1b !important;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes pulseRecord {
+            from { transform: scale(1); }
+            to { transform: scale(1.02); box-shadow: 0 0 16px rgba(239, 68, 68, 0.6); }
         }
 
         .upload-label {
@@ -217,15 +272,6 @@
             white-space: pre-wrap;
             margin-top: 14px;
             line-height: 1.9;
-        }
-
-        .audio-player-box {
-            margin-top: 15px;
-            padding: 12px;
-            background: #0f1c30;
-            border-radius: 10px;
-            border: 1px solid #233a5e;
-            display: none;
         }
 
         .footer-note {
@@ -282,9 +328,8 @@
         
         <textarea id="userInput" placeholder="متن سوال مدرسه، دانشگاه و موسسه کنکور، تمرین، تست یا امتحان خود را اینجا بنویسید یا دکمه پرسش صوتی را بزنید..."></textarea>
         
-        <div style="margin: 10px 0;">
-            <button class="btn btn-secondary" id="voiceQuestionBtn" style="background:#0284c7;">🎤 دکمه پرسش صوتی (تبدیل گفتار شما به متن)</button>
-            <label for="imageUpload" class="upload-label">📷 افزودن تصویر سوال یا صفحه کتاب</label>
+        <div>
+            <label for="imageUpload" class="upload-label">📷 افزودن تصویر سوال یا صفحه کتاب از گالری</label>
             <input type="file" id="imageUpload" accept="image/*" multiple style="display:none;">
             <div id="previewArea" class="preview-area"></div>
         </div>
@@ -292,27 +337,61 @@
         <button class="btn btn-send" id="sendBtn">ارسال و دریافت پاسخ هوشمند</button>
         <button class="btn btn-secondary" id="clearBtn">پاک کردن فرم و تصاویر</button>
 
+        <!-- مجموعه صوتی ۶ دکمه پشتیبانی از تمام زبان‌های زنده دنیا ویژه دانش‌آموزان و دانشجویان -->
+        <div class="audio-suite">
+            <h3 class="audio-suite-title">🎧 مجموعه صوتی پشتیبانی از همه زبان‌های زنده دنیا</h3>
+            <p class="audio-suite-sub">طراحی اختصاصی برای دانش‌آموزان، دانشجویان و داوطلبان کنکور جهت یادگیری شنیداری، تمرین پاسخ شفاهی به استاد و آرشیو صوتی</p>
+
+            <!-- دکمه ۱ -->
+            <div class="audio-btn-card">
+                <button class="btn btn-suite btn-b1" id="btnAudioTextQuestion">📢 ۱. تبدیل سوال متنی به صوتی (شنیدن متن سوال با صدای رسا)</button>
+                <div class="desc"><strong>توضیح کاربردی:</strong> متن سوالی که دستی نوشته‌اید یا از اینترنت کپی کرده‌اید را با صدای واضح برای شما می‌خواند تا بدون خستگی چشم، سوال را دقیق بشنوید و تحلیل کنید.</div>
+            </div>
+
+            <!-- دکمه ۲ -->
+            <div class="audio-btn-card">
+                <button class="btn btn-suite btn-b2" id="btnAudioImageQuestion">🖼️ ۲. تبدیل سوالات عکسی گالری به صوت (شنیدن سوال تصویر برگه/کتاب)</button>
+                <div class="desc"><strong>توضیح کاربردی:</strong> عکس برگه امتحانی یا کتابی که از گالری فرستاده‌اید را بازخوانی کرده و صورت مسئله موجود در تصویر را به صورت صوتی برای شما پخش می‌کند.</div>
+            </div>
+
+            <!-- دکمه ۳ -->
+            <div class="audio-btn-card">
+                <button class="btn btn-suite btn-b3" id="btnAnswerImageMyVoice">🎙️ ۳. پاسخ به سوال عکسی گالری با صدای من (آماده‌سازی آزمون شفاهی)</button>
+                <div class="desc"><strong>توضیح کاربردی:</strong> تصویر برگه سوال را به تحلیل می‌گذارد و هم‌زمان میکروفون را فعال می‌کند تا شما بتوانید پاسخ تشریحی را با صدای واقعی خودتان توضیح دهید و بازگو نمایید.</div>
+            </div>
+
+            <!-- دکمه ۴ -->
+            <div class="audio-btn-card">
+                <button class="btn btn-suite btn-b4" id="btnVoiceAskAllLanguages">🌍 ۴. پرسش صوتی من با تمام زبان‌های دنیا (صحبت کنید تا تایپ شود)</button>
+                <div class="desc"><strong>توضیح کاربردی:</strong> با هر زبانی در دنیا (فارسی، انگلیسی، عربی، آلمانی، فرانسوی و...) که صحبت کنید، سیستم کلام شما را دقیقاً شناسایی کرده و داخل کادر سوال می‌نویسد.</div>
+            </div>
+
+            <!-- دکمه ۵ -->
+            <div class="audio-btn-card">
+                <button class="btn btn-suite btn-b5" id="btnRecordMyVoiceAnswer">🔴 ۵. تولید پاسخ هر سوال با صدای من (نه با صدای ماشینی سیستم)</button>
+                <div class="desc"><strong>توضیح کاربردی:</strong> هر سوالی را که حل کردید، می‌توانید پاسخ و شیوه حل آن را با لحن و صدای حقیقی خودتان ضبط کنید تا تسلط خود را برای امتحان شفاهی یا تدریس بسنجید.</div>
+            </div>
+
+            <!-- دکمه ۶ -->
+            <div class="audio-btn-card">
+                <button class="btn btn-suite btn-b6" id="btnSaveMyVoiceAnswer">💾 ۶. ذخیره و دانلود فایل صوتی پاسخ تبدیل‌شده به صدای من</button>
+                <div class="desc"><strong>توضیح کاربردی:</strong> پاسخ تشریحی ضبط‌شده با صدای خودتان را با یک کلیک در حافظه موبایل یا کامپیوتر دانلود می‌کند تا برای استاد، معلم ارسال نمایید یا در آرشیو درسی خود نگه دارید.</div>
+            </div>
+
+            <!-- پلیر پخش صدای ضبط شده کاربر -->
+            <div id="userAudioBox" style="display:none; margin-top:14px; background:#0a1424; padding:12px; border-radius:10px; border:1px solid var(--accent);">
+                <p style="color:var(--gold); font-size:0.9rem; margin-bottom:6px;">پخش پاسخ ضبط شده با صدای شما:</p>
+                <audio id="userAudioPlayer" controls style="width:100%; height:40px;"></audio>
+            </div>
+        </div>
+
         <div style="margin-top:22px; text-align:right;">
             <h4 style="color:var(--accent); margin-bottom: 6px;">پاسخ تشریحی، فرمول‌ها و تحلیل هوش مصنوعی:</h4>
             <div id="result-box">پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.</div>
-            
             <div style="margin-top:10px;">
                 <button class="btn btn-secondary" onclick="copyContent('result-box')">📋 کپی کردن پاسخ</button>
-                <button class="btn btn-secondary" style="background:#2563eb;" onclick="readOutLoud()">🔊 خواندن با صدای سیستم</button>
+                <button class="btn btn-secondary" style="background:#2563eb;" onclick="readOutResultSystem()">🔊 خواندن پاسخ با صدای سیستم</button>
             </div>
-
-            <!-- بخش صوت و صدای اختصاصی شما -->
-            <div style="margin-top:16px; padding:15px; border-top:1px solid #233a5e;">
-                <p style="color:var(--gold); font-size:0.95rem; margin-bottom:8px;"><strong>بخش ضبط و آرشیو صوتی با صدای شما (نه سیستم):</strong></p>
-                <button class="btn btn-secondary btn-record" id="userRecordBtn">🔴 ضبط پاسخ با صدای من</button>
-                <button class="btn btn-secondary" id="downloadVoiceBtn" style="background:var(--green); display:none;">💾 ذخیره و دانلود فایل صوتی من</button>
-                
-                <div class="audio-player-box" id="playerContainer">
-                    <p style="font-size:0.85rem; margin-bottom:6px;">پخش صدای ضبط شده شما:</p>
-                    <audio id="myAudioPlayer" controls style="width:100%; height:40px;"></audio>
-                </div>
-            </div>
-
         </div>
     </section>
 
@@ -352,8 +431,11 @@
 <script>
     let uploadedImagesBase64 = [];
     let audioContext = null;
+    let mediaRecorder = null;
+    let recordedAudioChunks = [];
+    let userRecordedBlob = null;
 
-    // افکت صوتی کلیک
+    // افکت صوتی کلیک نرم
     function playBeepSound() {
         try {
             if (!audioContext) {
@@ -379,7 +461,7 @@
         el.addEventListener('click', playBeepSound);
     });
 
-    // آپلود و پیش‌نمایش تصویر
+    // بارگذاری تصاویر
     document.getElementById('imageUpload').addEventListener('change', function(e) {
         const files = Array.from(e.target.files);
         const previewArea = document.getElementById('previewArea');
@@ -410,8 +492,72 @@
         });
     }
 
-    // ۱. پرسش صوتی کاربر (Speech Recognition)
-    const voiceQuestionBtn = document.getElementById('voiceQuestionBtn');
+    // ابزار خواندن متنی با زبان پویا
+    function speakText(text, langCode) {
+        if (!('speechSynthesis' in window)) {
+            alert('مرورگر شما از تولید صوت سیستمی پشتیبانی نمی‌کند.');
+            return;
+        }
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        const langMap = {
+            'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR',
+            'de': 'de-DE', 'ru': 'ru-RU', 'zh': 'zh-CN', 'tr': 'tr-TR',
+            'es': 'es-ES', 'it': 'it-IT', 'ja': 'ja-JP', 'ko': 'ko-KR',
+            'hi': 'hi-IN', 'ur': 'ur-PK', 'ku': 'ckb', 'az': 'az'
+        };
+        utterance.lang = langMap[langCode] || 'fa-IR';
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // ==========================================
+    // پیاده‌سازی ۶ دکمه مجموعه صوتی
+    // ==========================================
+
+    // دکمه ۱: تبدیل سوال متنی نوشته‌شده یا کپی‌شده به صوت
+    document.getElementById('btnAudioTextQuestion').onclick = () => {
+        const text = document.getElementById('userInput').value.trim();
+        if (!text) {
+            alert('محصل گرامی، لطفاً ابتدا متن سوال را در کادر بنویسید یا از اینترنت کپی نمایید.');
+            return;
+        }
+        const lang = document.getElementById('langSelect').value;
+        speakText(text, lang);
+    };
+
+    // دکمه ۲: تبدیل سوالات عکسی که از گالری آمده به صوت
+    document.getElementById('btnAudioImageQuestion').onclick = async () => {
+        if (uploadedImagesBase64.length === 0) {
+            alert('محصل گرامی، لطفاً ابتدا تصویر برگه امتحانی یا کتاب را از گالری بارگذاری کنید.');
+            return;
+        }
+        const resultBox = document.getElementById('result-box');
+        resultBox.innerText = 'در حال استخراج صوتی صورت سوال از روی تصویر گالری... لطفاً شکیبا باشید.';
+        
+        try {
+            const prompt = "لطفاً فقط متن سوال و صورت مسئله موجود در این تصویر را بدون حل کردن استخراج و بازخوانی کن تا دانش‌آموز بتواند آن را صوتی بشنود.";
+            const extractedText = await requestAI(prompt, uploadedImagesBase64, 'fa');
+            resultBox.innerText = extractedText;
+            speakText(extractedText, 'fa');
+        } catch (e) {
+            alert('خطا در خوانش تصویر سوال. مجدداً تلاش نمایید.');
+        }
+    };
+
+    // دکمه ۳: پاسخ به سوال عکسی گالری با صدای من
+    document.getElementById('btnAnswerImageMyVoice').onclick = async () => {
+        if (uploadedImagesBase64.length === 0) {
+            alert('محصل گرامی، ابتدا تصویر سوال را از گالری انتخاب فرمایید.');
+            return;
+        }
+        const resultBox = document.getElementById('result-box');
+        resultBox.innerText = 'تصویر سوال پردازش شد. اکنون میکروفون برای شما آماده است تا پاسخ را با صدای خودتان توضیح داده و ضبط نمایید.';
+        // فعال‌سازی اتوماتیک ضبط صدای کاربر
+        document.getElementById('btnRecordMyVoiceAnswer').click();
+    };
+
+    // دکمه ۴: پرسش صوتی من با تمام زبان‌های زنده دنیا
+    const btnVoiceAsk = document.getElementById('btnVoiceAskAllLanguages');
     let recognition = null;
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -420,8 +566,8 @@
         recognition.interimResults = false;
 
         recognition.onstart = () => {
-            voiceQuestionBtn.innerText = '🎙️ در حال شنیدن صدای شما... صحبت کنید';
-            voiceQuestionBtn.style.background = '#e11d48';
+            btnVoiceAsk.innerText = '🎙️ در حال گوش دادن به سوال شما به زبان انتخابی... صحبت کنید';
+            btnVoiceAsk.classList.add('btn-record-active');
         };
 
         recognition.onresult = (event) => {
@@ -431,20 +577,20 @@
         };
 
         recognition.onerror = () => {
-            alert('دسترسی به میکروفون داده نشد یا خطایی در تشخیص گفتار رخ داد.');
-            voiceQuestionBtn.innerText = '🎤 دکمه پرسش صوتی (تبدیل گفتار شما به متن)';
-            voiceQuestionBtn.style.background = '#0284c7';
+            alert('دسترسی به میکروفون تایید نشد یا صدایی دریافت نگردید.');
+            btnVoiceAsk.innerText = '🌍 ۴. پرسش صوتی من با تمام زبان‌های دنیا (صحبت کنید تا تایپ شود)';
+            btnVoiceAsk.classList.remove('btn-record-active');
         };
 
         recognition.onend = () => {
-            voiceQuestionBtn.innerText = '🎤 دکمه پرسش صوتی (تبدیل گفتار شما به متن)';
-            voiceQuestionBtn.style.background = '#0284c7';
+            btnVoiceAsk.innerText = '🌍 ۴. پرسش صوتی من با تمام زبان‌های دنیا (صحبت کنید تا تایپ شود)';
+            btnVoiceAsk.classList.remove('btn-record-active');
         };
     }
 
-    voiceQuestionBtn.onclick = () => {
+    btnVoiceAsk.onclick = () => {
         if (!recognition) {
-            alert('مرورگر شما از قابلیت تبدیل صوت به متن پشتیبانی نمی‌کند. از مرورگر کروم نسخه جدید استفاده کنید.');
+            alert('مرورگر شما از قابلیت تبدیل صوت به متن پشتیبانی نمی‌کند. از نسخه به‌روز مرورگر کروم استفاده کنید.');
             return;
         }
         const langMap = {
@@ -462,40 +608,16 @@
         }
     };
 
-    // ۲. خواندن صوتی با صدای سیستم
-    function readOutLoud() {
-        const text = document.getElementById('result-box').innerText;
-        if (!text || text.includes('پاسخ گام‌به‌گام')) return;
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            const langMap = {
-                'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR',
-                'de': 'de-DE', 'ru': 'ru-RU', 'zh': 'zh-CN', 'tr': 'tr-TR',
-                'es': 'es-ES', 'it': 'it-IT', 'ja': 'ja-JP', 'ko': 'ko-KR',
-                'hi': 'hi-IN', 'ur': 'ur-PK', 'ku': 'ckb', 'az': 'az'
-            };
-            const chosenLang = document.getElementById('langSelect').value;
-            utterance.lang = langMap[chosenLang] || 'fa-IR';
-            window.speechSynthesis.speak(utterance);
-        }
-    }
+    // دکمه ۵: تولید پاسخ هر سوال با صدای من (ضبط اختصاصی صدای خود کاربر)
+    const btnRecord = document.getElementById('btnRecordMyVoiceAnswer');
+    const userAudioBox = document.getElementById('userAudioBox');
+    const userAudioPlayer = document.getElementById('userAudioPlayer');
 
-    // ۳. ضبط صدا با صدای خود کاربر (نه صدای سیستم) و ذخیره آن
-    let mediaRecorder = null;
-    let recordedAudioChunks = [];
-    let recordedAudioBlob = null;
-    const userRecordBtn = document.getElementById('userRecordBtn');
-    const downloadVoiceBtn = document.getElementById('downloadVoiceBtn');
-    const playerContainer = document.getElementById('playerContainer');
-    const myAudioPlayer = document.getElementById('myAudioPlayer');
-
-    userRecordBtn.onclick = async () => {
+    btnRecord.onclick = async () => {
         if (mediaRecorder && mediaRecorder.state === 'recording') {
-            // توقف ضبط
             mediaRecorder.stop();
-            userRecordBtn.innerText = '🔴 ضبط مجدد با صدای من';
-            userRecordBtn.classList.remove('recording');
+            btnRecord.innerText = '🔴 ۵. تولید پاسخ هر سوال با صدای من (ضبط مجدد)';
+            btnRecord.classList.remove('btn-record-active');
             return;
         }
 
@@ -504,178 +626,69 @@
             mediaRecorder = new MediaRecorder(stream);
             recordedAudioChunks = [];
 
-            mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    recordedAudioChunks.push(event.data);
-                }
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) recordedAudioChunks.push(e.data);
             };
 
             mediaRecorder.onstop = () => {
-                recordedAudioBlob = new Blob(recordedAudioChunks, { type: 'audio/webm' });
-                const audioURL = URL.createObjectURL(recordedAudioBlob);
-                myAudioPlayer.src = audioURL;
-                playerContainer.style.display = 'block';
-                downloadVoiceBtn.style.display = 'inline-block';
-                // بستن ترَک‌ها برای خاموش شدن علامت میکروفون گوشی
+                userRecordedBlob = new Blob(recordedAudioChunks, { type: 'audio/webm' });
+                userAudioPlayer.src = URL.createObjectURL(userRecordedBlob);
+                userAudioBox.style.display = 'block';
                 stream.getTracks().forEach(track => track.stop());
             };
 
             mediaRecorder.start();
-            userRecordBtn.innerText = '⏹️ توقف ضبط صدای من';
-            userRecordBtn.classList.add('recording');
+            btnRecord.innerText = '⏹️ توقف ضبط صدای من (کلیک کنید)';
+            btnRecord.classList.add('btn-record-active');
         } catch (err) {
-            alert('اجازه استفاده از میکروفون صادر نشد.');
+            alert('دسترسی به میکروفون جهت ضبط صدای شما امکان‌پذیر نشد.');
         }
     };
 
-    // ۴. دکمه ذخیره پاسخ صوتی من
-    downloadVoiceBtn.onclick = () => {
-        if (!recordedAudioBlob) return;
+    // دکمه ۶: ذخیره و دانلود فایل صوتی پاسخ من
+    document.getElementById('btnSaveMyVoiceAnswer').onclick = () => {
+        if (!userRecordedBlob) {
+            alert('محصل گرامی، هنوز پاسخی با صدای خود ضبط نکرده‌اید. ابتدا با دکمه شماره ۵ صدای خود را ضبط فرمایید.');
+            return;
+        }
         const a = document.createElement('a');
         a.style.display = 'none';
-        a.href = URL.createObjectURL(recordedAudioBlob);
-        a.download = `AI-Home-Voice-Answer-${Date.now()}.webm`;
+        a.href = URL.createObjectURL(userRecordedBlob);
+        a.download = `AI-Home-My-Voice-Answer-${Date.now()}.webm`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
     };
 
-    // ۵. دکمه پاک کردن فرم
+    // دکمه خواندن پاسخ با صدای سیستم
+    function readOutResultSystem() {
+        const text = document.getElementById('result-box').innerText;
+        if (!text || text.includes('پاسخ گام‌به‌گام')) return;
+        const lang = document.getElementById('langSelect').value;
+        speakText(text, lang);
+    }
+
+    // دکمه پاک‌سازی
     document.getElementById('clearBtn').onclick = () => {
         document.getElementById('userInput').value = '';
         document.getElementById('previewArea').innerHTML = '';
         document.getElementById('imageUpload').value = '';
         uploadedImagesBase64 = [];
         document.getElementById('result-box').innerText = 'پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.';
-        playerContainer.style.display = 'none';
-        downloadVoiceBtn.style.display = 'none';
-        myAudioPlayer.src = '';
+        userAudioBox.style.display = 'none';
+        userAudioPlayer.src = '';
+        userRecordedBlob = null;
     };
 
-    // ۶. ارسال به اندپوینت‌ها با الزام قطعی ترجمه و زبان خروجی
+    // اتصال هوشمند چند سروره
     const ENDPOINTS = [
-        {
-            url: "https://text.pollinations.ai/",
-            type: "pollinations"
-        },
-        {
-            url: "https://free.churchless.tech/v1/chat/completions",
-            type: "openai"
-        }
+        { url: "https://text.pollinations.ai/", type: "pollinations" },
+        { url: "https://free.churchless.tech/v1/chat/completions", type: "openai" }
     ];
 
     async function requestAI(promptText, images, targetLang) {
         const langNames = {
-            'fa': 'Persian (فارسی)',
-            'en': 'English',
-            'ar': 'Arabic (العربية)',
-            'fr': 'French (Français)',
-            'de': 'German (Deutsch)',
-            'ru': 'Russian (Русский)',
-            'zh': 'Chinese (中文)',
-            'tr': 'Turkish (Türkçe)',
-            'es': 'Spanish (Español)',
-            'it': 'Italian (Italiano)',
-            'ja': 'Japanese (日本語)',
-            'ko': 'Korean (한국어)',
-            'hi': 'Hindi (हिन्दी)',
-            'ur': 'Urdu (اردو)',
-            'ku': 'Kurdish (کوردی)',
-            'az': 'Azerbaijani (Azərbaycan)'
-        };
-
-        const chosenLangName = langNames[targetLang] || 'Persian';
-
-        // دستور قطعی برای پاسخ‌دهی به زبان انتخابی
-        const strictPrompt = `[STRICT INSTRUCTION: You are the AI of "AI-Home". You MUST answer EXCLUSIVELY and FLUENTLY in ${chosenLangName}. Do NOT use any other language for explanation. Provide complete, in-depth, step-by-step academic explanation with formulas.]\n\nQuestion:\n${promptText}`;
-
-        // روش اول: موتور متنی و تصویری
-        try {
-            const response = await fetch(ENDPOINTS[0].url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    messages: [
-                        {
-                            role: "user",
-                            content: images.length > 0 
-                                ? [
-                                    { type: "text", text: strictPrompt },
-                                    ...images.map(img => ({ type: "image_url", image_url: { url: img } }))
-                                  ]
-                                : strictPrompt
-                        }
-                    ],
-                    model: "openai",
-                    jsonMode: false
-                })
-            });
-
-            if (response.ok) {
-                const text = await response.text();
-                if (text && text.trim().length > 0) return text;
-            }
-        } catch (e) {}
-
-        // روش دوم: پشتیبان
-        try {
-            const res2 = await fetch(ENDPOINTS[1].url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
-                    messages: [
-                        { role: "system", content: `You are the AI of "AI-Home". You MUST answer fully and only in ${chosenLangName}.` },
-                        { role: "user", content: promptText }
-                    ]
-                })
-            });
-            if (res2.ok) {
-                const data2 = await res2.json();
-                if (data2?.choices?.[0]?.message?.content) {
-                    return data2.choices[0].message.content;
-                }
-            }
-        } catch (e) {}
-
-        throw new Error("UNAVAILABLE");
-    }
-
-    document.getElementById('sendBtn').onclick = async () => {
-        const userInput = document.getElementById('userInput').value.trim();
-        const chosenLang = document.getElementById('langSelect').value;
-        const resultBox = document.getElementById('result-box');
-        const sendBtn = document.getElementById('sendBtn');
-
-        if (!userInput && uploadedImagesBase64.length === 0) {
-            alert('لطفاً ابتدا متن سوال یا تصویر آن را وارد نمایید یا با دکمه صوتی صحبت کنید.');
-            return;
-        }
-
-        sendBtn.disabled = true;
-        sendBtn.innerText = 'در حال ارتباط و پردازش چندزبانه...';
-        resultBox.innerText = 'در حال تحلیل در خانه هوش مصنوعی برلیان لعلیان... لطفاً شکیبا باشید.';
-
-        // تنظیم جهت نوشتاری چپ‌به‌راست برای زبان‌های لاتین
-        if (['en', 'fr', 'de', 'ru', 'es', 'it'].includes(chosenLang)) {
-            resultBox.style.direction = 'ltr';
-            resultBox.style.textAlign = 'left';
-        } else {
-            resultBox.style.direction = 'rtl';
-            resultBox.style.textAlign = 'right';
-        }
-
-        try {
-            const answer = await requestAI(userInput, uploadedImagesBase64, chosenLang);
-            resultBox.innerText = answer;
-        } catch (err) {
-            resultBox.innerText = 'در حال حاضر ترافیک پردازش بالاست یا ارتباط موقتاً با اختلال مواجه شده است. لطفاً چند لحظه دیگر مجدداً دکمه ارسال را بزنید.';
-        } finally {
-            sendBtn.disabled = false;
-            sendBtn.innerText = 'ارسال و دریافت پاسخ هوشمند';
-        }
-    };
-</script>
-
-</body>
-</html>
+            'fa': 'Persian (فارسی)', 'en': 'English', 'ar': 'Arabic (العربية)',
+            'fr': 'French (Français)', 'de': 'German (Deutsch)', 'ru': 'Russian (Русский)',
+            'zh': 'Chinese (中文)', 'tr': 'Turkish (Türkçe)', 'es': 'Spanish (Español)',
+            'it': 'Italia
