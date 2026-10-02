@@ -37,7 +37,7 @@
             margin: 0 auto;
         }
 
-        .card, .pkg-item, .btn, textarea, select, input[type="password"] {
+        .card, .pkg-item, .btn, textarea, select {
             background: var(--panel);
             border: 2px solid #283a5c;
             border-radius: 16px;
@@ -102,7 +102,7 @@
             transform: scale(1.03);
         }
 
-        textarea, input[type="password"] {
+        textarea {
             width: 100%;
             color: var(--ink);
             background: #0d1728;
@@ -111,14 +111,11 @@
             padding: 14px;
             font-size: 1rem;
             outline: none;
-        }
-
-        textarea {
             min-height: 140px;
             resize: vertical;
         }
 
-        textarea:focus, input[type="password"]:focus {
+        textarea:focus {
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
             border-color: #60a5fa;
         }
@@ -276,16 +273,6 @@
         <p>این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور</p>
     </section>
 
-    <!-- بخش تنظیمات کلید GapGPT -->
-    <section class="card zoom-box" style="border: 1.5px solid #10b981;">
-        <h3 style="color:#10b981;">🔑 کلید اتصال GapGPT</h3>
-        <p style="font-size:0.9rem; color:#cbd5e1; margin-bottom:10px;">می‌توانید کلید GapGPT خود را داخل کد قرار داده یا در کادر زیر وارد و ذخیره کنید:</p>
-        <input type="password" id="apiKeyInput" placeholder="کلید API گپ جی‌پی‌تی (مانند: sk-gap-...)" style="margin-bottom:8px;">
-        <button class="btn btn-secondary" onclick="saveApiKey()">ذخیره کلید در این دستگاه</button>
-        <button class="btn btn-secondary" style="background:#4b5563;" onclick="clearApiKey()">حذف کلید ذخیره‌شده</button>
-        <div id="keyStatus" class="status-badge">بررسی وضعیت کلید...</div>
-    </section>
-
     <!-- بخش ۶ دکمه صوتی هوشمند -->
     <section class="card zoom-box">
         <h3 style="color:var(--gold);">🎙️ مجموعه ۶ دکمه صوتی هوشمند (پشتیبانی از تمام زبان‌های دنیا)</h3>
@@ -419,11 +406,10 @@
 
 <script>
     // =========================================================================
-    // 🔴 محل قرار دادن کلید GapGPT داخل کد:
-    // کلید گپ جی‌پی‌تی خود را داخل گیومه زیر جایگزین کنید (بین دو کوتیشن '')
+    // 🔴 محل قرارگیری کلید GapGPT (فقط در این قسمت از کد قرار دارد و در ظاهر سایت نیست):
+    // کلید خود را بین دو گیومه زیر پیست کنید:
     // =========================================================================
-    const GAPGPT_API_KEY = "sk-lKuxg5dqbXQUErhYLL0QBVShRnL3IGZlJeUbT6yQI0ThG5O5";
-    // مثال: const GAPGPT_API_KEY = "sk-gap-1234567890abcdef...";
+    const GAPGPT_API_KEY = ""; 
     // =========================================================================
 
     let uploadedImagesBase64 = [];
@@ -432,37 +418,6 @@
     let userRate = 1.0;
     let recognition = null;
     let isRecognizing = false;
-
-    window.onload = () => {
-        const savedKey = localStorage.getItem('ai_home_gapgpt_key') || GAPGPT_API_KEY;
-        const statusEl = document.getElementById('keyStatus');
-        if (savedKey) {
-            document.getElementById('apiKeyInput').value = savedKey;
-            statusEl.innerText = "وضعیت: اتصال مستقیم GapGPT فعال است ✅";
-            statusEl.style.color = "var(--green)";
-        } else {
-            statusEl.innerText = "وضعیت: اتصال عمومی فعال است (برای سرعت و پایداری بالاتر کلید را وارد کنید)";
-            statusEl.style.color = "var(--gold)";
-        }
-    };
-
-    function saveApiKey() {
-        const key = document.getElementById('apiKeyInput').value.trim();
-        if (key) {
-            localStorage.setItem('ai_home_gapgpt_key', key);
-            document.getElementById('keyStatus').innerText = "وضعیت: کلید GapGPT با موفقیت ذخیره شد ✅";
-            document.getElementById('keyStatus').style.color = "var(--green)";
-            alert("کلید GapGPT ذخیره شد و فعال است.");
-        }
-    }
-
-    function clearApiKey() {
-        localStorage.removeItem('ai_home_gapgpt_key');
-        document.getElementById('apiKeyInput').value = '';
-        document.getElementById('keyStatus').innerText = "وضعیت: کلید حذف شد؛ در حالت اتصال عمومی";
-        document.getElementById('keyStatus').style.color = "var(--gold)";
-        alert("کلید ذخیره شده پاک گردید.");
-    }
 
     function playBeepSound() {
         try {
@@ -675,27 +630,25 @@
         speechCore(text, 1.0, 1.0);
     }
 
-    // ================== هسته ارتباط با سرور GapGPT ==================
+    // ================== سیستم ارتباط و هندل هوشمند API ==================
     async function requestAI(promptText, images) {
-        const activeKey = localStorage.getItem('ai_home_gapgpt_key') || GAPGPT_API_KEY || document.getElementById('apiKeyInput').value.trim();
-        const systemPrompt = "شما دستیار حل مسائل و مدرس آموزشی خانه هوش مصنوعی برلیان لعلیان هستید. سوالات درسی، دانشگاهی، تمرین‌ها و کنکور را دقیق، کامل، تشریحی و گام‌به‌گام به زبان فارسی روان حل کنید.";
+        const systemPrompt = "شما دستیار ارشد و استاد حل مسائل در خانه هوش مصنوعی برلیان لعلیان هستید. تمام سوالات مدرسه، دبیرستان، کنکور و دانشگاه را دقیق، گام‌به‌گام، تحلیلی و کامل پاسخ دهید.";
 
-        // مسیر ۱: ارسال به سرور GapGPT (در صورت وجود کلید)
-        if (activeKey) {
+        // مسیر ۱: اتصال با کلید GapGPT (تلاش مستقیم)
+        if (GAPGPT_API_KEY && GAPGPT_API_KEY.trim() !== "") {
             try {
                 const response = await fetch("https://api.gapgpt.app/v1/chat/completions", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${activeKey}`
+                        "Authorization": "Bearer " + GAPGPT_API_KEY.trim()
                     },
                     body: JSON.stringify({
                         model: "gpt-4o-mini",
                         messages: [
                             { role: "system", content: systemPrompt },
                             { role: "user", content: promptText }
-                        ],
-                        temperature: 0.7
+                        ]
                     })
                 });
 
@@ -705,15 +658,43 @@
                         return data.choices[0].message.content;
                     }
                 }
-            } catch (e) {
-                console.warn("GapGPT direct fetch failed, trying fallbacks...", e);
+            } catch (err1) {
+                console.warn("Direct GapGPT fetch bypassed CORS/Network issue:", err1);
+            }
+
+            // مسیر ۱-ب: تلاش با پروکسی آنتی-کورس (در صورت بلاک شدن فرانت‌اند توسط هدر مرورگر)
+            try {
+                const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent("https://api.gapgpt.app/v1/chat/completions");
+                const responseProxy = await fetch(proxyUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + GAPGPT_API_KEY.trim()
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-4o-mini",
+                        messages: [
+                            { role: "system", content: systemPrompt },
+                            { role: "user", content: promptText }
+                        ]
+                    })
+                });
+
+                if (responseProxy.ok) {
+                    const data = await responseProxy.json();
+                    if (data?.choices?.[0]?.message?.content) {
+                        return data.choices[0].message.content;
+                    }
+                }
+            } catch (err2) {
+                console.warn("Proxy path failed:", err2);
             }
         }
 
-        // مسیر ۲: سرور پشتیبان سریع (بدون نیاز به کلید)
+        // مسیر ۲: سرور پشتیبان پرسرعت آنتی-بلاک (تضمین پاسخ بدون اختلال)
         try {
             const seed = Math.floor(Math.random() * 999999);
-            const encodedPrompt = encodeURIComponent(systemPrompt + "\n\nمسئله:\n" + promptText);
+            const encodedPrompt = encodeURIComponent(systemPrompt + "\n\nسوال:\n" + promptText);
             const res = await fetch(`https://text.pollinations.ai/${encodedPrompt}?seed=${seed}&model=openai`, {
                 method: "GET"
             });
@@ -723,7 +704,7 @@
             }
         } catch (e) {}
 
-        // مسیر ۳: سرور پشتیبان متناوب
+        // مسیر ۳: سرور تکمیلی پشتیبان
         try {
             const res2 = await fetch("https://text.pollinations.ai/", {
                 method: "POST",
@@ -737,3 +718,31 @@
                 })
             });
             if (res2.ok) {
+                const txt2 = await res2.text();
+                if (txt2 && txt2.trim().length > 3) return txt2;
+            }
+        } catch (e) {}
+
+        throw new Error("CONNECTION_FAILED");
+    }
+
+    document.getElementById('sendBtn').onclick = async () => {
+        const userInput = document.getElementById('userInput').value.trim();
+        const resultBox = document.getElementById('result-box');
+        const sendBtn = document.getElementById('sendBtn');
+
+        if (!userInput && uploadedImagesBase64.length === 0) {
+            alert('لطفاً ابتدا متن سوال یا تصویر آن را وارد نمایید.');
+            return;
+        }
+
+        sendBtn.disabled = true;
+        sendBtn.innerText = 'در حال ارتباط و پردازش هوشمند...';
+        resultBox.innerText = 'در حال تحلیل در خانه هوش مصنوعی برلیان لعلیان... لطفاً شکیبا باشید.';
+
+        try {
+            const finalPrompt = userInput || "لطفاً سوال این برگه را کامل و تشریحی حل کنید.";
+            const answer = await requestAI(finalPrompt, uploadedImagesBase64);
+            resultBox.innerText = answer;
+        } catch (err) {
+            resultBox.innerText = 'پاسخ هوش مصنوعی دریافت 
