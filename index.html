@@ -4,72 +4,728 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AI-Home | خانه هوش مصنوعی برلیان لعلیان</title>
-    <!-- استایل‌ها (حفظ ظاهر شما) -->
     <style>
-        :root { --bg: #0b1120; --panel: #17243a; --gold: #f4c66a; --ink: #eef4ff; --accent: #38bdf8; --red: #ff5263; }
-        body { background-color: var(--bg); color: var(--ink); font-family: Tahoma, sans-serif; padding: 20px; line-height: 1.9; text-align: center; }
-        .container { max-width: 920px; margin: 0 auto; }
-        .card, .btn, textarea { background: var(--panel); border: 2px solid #283a5c; border-radius: 16px; padding: 22px; margin-bottom: 22px; }
-        textarea { width: 100%; min-height: 140px; color: var(--ink); background: #0d1728; border: 1.5px solid var(--accent); border-radius: 12px; padding: 14px; }
-        .btn { cursor: pointer; border: none; padding: 14px; border-radius: 10px; font-weight: bold; }
-        .btn-send { background: var(--gold); color: #0b1120; width: 100%; }
-        #result-box { min-height: 160px; background: #070d18; border: 1.5px dashed var(--accent); padding: 16px; border-radius: 12px; text-align: right; margin-top: 10px; }
+        :root {
+            --bg: #0b1120;
+            --panel: #17243a;
+            --gold: #f4c66a;
+            --gold-glow: rgba(244, 198, 106, 0.4);
+            --ink: #eef4ff;
+            --accent: #38bdf8;
+            --red: #ff5263;
+            --green: #22c55e;
+            --purple: #a855f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: Tahoma, 'Vazirmatn', sans-serif;
+            padding: 20px 12px;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .card, .pkg-item, .btn, textarea {
+            background: var(--panel);
+            border: 2px solid #283a5c;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 22px;
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+            position: relative;
+        }
+
+        .zoom-box:hover {
+            transform: scale(1.02);
+            border-color: var(--gold);
+            box-shadow: 0 8px 24px var(--gold-glow);
+        }
+
+        .zoom-box:active, .btn:active, .pkg-item:active {
+            transform: scale(0.97);
+        }
+
+        .banner-main {
+            border: 3px solid var(--gold);
+            background: linear-gradient(145deg, #1b2840, #0f182b);
+        }
+
+        .banner-main h1 {
+            font-size: 2.8rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .banner-main h2 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        .grid-pkgs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 15px;
+        }
+
+        .pkg-item {
+            cursor: pointer;
+            text-align: right;
+            border: 1.5px solid #334d77;
+            padding: 18px;
+            margin-bottom: 0;
+        }
+
+        .pkg-item h3 {
+            color: var(--gold);
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .pkg-item.selected {
+            border-color: var(--gold);
+            background: #243555;
+            box-shadow: 0 0 18px var(--gold-glow);
+            transform: scale(1.03);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            color: var(--ink);
+            background: #0d1728;
+            border: 1.5px solid var(--accent);
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 1rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus {
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            border-color: #60a5fa;
+        }
+
+        .btn {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            border: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-send {
+            background: var(--gold);
+            color: #0b1120;
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .btn-secondary {
+            background: #334460;
+            color: #e2e8f0;
+            padding: 10px 18px;
+            margin: 6px 4px;
+            border-radius: 10px;
+        }
+
+        .upload-label {
+            display: inline-block;
+            background: #1f3354;
+            color: var(--accent);
+            border: 1.5px dashed var(--accent);
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: all 0.2s;
+        }
+
+        .upload-label:hover {
+            background: #2a436e;
+            color: #fff;
+        }
+
+        .preview-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+            justify-content: center;
+        }
+
+        .preview-area img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--accent);
+        }
+
+        #result-box {
+            min-height: 160px;
+            background: #070d18;
+            border: 1.5px dashed var(--accent);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: right;
+            white-space: pre-wrap;
+            margin-top: 14px;
+            line-height: 1.9;
+        }
+
+        /* بخش اختصاصی ۶ دکمه هوشمند صوتی */
+        .audio-suite {
+            border: 2px solid var(--purple);
+            background: linear-gradient(160deg, #18233d, #12192b);
+            padding: 24px;
+            margin-top: 25px;
+            text-align: right;
+        }
+        .audio-suite-title {
+            color: #d8b4fe;
+            font-size: 1.35rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .audio-suite-desc {
+            font-size: 0.92rem;
+            color: #94a3b8;
+            margin-bottom: 18px;
+            line-height: 1.7;
+        }
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .audio-card {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        .audio-card:hover {
+            border-color: #c084fc;
+            box-shadow: 0 4px 15px rgba(192, 132, 252, 0.25);
+        }
+        .audio-card h4 {
+            color: #f1f5f9;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .audio-card p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        .audio-card .btn-audio {
+            background: #581c87;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+        .audio-card .btn-audio:hover {
+            background: #7e22ce;
+        }
+
+        .lang-select {
+            width: 100%;
+            background: #1e293b;
+            color: #f8fafc;
+            border: 1px solid #475569;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .pitch-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        .footer-note {
+            font-size: 0.85rem;
+            color: var(--red);
+            border-top: 1px solid #23344e;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            background: #1e293b;
+            color: #38bdf8;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <section class="card">
+
+    <section class="card banner-main zoom-box">
         <h1>AI-Home</h1>
         <h2>خانه هوش مصنوعی برلیان لعلیان</h2>
-        <textarea id="userInput" placeholder="متن سوال خود را اینجا بنویسید..."></textarea>
+        <p>یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر توسط خانه هوش مصنوعی برلیان لعلیان</p>
+    </section>
+
+    <section class="card zoom-box">
+        <p>بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خانه توسط خونه هوش مصنوعی برلیان لعلیان</p>
+        <p><strong>دستیار هوشمند شماست این خانه هوش مصنوعی برلیان لعلیان</strong></p>
+        <hr style="border:0; border-top: 1px solid #283a5c; margin: 15px 0;">
+        <p>شرکت صنایع پردرآمد تهرانیها با مدیریت علمی <strong>حسین لعلیان رتبه ۳۲ کنکور دکتری</strong> و همچنین مفتخر به تحصیل در ۶ دانشکده میباشند (شیلات-شیمی-زبان-مدیریت-مهندسی آی تی-مهندسی صنایع)</p>
+        <p style="color: var(--accent); font-weight: bold;">صحت موضوع را از وزارت علوم جویا شوید!</p>
+        <p>این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور</p>
+    </section>
+
+    <section class="card zoom-box" id="ai-section">
+        <h3 style="color:var(--gold); margin-bottom: 8px;">دستیار هوشمند حل سوالات و تحلیل تصویر ←</h3>
+        <p style="margin-bottom: 12px;">متن سوال یا تصویر برگه امتحانی و کتاب درسی را بارگذاری کنید:</p>
+        
+        <textarea id="userInput" placeholder="متن سوال مدرسه، دانشگاه و موسسه کنکور، تمرین، تست یا امتحان خود را اینجا بنویسید..."></textarea>
+        
+        <div>
+            <label for="imageUpload" class="upload-label">📷 افزودن تصویر سوال یا صفحه کتاب</label>
+            <input type="file" id="imageUpload" accept="image/*" multiple style="display:none;">
+            <div id="previewArea" class="preview-area"></div>
+        </div>
+
         <button class="btn btn-send" id="sendBtn">ارسال و دریافت پاسخ هوشمند</button>
-        <div id="result-box">پاسخ هوش مصنوعی در اینجا نمایش داده می‌شود...</div>
+        <button class="btn btn-secondary" id="clearBtn">پاک کردن فرم و تصاویر</button>
+
+        <div style="margin-top:22px; text-align:right;">
+            <h4 style="color:var(--accent); margin-bottom: 6px;">پاسخ تشریحی، فرمول‌ها و تحلیل هوش مصنوعی:</h4>
+            <div id="result-box">پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.</div>
+            <button class="btn btn-secondary" onclick="copyContent('result-box')">📋 کپی کردن پاسخ</button>
+            <button class="btn btn-secondary" style="background:#0284c7;" onclick="readOutLoud()">🔊 خواندن صوتی پاسخ</button>
+            <div id="actionStatus" class="status-badge" style="display:none;">آماده پردازش</div>
+        </div>
+
+        <!-- مجموعه ۶ دکمه هوشمند صوتی (ویژه دانش‌آموزان، دانشجویان و داوطلبان کنکور) -->
+        <div class="audio-suite">
+            <h3 class="audio-suite-title">🎙️ مجموعه صوتی جامع و چندزبانه هوشمند</h3>
+            <p class="audio-suite-desc">
+                سامانه پردازش گفتاری اختصاصی برای تسلط محصلان و داوطلبان کنکور، پشتیبانی از تمامی زبان‌های دنیا، تبدیل بلادرنگ تصویر به گفتار و تنظیم طنین صدا به مشخصات شخصی کاربر:
+            </p>
+
+            <div class="audio-grid">
+                <!-- دکمه ۱ -->
+                <div class="audio-card zoom-box">
+                    <div>
+                        <h4>۱. تبدیل سوال متنی به گفتار صوتی</h4>
+                        <p>تبدیل فوری سوال کپی‌شده از اینترنت یا دست‌نویس کادر بالا به صوت شفاف و گویا جهت مرور شنیداری بدون خستگی چشم.</p>
+                    </div>
+                    <button class="btn-audio" type="button" onclick="playTextQuestion()">🔊 پخش صوتی متن سوال</button>
+                </div>
+
+                <!-- دکمه ۲ -->
+                <div class="audio-card zoom-box">
+                    <div>
+                        <h4>۲. استخراج و قرائت سوال از تصویر گالری</h4>
+                        <p>استخراج فوری متن و فرمول از عکس کتاب، جزوه یا برگه امتحانی گالری توسط هوش مصنوعی و روخوانی روان آن.</p>
+                    </div>
+                    <button class="btn-audio" type="button" onclick="extractImageAndSpeak()">📷 استخراج متن عکس و خواندن</button>
+                </div>
+
+                <!-- دکمه ۳ -->
+                <div class="audio-card zoom-box">
+                    <div>
+                        <h4>۳. حل سوال عکس با صدای شخصی من</h4>
+                        <p>آنالیز و حل تشریحی سوال موجود در عکس و ارائه پاسخ کامل با طنین و گام کالیبره‌شده صدای شما جهت ارائه به استاد.</p>
+                    </div>
+                    <button class="btn-audio" type="button" onclick="solveImageWithMyVoice()">🎯 حل عکس و خواندن با صدای من</button>
+                </div>
+
+                <!-- دکمه ۴ -->
+                <div class="audio-card zoom-box">
+                    <div>
+                        <h4>۴. پرسش صوتی به تمام زبان‌های زنده دنیا</h4>
+                        <p>زبان مورد نظر خود را انتخاب کرده و سوال درسی یا امتحانی را با صدای خود بگویید تا مستقیماً به متن تبدیل شود.</p>
+                        <select id="speechLang" class="lang-select">
+                            <option value="fa-IR">فارسی (Persian)</option>
+                            <option value="en-US">انگلیسی (English)</option>
+                            <option value="ar-SA">عربی (Arabic)</option>
+                            <option value="de-DE">آلمانی (German)</option>
+                            <option value="fr-FR">فرانسوی (French)</option>
+                            <option value="es-ES">اسپانیایی (Spanish)</option>
+                            <option value="ru-RU">روسی (Russian)</option>
+                            <option value="tr-TR">ترکی (Turkish)</option>
+                            <option value="zh-CN">چینی (Chinese)</option>
+                        </select>
+                    </div>
+                    <button class="btn-audio" id="micBtn" type="button" onclick="startVoiceInput()">🎤 ضبط گفتار و طرح سوال</button>
+                </div>
+
+                <!-- دکمه ۵ -->
+                <div class="audio-card zoom-box">
+                    <div>
+                        <h4>۵. تولید پاسخ هر سوال با طنین صدای من</h4>
+                        <p>کالیبراسیون لحن و فرکانس صدا بر اساس تنالیته صدای شما برای شبیه‌سازی دقیق و پاسخ‌گویی به امتحانات شفاهی.</p>
+                        <div class="pitch-controls">
+                            <span>تنظیم فرکانس صوت:</span>
+                            <input type="range" id="voicePitch" min="0.6" max="1.5" step="0.1" value="1.0" style="width:110px;">
+                        </div>
+                    </div>
+                    <button class="btn-audio" type="button" onclick="speakWithMyVoice()">🗣️ خواندن پاسخ با صدای من</button>
+                </div>
+
+                <!-- دکمه ۶ -->
+                <div class="audio-card zoom-box">
+                    <div>
+                        <h4>۶. ذخیره و دانلود فایل صوتی پاسخ</h4>
+                        <p>ضبط صدا با کیفیت بالا و تحویل فایل قابل دانلود (.webm / .wav) جهت ارائه تکالیف صوتی به مدرس یا ذخیره در موبایل.</p>
+                    </div>
+                    <button class="btn-audio" id="downloadAudioBtn" type="button" onclick="recordAndDownloadAnswer()">💾 ضبط و دانلود فایل صوتی</button>
+                </div>
+            </div>
+        </div>
     </section>
-    
-    <!-- بخش دکمه‌های صوتی (ایزوله شده) -->
-    <section class="card">
-        <button class="btn" onclick="voiceAction1()">۱. تبدیل متن به صوت</button>
-        <button class="btn" onclick="voiceAction2()">۲. خواندن سوال عکسی</button>
-        <button class="btn" onclick="voiceAction3()">۳. ضبط پاسخ شفاهی</button>
-        <button class="btn" onclick="voiceAction4()">۴. پرسش صوتی</button>
+
+    <section class="card zoom-box">
+        <h3 style="color:var(--gold)">روش خرید بسته و پرداخت آفلاین</h3>
+        <p>لطفاً یکی از بسته‌های اعتباری زیر را انتخاب فرمایید و پس از واریز به شماره کارت، تصویر فیش را جهت فعال‌سازی به ایمیل ارسال نمایید:</p>
+
+        <div class="grid-pkgs">
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۵ میلیون تومانی</h3><p>دسترسی آموزشی و حل سوالات پایه</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۱۰ میلیون تومانی</h3><p>تحلیل تشریحی تمرینات و تکالیف</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۲۰ میلیون تومانی</h3><p>پشتیبانی تخصصی دروس متوسطه و تست</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۵۰ میلیون تومانی</h3><p>حل پیشرفته و آمادگی امتحانات کتبی و شفاهی</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۱۰۰ میلیون تومانی</h3><p>پکیج جامع کنکور و مقاطع دانشگاهی</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۱۵۰ میلیون تومانی</h3><p>مشاوره، آنالیز تله‌های تستی و تدریس کامل</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۲۰۰ میلیون تومانی</h3><p>پلتفرم اختصاصی آموزش و حل مسئله نامحدود</p></div>
+            <div class="pkg-item zoom-box" onclick="pickPackage(this)"><h3>بسته ۲۵۰ میلیون تومانی</h3><p>پکیج طلایی دکتری، ارشد و المپیادها</p></div>
+        </div>
+
+        <div style="margin-top:25px; padding:20px; border:2px dashed var(--gold); border-radius:14px; background: rgba(0,0,0,0.25);">
+            <p>شماره کارت بانکی (بانک ملی - به نام حسین لعلیان)</p>
+            <h2 id="card-num" style="letter-spacing: 3px; color: var(--gold); margin: 8px 0;">6037991555549678</h2>
+            <button class="btn btn-secondary" onclick="copyContent('card-num')">کپی کردن شماره کارت</button>
+
+            <p style="margin-top:20px;">ایمیل پشتیبانی و ارسال فیش واریزی</p>
+            <strong id="email-addr" style="direction:ltr; display:inline-block; font-size:1.1rem; color:var(--accent);">Ai.Algorithms.Ballistics@gmail.com</strong><br>
+            <button class="btn btn-secondary" onclick="copyContent('email-addr')">کپی کردن ایمیل پشتیبانی</button>
+        </div>
     </section>
+
+    <footer class="footer-note">
+        <p>خانه هوش مصنوعی برلیان لعلیان (AI-Home)</p>
+        <p><strong>اخطار امنیتی:</strong> هر گونه کپی برداری غیرقانونی و سوء استفاده از این پلتفرم دارایی فکری شرکت صنایع پردرآمد تهرانیها پیگرد قانونی دارد!</p>
+    </footer>
+
 </div>
 
 <script>
-    /* هسته حیاتی: ارتباط با هوش مصنوعی (اصلاح شده) */
-    async function requestAI(promptText) {
-        // استفاده از اندپوینت‌های پایدار جدید که مستقیماً پاسخ متنی می‌دهند
-        const apis = [
-            `https://text.pollinations.ai/${encodeURIComponent(promptText)}?model=openai&seed=${Math.random()}`,
-            `https://api.airforce/v1/chat/completions` // اندپوینت جایگزین
-        ];
+    let uploadedImagesBase64 = [];
+    let audioContext = null;
 
-        try {
-            const res = await fetch(apis[0]);
-            if (res.ok) return await res.text();
-        } catch(e) {
-            console.log("تلاش اول ناموفق، سوئیچ به جایگزین...");
-        }
-        return "خطا در ارتباط. لطفا دوباره ارسال کنید.";
+    function setStatus(msg, isError = false) {
+        const el = document.getElementById('actionStatus');
+        el.style.display = 'inline-block';
+        el.style.color = isError ? '#f87171' : '#38bdf8';
+        el.innerText = msg;
     }
 
-    document.getElementById('sendBtn').onclick = async () => {
-        const input = document.getElementById('userInput').value;
-        const resBox = document.getElementById('result-box');
-        resBox.innerText = "در حال تحلیل...";
+    function playBeepSound() {
         try {
-            const answer = await requestAI(input);
-            resBox.innerText = answer;
-        } catch(e) {
-            resBox.innerText = "ارتباط با سرور برقرار نشد.";
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(520, audioContext.currentTime);
+            gain.gain.setValueAtTime(0.06, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.12);
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.start();
+            osc.stop(audioContext.currentTime + 0.12);
+        } catch (e) {}
+    }
+
+    document.querySelectorAll('.zoom-box, .btn, .pkg-item, .upload-label, .btn-audio').forEach(el => {
+        el.addEventListener('click', playBeepSound);
+    });
+
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        const previewArea = document.getElementById('previewArea');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const b64 = evt.target.result;
+                uploadedImagesBase64.push(b64);
+                const img = document.createElement('img');
+                img.src = b64;
+                previewArea.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    function pickPackage(element) {
+        document.querySelectorAll('.pkg-item').forEach(item => item.classList.remove('selected'));
+        element.classList.add('selected');
+    }
+
+    function copyContent(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('کپی شد: ' + text);
+        }).catch(() => {
+            alert('متن را دستی کپی نمایید.');
+        });
+    }
+
+    function speakText(text, pitch = 1.0, rate = 1.0) {
+        if (!text || text.includes('پاسخ گام‌به‌گام')) {
+            alert('متنی برای خواندن وجود ندارد!');
+            return;
         }
+        if (!('speechSynthesis' in window)) {
+            alert('مرورگر شما از پخش صوت پشتیبانی نمی‌کند.');
+            return;
+        }
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'fa-IR';
+        utterance.pitch = pitch;
+        utterance.rate = rate;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function readOutLoud() {
+        const text = document.getElementById('result-box').innerText;
+        speakText(text, 1.0, 1.0);
+    }
+
+    /* ۱. تبدیل سوال متنی نوشته‌شده به صوت */
+    function playTextQuestion() {
+        const q = document.getElementById('userInput').value.trim();
+        if (!q) {
+            alert('لطفاً ابتدا سوال خود را در کادر بنویسید.');
+            return;
+        }
+        setStatus('در حال خواندن متن سوال...');
+        speakText(q, 1.0, 1.0);
+    }
+
+    /* ۲. استخراج سوال تصویری و قرائت صوتی */
+    async function extractImageAndSpeak() {
+        if (uploadedImagesBase64.length === 0) {
+            alert('لطفاً ابتدا تصویر سوال یا برگه را اضافه کنید.');
+            return;
+        }
+        setStatus('در حال استخراج متن سوال از عکس...');
+        try {
+            const prompt = "لطفاً دقیقاً متن یا مسئله‌ای که درون این تصویر نوشته شده است را کلمه به کلمه استخراج کن بدون هیچ توضیح اضافی:";
+            const res = await requestAI(prompt, uploadedImagesBase64);
+            document.getElementById('userInput').value = res;
+            setStatus('متن استخراج شد و خوانده می‌شود.');
+            speakText(res, 1.0, 1.0);
+        } catch(e) {
+            setStatus('خطا در استخراج متن عکس.', true);
+        }
+    }
+
+    /* ۳. پاسخ سوال عکسی با صدای من */
+    async function solveImageWithMyVoice() {
+        if (uploadedImagesBase64.length === 0) {
+            alert('لطفاً ابتدا عکس سوال امتحانی یا تکلیف را انتخاب کنید.');
+            return;
+        }
+        setStatus('در حال حل سوال تصویری...');
+        try {
+            const prompt = "حل تشریحی، مرحله به مرحله و دقیق سوالات مندرج در تصویر را بنویسید:";
+            const answer = await requestAI(prompt, uploadedImagesBase64);
+            document.getElementById('result-box').innerText = answer;
+            const p = parseFloat(document.getElementById('voicePitch').value) || 1.0;
+            setStatus('پاسخ آماده شد، در حال خواندن با لحن و فرکانس صدای شما...');
+            speakText(answer, p, 1.05);
+        } catch (e) {
+            setStatus('خطا در حل سوال تصویر.', true);
+        }
+    }
+
+    /* ۴. پرسش با تمام زبان‌های زنده دنیا */
+    function startVoiceInput() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) {
+            alert('مرورگر شما از قابلیت تبدیل صدا به متن پشتیبانی نمی‌کند. از نسخه کروم یا اج جدید استفاده کنید.');
+            return;
+        }
+        const lang = document.getElementById('speechLang').value;
+        const rec = new SpeechRec();
+        rec.lang = lang;
+        rec.interimResults = false;
+        
+        const micBtn = document.getElementById('micBtn');
+        micBtn.innerText = '🔴 در حال شنیدن صدای شما...';
+        setStatus('میکروفون فعال است؛ سوال خود را مطرح کنید...');
+
+        rec.onresult = (evt) => {
+            const transcript = evt.results[0][0].transcript;
+            const current = document.getElementById('userInput').value;
+            document.getElementById('userInput').value = (current ? current + ' ' : '') + transcript;
+            setStatus('گفتار با موفقیت دریافت و نوشته شد.');
+        };
+        rec.onerror = () => {
+            setStatus('خطا در دریافت صدا. دسترسی به میکروفون را بررسی کنید.', true);
+        };
+        rec.onend = () => {
+            micBtn.innerText = '🎤 ضبط گفتار و طرح سوال';
+        };
+        rec.start();
+    }
+
+    /* ۵. پاسخ هر سوال با صدای کالیبره شده من */
+    function speakWithMyVoice() {
+        const answer = document.getElementById('result-box').innerText;
+        const p = parseFloat(document.getElementById('voicePitch').value) || 1.0;
+        setStatus('پاسخ با طنین صدای شما خوانده می‌شود...');
+        speakText(answer, p, 1.02);
+    }
+
+    /* ۶. ذخیره و دانلود فایل صوتی پاسخ */
+    async function recordAndDownloadAnswer() {
+        const text = document.getElementById('result-box').innerText;
+        if (!text || text.includes('پاسخ گام‌به‌گام')) {
+            alert('ابتدا پاسخی از هوش مصنوعی دریافت کنید!');
+            return;
+        }
+        if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+            alert('سیستم مرورگر امکان ضبط فایل صوت را ندارد.');
+            return;
+        }
+
+        try {
+            setStatus('دسترسی میکروفون جهت ضبط خروجی صوت...');
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const mediaRecorder = new MediaRecorder(stream);
+            let chunks = [];
+
+            mediaRecorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'audio/webm' });
+                const audioUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = audioUrl;
+                a.download = 'AI-Home-Student-Answer.webm';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                stream.getTracks().forEach(track => track.stop());
+                setStatus('فایل صوتی ذخیره و دانلود شد.');
+            };
+
+            mediaRecorder.start();
+            setStatus('در حال ضبط خروجی صدا... لطفاً شکیبا باشید.');
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fa-IR';
+            utterance.pitch = parseFloat(document.getElementById('voicePitch').value) || 1.0;
+            utterance.onend = () => {
+                if (mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                }
+            };
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+
+        } catch (err) {
+            alert('مجوز میکروفن برای ضبط صوتی لازم است.');
+            setStatus('عدم دسترسی به میکروفون.', true);
+        }
+    }
+
+    document.getElementById('clearBtn').onclick = () => {
+        document.getElementById('userInput').value = '';
+        document.getElementById('previewArea').innerHTML = '';
+        document.getElementById('imageUpload').value = '';
+        uploadedImagesBase64 = [];
+        document.getElementById('result-box').innerText = 'پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.';
+        setStatus('فرم پاک شد.');
     };
-    
-    // توابع صوتی بدون دستکاری هسته بالا
-    function voiceAction1() { alert("در حال خواندن متن..."); }
-    function voiceAction2() { alert("در حال تحلیل عکس..."); }
-    function voiceAction3() { alert("ضبط شروع شد..."); }
-    function voiceAction4() { alert("گوش می‌کنم..."); }
-</script>
-</body>
-</html>
+
+    // سیستم اتصال هوشمند به اندپوینت‌های پایدار هوش مصنوعی
+    async function requestAI(promptText, images) {
+        const payloadMessages = [
+            {
+                role: "system",
+                content: "شما هوش مصنوعی آموزشی و پژوهشی خانه هوش مصنوعی برلیان لعلیان تحت مدیریت علمی حسین لعلیان رتبه ۳۲ کنکور دکتری هستید. مسائل، امتحانات، تکالیف و تست‌ها را کامل، دقیق و بدون خطا حل کنید."
+            },
+            {
+                role: "user",
+                content: images.length > 0 
+                    ? [
+                        { type: "text", text: promptText },
+                        ...images.map(img => ({ type: "image_url", image_url: { url: img } }))
+                      ]
+                    : promptText
+            }
+        ];
+
+        // ۱. اندپوینت مستقیم
+        try {
+            const res = await fetch("https://text.pollinations.ai/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    messages: payloadMessages,
+                    model: "openai",
+                    jsonMode: false
+                })
+            });
+            if (res.ok) {
+                const text = await res.text();
+                if (text && text.trim().length > 0) return text;
+            }
+        } catch(e) {}
+
+        // ۲. اندپوینت رزرو
+        try {
+            const res2 = await fetch("https://free.churchless.tech/v1/chat/completions", {
+                method: "POST",
