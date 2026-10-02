@@ -35,7 +35,7 @@
             margin: 0 auto;
         }
 
-        .card, .pkg-item, .btn, textarea {
+        .card, .pkg-item, .btn, textarea, select {
             background: var(--panel);
             border: 2px solid #283a5c;
             border-radius: 16px;
@@ -113,9 +113,22 @@
             outline: none;
         }
 
-        textarea:focus {
+        textarea:focus, select:focus {
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
             border-color: #60a5fa;
+        }
+
+        select {
+            width: 100%;
+            color: var(--ink);
+            background: #0d1728;
+            border: 1.5px solid var(--accent);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            outline: none;
+            cursor: pointer;
         }
 
         .btn {
@@ -220,6 +233,26 @@
     <section class="card zoom-box" id="ai-section">
         <h3 style="color:var(--gold); margin-bottom: 8px;">دستیار هوشمند حل سوالات و تحلیل تصویر ←</h3>
         <p style="margin-bottom: 12px;">متن سوال یا تصویر برگه امتحانی و کتاب درسی را بارگذاری کنید:</p>
+
+        <label for="langSelect" style="display:block; text-align:right; margin-bottom:6px; color:var(--accent);">زبان خروجی و پاسخ هوش مصنوعی (پشتیبانی از تمام زبان‌های جهان):</label>
+        <select id="langSelect">
+            <option value="auto">تشخیص خودکار بر اساس زبان سوال (Auto Detect)</option>
+            <option value="fa" selected>فارسی (Persian)</option>
+            <option value="en">English (انگلیسی)</option>
+            <option value="ar">العربية (عربی)</option>
+            <option value="fr">Français (فرانسوی)</option>
+            <option value="de">Deutsch (آلمانی)</option>
+            <option value="ru">Русский (روسی)</option>
+            <option value="zh">中文 (چینی)</option>
+            <option value="tr">Türkçe (ترکی)</option>
+            <option value="es">Español (اسپانیایی)</option>
+            <option value="it">Italiano (ایتالیایی)</option>
+            <option value="ja">日本語 (ژاپنی)</option>
+            <option value="ko">한국어 (کره‌ای)</option>
+            <option value="hi">हिन्दी (هندی)</option>
+            <option value="ur">اردو (اردو)</option>
+            <option value="ku">کوردی (کردی)</option>
+        </select>
         
         <textarea id="userInput" placeholder="متن سوال مدرسه، دانشگاه و موسسه کنکور، تمرین، تست یا امتحان خود را اینجا بنویسید..."></textarea>
         
@@ -298,7 +331,7 @@
         } catch (e) {}
     }
 
-    document.querySelectorAll('.zoom-box, .btn, .pkg-item, .upload-label').forEach(el => {
+    document.querySelectorAll('.zoom-box, .btn, .pkg-item, .upload-label, select').forEach(el => {
         el.addEventListener('click', playBeepSound);
     });
 
@@ -338,7 +371,8 @@
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'fa-IR';
+            const chosenLang = document.getElementById('langSelect').value;
+            utterance.lang = (chosenLang === 'auto') ? 'fa-IR' : chosenLang;
             window.speechSynthesis.speak(utterance);
         }
     }
@@ -351,7 +385,6 @@
         document.getElementById('result-box').innerText = 'پاسخ گام‌به‌گام و تشریحی هوش مصنوعی به سوال دانش‌آموزان پس از ارسال در اینجا نمایش داده می‌شود.';
     };
 
-    // لیست اندپوینت‌های آزاد چندگانه (سیستم سوئیچ خودکار در صورت قطعی)
     const ENDPOINTS = [
         {
             url: "https://text.pollinations.ai/",
@@ -363,11 +396,36 @@
         }
     ];
 
-    async function requestAI(promptText, images) {
-        // روش اول: استفاده از موتور بینایی چندرسانه‌ای
+    async function requestAI(promptText, images, targetLang) {
+        const langInstructions = {
+            'fa': 'پاسخ را کاملاً به زبان فارسی بنویسید.',
+            'en': 'Provide the entire answer in English.',
+            'ar': 'قدم الإجابة والشرح بالكامل باللغة العربية.',
+            'fr': 'Fournissez l\'intégralité de la réponse en français.',
+            'de': 'Geben Sie die gesamte Antwort auf Deutsch.',
+            'ru': 'Дайте полный ответ на русском языке.',
+            'zh': '请完全用中文作答。',
+            'tr': 'Cevabın tamamını Türkçe olarak verin.',
+            'es': 'Proporcione toda la respuesta en español.',
+            'it': 'Fornisci l\'intera risposta in italiano.',
+            'ja': '回答はすべて日本語で記述してください。',
+            'ko': '모든 답변을 한국어로 작성해 주세요.',
+            'hi': 'पूरा उत्तर हिंदी में दें।',
+            'ur': 'مکمل جواب اردو زبان میں تحریر کریں۔',
+            'ku': 'وەڵامەکە بە تەواوی بە زمانی کوردی بنووسە.',
+            'auto': 'پاسخ را دقیقاً متناسب با زبان سوال مطرح‌شده (یا تصویر ارسالی) به همان زبان بنویسید.'
+        };
+
+        const chosenRule = langInstructions[targetLang] || langInstructions['auto'];
+
+        const systemRole = `شما هوش مصنوعی آموزشی پیشرفته «AI-Home | خانه هوش مصنوعی برلیان لعلیان» هستید.
+وظیفه شما: حل دقیق، تشریحی، گام‌به‌گام همراه با فرمول‌ها و اثبات‌های کامل برای تمامی مقاطع تحصیلی و دانشگاهی است.
+دستور زبان الزامی: ${chosenRule}`;
+
+        const fullPrompt = `${systemRole}\n\nپرسش کاربر:\n${promptText}`;
+
+        // روش اول: موتور پردازش تصویر و متن چندرسانه‌ای
         try {
-            let fullPrompt = "شما هوش مصنوعی آموزشی خانه هوش مصنوعی برلیان لعلیان هستید. سوالات و تمارین را گام به گام و تشریحی حل کنید.\n\n" + promptText;
-            
             const response = await fetch(ENDPOINTS[0].url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -392,11 +450,9 @@
                 const text = await response.text();
                 if (text && text.trim().length > 0) return text;
             }
-        } catch (e) {
-            // سرور اول پاسخ نداد، سوئیچ خودکار به سرور پشتیبان
-        }
+        } catch (e) {}
 
-        // روش دوم: سرور پشتیبان متنی
+        // روش دوم: پشتیبان چندزبانه سریع
         try {
             const res2 = await fetch(ENDPOINTS[1].url, {
                 method: "POST",
@@ -404,7 +460,7 @@
                 body: JSON.stringify({
                     model: "gpt-3.5-turbo",
                     messages: [
-                        { role: "system", content: "شما دستیار حل مسائل آموزشی خانه هوش مصنوعی برلیان لعلیان هستید." },
+                        { role: "system", content: systemRole },
                         { role: "user", content: promptText }
                     ]
                 })
@@ -422,6 +478,7 @@
 
     document.getElementById('sendBtn').onclick = async () => {
         const userInput = document.getElementById('userInput').value.trim();
+        const chosenLang = document.getElementById('langSelect').value;
         const resultBox = document.getElementById('result-box');
         const sendBtn = document.getElementById('sendBtn');
 
@@ -431,14 +488,23 @@
         }
 
         sendBtn.disabled = true;
-        sendBtn.innerText = 'در حال ارتباط و پردازش هوشمند...';
+        sendBtn.innerText = 'در حال ارتباط و پردازش چندزبانه...';
         resultBox.innerText = 'در حال تحلیل در خانه هوش مصنوعی برلیان لعلیان... لطفاً شکیبا باشید.';
 
+        // تنظیم چینش راست‌به‌چپ یا چپ‌به‌راست کادر نتیجه بر اساس زبان
+        if (['en', 'fr', 'de', 'ru', 'es', 'it'].includes(chosenLang)) {
+            resultBox.style.direction = 'ltr';
+            resultBox.style.textAlign = 'left';
+        } else {
+            resultBox.style.direction = 'rtl';
+            resultBox.style.textAlign = 'right';
+        }
+
         try {
-            const answer = await requestAI(userInput, uploadedImagesBase64);
+            const answer = await requestAI(userInput, uploadedImagesBase64, chosenLang);
             resultBox.innerText = answer;
         } catch (err) {
-            resultBox.innerText = 'در حال حاضر ترافیک پردازش بالاست یا ارتباط موقتاً با اختلال مواجه شده است. لطفاً چند لحظه دیگر مجدداً دکمه ارسال را بزنید.';
+            resultBox.innerText = 'در حال حاضر ترافیک پردازش بالاست یا ارتباط با سرور دچار اختلال است. لطفاً چند لحظه بعد مجدداً دکمه ارسال را بزنید.';
         } finally {
             sendBtn.disabled = false;
             sendBtn.innerText = 'ارسال و دریافت پاسخ هوشمند';
