@@ -29,9 +29,14 @@
 const PROXY_ENDPOINT='/api/ai-service/chat/completions';
 const AI_BASE_URL='https://api.gapgpt.app/v1/chat/completions';
 const MODEL='gpt-4o-mini';
-const AI_KEY_STORAGE='aihome_ai_key';
+const AI_KEY_STORAGE='sk-5k0v5l47TmSUIA1M7wmHKPr5VVc17028eNgkP9lvp2yTg6Sj';
 const AI_SERVICE_KEY='';
 function getApiKey(){if(AI_SERVICE_KEY)return AI_SERVICE_KEY;try{return localStorage.getItem(AI_KEY_STORAGE)||''}catch(_){return ''}}
+function setAiKey(k){try{if(k){localStorage.setItem(AI_KEY_STORAGE,k.trim());console.log('AI Key saved successfully.');return true;}else{localStorage.removeItem(AI_KEY_STORAGE);console.log('AI Key removed.');return false;}}catch(e){console.error(e);return false;}}
+function clearAiKey(){return setAiKey('');}
+window.setAiKey=setAiKey;
+window.getAiKey=getApiKey;
+window.clearAiKey=clearAiKey;
 function extractAnswer(d){const a=d&&d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content;if(!a)return null;return typeof a==='string'?a:Array.isArray(a)?a.map(x=>x.text||'').join('\n'):String(a)}
 async function postJSON(url,headers,payload,timeoutMs=60000){const ctrl=typeof AbortController!=='undefined'?new AbortController():null;const timer=ctrl?setTimeout(()=>ctrl.abort(),timeoutMs):null;try{const options={method:'POST',headers,body:JSON.stringify(payload)};if(ctrl)options.signal=ctrl.signal;const response=await fetch(url,options);if(!response.ok){const txt=await response.text().catch(()=> '');return{ok:false,status:response.status,txt}}return{ok:true,data:await response.json()}}catch(err){return{ok:false,err}}finally{if(timer)clearTimeout(timer)}}
 const LEVELS=['ابتدایی','متوسطه اول','متوسطه دوم','تیزهوشان','المپیادی','کنکوری','کارشناسی','کارشناسی ارشد','دکتری تخصصی'];
@@ -83,11 +88,17 @@ async function requestAI(promptText,images=[]){
     'https://gapgpt.app/api/chat'
   ];
   const jsonHeaders={'Content-Type':'application/json'};
-  // 1) مسیر پراکسی سرور (بدون افشای کلید در مرورگر)
-  try{const r=await postJSON(PROXY_ENDPOINT,jsonHeaders,payload,60000);if(r.ok){const a=extractAnswer(r.data);if(a)return a}}catch(_){}
-  // 2) اتصال مستقیم به اندپوینت‌های توسعه‌دهنده (کلید در صورت وجود در حافظه مرورگر)
   const apiKey=getApiKey();
-  if(apiKey){jsonHeaders.Authorization='Bearer '+apiKey}
+  if(apiKey){
+    jsonHeaders.Authorization='Bearer '+apiKey;
+    // وقتی کلید اختصاصی تنظیم شده باشد، اولویت با اتصال مستقیم به سرورهای هوش مصنوعی است
+    for(const ep of endpoints){
+      try{const r=await postJSON(ep,jsonHeaders,payload,30000);if(r.ok){const a=extractAnswer(r.data);if(a)return a}}catch(_){}
+    }
+  }
+  // تلاش از طریق پراکسی سرور یا پیش‌فرض
+  try{const r=await postJSON(PROXY_ENDPOINT,jsonHeaders,payload,60000);if(r.ok){const a=extractAnswer(r.data);if(a)return a}}catch(_){}
+  // تلاش نهایی روی اندپوینت‌ها
   for(const ep of endpoints){
     try{const r=await postJSON(ep,jsonHeaders,payload,30000);if(r.ok){const a=extractAnswer(r.data);if(a)return a}}catch(_){}
   }
