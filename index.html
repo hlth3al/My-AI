@@ -17,6 +17,15 @@
 .card{border:2px solid var(--accent);transition:transform .22s ease,filter .22s ease,border-color .22s ease,box-shadow .22s ease}
 .card:hover{transform:scale(1.02);filter:brightness(1.12);border-color:#ff1a1a;box-shadow:0 0 16px rgba(255,26,26,.45)}
 
+
+/* ===== Bold text + scroll effects (v2) ===== */
+body,.btn,.level-btn,.tool-grid button,.level-card,.pkg-item,.notice,.subtle{font-weight:700}
+.reveal{opacity:0;transform:translateY(38px) scale(.96);transition:opacity .7s ease,transform .7s ease}
+.reveal.in-view{opacity:1;transform:none}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.in-view .level-btn{animation:popIn .45s ease both}
+.tool-group{border-color:var(--c,#334d77)}
+.tool-group h3{font-size:1.15rem;letter-spacing:.2px}
 </style>
 </head>
 <body><main class="container">
@@ -54,7 +63,7 @@ async function postJSON(url,headers,payload,timeoutMs=60000){const ctrl=typeof A
 const LEVELS=['ابتدایی','متوسطه اول','متوسطه دوم','تیزهوشان','المپیادی','کنکوری','کارشناسی','کارشناسی ارشد','دکتری تخصصی'];
 const TOOL_LEVELS=['ابتدایی','متوسطه اول','متوسطه دوم','تیزهوشان','المپیادی','کنکوری','لیسانس','فوق لیسانس','دکتری'];
 const GROUPS=[
-['پاسخ سوال','__CUSTOM_LEVELS__'],['آنالیز سوال','آنالیز سوال'],['آنالیز تله درون سوال','آنالیز تله درون سوال'],
+['پاسخ سوال','__CUSTOM_LEVELS__'],['آنالیز سوال','آنالیز سوال'],
 ['آنالیز پاسخ','آنالیز پاسخ'],['آنالیز سوال درون عکس','آنالیز سوال درون عکس'],['آنالیز عکس','آنالیز عکس'],
 ['چهار جوابی کردن','چهار جوابی کردن'],['آنالیز سوال چهار جوابی','آنالیز سوال چهار جوابی'],
 ['پاسخ به سوال چهار جوابی','پاسخ به سوال چهار جوابی'],['آنالیز پاسخ سوال چهار جوابی','آنالیز پاسخ سوال چهار جوابی'],
@@ -70,9 +79,10 @@ const EXTRA_TOOLS=[
 'پاسخ به سوال','پاسخ به سوال چهارگزینه‌ای','تدریس و توضیح کامل','حل تمرین و مساله خط به خط','تکلیف خانگی با پاسخ تشریحی','طرح سوال امتحانی','سوال دارای جدول، فرمول یا نمودار','تحلیل و تشریح فرمول‌ها','تحلیل و رسم نمودار','بررسی جدول‌ها و داده‌ها','مشاوره تحصیلی و برنامه‌ریزی','ترجمه و نگارش متون تخصصی','تصحیح و خطایابی متن و پاسخ','جمع‌بندی و خلاصه درس','طراحی آزمون تستی و تشریحی','رفع اشکال آنلاین و پاسخ به سوالات',
 'آنالیز پاسخ','آنالیز سوال درون عکس','آنالیز عکس','چهار جوابی کردن','پاسخ به سوال چهار جوابی','آنالیز پاسخ سوال چهار جوابی','آنالیز تله درون سوال چهار جوابی','آنالیز سوال امتحانی، کنکوری و تکلیف کلاسی','آنالیز تله سوالات دارای جدول-فرمول-نمودار','آموزش تکلیف کتبی و شفاهی','آمادگی امتحان کتبی و شفاهی','ابزارهای تکمیلی درخواستی'
 ];
-const TOOL_COLORS=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#8b5cf6','#ec4899','#14b8a6'];
+const TOOL_COLORS=['#ff2d2d','#ff7a00','#ffd400','#2fe05a','#00e5ff','#2f7bff','#8b5cf6','#ff2fa0','#00d6a4','#ff5c39','#a3e635','#22d3ee','#f43f5e','#e879f9'];
 const groupHost=document.getElementById('toolGroups');
 const ANSWER_LEVEL_LABELS=['پاسخ سوال در سطح دانش آموز ابتدایی','پاسخ سوال در سطح دانش آموز متوسطه اول','پاسخ سوال در سطح دانش آموز متوسطه دوم','پاسخ سوال در سطح تیزهوشان','پاسخ سوال در سطح ابمپیادی','پاسخ سوال در سطح پشت کنکوری','پاسخ سوال در سطح لیسانس','پاسخ سوال در سطح فوق لیسانس','پاسخ سوال در سطح دکتری'];
+const TRAP_LEVEL_LABELS=['آنالیز تله درون سوال در سطح دانش آموز ابتدایی','آنالیز تله درون سوال در سطح دانش آموز متوسطه اول','آنالیز تله درون سوال در سطح دانش آموز متوسطه دوم','آنالیز تله درون سوال در سطح تیزهوشان','آنالیز تله درون سوال در سطح ابمپیادی','آنالیز تله درون سوال در سطح پشت کنکوری','آنالیز تله درون سوال در سطح لیسانس','آنالیز تله درون سوال در سطح فوق لیسانس','آنالیز تله درون سوال در سطح دکتری'];
 const ANALYZE_LEVEL_LABELS=['آنالیز سوال در سطح دانش آموز ابتدایی','آنالیز سوال در سطح دانش آموز متوسطه اول','آنالیز سوال در سطح دانش آموز متوسطه دوم','آنالیز سوال در سطح تیزهوشان','آنالیز سوال در سطح ابمپیادی','آنالیز سوال در سطح پشت کنکوری','آنالیز سوال در سطح لیسانس','آنالیز سوال در سطح فوق لیسانس','آنالیز سوال در سطح دکتری'];
 GROUPS.forEach(([title,prefix])=>{
 const section=document.createElement('div');section.className='tool-group';
@@ -86,7 +96,7 @@ const b=document.createElement('button');b.type='button';b.className='level-btn'
 b.style.setProperty('--c',color);
 b.style.background=`linear-gradient(135deg,${color},${color}bb)`;
 b.style.border='2px solid '+color;
-b.textContent=(title==='آنالیز سوال')?ANALYZE_LEVEL_LABELS[idx]:(prefix==='__CUSTOM_LEVELS__')?ANSWER_LEVEL_LABELS[idx]:`${prefix} · ${level}`;
+b.textContent=(title==='آنالیز سوال')?TRAP_LEVEL_LABELS[idx]:(prefix==='__CUSTOM_LEVELS__')?ANSWER_LEVEL_LABELS[idx]:`${prefix} · ${level}`;
 b.onclick=()=>insertTool(b.textContent);
 b.onmouseenter=()=>{b.style.transform='scale(1.07)';b.style.filter='brightness(1.35) saturate(1.2)';b.style.borderColor='#ff1a1a';b.style.boxShadow='0 0 14px rgba(255,26,26,.55)'};
 b.onmouseleave=()=>{b.style.transform='';b.style.filter='';b.style.borderColor=color;b.style.boxShadow=`0 0 8px ${color}44`};
@@ -94,8 +104,10 @@ b.onmousedown=()=>{b.style.transform='scale(.92)'};
 b.onmouseup=()=>{b.style.transform='scale(1.07)'};
 grid.appendChild(b)});
 groupHost.appendChild(section)});
-const extraSection=document.createElement('div');extraSection.className='tool-group';const extraHeading=document.createElement('h3');extraHeading.textContent='ابزارهای تکمیلی';extraSection.appendChild(extraHeading);const extraGrid=document.createElement('div');extraGrid.className='tool-grid';EXTRA_TOOLS.forEach(tool=>{const b=document.createElement('button');b.type='button';b.textContent=tool;b.onclick=()=>insertTool(tool);extraGrid.appendChild(b)});extraSection.appendChild(extraGrid);groupHost.appendChild(extraSection);
+const extraSection=document.createElement('div');extraSection.className='tool-group';const extraHeading=document.createElement('h3');extraHeading.textContent='ابزارهای تکمیلی';extraSection.appendChild(extraHeading);const extraGrid=document.createElement('div');extraGrid.className='tool-grid';extraSection.style.setProperty('--c','#a3e635');extraHeading.style.color='#a3e635';extraHeading.style.borderBottom='2px solid #a3e635';EXTRA_TOOLS.forEach((tool,i)=>{const ec=TOOL_COLORS[i%TOOL_COLORS.length];const b=document.createElement('button');b.type='button';b.className='level-btn';b.style.setProperty('--c',ec);b.style.background=`linear-gradient(135deg,${ec},${ec}bb)`;b.style.border='2px solid '+ec;b.textContent=tool;b.onclick=()=>insertTool(tool);b.onmouseenter=()=>{b.style.transform='scale(1.07)';b.style.filter='brightness(1.35) saturate(1.2)';b.style.borderColor='#ff1a1a';b.style.boxShadow='0 0 14px rgba(255,26,26,.55)'};b.onmouseleave=()=>{b.style.transform='';b.style.filter='';b.style.borderColor=ec;b.style.boxShadow=`0 0 8px ${ec}44`};b.onmousedown=()=>{b.style.transform='scale(.92)'};b.onmouseup=()=>{b.style.transform='scale(1.07)'};extraGrid.appendChild(b)});extraSection.appendChild(extraGrid);groupHost.appendChild(extraSection);
 const levelHost=document.getElementById('levelCards');LEVELS.forEach((level,i)=>{const card=document.createElement('article');card.className='level-card';const h=document.createElement('h3');h.textContent=level;const p=document.createElement('p');p.textContent=i<2?`پاسخ‌گویی، آموزش مفهومی، تحلیل پرسش و تمرین متناسب با مقطع ${level}.`:'پاسخ‌گویی، آموزش مفهومی، تحلیل پرسش و تمرین متناسب با سطح '+level+'.';card.append(h,p);levelHost.appendChild(card)});
+const revealIO=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in-view');revealIO.unobserve(en.target)}}),{threshold:.1});
+document.querySelectorAll('.card,.tool-group,.pkg-item,.level-card,.notice').forEach(el=>{el.classList.add('reveal');revealIO.observe(el)});
 function insertTool(t){const field=document.getElementById('userInput');field.value=(field.value?field.value+'\n\n':'')+`لطفاً این درخواست را با سطح ${document.getElementById('educationLevel').value} انجام بده: ${t}\n\nپرسش یا مسئله: `;field.focus();document.getElementById('ai-section').scrollIntoView({behavior:'smooth'})}
 let uploadedImagesBase64=[],userPit=1,userRate=1,recognition=null,isRecognizing=false,objectUrls=[];
 const imageInput=document.getElementById('imageUpload');imageInput.addEventListener('change',e=>{Array.from(e.target.files||[]).forEach(file=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=ev=>{uploadedImagesBase64.push({data:ev.target.result,name:file.name});const img=document.createElement('img');img.src=ev.target.result;img.alt=file.name;document.getElementById('previewArea').appendChild(img)};reader.onerror=()=>{document.getElementById('resultError').textContent='خواندن تصویر ناموفق بود.'};reader.readAsDataURL(file)})});
