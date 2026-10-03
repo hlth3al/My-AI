@@ -73,7 +73,27 @@ const EXTRA_TOOLS=[
 const TOOL_COLORS=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#8b5cf6','#ec4899','#14b8a6'];
 const groupHost=document.getElementById('toolGroups');
 const ANSWER_LEVEL_LABELS=['پاسخ سوال در سطح دانش آموز ابتدایی','پاسخ سوال در سطح دانش آموز متوسطه اول','پاسخ سوال در سطح دانش آموز متوسطه دوم','پاسخ سوال در سطح تیزهوشان','پاسخ سوال در سطح ابمپیادی','پاسخ سوال در سطح پشت کنکوری','پاسخ سوال در سطح لیسانس','پاسخ سوال در سطح فوق لیسانس','پاسخ سوال در سطح دکتری'];
-GROUPS.forEach(([title,prefix])=>{const section=document.createElement('div');section.className='tool-group';const h=document.createElement('h3');h.textContent=title;h.style.setProperty('--c',TOOL_COLORS[GROUPS.findIndex(g=>g[0]===title)%TOOL_COLORS.length]);section.style.setProperty('--c',TOOL_COLORS[GROUPS.findIndex(g=>g[0]===title)%TOOL_COLORS.length]);section.appendChild(h);const grid=document.createElement('div');grid.className='tool-grid';TOOL_LEVELS.forEach((level,idx)=>{const b=document.createElement('button');b.type='button';b.className='level-btn';b.style.setProperty('--c',TOOL_COLORS[idx%TOOL_COLORS.length]);b.textContent=(prefix==='__CUSTOM_LEVELS__')?ANSWER_LEVEL_LABELS[idx]:`${prefix} · ${level}`;b.onclick=()=>insertTool(b.textContent);grid.appendChild(b)});section.appendChild(grid);groupHost.appendChild(section)});
+const ANALYZE_LEVEL_LABELS=['آنالیز سوال در سطح دانش آموز ابتدایی','آنالیز سوال در سطح دانش آموز متوسطه اول','آنالیز سوال در سطح دانش آموز متوسطه دوم','آنالیز سوال در سطح تیزهوشان','آنالیز سوال در سطح ابمپیادی','آنالیز سوال در سطح پشت کنکوری','آنالیز سوال در سطح لیسانس','آنالیز سوال در سطح فوق لیسانس','آنالیز سوال در سطح دکتری'];
+GROUPS.forEach(([title,prefix])=>{
+const section=document.createElement('div');section.className='tool-group';
+const color=TOOL_COLORS[GROUPS.findIndex(g=>g[0]===title)%TOOL_COLORS.length];
+section.style.setProperty('--c',color);section.style.borderColor=color;
+section.style.boxShadow=`0 0 12px ${color}55`;
+const h=document.createElement('h3');h.textContent=title;h.style.setProperty('--c',color);h.style.color=color;h.style.borderBottom='2px solid '+color;section.appendChild(h);
+const grid=document.createElement('div');grid.className='tool-grid';section.appendChild(grid);
+TOOL_LEVELS.forEach((level,idx)=>{
+const b=document.createElement('button');b.type='button';b.className='level-btn';
+b.style.setProperty('--c',color);
+b.style.background=`linear-gradient(135deg,${color},${color}bb)`;
+b.style.border='2px solid '+color;
+b.textContent=(title==='آنالیز سوال')?ANALYZE_LEVEL_LABELS[idx]:(prefix==='__CUSTOM_LEVELS__')?ANSWER_LEVEL_LABELS[idx]:`${prefix} · ${level}`;
+b.onclick=()=>insertTool(b.textContent);
+b.onmouseenter=()=>{b.style.transform='scale(1.07)';b.style.filter='brightness(1.35) saturate(1.2)';b.style.borderColor='#ff1a1a';b.style.boxShadow='0 0 14px rgba(255,26,26,.55)'};
+b.onmouseleave=()=>{b.style.transform='';b.style.filter='';b.style.borderColor=color;b.style.boxShadow=`0 0 8px ${color}44`};
+b.onmousedown=()=>{b.style.transform='scale(.92)'};
+b.onmouseup=()=>{b.style.transform='scale(1.07)'};
+grid.appendChild(b)});
+groupHost.appendChild(section)});
 const extraSection=document.createElement('div');extraSection.className='tool-group';const extraHeading=document.createElement('h3');extraHeading.textContent='ابزارهای تکمیلی';extraSection.appendChild(extraHeading);const extraGrid=document.createElement('div');extraGrid.className='tool-grid';EXTRA_TOOLS.forEach(tool=>{const b=document.createElement('button');b.type='button';b.textContent=tool;b.onclick=()=>insertTool(tool);extraGrid.appendChild(b)});extraSection.appendChild(extraGrid);groupHost.appendChild(extraSection);
 const levelHost=document.getElementById('levelCards');LEVELS.forEach((level,i)=>{const card=document.createElement('article');card.className='level-card';const h=document.createElement('h3');h.textContent=level;const p=document.createElement('p');p.textContent=i<2?`پاسخ‌گویی، آموزش مفهومی، تحلیل پرسش و تمرین متناسب با مقطع ${level}.`:'پاسخ‌گویی، آموزش مفهومی، تحلیل پرسش و تمرین متناسب با سطح '+level+'.';card.append(h,p);levelHost.appendChild(card)});
 function insertTool(t){const field=document.getElementById('userInput');field.value=(field.value?field.value+'\n\n':'')+`لطفاً این درخواست را با سطح ${document.getElementById('educationLevel').value} انجام بده: ${t}\n\nپرسش یا مسئله: `;field.focus();document.getElementById('ai-section').scrollIntoView({behavior:'smooth'})}
