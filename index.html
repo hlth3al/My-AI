@@ -30,7 +30,7 @@ const PROXY_ENDPOINT='/api/ai-service/chat/completions';
 const AI_BASE_URL='https://api.gapgpt.app/v1/chat/completions';
 const MODEL='gpt-4o-mini';
 const AI_KEY_STORAGE='aihome_ai_key';
-const AI_SERVICE_KEY='secret-e9bf8b6f';
+const AI_SERVICE_KEY='sk-5k0v5l47TmSUIA1M7wmHKPr5VVc17028eNgkP9lvp2yTg6Sj';
 function getApiKey(){if(AI_SERVICE_KEY)return AI_SERVICE_KEY;try{return localStorage.getItem(AI_KEY_STORAGE)||''}catch(_){return ''}}
 function setAiKey(k){try{if(k){localStorage.setItem(AI_KEY_STORAGE,k.trim());console.log('AI Key saved successfully.');return true;}else{localStorage.removeItem(AI_KEY_STORAGE);console.log('AI Key removed.');return false;}}catch(e){console.error(e);return false;}}
 function clearAiKey(){return setAiKey('');}
