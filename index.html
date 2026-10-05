@@ -24,11 +24,11 @@
       overflow-x: hidden;
     }
 
-    /* کادر سربرگ و معرفی شرکت */
+    /* کادر معرفی شرکت و رزومه */
     .intro-box {
       width: 100%;
-      max-width: 950px;
-      background: rgba(20, 10, 25, 0.85);
+      max-width: 1000px;
+      background: rgba(20, 10, 25, 0.9);
       border: 3px solid #ff1744;
       border-radius: 20px;
       padding: 24px;
@@ -47,7 +47,7 @@
     }
 
     .sub-title {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       color: #ff80ab;
       margin-bottom: 15px;
       text-shadow: 0 0 8px rgba(255, 128, 171, 0.6);
@@ -65,57 +65,73 @@
       border: 2px dashed #ff1744;
       border-radius: 14px;
       padding: 14px;
-      margin-top: 15px;
       font-size: 1rem;
       line-height: 1.9;
       color: #ffebee;
     }
 
-    /* کادر آپلود عکس */
-    .upload-section {
+    /* کادر عنوان گروه و دریافت عکس */
+    .group-header-box {
       width: 100%;
-      max-width: 950px;
-      background: rgba(15, 20, 35, 0.9);
+      max-width: 1000px;
+      background: rgba(25, 10, 20, 0.92);
       border: 3px solid #ff1744;
       border-radius: 20px;
-      padding: 22px;
+      padding: 24px;
       margin-bottom: 25px;
       text-align: center;
-      box-shadow: 0 0 15px #ff1744, 0 0 25px rgba(255, 23, 68, 0.3);
+      box-shadow: 0 0 18px #ff1744, 0 0 30px rgba(255, 23, 68, 0.5);
+    }
+
+    .group-main-label {
+      font-size: 1.6rem;
+      color: #ffffff;
+      text-shadow: 0 0 12px #ff1744;
+      margin-bottom: 12px;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .group-instruction {
+      font-size: 1.15rem;
+      color: #ffcdd2;
+      line-height: 1.9;
+      margin-bottom: 18px;
+      text-shadow: 0 0 6px rgba(255, 23, 68, 0.8);
     }
 
     .upload-btn {
       display: inline-block;
       background: linear-gradient(45deg, #d50000, #ff1744);
       color: #ffffff;
-      padding: 14px 28px;
+      padding: 14px 30px;
       font-size: 1.15rem;
       border-radius: 14px;
       cursor: pointer;
       border: 2px solid #ffffff;
-      box-shadow: 0 0 15px #ff1744;
+      box-shadow: 0 0 16px #ff1744;
       transition: 0.3s;
     }
 
     .upload-btn:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 25px #ff1744;
+      box-shadow: 0 0 28px #ff1744;
     }
 
     #gallery-input {
       display: none;
     }
 
-    /* کادر پاسخ هوش مصنوعی */
+    /* کادر نمایش آنالیز هوش مصنوعی */
     .answer-panel {
       width: 100%;
-      max-width: 950px;
+      max-width: 1000px;
       background: linear-gradient(145deg, rgba(45, 8, 20, 0.98), rgba(17, 20, 37, 0.98));
       border: 4px solid #ff1744;
       border-radius: 24px;
       padding: 24px;
       margin-bottom: 35px;
-      box-shadow: 0 0 18px #ff1744, 0 0 35px rgba(255, 23, 68, 0.6);
+      box-shadow: 0 0 20px #ff1744, 0 0 40px rgba(255, 23, 68, 0.6);
       scroll-margin-top: 20px;
     }
 
@@ -135,7 +151,7 @@
       text-align: center;
       margin-bottom: 16px;
       color: #ffffff;
-      font-size: 1rem;
+      font-size: 1.05rem;
     }
 
     .answer-status.success {
@@ -166,7 +182,7 @@
 
     #question-preview {
       max-width: 100%;
-      max-height: 250px;
+      max-height: 280px;
       border-radius: 14px;
       border: 3px solid #ff1744;
       box-shadow: 0 0 15px #ff1744;
@@ -174,8 +190,8 @@
 
     .answer-meta {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
       margin-bottom: 16px;
     }
 
@@ -185,100 +201,107 @@
       padding: 12px;
       border-radius: 12px;
       font-size: 0.95rem;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     .answer-meta-item strong {
       display: block;
       color: #ff80ab;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .answer-body {
-      min-height: 140px;
-      padding: 18px;
+      min-height: 150px;
+      padding: 20px;
       border-radius: 14px;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.45);
       border: 3px solid #ff1744;
-      font-size: 1.05rem;
-      line-height: 2.1;
+      font-size: 1.1rem;
+      line-height: 2.2;
       white-space: pre-wrap;
       text-align: right;
     }
 
-    /* ساختار کانتینرهای زیرگروه‌ها */
+    /* فهرست زیرگروه‌ها */
     .subgroups-wrapper {
       width: 100%;
-      max-width: 950px;
+      max-width: 1000px;
       display: flex;
       flex-direction: column;
-      gap: 25px;
+      gap: 26px;
     }
 
     .subgroup-container {
       border: 3px solid #ff1744;
       border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 0 14px #ff1744, 0 0 25px rgba(255, 23, 68, 0.3);
+      padding: 22px;
+      box-shadow: 0 0 15px #ff1744, 0 0 25px rgba(255, 23, 68, 0.35);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
     }
 
-    /* افکت پویای اسکرول */
     .subgroup-container.active-scroll {
       transform: scale(1.02);
-      box-shadow: 0 0 22px #ff1744, 0 0 40px rgba(255, 23, 68, 0.6);
+      box-shadow: 0 0 24px #ff1744, 0 0 45px rgba(255, 23, 68, 0.65);
     }
 
-    /* تم‌های رنگی متمایز برای ۱۳ زیرگروه */
-    .sg-1  { background: linear-gradient(135deg, rgba(40, 10, 20, 0.9), rgba(15, 5, 10, 0.9)); }
-    .sg-2  { background: linear-gradient(135deg, rgba(35, 10, 35, 0.9), rgba(10, 5, 15, 0.9)); }
-    .sg-3  { background: linear-gradient(135deg, rgba(15, 15, 45, 0.9), rgba(5, 5, 20, 0.9)); }
-    .sg-4  { background: linear-gradient(135deg, rgba(10, 30, 45, 0.9), rgba(5, 15, 20, 0.9)); }
-    .sg-5  { background: linear-gradient(135deg, rgba(10, 40, 30, 0.9), rgba(5, 20, 15, 0.9)); }
-    .sg-6  { background: linear-gradient(135deg, rgba(20, 40, 15, 0.9), rgba(10, 20, 5, 0.9)); }
-    .sg-7  { background: linear-gradient(135deg, rgba(40, 35, 10, 0.9), rgba(20, 15, 5, 0.9)); }
-    .sg-8  { background: linear-gradient(135deg, rgba(45, 25, 10, 0.9), rgba(20, 10, 5, 0.9)); }
-    .sg-9  { background: linear-gradient(135deg, rgba(45, 15, 10, 0.9), rgba(20, 5, 5, 0.9)); }
-    .sg-10 { background: linear-gradient(135deg, rgba(30, 10, 45, 0.9), rgba(15, 5, 20, 0.9)); }
-    .sg-11 { background: linear-gradient(135deg, rgba(10, 35, 40, 0.9), rgba(5, 18, 20, 0.9)); }
-    .sg-12 { background: linear-gradient(135deg, rgba(45, 10, 30, 0.9), rgba(20, 5, 15, 0.9)); }
-    .sg-13 { background: linear-gradient(135deg, rgba(30, 20, 40, 0.9), rgba(15, 10, 20, 0.9)); }
+    /* رنگ‌بندی تفکیک‌شده برای هر ۱۳ زیرگروه */
+    .sg-1  { background: linear-gradient(135deg, rgba(45, 10, 25, 0.92), rgba(18, 5, 12, 0.92)); }
+    .sg-2  { background: linear-gradient(135deg, rgba(38, 12, 40, 0.92), rgba(12, 5, 18, 0.92)); }
+    .sg-3  { background: linear-gradient(135deg, rgba(18, 18, 50, 0.92), rgba(6, 6, 22, 0.92)); }
+    .sg-4  { background: linear-gradient(135deg, rgba(12, 32, 50, 0.92), rgba(5, 16, 22, 0.92)); }
+    .sg-5  { background: linear-gradient(135deg, rgba(10, 42, 32, 0.92), rgba(5, 22, 16, 0.92)); }
+    .sg-6  { background: linear-gradient(135deg, rgba(22, 42, 16, 0.92), rgba(11, 22, 6, 0.92)); }
+    .sg-7  { background: linear-gradient(135deg, rgba(42, 38, 12, 0.92), rgba(22, 16, 6, 0.92)); }
+    .sg-8  { background: linear-gradient(135deg, rgba(48, 28, 12, 0.92), rgba(22, 11, 6, 0.92)); }
+    .sg-9  { background: linear-gradient(135deg, rgba(48, 16, 12, 0.92), rgba(22, 6, 6, 0.92)); }
+    .sg-10 { background: linear-gradient(135deg, rgba(32, 12, 48, 0.92), rgba(16, 6, 22, 0.92)); }
+    .sg-11 { background: linear-gradient(135deg, rgba(12, 38, 42, 0.92), rgba(6, 20, 22, 0.92)); }
+    .sg-12 { background: linear-gradient(135deg, rgba(48, 12, 32, 0.92), rgba(22, 6, 16, 0.92)); }
+    .sg-13 { background: linear-gradient(135deg, rgba(32, 22, 42, 0.92), rgba(16, 11, 22, 0.92)); }
 
     .subgroup-title {
-      font-size: 1.25rem;
-      margin-bottom: 16px;
+      font-size: 1.35rem;
+      margin-bottom: 18px;
       color: #ffffff;
-      border-bottom: 2px dashed rgba(255, 23, 68, 0.5);
-      padding-bottom: 8px;
+      border-bottom: 2px dashed rgba(255, 23, 68, 0.6);
+      padding-bottom: 10px;
+      text-shadow: 0 0 8px #ff1744;
+      line-height: 1.7;
+    }
+
+    .subgroup-en-title {
+      direction: ltr;
+      display: inline-block;
+      color: #ff80ab;
       text-shadow: 0 0 6px #ff1744;
     }
 
     .buttons-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
     }
 
-    /* دکمه‌ها با حاشیه قرمز روشن و فونت بولد */
+    /* دکمه‌ها با حاشیه قرمز روشن درخشان و متن کاملاً بولد */
     .action-btn {
-      background: rgba(10, 10, 18, 0.85);
+      background: rgba(10, 10, 18, 0.88);
       color: #ffffff !important;
       border: 3px solid #ff1744 !important;
       border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 0.95rem;
+      padding: 14px 12px;
+      font-size: 0.96rem;
       cursor: pointer;
-      box-shadow: 0 0 8px rgba(255, 23, 68, 0.7);
+      box-shadow: 0 0 10px rgba(255, 23, 68, 0.75);
       transition: all 0.25s ease;
       text-align: center;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .action-btn:hover {
       background: #ff1744;
       color: #ffffff !important;
-      box-shadow: 0 0 18px #ff1744, 0 0 30px #ff1744;
+      box-shadow: 0 0 18px #ff1744, 0 0 32px #ff1744;
       transform: translateY(-3px) scale(1.02);
     }
 
@@ -289,7 +312,7 @@
 </head>
 <body>
 
-  <!-- بخش معرفی شرکت و سوابق -->
+  <!-- کادر معرفی رسمی شرکت -->
   <header class="intro-box">
     <h1 class="main-title">شرکت صنایع هوش مصنوعی تهرانیها</h1>
     <h2 class="sub-title">شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان ما ایرانیها (AA-AI)</h2>
@@ -297,262 +320,266 @@
       یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر توسط شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان
     </p>
     <div class="manager-box">
-      مدیریت علمی و طراحی: <strong>حسین لعلیان</strong> (رتبه ۳۲ کنکور دکتری تخصصی، تحصیل در ۶ رشته دانشگاهی: شیلات، شیمی، زبان، مدیریت، مهندسی IT، مهندسی صنایع)
+      مدیریت علمی و طراحی: <strong>حسین لعلیان</strong> (رتبه ۳۲ کنکور دکتری تخصصی، دارای تحصیلات در ۶ رشته دانشگاهی: شیلات، شیمی، زبان، مدیریت، مهندسی IT، مهندسی صنایع)
     </div>
   </header>
 
-  <!-- بخش انتخاب تصویر -->
-  <section class="upload-section">
+  <!-- کادر گروه اصلی و دریافت تصویر -->
+  <section class="group-header-box">
+    <div class="group-main-label">گروه: “The question in the picture”</div>
+    <div class="group-instruction">
+      عکس (صفحه‌ای از کتاب، جزوه، برگه امتحانی و...) را از گالری بگیر و یکی از دکمه‌های این گروه را لمس کن!
+    </div>
     <label for="gallery-input" class="upload-btn">
-      📷 انتخاب عکس سؤال از گالری
+      📷 انتخاب عکس از گالری
     </label>
     <input type="file" id="gallery-input" accept="image/*">
   </section>
 
-  <!-- کادر اختصاصی پاسخ هوش مصنوعی -->
+  <!-- کادر نمایش آنالیز هوش مصنوعی -->
   <section id="answer-panel" class="answer-panel">
-    <h3 class="answer-title">پاسخ هوش مصنوعی به سؤال داخل تصویر</h3>
+    <h3 class="answer-title">کادر تحلیل و آنالیز هوش مصنوعی</h3>
     <div id="answer-status" class="answer-status">
-      عکس سؤال را از گالری انتخاب کرده و یکی از دکمه‌های زیر را لمس کنید.
+      ابتدا عکس را از گالری انتخاب کرده و سپس دکمه مد نظر را لمس فرمایید.
     </div>
 
     <div id="answer-preview-box" class="answer-preview-box">
-      <img id="question-preview" alt="پیش‌نمایش تصویر سؤال">
+      <img id="question-preview" alt="پیش‌نمایش تصویر انتخابی">
     </div>
 
     <div class="answer-meta">
       <div class="answer-meta-item">
-        <strong>گروه:</strong>
-        <span id="selected-group">The question in the picture</span>
+        <strong>گروه انتخابی:</strong>
+        <span id="selected-group">“The question in the picture”</span>
       </div>
       <div class="answer-meta-item">
-        <strong>زیرگروه:</strong>
+        <strong>زیرگروه انتخابی:</strong>
         <span id="selected-subgroup">هنوز انتخاب نشده</span>
       </div>
       <div class="answer-meta-item">
-        <strong>سطح علمی:</strong>
-        <span id="selected-level">هنوز انتخاب نشده</span>
+        <strong>عملیات آنالیز انتخابی:</strong>
+        <span id="selected-action">هنوز انتخاب نشده</span>
       </div>
     </div>
 
-    <div id="ai-answer" class="answer-body">پاسخ هوش مصنوعی پس از انتخاب دکمه در اینجا نمایش داده خواهد شد.</div>
+    <div id="ai-answer" class="answer-body">آنالیز هوش مصنوعی پس از انتخاب دکمه در این قسمت نمایش داده خواهد شد.</div>
   </section>
 
-  <!-- فهرست ۱۳ زیرگروه -->
+  <!-- ۱۳ زیرگروه دقیقاً مطابق متن ارسالی -->
   <main class="subgroups-wrapper">
 
-    <!-- زیرگروه ۱ -->
+    <!-- زیر گروه 1 -->
     <div class="subgroup-container sg-1" data-sound="1">
-      <div class="subgroup-title">The question in the picture ۱. پاسخ به سوالات چهارگزینه‌ای</div>
+      <div class="subgroup-title">زیر گروه 1: <span class="subgroup-en-title">“The question in the picture” 1</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز نکات درون سوال در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۲ -->
+    <!-- زیر گروه 2 -->
     <div class="subgroup-container sg-2" data-sound="2">
-      <div class="subgroup-title">The question in the picture ۲. پاسخ به سوالات صحیح و غلط</div>
+      <div class="subgroup-title">زیر گروه 2: <span class="subgroup-en-title">“The question in the picture” 2</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز سقراطی سوال در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۳ -->
+    <!-- زیر گروه 3 -->
     <div class="subgroup-container sg-3" data-sound="3">
-      <div class="subgroup-title">The question in the picture ۳. پاسخ به سوالات جای خالی</div>
+      <div class="subgroup-title">زیر گروه 3: <span class="subgroup-en-title">“The question in the picture” 3</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۴ -->
+    <!-- زیر گروه 4 -->
     <div class="subgroup-container sg-4" data-sound="4">
-      <div class="subgroup-title">The question in the picture ۴. پاسخ به سوالات وصل کردنی</div>
+      <div class="subgroup-title">زیر گروه 4: <span class="subgroup-en-title">“The question in the picture” 4</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۵ -->
+    <!-- زیر گروه 5 -->
     <div class="subgroup-container sg-5" data-sound="5">
-      <div class="subgroup-title">The question in the picture ۵. پاسخ به سوالات بله و خیر</div>
+      <div class="subgroup-title">زیر گروه 5: <span class="subgroup-en-title">“The question in the picture” 5</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۶ -->
+    <!-- زیر گروه 6 -->
     <div class="subgroup-container sg-6" data-sound="6">
-      <div class="subgroup-title">The question in the picture ۶. پاسخ به سوالات تشریحی</div>
+      <div class="subgroup-title">زیر گروه 6: <span class="subgroup-en-title">“The question in the picture” 6</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۷ -->
+    <!-- زیر گروه 7 -->
     <div class="subgroup-container sg-7" data-sound="7">
-      <div class="subgroup-title">The question in the picture ۷. پاسخ به سوالات اشاره ای بدون گفتن جواب</div>
+      <div class="subgroup-title">زیر گروه 7: <span class="subgroup-en-title">“The question in the picture” 7</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۸ -->
+    <!-- زیر گروه 8 -->
     <div class="subgroup-container sg-8" data-sound="8">
-      <div class="subgroup-title">The question in the picture ۸. پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی</div>
+      <div class="subgroup-title">زیر گروه 8: <span class="subgroup-en-title">“The question in the picture” 8</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۹ -->
+    <!-- زیر گروه 9 -->
     <div class="subgroup-container sg-9" data-sound="9">
-      <div class="subgroup-title">The question in the picture ۹. پاسخ به سوالات با درس‌نامه مختصر قبل از حل</div>
+      <div class="subgroup-title">زیر گروه 9: <span class="subgroup-en-title">“The question in the picture” 9</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجو دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۱۰ -->
+    <!-- زیر گروه 10 -->
     <div class="subgroup-container sg-10" data-sound="10">
-      <div class="subgroup-title">The question in the picture ۱۰. پاسخ به سوالات با شبیه‌سازی و سوال مشابه</div>
+      <div class="subgroup-title">زیر گروه 10: <span class="subgroup-en-title">“The question in the picture” 10</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجو دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۱۱ -->
+    <!-- زیر گروه 11 -->
     <div class="subgroup-container sg-11" data-sound="11">
-      <div class="subgroup-title">The question in the picture ۱۱. پاسخ به سوالات با حل صوتی گام‌به‌گام</div>
+      <div class="subgroup-title">زیر گروه 11: <span class="subgroup-en-title">“The question in the picture” 11</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجو دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۱۲ -->
+    <!-- زیر گروه 12 -->
     <div class="subgroup-container sg-12" data-sound="12">
-      <div class="subgroup-title">The question in the picture ۱۲. پاسخ به سوالات با تحلیل دام‌های گزینه‌ای</div>
+      <div class="subgroup-title">زیر گروه 12: <span class="subgroup-en-title">“The question in the picture” 12</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح آماده کنکور</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
-    <!-- زیرگروه ۱۳ -->
+    <!-- زیر گروه 13 -->
     <div class="subgroup-container sg-13" data-sound="13">
-      <div class="subgroup-title">The question in the picture ۱۳. پاسخ به سوالات با تخمین زمان استاندارد حل</div>
+      <div class="subgroup-title">زیر گروه 13: <span class="subgroup-en-title">“The question in the picture” 13</span></div>
       <div class="buttons-grid">
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح ابتدایی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح متوسطه اول</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح متوسطه دوم</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کنکور سراسری</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کاردانی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کارشناسی</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کنکور ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح ارشد</button>
-        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کنکور دکتری تخصصی</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز ابتدایی</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز متوسطه اول</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز متوسطه دوم</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز تیزهوشان</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز المپیاد</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح آماده کنکور</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی لیسانس</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی فوق لیسانس</button>
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی دکتری</button>
       </div>
     </div>
 
   </main>
 
   <script>
-    // سیستم صوتی دیجیتال Web Audio API بدون نیاز به فایل صوتی خارجی
+    // سیستم پخش فرکانس صوتی اختصاصی هر زیرگروه
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
@@ -577,7 +604,7 @@
 
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(t[0], now);
-        osc.frequency.exponentialRampToValueAtTime(t[1], now + 0.15);
+        osc.frequency.exponentialRampToValueAtTime(t[1], now + 0.16);
 
         gain.gain.setValueAtTime(0.001, now);
         gain.gain.exponentialRampToValueAtTime(0.2, now + 0.02);
@@ -595,7 +622,7 @@
     const answerStatus = document.getElementById('answer-status');
     const answerBody = document.getElementById('ai-answer');
     const selectedSubgroup = document.getElementById('selected-subgroup');
-    const selectedLevel = document.getElementById('selected-level');
+    const selectedAction = document.getElementById('selected-action');
     const previewBox = document.getElementById('answer-preview-box');
     const previewImg = document.getElementById('question-preview');
 
@@ -604,4 +631,6 @@
 
     galleryInput.addEventListener('change', () => {
       if (galleryInput.files && galleryInput.files[0]) {
-        selecte
+        selectedFile = galleryInput.files[0];
+        previewImg.src = URL.createObjectURL(selectedFile);
+        previewBox.cla
