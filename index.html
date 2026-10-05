@@ -1,661 +1,430 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>شرکت صنایع هوش مصنوعی تهرانیها - AA-AI</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      font-weight: 900 !important;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شرکت صنایع هوش مصنوعی تهرانیها | سامانه تحلیل و یادگیری هوشمند (AA-AI)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #07090e;
+            --card-bg: rgba(16, 20, 31, 0.75);
+            --red-glow: #ff2a5f;
+            --red-glow-shadow: 0 0 18px rgba(255, 42, 95, 0.45);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #00ff88;
+            --radius-main: 18px;
+            --font-main: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* تم رنگی ۱۳ گروه */
+            --c1: #ff0055;
+            --c2: #ff7700;
+            --c3: #ffcc00;
+            --c4: #00ff66;
+            --c5: #00f0ff;
+            --c6: #0077ff;
+            --c7: #7700ff;
+            --c8: #cc00ff;
+            --c9: #ff00aa;
+            --c10: #00ffaa;
+            --c11: #00aaff;
+            --c12: #ff5500;
+            --c13: #aaff00;
+        }
 
-    body {
-      background: radial-gradient(circle at top, #1a0814 0%, #080915 50%, #030308 100%);
-      color: #ffffff;
-      min-height: 100vh;
-      padding: 20px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow-x: hidden;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            font-weight: 700;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    /* کادر معرفی شرکت و رزومه */
-    .intro-box {
-      width: 100%;
-      max-width: 1000px;
-      background: rgba(20, 10, 25, 0.9);
-      border: 3px solid #ff1744;
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 25px;
-      text-align: center;
-      box-shadow: 0 0 15px #ff1744, 0 0 30px rgba(255, 23, 68, 0.4);
-      backdrop-filter: blur(10px);
-    }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px 16px 80px;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 42, 95, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.06) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
 
-    .main-title {
-      font-size: 2rem;
-      color: #ffffff;
-      text-shadow: 0 0 10px #ff1744, 0 0 20px #ff1744;
-      margin-bottom: 15px;
-      line-height: 1.6;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
 
-    .sub-title {
-      font-size: 1.25rem;
-      color: #ff80ab;
-      margin-bottom: 15px;
-      text-shadow: 0 0 8px rgba(255, 128, 171, 0.6);
-    }
+        /* افکت شیشه‌ای و حاشیه نئونی */
+        .glass-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 2px solid var(--red-glow);
+            box-shadow: var(--red-glow-shadow);
+            border-radius: var(--radius-main);
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
 
-    .intro-desc {
-      font-size: 1.05rem;
-      line-height: 2.1;
-      color: #f1f1f1;
-      margin-bottom: 18px;
-    }
+        /* هدر معرفی */
+        header.intro-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-    .manager-box {
-      background: rgba(255, 23, 68, 0.12);
-      border: 2px dashed #ff1744;
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 1rem;
-      line-height: 1.9;
-      color: #ffebee;
-    }
+        .main-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 42, 95, 0.7);
+            letter-spacing: -0.5px;
+        }
 
-    /* تنظیمات کلید GapGPT */
-    .api-key-box {
-      width: 100%;
-      max-width: 1000px;
-      background: rgba(20, 12, 30, 0.9);
-      border: 3px solid #ff1744;
-      border-radius: 20px;
-      padding: 16px 20px;
-      margin-bottom: 22px;
-      box-shadow: 0 0 14px #ff1744;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
+        .sub-title {
+            font-size: 1.15rem;
+            color: var(--red-glow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    .api-key-box label {
-      color: #ff80ab;
-      font-size: 1rem;
-    }
+        .bio-box {
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 12px;
+            padding: 16px;
+            border-right: 4px solid var(--red-glow);
+            text-align: justify;
+            line-height: 1.9;
+            color: #cbd5e1;
+            font-size: 0.98rem;
+        }
 
-    .api-key-input {
-      flex: 1;
-      min-width: 260px;
-      background: rgba(0, 0, 0, 0.6);
-      border: 2px solid #ff1744;
-      border-radius: 10px;
-      padding: 10px 14px;
-      color: #00e676;
-      font-size: 0.95rem;
-      outline: none;
-      direction: ltr;
-      box-shadow: inset 0 0 8px rgba(255, 23, 68, 0.4);
-    }
+        .highlight {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.4);
+        }
 
-    /* کادر گروه اصلی و دریافت تصویر */
-    .group-header-box {
-      width: 100%;
-      max-width: 1000px;
-      background: rgba(25, 10, 20, 0.92);
-      border: 3px solid #ff1744;
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 25px;
-      text-align: center;
-      box-shadow: 0 0 18px #ff1744, 0 0 30px rgba(255, 23, 68, 0.5);
-    }
+        /* بخش آپلود تصویر با بازخورد بصری تیک سبز */
+        .upload-card {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
 
-    .group-main-label {
-      font-size: 1.6rem;
-      color: #ffffff;
-      text-shadow: 0 0 12px #ff1744;
-      margin-bottom: 12px;
-      direction: ltr;
-      display: inline-block;
-    }
+        .upload-dropzone {
+            border: 2px dashed rgba(255, 42, 95, 0.6);
+            background: rgba(255, 42, 95, 0.03);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
 
-    .group-instruction {
-      font-size: 1.15rem;
-      color: #ffcdd2;
-      line-height: 1.9;
-      margin-bottom: 18px;
-      text-shadow: 0 0 6px rgba(255, 23, 68, 0.8);
-    }
+        .upload-dropzone:hover, .upload-dropzone.dragover {
+            background: rgba(255, 42, 95, 0.1);
+            border-color: #fff;
+            box-shadow: 0 0 15px rgba(255, 42, 95, 0.35);
+        }
 
-    .upload-btn {
-      display: inline-block;
-      background: linear-gradient(45deg, #d50000, #ff1744);
-      color: #ffffff;
-      padding: 14px 30px;
-      font-size: 1.15rem;
-      border-radius: 14px;
-      cursor: pointer;
-      border: 2px solid #ffffff;
-      box-shadow: 0 0 16px #ff1744;
-      transition: 0.3s;
-    }
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            stroke: var(--red-glow);
+            filter: drop-shadow(0 0 6px var(--red-glow));
+        }
 
-    .upload-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 28px #ff1744;
-    }
+        /* وضعیت انتخاب عکس و پیش‌نمایش */
+        .file-status-box {
+            display: none;
+            width: 100%;
+            background: rgba(0, 255, 136, 0.08);
+            border: 1.5px solid var(--success-color);
+            border-radius: 12px;
+            padding: 14px 18px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            box-shadow: 0 0 14px rgba(0, 255, 136, 0.25);
+            animation: fadeIn 0.3s ease-in-out;
+        }
 
-    #gallery-input {
-      display: none;
-    }
+        .file-status-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow: hidden;
+        }
 
-    /* نوار تیک و تاییدیه انتخاب عکس */
-    .image-picked-badge {
-      display: none;
-      margin-top: 18px;
-      background: rgba(0, 230, 118, 0.15);
-      border: 2px solid #00e676;
-      border-radius: 14px;
-      padding: 12px 18px;
-      color: #b9f6ca;
-      font-size: 1.05rem;
-      box-shadow: 0 0 14px rgba(0, 230, 118, 0.4);
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+        .thumb-preview {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1.5px solid var(--success-color);
+            box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+            flex-shrink: 0;
+        }
 
-    .image-picked-badge.show {
-      display: flex;
-    }
+        .file-meta {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            overflow: hidden;
+        }
 
-    .tick-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      background: #00e676;
-      color: #052511;
-      border-radius: 50%;
-      font-size: 1.2rem;
-      box-shadow: 0 0 10px #00e676;
-    }
+        .file-name {
+            font-size: 0.95rem;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 250px;
+        }
 
-    .picked-thumb {
-      width: 48px;
-      height: 48px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 2px solid #00e676;
-    }
+        .file-badge {
+            font-size: 0.8rem;
+            color: var(--success-color);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    /* کادر نمایش آنالیز هوش مصنوعی */
-    .answer-panel {
-      width: 100%;
-      max-width: 1000px;
-      background: linear-gradient(145deg, rgba(45, 8, 20, 0.98), rgba(17, 20, 37, 0.98));
-      border: 4px solid #ff1744;
-      border-radius: 24px;
-      padding: 24px;
-      margin-bottom: 35px;
-      box-shadow: 0 0 20px #ff1744, 0 0 40px rgba(255, 23, 68, 0.6);
-      scroll-margin-top: 15px;
-    }
+        .btn-remove-image {
+            background: rgba(255, 42, 95, 0.2);
+            border: 1px solid var(--red-glow);
+            color: #fff;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
 
-    .answer-title {
-      color: #ffffff;
-      text-align: center;
-      font-size: 1.6rem;
-      margin-bottom: 16px;
-      text-shadow: 0 0 10px #ff1744;
-    }
+        .btn-remove-image:hover {
+            background: var(--red-glow);
+            box-shadow: 0 0 10px var(--red-glow);
+        }
 
-    .answer-status {
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255, 23, 68, 0.2);
-      border: 2px solid #ff1744;
-      text-align: center;
-      margin-bottom: 16px;
-      color: #ffffff;
-      font-size: 1.05rem;
-    }
+        /* کادر کنترل و وضعیت انتخابی */
+        .status-tracker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            background: rgba(0,0,0,0.5);
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    .answer-status.success {
-      background: rgba(0, 230, 118, 0.2);
-      border-color: #00e676;
-      color: #b9f6ca;
-    }
+        .tracker-item {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-    .answer-status.loading {
-      color: #ff80ab;
-      animation: pulse 1s infinite alternate;
-    }
+        .tracker-val {
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(255, 42, 95, 0.2);
+            border: 1px solid var(--red-glow);
+        }
 
-    @keyframes pulse {
-      from { opacity: 0.5; }
-      to { opacity: 1; }
-    }
+        /* ساختار گروه‌ها */
+        .groups-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
 
-    .answer-preview-box {
-      display: none;
-      text-align: center;
-      margin-bottom: 16px;
-    }
+        .group-card {
+            border-right: 6px solid var(--group-color);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
 
-    .answer-preview-box.visible {
-      display: block;
-    }
+        .group-card:hover {
+            transform: translateY(-2px);
+        }
 
-    #question-preview {
-      max-width: 100%;
-      max-height: 280px;
-      border-radius: 14px;
-      border: 3px solid #ff1744;
-      box-shadow: 0 0 15px #ff1744;
-    }
+        .group-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    .answer-meta {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
-    }
+        .group-index {
+            background: var(--group-color);
+            color: #000;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+            box-shadow: 0 0 10px var(--group-color);
+            flex-shrink: 0;
+        }
 
-    .answer-meta-item {
-      background: rgba(255, 255, 255, 0.08);
-      border: 2px solid rgba(255, 23, 68, 0.7);
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      line-height: 1.8;
-    }
+        .group-title {
+            font-size: 1.18rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 10px var(--group-color);
+        }
 
-    .answer-meta-item strong {
-      display: block;
-      color: #ff80ab;
-      margin-bottom: 4px;
-    }
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 12px;
+        }
 
-    .answer-body {
-      min-height: 150px;
-      padding: 20px;
-      border-radius: 14px;
-      background: rgba(0, 0, 0, 0.45);
-      border: 3px solid #ff1744;
-      font-size: 1.1rem;
-      line-height: 2.2;
-      white-space: pre-wrap;
-      text-align: right;
-    }
+        /* استایل دکمه‌های تحلیل */
+        .action-btn {
+            background: rgba(10, 14, 23, 0.85);
+            border: 1.5px solid var(--group-color);
+            color: #f8fafc;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.4;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* فهرست زیرگروه‌ها */
-    .subgroups-wrapper {
-      width: 100%;
-      max-width: 1000px;
-      display: flex;
-      flex-direction: column;
-      gap: 26px;
-    }
+        .action-btn:hover {
+            background: var(--group-color);
+            color: #000;
+            font-weight: 900;
+            box-shadow: 0 0 16px var(--group-color);
+            transform: scale(1.02);
+        }
 
-    .subgroup-container {
-      border: 3px solid #ff1744;
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: 0 0 15px #ff1744, 0 0 25px rgba(255, 23, 68, 0.35);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
+        .action-btn:active {
+            transform: scale(0.98);
+        }
 
-    .subgroup-container.active-scroll {
-      transform: scale(1.02);
-      box-shadow: 0 0 24px #ff1744, 0 0 45px rgba(255, 23, 68, 0.65);
-    }
+        /* پنل نمایش پاسخ هوش مصنوعی */
+        .response-panel {
+            scroll-margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 280px;
+            background: rgba(8, 11, 18, 0.95);
+        }
 
-    /* رنگ‌بندی تفکیک‌شده برای هر ۱۳ زیرگروه */
-    .sg-1  { background: linear-gradient(135deg, rgba(45, 10, 25, 0.92), rgba(18, 5, 12, 0.92)); }
-    .sg-2  { background: linear-gradient(135deg, rgba(38, 12, 40, 0.92), rgba(12, 5, 18, 0.92)); }
-    .sg-3  { background: linear-gradient(135deg, rgba(18, 18, 50, 0.92), rgba(6, 6, 22, 0.92)); }
-    .sg-4  { background: linear-gradient(135deg, rgba(12, 32, 50, 0.92), rgba(5, 16, 22, 0.92)); }
-    .sg-5  { background: linear-gradient(135deg, rgba(10, 42, 32, 0.92), rgba(5, 22, 16, 0.92)); }
-    .sg-6  { background: linear-gradient(135deg, rgba(22, 42, 16, 0.92), rgba(11, 22, 6, 0.92)); }
-    .sg-7  { background: linear-gradient(135deg, rgba(42, 38, 12, 0.92), rgba(22, 16, 6, 0.92)); }
-    .sg-8  { background: linear-gradient(135deg, rgba(48, 28, 12, 0.92), rgba(22, 11, 6, 0.92)); }
-    .sg-9  { background: linear-gradient(135deg, rgba(48, 16, 12, 0.92), rgba(22, 6, 6, 0.92)); }
-    .sg-10 { background: linear-gradient(135deg, rgba(32, 12, 48, 0.92), rgba(16, 6, 22, 0.92)); }
-    .sg-11 { background: linear-gradient(135deg, rgba(12, 38, 42, 0.92), rgba(6, 20, 22, 0.92)); }
-    .sg-12 { background: linear-gradient(135deg, rgba(48, 12, 32, 0.92), rgba(22, 6, 16, 0.92)); }
-    .sg-13 { background: linear-gradient(135deg, rgba(32, 22, 42, 0.92), rgba(16, 11, 22, 0.92)); }
+        .response-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--red-glow);
+        }
 
-    .subgroup-title {
-      font-size: 1.35rem;
-      margin-bottom: 18px;
-      color: #ffffff;
-      border-bottom: 2px dashed rgba(255, 23, 68, 0.6);
-      padding-bottom: 10px;
-      text-shadow: 0 0 8px #ff1744;
-      line-height: 1.7;
-    }
+        .response-title {
+            font-size: 1.3rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 10px var(--red-glow);
+        }
 
-    .subgroup-en-title {
-      direction: ltr;
-      display: inline-block;
-      color: #ff80ab;
-      text-shadow: 0 0 6px #ff1744;
-    }
+        .response-content {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 16px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            min-height: 180px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-    .buttons-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-    }
+        /* لودر متحرک */
+        .loading-spinner {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255, 42, 95, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--red-glow);
+            animation: spin 0.8s linear infinite;
+        }
 
-    /* دکمه‌ها با حاشیه قرمز روشن درخشان و متن کاملاً بولد */
-    .action-btn {
-      background: rgba(10, 10, 18, 0.88);
-      color: #ffffff !important;
-      border: 3px solid #ff1744 !important;
-      border-radius: 12px;
-      padding: 14px 12px;
-      font-size: 0.96rem;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(255, 23, 68, 0.75);
-      transition: all 0.25s ease;
-      text-align: center;
-      line-height: 1.7;
-    }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
-    .action-btn:hover {
-      background: #ff1744;
-      color: #ffffff !important;
-      box-shadow: 0 0 18px #ff1744, 0 0 32px #ff1744;
-      transform: translateY(-3px) scale(1.02);
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .action-btn:active {
-      transform: scale(0.95);
-    }
-  </style>
+        @media (max-width: 768px) {
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-title {
+                font-size: 1.45rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- کادر معرفی رسمی شرکت -->
-  <header class="intro-box">
-    <h1 class="main-title">شرکت صنایع هوش مصنوعی تهرانیها</h1>
-    <h2 class="sub-title">شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان ما ایرانیها (AA-AI)</h2>
-    <p class="intro-desc">
-      یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر توسط شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان
-    </p>
-    <div class="manager-box">
-      مدیریت علمی و طراحی: <strong>حسین لعلیان</strong> (رتبه ۳۲ کنکور دکتری تخصصی، دارای تحصیلات در ۶ رشته دانشگاهی: شیلات، شیمی، زبان، مدیریت، مهندسی IT، مهندسی صنایع)
-    </div>
-  </header>
+<div class="container">
+    <!-- هدر معرفی شرکت و مدیریت علمی -->
+    <header class="glass-panel intro-header">
+        <h1 class="main-title">شرکت صنایع هوش مصنوعی تهرانیها</h1>
+        <div class="sub-title">سامانه یادگیری و تحلیل هوشمند مباحث درسی (AA-AI)</div>
+        <div class="bio-box">
+            مدیریت علمی و طراحی مدل‌های شناختی: <span class="highlight">حسین لعلیان</span> (رتبه ۳۲ کنکور دکتری، پژوهشگر و کارشناس در ۶ رشته تخصصی: مهندسی شیلات، شیمی کاربردی، زبان‌های خارجی، مدیریت بازرگانی، مهندسی فناوری اطلاعات IT و مهندسی صنایع).
+            این سامانه یک دستیار فعال در فرآیند یادگیری، تبیین سرفصل‌های درسی و سنجش سطح تسلط علمی شماست؛ بدون ارائه پاسخ مستقیم، به واکاوی ریشه‌ای مفاهیم و تقویت قوه استدلال می‌پردازد.
+        </div>
+    </header>
 
-  <!-- کادر تنظیم کلید API گپ‌جی‌پی‌تی -->
-  <section class="api-key-box">
-    <label for="gapgpt-key-input">🔑 کلید پنل توسعه‌دهندگان (GapGPT API Key):</label>
-    <input type="password" id="gapgpt-key-input" class="api-key-input" placeholder="کلید API خود را اینجا وارد کنید (اختیاری یا ذخیره شونده)">
-  </section>
-
-  <!-- کادر گروه اصلی و دریافت تصویر -->
-  <section class="group-header-box">
-    <div class="group-main-label">گروه: “The question in the picture”</div>
-    <div class="group-instruction">
-      عکس (صفحه‌ای از کتاب، جزوه، برگه امتحانی و...) را از گالری بگیر و یکی از دکمه‌های این گروه را لمس کن!
-    </div>
-    <label for="gallery-input" class="upload-btn">
-      📷 انتخاب عکس از گالری
-    </label>
-    <input type="file" id="gallery-input" accept="image/*">
-
-    <!-- نشانگر تیک و تصویر انتخاب‌شده -->
-    <div id="image-picked-badge" class="image-picked-badge">
-      <span class="tick-icon">✔</span>
-      <img id="picked-thumb-preview" class="picked-thumb" alt="بندانگشتی">
-      <span id="picked-filename">عکس با موفقیت انتخاب شد.</span>
-    </div>
-  </section>
-
-  <!-- کادر نمایش آنالیز هوش مصنوعی -->
-  <section id="answer-panel" class="answer-panel">
-    <h3 class="answer-title">کادر تحلیل و آنالیز هوش مصنوعی</h3>
-    <div id="answer-status" class="answer-status">
-      عکس سؤال را از گالری انتخاب کرده و یکی از دکمه‌های زیر را لمس فرمایید.
-    </div>
-
-    <div id="answer-preview-box" class="answer-preview-box">
-      <img id="question-preview" alt="پیش‌نمایش تصویر انتخابی">
-    </div>
-
-    <div class="answer-meta">
-      <div class="answer-meta-item">
-        <strong>گروه انتخابی:</strong>
-        <span id="selected-group">“The question in the picture”</span>
-      </div>
-      <div class="answer-meta-item">
-        <strong>زیرگروه انتخابی:</strong>
-        <span id="selected-subgroup">هنوز انتخاب نشده</span>
-      </div>
-      <div class="answer-meta-item">
-        <strong>عملیات آنالیز انتخابی:</strong>
-        <span id="selected-action">هنوز انتخاب نشده</span>
-      </div>
-    </div>
-
-    <div id="ai-answer" class="answer-body">آنالیز هوش مصنوعی پس از انتخاب دکمه در این قسمت نمایش داده خواهد شد.</div>
-  </section>
-
-  <!-- ۱۳ زیرگروه دقیقاً مطابق متون شما -->
-  <main class="subgroups-wrapper">
-
-    <!-- زیر گروه 1 -->
-    <div class="subgroup-container sg-1" data-sound="1">
-      <div class="subgroup-title">زیر گروه 1: <span class="subgroup-en-title">“The question in the picture” 1</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز نکات درون سوال در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز نکات درون سوال در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز نکات درون سوال در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز نکات درون سوال در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 2 -->
-    <div class="subgroup-container sg-2" data-sound="2">
-      <div class="subgroup-title">زیر گروه 2: <span class="subgroup-en-title">“The question in the picture” 2</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز سقراطی سوال در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز سقراطی سوال در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز سقراطی سوال در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز سقراطی سوال در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 3 -->
-    <div class="subgroup-container sg-3" data-sound="3">
-      <div class="subgroup-title">زیر گروه 3: <span class="subgroup-en-title">“The question in the picture” 3</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 4 -->
-    <div class="subgroup-container sg-4" data-sound="4">
-      <div class="subgroup-title">زیر گروه 4: <span class="subgroup-en-title">“The question in the picture” 4</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 5 -->
-    <div class="subgroup-container sg-5" data-sound="5">
-      <div class="subgroup-title">زیر گروه 5: <span class="subgroup-en-title">“The question in the picture” 5</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 6 -->
-    <div class="subgroup-container sg-6" data-sound="6">
-      <div class="subgroup-title">زیر گروه 6: <span class="subgroup-en-title">“The question in the picture” 6</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 7 -->
-    <div class="subgroup-container sg-7" data-sound="7">
-      <div class="subgroup-title">زیر گروه 7: <span class="subgroup-en-title">“The question in the picture” 7</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز وصل کردن سوال در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 8 -->
-    <div class="subgroup-container sg-8" data-sound="8">
-      <div class="subgroup-title">زیر گروه 8: <span class="subgroup-en-title">“The question in the picture” 8</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 9 -->
-    <div class="subgroup-container sg-9" data-sound="9">
-      <div class="subgroup-title">زیر گروه 9: <span class="subgroup-en-title">“The question in the picture” 9</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجو دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 10 -->
-    <div class="subgroup-container sg-10" data-sound="10">
-      <div class="subgroup-title">زیر گروه 10: <span class="subgroup-en-title">“The question in the picture” 10</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجو دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 11 -->
-    <div class="subgroup-container sg-11" data-sound="11">
-      <div class="subgroup-title">زیر گروه 11: <span class="subgroup-en-title">“The question in the picture” 11</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجو دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 12 -->
-    <div class="subgroup-container sg-12" data-sound="12">
-      <div class="subgroup-title">زیر گروه 12: <span class="subgroup-en-title">“The question in the picture” 12</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح آماده کنکور</button>
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-    <!-- زیر گروه 13 -->
-    <div class="subgroup-container sg-13" data-sound="13">
-      <div class="subgroup-title">زیر گروه 13: <span class="subgroup-en-title">“The question in the picture” 13</span></div>
-      <div class="buttons-grid">
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز ابتدایی</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز متوسطه اول</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناخت
+    <!-- بخش آپلود تصویر و اعلام وضعیت -->
+    <section class="glass-panel upload-card">
+        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+        
+        <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('imageInput').click()">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8
