@@ -70,7 +70,43 @@
       color: #ffebee;
     }
 
-    /* کادر عنوان گروه و دریافت عکس */
+    /* تنظیمات کلید GapGPT */
+    .api-key-box {
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(20, 12, 30, 0.9);
+      border: 3px solid #ff1744;
+      border-radius: 20px;
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 0 14px #ff1744;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .api-key-box label {
+      color: #ff80ab;
+      font-size: 1rem;
+    }
+
+    .api-key-input {
+      flex: 1;
+      min-width: 260px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #ff1744;
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #00e676;
+      font-size: 0.95rem;
+      outline: none;
+      direction: ltr;
+      box-shadow: inset 0 0 8px rgba(255, 23, 68, 0.4);
+    }
+
+    /* کادر گروه اصلی و دریافت تصویر */
     .group-header-box {
       width: 100%;
       max-width: 1000px;
@@ -122,6 +158,48 @@
       display: none;
     }
 
+    /* نوار تیک و تاییدیه انتخاب عکس */
+    .image-picked-badge {
+      display: none;
+      margin-top: 18px;
+      background: rgba(0, 230, 118, 0.15);
+      border: 2px solid #00e676;
+      border-radius: 14px;
+      padding: 12px 18px;
+      color: #b9f6ca;
+      font-size: 1.05rem;
+      box-shadow: 0 0 14px rgba(0, 230, 118, 0.4);
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .image-picked-badge.show {
+      display: flex;
+    }
+
+    .tick-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: #00e676;
+      color: #052511;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      box-shadow: 0 0 10px #00e676;
+    }
+
+    .picked-thumb {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #00e676;
+    }
+
     /* کادر نمایش آنالیز هوش مصنوعی */
     .answer-panel {
       width: 100%;
@@ -132,7 +210,7 @@
       padding: 24px;
       margin-bottom: 35px;
       box-shadow: 0 0 20px #ff1744, 0 0 40px rgba(255, 23, 68, 0.6);
-      scroll-margin-top: 20px;
+      scroll-margin-top: 15px;
     }
 
     .answer-title {
@@ -324,6 +402,12 @@
     </div>
   </header>
 
+  <!-- کادر تنظیم کلید API گپ‌جی‌پی‌تی -->
+  <section class="api-key-box">
+    <label for="gapgpt-key-input">🔑 کلید پنل توسعه‌دهندگان (GapGPT API Key):</label>
+    <input type="password" id="gapgpt-key-input" class="api-key-input" placeholder="کلید API خود را اینجا وارد کنید (اختیاری یا ذخیره شونده)">
+  </section>
+
   <!-- کادر گروه اصلی و دریافت تصویر -->
   <section class="group-header-box">
     <div class="group-main-label">گروه: “The question in the picture”</div>
@@ -334,13 +418,20 @@
       📷 انتخاب عکس از گالری
     </label>
     <input type="file" id="gallery-input" accept="image/*">
+
+    <!-- نشانگر تیک و تصویر انتخاب‌شده -->
+    <div id="image-picked-badge" class="image-picked-badge">
+      <span class="tick-icon">✔</span>
+      <img id="picked-thumb-preview" class="picked-thumb" alt="بندانگشتی">
+      <span id="picked-filename">عکس با موفقیت انتخاب شد.</span>
+    </div>
   </section>
 
   <!-- کادر نمایش آنالیز هوش مصنوعی -->
   <section id="answer-panel" class="answer-panel">
     <h3 class="answer-title">کادر تحلیل و آنالیز هوش مصنوعی</h3>
     <div id="answer-status" class="answer-status">
-      ابتدا عکس را از گالری انتخاب کرده و سپس دکمه مد نظر را لمس فرمایید.
+      عکس سؤال را از گالری انتخاب کرده و یکی از دکمه‌های زیر را لمس فرمایید.
     </div>
 
     <div id="answer-preview-box" class="answer-preview-box">
@@ -365,7 +456,7 @@
     <div id="ai-answer" class="answer-body">آنالیز هوش مصنوعی پس از انتخاب دکمه در این قسمت نمایش داده خواهد شد.</div>
   </section>
 
-  <!-- ۱۳ زیرگروه دقیقاً مطابق متن ارسالی -->
+  <!-- ۱۳ زیرگروه دقیقاً مطابق متون شما -->
   <main class="subgroups-wrapper">
 
     <!-- زیر گروه 1 -->
@@ -567,70 +658,4 @@
         <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز ابتدایی</button>
         <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز متوسطه اول</button>
         <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز متوسطه دوم</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز تیزهوشان</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز المپیاد</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح آماده کنکور</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی لیسانس</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی فوق لیسانس</button>
-        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی دکتری</button>
-      </div>
-    </div>
-
-  </main>
-
-  <script>
-    // سیستم پخش فرکانس صوتی اختصاصی هر زیرگروه
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    let audioCtx = null;
-
-    const tones = {
-      1: [261.6, 523.2], 2: [293.6, 587.3], 3: [329.6, 659.2],
-      4: [349.2, 698.4], 5: [392.0, 783.9], 6: [440.0, 880.0],
-      7: [493.8, 987.7], 8: [523.2, 1046.5], 9: [587.3, 1174.6],
-      10: [659.2, 1318.5], 11: [698.4, 1396.9], 12: [783.9, 1567.9],
-      13: [880.0, 1760.0]
-    };
-
-    function playSound(id) {
-      try {
-        if (!AudioCtx) return;
-        if (!audioCtx) audioCtx = new AudioCtx();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-
-        const t = tones[id] || [440, 880];
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        const now = audioCtx.currentTime;
-
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(t[0], now);
-        osc.frequency.exponentialRampToValueAtTime(t[1], now + 0.16);
-
-        gain.gain.setValueAtTime(0.001, now);
-        gain.gain.exponentialRampToValueAtTime(0.2, now + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start(now);
-        osc.stop(now + 0.26);
-      } catch (e) {}
-    }
-
-    const galleryInput = document.getElementById('gallery-input');
-    const answerPanel = document.getElementById('answer-panel');
-    const answerStatus = document.getElementById('answer-status');
-    const answerBody = document.getElementById('ai-answer');
-    const selectedSubgroup = document.getElementById('selected-subgroup');
-    const selectedAction = document.getElementById('selected-action');
-    const previewBox = document.getElementById('answer-preview-box');
-    const previewImg = document.getElementById('question-preview');
-
-    let selectedFile = null;
-    let pendingButton = null;
-
-    galleryInput.addEventListener('change', () => {
-      if (galleryInput.files && galleryInput.files[0]) {
-        selectedFile = galleryInput.files[0];
-        previewImg.src = URL.createObjectURL(selectedFile);
-        previewBox.cla
+        <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناخت
