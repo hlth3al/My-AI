@@ -1,350 +1,607 @@
-<script>
-/* ============================================================
-   اتصال تمام دکمه‌های ۱۳ زیرگروه به پاسخ هوش مصنوعی
-   ============================================================ */
-
-const AI_ANALYZE_ENDPOINT = "/api/analyze";
-
-const galleryInput = document.getElementById("gallery-input");
-const answerPanel = document.getElementById("answer-panel");
-const answerStatus = document.getElementById("answer-status");
-const answerBody = document.getElementById("ai-answer");
-
-const selectedGroup = document.getElementById("selected-group");
-const selectedSubgroup = document.getElementById("selected-subgroup");
-const selectedAction = document.getElementById("selected-action");
-const selectedLevel = document.getElementById("selected-level");
-
-const previewBox = document.getElementById("answer-preview-box");
-const questionPreview = document.getElementById("question-preview");
-
-let selectedImageFile = null;
-let pendingSelection = null;
-let previewUrl = null;
-
-/* صداهای متفاوت برای ۱۳ زیرگروه */
-const AudioContextClass =
-  window.AudioContext || window.webkitAudioContext;
-
-let audioContext = null;
-
-const subgroupTones = {
-  1: [261.63, 523.25],
-  2: [293.66, 587.33],
-  3: [329.63, 659.25],
-  4: [349.23, 698.46],
-  5: [392.00, 783.99],
-  6: [440.00, 880.00],
-  7: [493.88, 987.77],
-  8: [523.25, 1046.50],
-  9: [587.33, 1174.66],
-  10: [659.25, 1318.51],
-  11: [698.46, 1396.91],
-  12: [783.99, 1567.98],
-  13: [880.00, 1760.00]
-};
-
-function playSubgroupSound(subgroupNumber) {
-  try {
-    if (!AudioContextClass) return;
-
-    if (!audioContext) {
-      audioContext = new AudioContextClass();
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شرکت صنایع هوش مصنوعی تهرانیها - AA-AI</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-weight: 900 !important;
     }
 
-    if (audioContext.state === "suspended") {
-      audioContext.resume();
+    body {
+      background: radial-gradient(circle at top, #1a0814 0%, #080915 50%, #030308 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
     }
 
-    const tones =
-      subgroupTones[String(subgroupNumber)] ||
-      subgroupTones[subgroupNumber] ||
-      [440, 880];
-
-    const now = audioContext.currentTime;
-
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    oscillator.type = "triangle";
-    oscillator.frequency.setValueAtTime(tones[0], now);
-    oscillator.frequency.exponentialRampToValueAtTime(
-      tones[1],
-      now + 0.18
-    );
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.18, now + 0.025);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
-
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-
-    oscillator.start(now);
-    oscillator.stop(now + 0.34);
-  } catch (error) {
-    console.warn("صدای مرورگر قابل پخش نیست:", error);
-  }
-}
-
-/* نمایش پیام وضعیت */
-function setStatus(message, type = "") {
-  answerStatus.textContent = message;
-  answerStatus.className = "answer-status";
-
-  if (type) {
-    answerStatus.classList.add(type);
-  }
-}
-
-/* رفتن سریع به کادر پاسخ */
-function goToAnswerPanel() {
-  answerPanel.classList.add("visible");
-
-  setTimeout(() => {
-    answerPanel.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }, 80);
-}
-
-/* تبدیل متن دکمه به اطلاعات قابل ارسال */
-function getButtonInformation(button, subgroupContainer) {
-  const subgroupTitle =
-    subgroupContainer.querySelector(".subgroup-title");
-
-  const subgroupText = subgroupTitle
-    ? subgroupTitle.innerText.trim().replace(/\s+/g, " ")
-    : "زیرگروه نامشخص";
-
-  const buttonText =
-    button.innerText.trim().replace(/\s+/g, " ");
-
-  const levelMatch = buttonText.match(/در سطح (.+)$/);
-
-  const academicLevel = levelMatch
-    ? levelMatch[1].trim()
-    : "سطح علمی تعیین‌شده در متن دکمه";
-
-  const soundId =
-    subgroupContainer.getAttribute("data-sound") ||
-    subgroupText.match(/\b(1[0-3]|[1-9])\b/)?.[1] ||
-    "1";
-
-  return {
-    groupTitle: "The question in the picture",
-    subgroupTitle: subgroupText,
-    actionTitle: buttonText,
-    academicLevel,
-    soundId,
-    button,
-    subgroupContainer
-  };
-}
-
-/* نمایش مشخصات انتخاب */
-function showSelectionInformation(selection) {
-  selectedGroup.textContent = selection.groupTitle;
-  selectedSubgroup.textContent = selection.subgroupTitle;
-  selectedAction.textContent = selection.actionTitle;
-  selectedLevel.textContent = selection.academicLevel;
-}
-
-/* نمایش تصویر انتخاب‌شده */
-function showSelectedImage(file) {
-  if (!file) return;
-
-  if (previewUrl) {
-    URL.revokeObjectURL(previewUrl);
-  }
-
-  previewUrl = URL.createObjectURL(file);
-  questionPreview.src = previewUrl;
-  previewBox.classList.add("visible");
-}
-
-/* انتخاب عکس از گالری */
-galleryInput.addEventListener("change", async function () {
-  const file = galleryInput.files && galleryInput.files[0];
-
-  if (!file) {
-    return;
-  }
-
-  if (!file.type.startsWith("image/")) {
-    setStatus("فایل انتخاب‌شده تصویر نیست.", "error");
-    goToAnswerPanel();
-    return;
-  }
-
-  selectedImageFile = file;
-  showSelectedImage(file);
-
-  setStatus(
-    "تصویر با موفقیت دریافت شد. پاسخ در حال آماده‌سازی است.",
-    "success"
-  );
-
-  /*
-    اگر کاربر ابتدا دکمه را زده و بعد گالری باز شده باشد،
-    همان دکمه بلافاصله اجرا می‌شود.
-  */
-  if (pendingSelection) {
-    const selectionToRun = pendingSelection;
-    pendingSelection = null;
-    await requestAiAnswer(selectionToRun);
-  }
-});
-
-/* ارسال عکس و اطلاعات دکمه به سرور هوش مصنوعی */
-async function requestAiAnswer(selection) {
-  if (!selectedImageFile) {
-    pendingSelection = selection;
-
-    showSelectionInformation(selection);
-
-    setStatus(
-      "ابتدا عکس سؤال را از گالری انتخاب کنید. پس از انتخاب عکس، همین درخواست به‌صورت خودکار اجرا می‌شود.",
-      "error"
-    );
-
-    goToAnswerPanel();
-
-    setTimeout(() => {
-      galleryInput.click();
-    }, 180);
-
-    return;
-  }
-
-  showSelectionInformation(selection);
-  goToAnswerPanel();
-
-  selection.button.classList.add("is-loading");
-
-  setStatus(
-    "هوش مصنوعی در حال خواندن تصویر و آماده‌کردن پاسخ متناسب با زیرگروه و سطح علمی شماست...",
-    "loading"
-  );
-
-  answerBody.textContent =
-    "لطفاً چند لحظه صبر کنید. پاسخ در حال تولید است...";
-
-  const formData = new FormData();
-
-  formData.append("image", selectedImageFile);
-  formData.append("group_title", selection.groupTitle);
-  formData.append("subgroup_title", selection.subgroupTitle);
-  formData.append("button_title", selection.actionTitle);
-  formData.append("academic_level", selection.academicLevel);
-
-  try {
-    const response = await fetch(AI_ANALYZE_ENDPOINT, {
-      method: "POST",
-      body: formData
-    });
-
-    let result = {};
-
-    try {
-      result = await response.json();
-    } catch (jsonError) {
-      throw new Error(
-        "پاسخ معتبر از سرور دریافت نشد."
-      );
+    /* کادر سربرگ و معرفی شرکت */
+    .intro-box {
+      width: 100%;
+      max-width: 950px;
+      background: rgba(20, 10, 25, 0.85);
+      border: 3px solid #ff1744;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 25px;
+      text-align: center;
+      box-shadow: 0 0 15px #ff1744, 0 0 30px rgba(255, 23, 68, 0.4);
+      backdrop-filter: blur(10px);
     }
 
-    if (!response.ok) {
-      throw new Error(
-        result.error ||
-        "ارتباط با هوش مصنوعی با خطا مواجه شد."
-      );
+    .main-title {
+      font-size: 2rem;
+      color: #ffffff;
+      text-shadow: 0 0 10px #ff1744, 0 0 20px #ff1744;
+      margin-bottom: 15px;
+      line-height: 1.6;
     }
 
-    const finalAnswer =
-      result.answer ||
-      result.output ||
-      "هوش مصنوعی پاسخ متنی ارسال نکرد.";
+    .sub-title {
+      font-size: 1.3rem;
+      color: #ff80ab;
+      margin-bottom: 15px;
+      text-shadow: 0 0 8px rgba(255, 128, 171, 0.6);
+    }
 
-    answerBody.textContent = finalAnswer;
+    .intro-desc {
+      font-size: 1.05rem;
+      line-height: 2.1;
+      color: #f1f1f1;
+      margin-bottom: 18px;
+    }
 
-    setStatus(
-      "پاسخ هوش مصنوعی با موفقیت دریافت شد.",
-      "success"
-    );
+    .manager-box {
+      background: rgba(255, 23, 68, 0.12);
+      border: 2px dashed #ff1744;
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 15px;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: #ffebee;
+    }
 
-  } catch (error) {
-    console.error(error);
+    /* کادر آپلود عکس */
+    .upload-section {
+      width: 100%;
+      max-width: 950px;
+      background: rgba(15, 20, 35, 0.9);
+      border: 3px solid #ff1744;
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 25px;
+      text-align: center;
+      box-shadow: 0 0 15px #ff1744, 0 0 25px rgba(255, 23, 68, 0.3);
+    }
 
-    answerBody.textContent =
-      "پاسخ دریافت نشد.\n\n" +
-      "علت احتمالی:\n" +
-      error.message +
-      "\n\n" +
-      "لطفاً اتصال اینترنت و اجرای سرور هوش مصنوعی را بررسی کنید.";
+    .upload-btn {
+      display: inline-block;
+      background: linear-gradient(45deg, #d50000, #ff1744);
+      color: #ffffff;
+      padding: 14px 28px;
+      font-size: 1.15rem;
+      border-radius: 14px;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 15px #ff1744;
+      transition: 0.3s;
+    }
 
-    setStatus(
-      "در دریافت پاسخ از هوش مصنوعی خطایی رخ داد.",
-      "error"
-    );
-  } finally {
-    selection.button.classList.remove("is-loading");
-  }
-}
+    .upload-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #ff1744;
+    }
 
-/* اتصال خودکار تمام دکمه‌های تمام زیرگروه‌ها */
-document.querySelectorAll(".subgroup-container").forEach(
-  (subgroupContainer) => {
-    const soundId =
-      subgroupContainer.getAttribute("data-sound") || "1";
+    #gallery-input {
+      display: none;
+    }
 
-    /*
-      لمس خود کادر زیرگروه صدا دارد.
-      اگر روی دکمه زده شود، صدای دکمه فقط یک بار پخش می‌شود.
-    */
-    subgroupContainer.addEventListener("click", (event) => {
-      if (!event.target.closest(".action-btn")) {
-        playSubgroupSound(soundId);
-      }
-    });
+    /* کادر پاسخ هوش مصنوعی */
+    .answer-panel {
+      width: 100%;
+      max-width: 950px;
+      background: linear-gradient(145deg, rgba(45, 8, 20, 0.98), rgba(17, 20, 37, 0.98));
+      border: 4px solid #ff1744;
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 35px;
+      box-shadow: 0 0 18px #ff1744, 0 0 35px rgba(255, 23, 68, 0.6);
+      scroll-margin-top: 20px;
+    }
 
-    subgroupContainer.querySelectorAll(".action-btn").forEach(
-      (button) => {
-        button.addEventListener("click", async () => {
-          playSubgroupSound(soundId);
+    .answer-title {
+      color: #ffffff;
+      text-align: center;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      text-shadow: 0 0 10px #ff1744;
+    }
 
-          const selection = getButtonInformation(
-            button,
-            subgroupContainer
-          );
+    .answer-status {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 23, 68, 0.2);
+      border: 2px solid #ff1744;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #ffffff;
+      font-size: 1rem;
+    }
 
-          await requestAiAnswer(selection);
-        });
-      }
-    );
-  }
-);
+    .answer-status.success {
+      background: rgba(0, 230, 118, 0.2);
+      border-color: #00e676;
+      color: #b9f6ca;
+    }
 
-/* انیمیشن کوچک و بزرگ شدن کادرها هنگام اسکرول */
-const subgroupObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("active-scroll");
-      } else {
-        entry.target.classList.remove("active-scroll");
-      }
-    });
-  },
-  {
-    threshold: 0.15
-  }
-);
+    .answer-status.loading {
+      color: #ff80ab;
+      animation: pulse 1s infinite alternate;
+    }
 
-document.querySelectorAll(".subgroup-container").forEach(
-  (subgroup) => {
-    subgroupObserver.observe(subgroup);
-  }
-);
-</script>
+    @keyframes pulse {
+      from { opacity: 0.5; }
+      to { opacity: 1; }
+    }
+
+    .answer-preview-box {
+      display: none;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .answer-preview-box.visible {
+      display: block;
+    }
+
+    #question-preview {
+      max-width: 100%;
+      max-height: 250px;
+      border-radius: 14px;
+      border: 3px solid #ff1744;
+      box-shadow: 0 0 15px #ff1744;
+    }
+
+    .answer-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .answer-meta-item {
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 23, 68, 0.7);
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .answer-meta-item strong {
+      display: block;
+      color: #ff80ab;
+      margin-bottom: 3px;
+    }
+
+    .answer-body {
+      min-height: 140px;
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 3px solid #ff1744;
+      font-size: 1.05rem;
+      line-height: 2.1;
+      white-space: pre-wrap;
+      text-align: right;
+    }
+
+    /* ساختار کانتینرهای زیرگروه‌ها */
+    .subgroups-wrapper {
+      width: 100%;
+      max-width: 950px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .subgroup-container {
+      border: 3px solid #ff1744;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 14px #ff1744, 0 0 25px rgba(255, 23, 68, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    /* افکت پویای اسکرول */
+    .subgroup-container.active-scroll {
+      transform: scale(1.02);
+      box-shadow: 0 0 22px #ff1744, 0 0 40px rgba(255, 23, 68, 0.6);
+    }
+
+    /* تم‌های رنگی متمایز برای ۱۳ زیرگروه */
+    .sg-1  { background: linear-gradient(135deg, rgba(40, 10, 20, 0.9), rgba(15, 5, 10, 0.9)); }
+    .sg-2  { background: linear-gradient(135deg, rgba(35, 10, 35, 0.9), rgba(10, 5, 15, 0.9)); }
+    .sg-3  { background: linear-gradient(135deg, rgba(15, 15, 45, 0.9), rgba(5, 5, 20, 0.9)); }
+    .sg-4  { background: linear-gradient(135deg, rgba(10, 30, 45, 0.9), rgba(5, 15, 20, 0.9)); }
+    .sg-5  { background: linear-gradient(135deg, rgba(10, 40, 30, 0.9), rgba(5, 20, 15, 0.9)); }
+    .sg-6  { background: linear-gradient(135deg, rgba(20, 40, 15, 0.9), rgba(10, 20, 5, 0.9)); }
+    .sg-7  { background: linear-gradient(135deg, rgba(40, 35, 10, 0.9), rgba(20, 15, 5, 0.9)); }
+    .sg-8  { background: linear-gradient(135deg, rgba(45, 25, 10, 0.9), rgba(20, 10, 5, 0.9)); }
+    .sg-9  { background: linear-gradient(135deg, rgba(45, 15, 10, 0.9), rgba(20, 5, 5, 0.9)); }
+    .sg-10 { background: linear-gradient(135deg, rgba(30, 10, 45, 0.9), rgba(15, 5, 20, 0.9)); }
+    .sg-11 { background: linear-gradient(135deg, rgba(10, 35, 40, 0.9), rgba(5, 18, 20, 0.9)); }
+    .sg-12 { background: linear-gradient(135deg, rgba(45, 10, 30, 0.9), rgba(20, 5, 15, 0.9)); }
+    .sg-13 { background: linear-gradient(135deg, rgba(30, 20, 40, 0.9), rgba(15, 10, 20, 0.9)); }
+
+    .subgroup-title {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      color: #ffffff;
+      border-bottom: 2px dashed rgba(255, 23, 68, 0.5);
+      padding-bottom: 8px;
+      text-shadow: 0 0 6px #ff1744;
+    }
+
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    /* دکمه‌ها با حاشیه قرمز روشن و فونت بولد */
+    .action-btn {
+      background: rgba(10, 10, 18, 0.85);
+      color: #ffffff !important;
+      border: 3px solid #ff1744 !important;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(255, 23, 68, 0.7);
+      transition: all 0.25s ease;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .action-btn:hover {
+      background: #ff1744;
+      color: #ffffff !important;
+      box-shadow: 0 0 18px #ff1744, 0 0 30px #ff1744;
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    .action-btn:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- بخش معرفی شرکت و سوابق -->
+  <header class="intro-box">
+    <h1 class="main-title">شرکت صنایع هوش مصنوعی تهرانیها</h1>
+    <h2 class="sub-title">شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان ما ایرانیها (AA-AI)</h2>
+    <p class="intro-desc">
+      یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر توسط شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان
+    </p>
+    <div class="manager-box">
+      مدیریت علمی و طراحی: <strong>حسین لعلیان</strong> (رتبه ۳۲ کنکور دکتری تخصصی، تحصیل در ۶ رشته دانشگاهی: شیلات، شیمی، زبان، مدیریت، مهندسی IT، مهندسی صنایع)
+    </div>
+  </header>
+
+  <!-- بخش انتخاب تصویر -->
+  <section class="upload-section">
+    <label for="gallery-input" class="upload-btn">
+      📷 انتخاب عکس سؤال از گالری
+    </label>
+    <input type="file" id="gallery-input" accept="image/*">
+  </section>
+
+  <!-- کادر اختصاصی پاسخ هوش مصنوعی -->
+  <section id="answer-panel" class="answer-panel">
+    <h3 class="answer-title">پاسخ هوش مصنوعی به سؤال داخل تصویر</h3>
+    <div id="answer-status" class="answer-status">
+      عکس سؤال را از گالری انتخاب کرده و یکی از دکمه‌های زیر را لمس کنید.
+    </div>
+
+    <div id="answer-preview-box" class="answer-preview-box">
+      <img id="question-preview" alt="پیش‌نمایش تصویر سؤال">
+    </div>
+
+    <div class="answer-meta">
+      <div class="answer-meta-item">
+        <strong>گروه:</strong>
+        <span id="selected-group">The question in the picture</span>
+      </div>
+      <div class="answer-meta-item">
+        <strong>زیرگروه:</strong>
+        <span id="selected-subgroup">هنوز انتخاب نشده</span>
+      </div>
+      <div class="answer-meta-item">
+        <strong>سطح علمی:</strong>
+        <span id="selected-level">هنوز انتخاب نشده</span>
+      </div>
+    </div>
+
+    <div id="ai-answer" class="answer-body">پاسخ هوش مصنوعی پس از انتخاب دکمه در اینجا نمایش داده خواهد شد.</div>
+  </section>
+
+  <!-- فهرست ۱۳ زیرگروه -->
+  <main class="subgroups-wrapper">
+
+    <!-- زیرگروه ۱ -->
+    <div class="subgroup-container sg-1" data-sound="1">
+      <div class="subgroup-title">The question in the picture ۱. پاسخ به سوالات چهارگزینه‌ای</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات چهارگزینه‌ای در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۲ -->
+    <div class="subgroup-container sg-2" data-sound="2">
+      <div class="subgroup-title">The question in the picture ۲. پاسخ به سوالات صحیح و غلط</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات صحیح و غلط در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۳ -->
+    <div class="subgroup-container sg-3" data-sound="3">
+      <div class="subgroup-title">The question in the picture ۳. پاسخ به سوالات جای خالی</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات جای خالی در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۴ -->
+    <div class="subgroup-container sg-4" data-sound="4">
+      <div class="subgroup-title">The question in the picture ۴. پاسخ به سوالات وصل کردنی</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات وصل کردنی در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۵ -->
+    <div class="subgroup-container sg-5" data-sound="5">
+      <div class="subgroup-title">The question in the picture ۵. پاسخ به سوالات بله و خیر</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات بله و خیر در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۶ -->
+    <div class="subgroup-container sg-6" data-sound="6">
+      <div class="subgroup-title">The question in the picture ۶. پاسخ به سوالات تشریحی</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات تشریحی در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۷ -->
+    <div class="subgroup-container sg-7" data-sound="7">
+      <div class="subgroup-title">The question in the picture ۷. پاسخ به سوالات اشاره ای بدون گفتن جواب</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات اشاره ای بدون گفتن جواب در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۸ -->
+    <div class="subgroup-container sg-8" data-sound="8">
+      <div class="subgroup-title">The question in the picture ۸. پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات سقراطی با پرسیدن سوالات تدریجی در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۹ -->
+    <div class="subgroup-container sg-9" data-sound="9">
+      <div class="subgroup-title">The question in the picture ۹. پاسخ به سوالات با درس‌نامه مختصر قبل از حل</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با درس‌نامه مختصر قبل از حل در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۱۰ -->
+    <div class="subgroup-container sg-10" data-sound="10">
+      <div class="subgroup-title">The question in the picture ۱۰. پاسخ به سوالات با شبیه‌سازی و سوال مشابه</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با شبیه‌سازی و سوال مشابه در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۱۱ -->
+    <div class="subgroup-container sg-11" data-sound="11">
+      <div class="subgroup-title">The question in the picture ۱۱. پاسخ به سوالات با حل صوتی گام‌به‌گام</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با حل صوتی گام‌به‌گام در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۱۲ -->
+    <div class="subgroup-container sg-12" data-sound="12">
+      <div class="subgroup-title">The question in the picture ۱۲. پاسخ به سوالات با تحلیل دام‌های گزینه‌ای</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تحلیل دام‌های گزینه‌ای در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+    <!-- زیرگروه ۱۳ -->
+    <div class="subgroup-container sg-13" data-sound="13">
+      <div class="subgroup-title">The question in the picture ۱۳. پاسخ به سوالات با تخمین زمان استاندارد حل</div>
+      <div class="buttons-grid">
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح ابتدایی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح متوسطه اول</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح متوسطه دوم</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کنکور سراسری</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کاردانی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کارشناسی</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کنکور ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح ارشد</button>
+        <button class="action-btn">The question in the picture پاسخ به سوالات با تخمین زمان استاندارد حل در سطح کنکور دکتری تخصصی</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // سیستم صوتی دیجیتال Web Audio API بدون نیاز به فایل صوتی خارجی
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    const tones = {
+      1: [261.6, 523.2], 2: [293.6, 587.3], 3: [329.6, 659.2],
+      4: [349.2, 698.4], 5: [392.0, 783.9], 6: [440.0, 880.0],
+      7: [493.8, 987.7], 8: [523.2, 1046.5], 9: [587.3, 1174.6],
+      10: [659.2, 1318.5], 11: [698.4, 1396.9], 12: [783.9, 1567.9],
+      13: [880.0, 1760.0]
+    };
+
+    function playSound(id) {
+      try {
+        if (!AudioCtx) return;
+        if (!audioCtx) audioCtx = new AudioCtx();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const t = tones[id] || [440, 880];
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const now = audioCtx.currentTime;
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(t[0], now);
+        osc.frequency.exponentialRampToValueAtTime(t[1], now + 0.15);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.exponentialRampToValueAtTime(0.2, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.26);
+      } catch (e) {}
+    }
+
+    const galleryInput = document.getElementById('gallery-input');
+    const answerPanel = document.getElementById('answer-panel');
+    const answerStatus = document.getElementById('answer-status');
+    const answerBody = document.getElementById('ai-answer');
+    const selectedSubgroup = document.getElementById('selected-subgroup');
+    const selectedLevel = document.getElementById('selected-level');
+    const previewBox = document.getElementById('answer-preview-box');
+    const previewImg = document.getElementById('question-preview');
+
+    let selectedFile = null;
+    let pendingButton = null;
+
+    galleryInput.addEventListener('change', () => {
+      if (galleryInput.files && galleryInput.files[0]) {
+        selecte
