@@ -6,151 +6,292 @@
   <title>The question in the picture</title>
   <style>
     :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --accent: #2563eb;
-      --text: #f8fafc;
-      --subtext: #94a3b8;
-      --border: #334155;
+      --bg: #090d16;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --red-neon: #ff1e42;
+      --red-glow: rgba(255, 30, 66, 0.45);
+      --text: #ffffff;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Tahoma, sans-serif;
+      font-family: system-ui, -apple-system, 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      font-weight: 800 !important;
     }
+
     body {
-      background-color: var(--bg-color);
+      background: radial-gradient(circle at 50% 10%, #1a102f 0%, #080c14 100%);
       color: var(--text);
-      padding: 16px;
+      padding: 20px;
       direction: rtl;
-      line-height: 1.6;
+      overflow-x: hidden;
     }
+
+    /* بخش معرفی بالایی */
     .intro-section {
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 24px;
+      border: 3px solid var(--red-neon);
+      box-shadow: 0 0 25px var(--red-glow), inset 0 0 15px rgba(255, 30, 66, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
       text-align: center;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease;
     }
-    .intro-section h1 { font-size: 1.5rem; color: #38bdf8; margin-bottom: 10px; }
-    .intro-section h2 { font-size: 1.2rem; color: #fbbf24; margin-bottom: 15px; }
-    .intro-section p { margin-bottom: 10px; color: #e2e8f0; }
-    .header-box {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 24px;
-      text-align: center;
+
+    .intro-section:hover {
+      transform: scale(1.01);
     }
-    .group-main-title {
-      font-size: 1.5rem;
-      font-weight: bold;
+
+    .main-hero-title {
+      font-size: 2.2rem;
+      color: #ff3366;
+      text-shadow: 0 0 15px rgba(255, 51, 102, 0.8);
+      margin-bottom: 15px;
+    }
+
+    .main-subtitle {
+      font-size: 1.6rem;
       color: #38bdf8;
-      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+      margin-bottom: 18px;
+    }
+
+    .intro-section p {
+      font-size: 1.15rem;
+      line-height: 1.9;
+      color: #e2e8f0;
+      margin-bottom: 12px;
+    }
+
+    .badge-highlight {
+      display: inline-block;
+      background: linear-gradient(90deg, #ff1e42, #ff8c00);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 30px;
+      margin: 10px 0;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 15px rgba(255, 30, 66, 0.5);
+    }
+
+    /* کادر دریافت تصویر */
+    .header-box {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+      border: 3px solid #ff1e42;
+      box-shadow: 0 0 22px var(--red-glow);
+      border-radius: 18px;
+      padding: 26px;
+      margin-bottom: 35px;
+      text-align: center;
+    }
+
+    .group-main-title {
+      font-size: 2rem;
+      color: #ff2a55;
+      text-shadow: 0 0 16px #ff2a55;
+      margin-bottom: 14px;
       direction: ltr;
     }
+
     .group-desc {
-      font-size: 1.1rem;
-      color: #f1f5f9;
-      line-height: 1.6;
+      font-size: 1.3rem;
+      color: #f8fafc;
+      margin-bottom: 20px;
+      line-height: 1.8;
     }
-    .file-input-wrapper {
-      margin-top: 15px;
-    }
-    .file-input-wrapper input[type="file"] {
-      display: none;
-    }
+
     .custom-file-btn {
       display: inline-block;
-      padding: 10px 20px;
-      background-color: #059669;
+      padding: 14px 34px;
+      background: linear-gradient(135deg, #ff1e42, #b91c1c);
       color: #ffffff;
-      border-radius: 8px;
+      border-radius: 14px;
       cursor: pointer;
-      font-size: 0.95rem;
-      transition: background 0.2s;
-    }
-    .custom-file-btn:hover {
-      background-color: #047857;
-    }
-    .subgroup-container {
-      margin-bottom: 24px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-    }
-    .subgroup-title {
       font-size: 1.2rem;
-      font-weight: bold;
-      color: #fbbf24;
-      margin-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 8px;
+      box-shadow: 0 0 18px rgba(255, 30, 66, 0.7);
+      transition: all 0.25s ease;
+      border: 2px solid #ffffff33;
+    }
+
+    .custom-file-btn:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 0 28px rgba(255, 30, 66, 1);
+    }
+
+    /* پویایی کادرها هنگام اسکرول */
+    .subgroup-container {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 30px;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease, box-shadow 0.3s;
+      transform: scale(0.92);
+      opacity: 0.5;
+    }
+
+    .subgroup-container.active-scroll {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .subgroup-title {
+      font-size: 1.5rem;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
       direction: ltr;
       text-align: left;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.15);
     }
-    .subgroup-title span.fa-prefix {
+
+    .subgroup-title .fa-prefix {
       direction: rtl;
       display: inline-block;
-      margin-right: 8px;
-      color: #cbd5e1;
+      margin-right: 12px;
     }
+
     .buttons-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
     }
+
     .action-btn {
-      background-color: #273549;
-      color: #f8fafc;
-      border: 1px solid #475569;
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      padding: 16px 18px;
+      border-radius: 12px;
+      font-size: 1rem;
       cursor: pointer;
       text-align: right;
-      line-height: 1.4;
-      transition: background-color 0.2s, border-color 0.2s;
+      line-height: 1.6;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 2px solid transparent;
+      color: #ffffff;
+      outline: none;
     }
+
     .action-btn:hover {
-      background-color: var(--accent);
-      border-color: #60a5fa;
+      transform: translateY(-4px) scale(1.03);
     }
+
+    .action-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* ۱۳ تم رنگی هماهنگ برای ۱۳ زیرگروه */
+    /* 1: فیروزه‌ای نئون */
+    .theme-1 { border: 2.5px solid #00f0ff; box-shadow: 0 0 20px rgba(0,240,255,0.3); }
+    .theme-1 .subgroup-title { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
+    .theme-1 .action-btn { background: #00363a; border-color: #00f0ff; }
+    .theme-1 .action-btn:hover { background: #00f0ff; color: #021a1d; box-shadow: 0 0 18px #00f0ff; }
+
+    /* 2: بنفش الکتریک */
+    .theme-2 { border: 2.5px solid #bd00ff; box-shadow: 0 0 20px rgba(189,0,255,0.3); }
+    .theme-2 .subgroup-title { color: #bd00ff; text-shadow: 0 0 10px #bd00ff; }
+    .theme-2 .action-btn { background: #350047; border-color: #bd00ff; }
+    .theme-2 .action-btn:hover { background: #bd00ff; color: #180021; box-shadow: 0 0 18px #bd00ff; }
+
+    /* 3: سبز زمردی */
+    .theme-3 { border: 2.5px solid #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
+    .theme-3 .subgroup-title { color: #00ff88; text-shadow: 0 0 10px #00ff88; }
+    .theme-3 .action-btn { background: #003d1f; border-color: #00ff88; }
+    .theme-3 .action-btn:hover { background: #00ff88; color: #002110; box-shadow: 0 0 18px #00ff88; }
+
+    /* 4: نارنجی آتشین */
+    .theme-4 { border: 2.5px solid #ff7700; box-shadow: 0 0 20px rgba(255,119,0,0.3); }
+    .theme-4 .subgroup-title { color: #ff7700; text-shadow: 0 0 10px #ff7700; }
+    .theme-4 .action-btn { background: #401e00; border-color: #ff7700; }
+    .theme-4 .action-btn:hover { background: #ff7700; color: #200f00; box-shadow: 0 0 18px #ff7700; }
+
+    /* 5: صورتی نئون */
+    .theme-5 { border: 2.5px solid #ff007f; box-shadow: 0 0 20px rgba(255,0,127,0.3); }
+    .theme-5 .subgroup-title { color: #ff007f; text-shadow: 0 0 10px #ff007f; }
+    .theme-5 .action-btn { background: #450022; border-color: #ff007f; }
+    .theme-5 .action-btn:hover { background: #ff007f; color: #1f0010; box-shadow: 0 0 18px #ff007f; }
+
+    /* 6: زرد خورشیدی */
+    .theme-6 { border: 2.5px solid #ffee00; box-shadow: 0 0 20px rgba(255,238,0,0.3); }
+    .theme-6 .subgroup-title { color: #ffee00; text-shadow: 0 0 10px #ffee00; }
+    .theme-6 .action-btn { background: #423e00; border-color: #ffee00; color: #fff; }
+    .theme-6 .action-btn:hover { background: #ffee00; color: #1e1b00; box-shadow: 0 0 18px #ffee00; }
+
+    /* 7: آبی آسمانی برلیان */
+    .theme-7 { border: 2.5px solid #00a6ff; box-shadow: 0 0 20px rgba(0,166,255,0.3); }
+    .theme-7 .subgroup-title { color: #00a6ff; text-shadow: 0 0 10px #00a6ff; }
+    .theme-7 .action-btn { background: #00293d; border-color: #00a6ff; }
+    .theme-7 .action-btn:hover { background: #00a6ff; color: #00121d; box-shadow: 0 0 18px #00a6ff; }
+
+    /* 8: لیمویی نئون */
+    .theme-8 { border: 2.5px solid #a6ff00; box-shadow: 0 0 20px rgba(166,255,0,0.3); }
+    .theme-8 .subgroup-title { color: #a6ff00; text-shadow: 0 0 10px #a6ff00; }
+    .theme-8 .action-btn { background: #283d00; border-color: #a6ff00; }
+    .theme-8 .action-btn:hover { background: #a6ff00; color: #141f00; box-shadow: 0 0 18px #a6ff00; }
+
+    /* 9: قرمز یاقوتی */
+    .theme-9 { border: 2.5px solid #ff2255; box-shadow: 0 0 20px rgba(255,34,85,0.3); }
+    .theme-9 .subgroup-title { color: #ff2255; text-shadow: 0 0 10px #ff2255; }
+    .theme-9 .action-btn { background: #420815; border-color: #ff2255; }
+    .theme-9 .action-btn:hover { background: #ff2255; color: #fff; box-shadow: 0 0 18px #ff2255; }
+
+    /* 10: یاسی الکتریک */
+    .theme-10 { border: 2.5px solid #d45fff; box-shadow: 0 0 20px rgba(212,95,255,0.3); }
+    .theme-10 .subgroup-title { color: #d45fff; text-shadow: 0 0 10px #d45fff; }
+    .theme-10 .action-btn { background: #371045; border-color: #d45fff; }
+    .theme-10 .action-btn:hover { background: #d45fff; color: #1a0522; box-shadow: 0 0 18px #d45fff; }
+
+    /* 11: یخی فانتزی */
+    .theme-11 { border: 2.5px solid #5fffd8; box-shadow: 0 0 20px rgba(95,255,216,0.3); }
+    .theme-11 .subgroup-title { color: #5fffd8; text-shadow: 0 0 10px #5fffd8; }
+    .theme-11 .action-btn { background: #0c3d33; border-color: #5fffd8; }
+    .theme-11 .action-btn:hover { background: #5fffd8; color: #04211a; box-shadow: 0 0 18px #5fffd8; }
+
+    /* 12: طلایی کهکشانی */
+    .theme-12 { border: 2.5px solid #ffaa00; box-shadow: 0 0 20px rgba(255,170,0,0.3); }
+    .theme-12 .subgroup-title { color: #ffaa00; text-shadow: 0 0 10px #ffaa00; }
+    .theme-12 .action-btn { background: #472f00; border-color: #ffaa00; }
+    .theme-12 .action-btn:hover { background: #ffaa00; color: #1f1400; box-shadow: 0 0 18px #ffaa00; }
+
+    /* 13: مرجانی پرحرارت */
+    .theme-13 { border: 2.5px solid #ff477e; box-shadow: 0 0 20px rgba(255,71,126,0.3); }
+    .theme-13 .subgroup-title { color: #ff477e; text-shadow: 0 0 10px #ff477e; }
+    .theme-13 .action-btn { background: #4a0c20; border-color: #ff477e; }
+    .theme-13 .action-btn:hover { background: #ff477e; color: #ffffff; box-shadow: 0 0 18px #ff477e; }
   </style>
 </head>
 <body>
 
+  <!-- بخش معرفی با کادربندی قرمز نئونی -->
   <div class="intro-section">
-    <h1>شرکت صنایع هوش مصنوعی تهرانیها</h1>
-    <h2>شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان ما ایرانیها</h2>
+    <h1 class="main-hero-title">شرکت صنایع هوش مصنوعی تهرانیها</h1>
+    <h2 class="main-subtitle">شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان ما ایرانیها</h2>
     <p>AI Academic Subject Analyzer (AA-AI)</p>
     <p>شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان</p>
     <p>یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر توسط شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان</p>
-    <p><strong>شرکت صنایع هوش مصنوعی تهرانیها</strong></p>
+    <div class="badge-highlight">شرکت صنایع هوش مصنوعی تهرانیها</div>
     <p>شروع گفتگو با هوش مصنوعی ←<br>دیدن ابزارهای آموزشی</p>
     <p>بهترین و پیشرفته ترین انجام دهنده تمرین،تکلیف و پاسخ به سوالات امتحانی معلم و استاد توی خانه توسط شرکت هوش مصنوعی برلیان لعلیان</p>
     <p>دستیار هوشمند شماست این شرکت هوش مصنوعی آنالیزور درس برلیان لعلیان</p>
     <p>شرکت صنایع هوش مصنوعی تهرانیها با مدیریت علمی حسین لعلیان رتبه ۳۲ کنکور دکتری و همچنین مفتخر به تحصیل در ۶ دانشکده میباشند (شیلات-شیمی-زبان-مدیریت-مهندسی آی تی-مهندسی صنایع)</p>
-    <p><strong>صحت موضوع را از وزارت علوم جویا شوید!</strong></p>
+    <p style="color: #ff3b5c; font-size: 1.3rem;">صحت موضوع را از وزارت علوم جویا شوید!</p>
     <p>این پلتفرم در شرایط عادی و مجازی برای پیشرفت علمی فرزندان ایران زمین طراحی شده است؛ از مدرسه تا دانشگاه و آمادگی کنکور</p>
-    <p><strong>پشتیبان یادگیری شما</strong></p>
+    <div class="badge-highlight">پشتیبان یادگیری شما</div>
     <p>تدریس، حل تمرین و تحلیل گام‌به‌گام<br>مدرسه، کنکور، کارشناسی تا دکتری تخصصی<br>کار با تصویر پرسش<br>آموزش حضوری و مجازی<br>یادگیری و ارزیابی<br>پشتیبانی آموزشی متناسب با سطح و هدف یادگیری شما.</p>
   </div>
 
+  <!-- کادر دریافت عکس -->
   <div class="header-box">
     <div class="group-main-title">گروه: “The question in the picture”</div>
     <div class="group-desc">عکس(صفحه ای از کتاب،جزوه،برگه امتحانی و...) را از گالری بگیر و یکی از دکمه های این گروه را لمس کن!</div>
-    <div class="file-input-wrapper">
-      <label class="custom-file-btn" for="gallery-input">انتخاب عکس از گالری</label>
-      <input type="file" id="gallery-input" accept="image/*">
+    <div>
+      <label class="custom-file-btn" for="gallery-input">📷 دریافت عکس از گالری</label>
+      <input type="file" id="gallery-input" accept="image/*" style="display: none;">
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 1 -->
+  <div class="subgroup-container theme-1" data-sound="1">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 1:</span>“The question in the picture” 1</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز نکات درون سوال در سطح دانش آموز ابتدایی</button>
@@ -165,8 +306,8 @@
     </div>
   </div>
 
-  <!-- سایر زیرگروه‌ها -->
-  <div class="subgroup-container">
+  <!-- زیرگروه 2 -->
+  <div class="subgroup-container theme-2" data-sound="2">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 2:</span>“The question in the picture” 2</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز سقراطی سوال در سطح دانش آموز ابتدایی</button>
@@ -181,7 +322,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 3 -->
+  <div class="subgroup-container theme-3" data-sound="3">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 3:</span>“The question in the picture” 3</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز چهار جوابی کردن سوال در سطح دانش آموز ابتدایی</button>
@@ -196,7 +338,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 4 -->
+  <div class="subgroup-container theme-4" data-sound="4">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 4:</span>“The question in the picture” 4</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز جای خالی کردن سوال در سطح دانش آموز ابتدایی</button>
@@ -211,7 +354,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 5 -->
+  <div class="subgroup-container theme-5" data-sound="5">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 5:</span>“The question in the picture” 5</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز صحیح و غلط کردن سوال در سطح دانش آموز ابتدایی</button>
@@ -226,7 +370,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 6 -->
+  <div class="subgroup-container theme-6" data-sound="6">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 6:</span>“The question in the picture” 6</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز بله و خیر کردن سوال در سطح دانش آموز ابتدایی</button>
@@ -241,7 +386,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 7 -->
+  <div class="subgroup-container theme-7" data-sound="7">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 7:</span>“The question in the picture” 7</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز وصل کردن سوال در سطح دانش آموز ابتدایی</button>
@@ -256,7 +402,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 8 -->
+  <div class="subgroup-container theme-8" data-sound="8">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 8:</span>“The question in the picture” 8</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز اشاره ای کردن سوال در سطح دانش آموز ابتدایی</button>
@@ -271,7 +418,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 9 -->
+  <div class="subgroup-container theme-9" data-sound="9">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 9:</span>“The question in the picture” 9</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز ابتدایی</button>
@@ -286,7 +434,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 10 -->
+  <div class="subgroup-container theme-10" data-sound="10">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 10:</span>“The question in the picture” 10</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز ابتدایی</button>
@@ -301,7 +450,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 11 -->
+  <div class="subgroup-container theme-11" data-sound="11">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 11:</span>“The question in the picture” 11</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز ابتدایی</button>
@@ -316,7 +466,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 12 -->
+  <div class="subgroup-container theme-12" data-sound="12">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 12:</span>“The question in the picture” 12</div>
     <div class="buttons-grid">
       <button class="action-btn">آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز ابتدایی</button>
@@ -331,7 +482,8 @@
     </div>
   </div>
 
-  <div class="subgroup-container">
+  <!-- زیرگروه 13 -->
+  <div class="subgroup-container theme-13" data-sound="13">
     <div class="subgroup-title"><span class="fa-prefix">زیرگروه 13:</span>“The question in the picture” 13</div>
     <div class="buttons-grid">
       <button class="action-btn">دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز ابتدایی</button>
@@ -346,5 +498,46 @@
     </div>
   </div>
 
-</body>
-</html>
+  <script>
+    // سیستم صوتی دیجیتال اختصاصی بدون نیاز به اینترنت (Web Audio API)
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    // فرکانس اختصاصی جذاب برای هر یک از 13 زیرگروه
+    const groupTones = {
+      1: [261.63, 523.25], // C
+      2: [293.66, 587.33], // D
+      3: [329.63, 659.25], // E
+      4: [349.23, 698.46], // F
+      5: [392.00, 783.99], // G
+      6: [440.00, 880.00], // A
+      7: [493.88, 987.77], // B
+      8: [523.25, 1046.50], // C High
+      9: [587.33, 1174.66], // D High
+      10: [659.25, 1318.51], // E High
+      11: [698.46, 1396.91], // F High
+      12: [783.99, 1567.98], // G High
+      13: [880.00, 1760.00]  // A High
+    };
+
+    function playTone(groupId) {
+      try {
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const tones = groupTones[groupId] || [440, 880];
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(tones[0], audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(tones[1], audioCtx.currentTime + 0.15);
+
+        gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.
