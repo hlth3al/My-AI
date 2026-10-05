@@ -10,7 +10,7 @@
     <style>
         :root {
             --bg-base: #07090e;
-            --card-bg: rgba(16, 20, 31, 0.75);
+            --card-bg: rgba(16, 20, 31, 0.85);
             --red-glow: #ff2a5f;
             --red-glow-shadow: 0 0 18px rgba(255, 42, 95, 0.45);
             --text-main: #f8fafc;
@@ -19,7 +19,6 @@
             --radius-main: 18px;
             --font-main: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
             
-            /* تم رنگی ۱۳ گروه */
             --c1: #ff0055;
             --c2: #ff7700;
             --c3: #ffcc00;
@@ -63,7 +62,6 @@
             gap: 28px;
         }
 
-        /* افکت شیشه‌ای و حاشیه نئونی */
         .glass-panel {
             background: var(--card-bg);
             backdrop-filter: blur(14px);
@@ -75,7 +73,6 @@
             transition: all 0.3s ease;
         }
 
-        /* هدر معرفی */
         header.intro-header {
             text-align: center;
             display: flex;
@@ -114,7 +111,6 @@
             text-shadow: 0 0 8px rgba(255,255,255,0.4);
         }
 
-        /* بخش آپلود تصویر با بازخورد بصری تیک سبز */
         .upload-card {
             display: flex;
             flex-direction: column;
@@ -137,7 +133,7 @@
             gap: 12px;
         }
 
-        .upload-dropzone:hover, .upload-dropzone.dragover {
+        .upload-dropzone:hover {
             background: rgba(255, 42, 95, 0.1);
             border-color: #fff;
             box-shadow: 0 0 15px rgba(255, 42, 95, 0.35);
@@ -150,7 +146,7 @@
             filter: drop-shadow(0 0 6px var(--red-glow));
         }
 
-        /* وضعیت انتخاب عکس و پیش‌نمایش */
+        /* کادر تایید و پیش‌نمایش تصویر */
         .file-status-box {
             display: none;
             width: 100%;
@@ -173,8 +169,8 @@
         }
 
         .thumb-preview {
-            width: 52px;
-            height: 52px;
+            width: 54px;
+            height: 54px;
             border-radius: 8px;
             object-fit: cover;
             border: 1.5px solid var(--success-color);
@@ -195,11 +191,11 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 250px;
+            max-width: 280px;
         }
 
         .file-badge {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             color: var(--success-color);
             display: flex;
             align-items: center;
@@ -223,7 +219,6 @@
             box-shadow: 0 0 10px var(--red-glow);
         }
 
-        /* کادر کنترل و وضعیت انتخابی */
         .status-tracker {
             display: flex;
             flex-wrap: wrap;
@@ -252,7 +247,6 @@
             border: 1px solid var(--red-glow);
         }
 
-        /* ساختار گروه‌ها */
         .groups-container {
             display: flex;
             flex-direction: column;
@@ -261,7 +255,7 @@
 
         .group-card {
             border-right: 6px solid var(--group-color);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.25s ease;
         }
 
         .group-card:hover {
@@ -305,7 +299,6 @@
             gap: 12px;
         }
 
-        /* استایل دکمه‌های تحلیل */
         .action-btn {
             background: rgba(10, 14, 23, 0.85);
             border: 1.5px solid var(--group-color);
@@ -321,8 +314,6 @@
             justify-content: center;
             line-height: 1.4;
             box-shadow: 0 0 8px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
         }
 
         .action-btn:hover {
@@ -337,7 +328,6 @@
             transform: scale(0.98);
         }
 
-        /* پنل نمایش پاسخ هوش مصنوعی */
         .response-panel {
             scroll-margin-top: 24px;
             display: flex;
@@ -377,7 +367,6 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* لودر متحرک */
         .loading-spinner {
             display: inline-block;
             width: 22px;
@@ -410,7 +399,6 @@
 <body>
 
 <div class="container">
-    <!-- هدر معرفی شرکت و مدیریت علمی -->
     <header class="glass-panel intro-header">
         <h1 class="main-title">شرکت صنایع هوش مصنوعی تهرانیها</h1>
         <div class="sub-title">سامانه یادگیری و تحلیل هوشمند مباحث درسی (AA-AI)</div>
@@ -420,11 +408,10 @@
         </div>
     </header>
 
-    <!-- بخش آپلود تصویر و اعلام وضعیت -->
     <section class="glass-panel upload-card">
         <input type="file" id="imageInput" accept="image/*" style="display: none;">
         
         <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('imageInput').click()">
             <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="17 8
+                <
