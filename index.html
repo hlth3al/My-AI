@@ -115,6 +115,22 @@ header h1{font-size:1.5rem;font-weight:800;color:#fff;text-shadow:0 0 12px var(-
         <!-- Buttons rendered via JavaScript -->
       </div>
     </div>
+<div class="group-section" id="group-section-22">
+      <div class="groups-header">
+        <h2 class="group-title">🎯 گروه: “گروه آنالیز رساله دکتری | PhD Dissertation Analysis Group”</h2>
+        <div class="group-instruction">
+          <strong>زیر گروه آنالیز رساله دکتری از عکس گالری | Gallery-Image-based PhD Dissertation Analysis Subgroup</strong><br>
+          این استراتژی در ۲ گام صورت میپذیرد؛<br>
+          گام اول؛آنالیز موضوع عکس آورده شده از گالری جهت نوشتن رساله دکتری و گام دوم نوشتن رساله دکتری توسط دانشجوی دکتری با کمک هوش مصنوعی AA-AI<br>
+          در نهایت دانشجوی دکتری خواهد توانست یک رساله شسته رفته ای ارائه دهد!<br>
+          <strong>گام اول: آنالیز موضوع عکس آورده شده از گالری جهت رساله نویسی</strong><br>
+          یک عکسی بیار از گالری که برگرفته از کتاب،جزوه،برگه امتحانی؛مدرس و... و یکی از دکمه های این گروه را لمس کن!
+        </div>
+      </div>
+      <div class="subgroups-grid" id="subgroups-container-22">
+        <!-- Buttons rendered via JavaScript -->
+      </div>
+    </div>
 <div class="active-group-panel" id="main-panel"><div class="panel-title" id="active-subgroup-title"><span>🧩</span> لطفا یک زیرگروه را انتخاب کنید</div><div class="actions-grid" id="actions-container"></div>
 <div class="input-section"><label style="font-weight:700;font-size:0.95rem;color:#fff;">📷 انتخاب عکس از گالری</label><label for="image-file" class="file-input-label"><span>🖼️</span> انتخاب عکس از گالری</label><input type="file" id="image-file" accept="image/*" onchange="handleImageUpload(event)"><div class="image-preview-badge" id="image-preview-badge"><div class="badge-info"><div class="green-tick">✓</div><img id="badge-thumb" class="thumb-preview" src="" alt="پیش‌نمایش"><div class="file-details"><span class="file-name" id="badge-name">filename.png</span><span class="file-size" id="badge-size">0 KB</span></div></div><button type="button" class="btn-remove-img" onclick="removeUploadedImage()">حذف تصویر ✖</button></div><label style="font-weight:700;font-size:0.95rem;color:#fff;">🎙️ انتخاب فایل صوتی</label><label for="audio-file" class="file-input-label"><span>🎧</span> انتخاب یا ضبط فایل صوتی</label><input type="file" id="audio-file" accept="audio/*" onchange="handleAudioUpload(event)"><div class="image-preview-badge" id="audio-preview-badge"><div class="badge-info"><div class="green-tick">✓</div><div style="font-size:1.8rem;margin-right:6px;">🎵</div><div class="file-details"><span class="file-name" id="audio-badge-name">voice.mp3</span><span class="file-size" id="audio-badge-size">0 KB</span></div></div><button type="button" class="btn-remove-img" onclick="removeUploadedAudio()">حذف صوت ✖</button></div><label style="font-weight:700;font-size:0.95rem;color:#fff;">📝 متن یا پرامپت سفارشی شما (اختیاری):</label><textarea id="user-input" placeholder="متن، صورت سوال یا توضیحات خود را اینجا وارد کنید..."></textarea></div></div>
 <div class="answer-panel" id="answer-panel"><div class="answer-header"><div class="answer-title"><span>⚡</span> کادر تحلیل و آنالیز هوش مصنوعی</div><span id="response-status-tag" style="font-size:0.8rem;color:var(--text-secondary);">آماده به کار</span></div><div class="loading-spinner" id="loading-spinner"><div class="spinner"></div><span>در حال پردازش شناختی و تولید پاسخ تحلیل تخصصی...</span></div><div class="answer-content" id="answer-content">کادر تحلیل و آنالیز هوش مصنوعی
@@ -4203,7 +4219,139 @@ const GROUPS = [
     }
   ]
 }
-
+,
+  {
+  "name": "گروه آنالیز رساله دکتری | PhD Dissertation Analysis Group",
+  "instruction": "🎯 <strong>گروه: “گروه آنالیز رساله دکتری | PhD Dissertation Analysis Group”</strong><br>\n  <strong>زیر گروه آنالیز رساله دکتری از عکس گالری | Gallery-Image-based PhD Dissertation Analysis Subgroup</strong><br>\n  این استراتژی در ۲ گام صورت میپذیرد؛<br>\n  گام اول؛آنالیز موضوع عکس آورده شده از گالری جهت نوشتن رساله دکتری و گام دوم نوشتن رساله دکتری توسط دانشجوی دکتری با کمک هوش مصنوعی AA-AI<br>\n  در نهایت دانشجوی دکتری خواهد توانست یک رساله شسته رفته ای ارائه دهد!<br>\n  <strong>گام اول: آنالیز موضوع عکس آورده شده از گالری جهت رساله نویسی</strong><br>\n  یک عکسی بیار از گالری که برگرفته از کتاب،جزوه،برگه امتحانی؛مدرس و... و یکی از دکمه های این گروه را لمس کن!",
+  "subgroups": [
+    {
+      "n": 1,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 1",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 1",
+      "op": "آنالیز نکات درون عکس در سطح دانشجوی دکتری",
+      "labels": [
+        "آنالیز نکات درون عکس در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 2,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 2",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 2",
+      "op": "آنالیز سقراطی عکس در سطح دانشجوی دکتری",
+      "labels": [
+        "آنالیز سقراطی عکس در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 3,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 3",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 3",
+      "op": "آنالیز چهار گزینه ای کردن عکس در سطح دانشجوی دکتری",
+      "labels": [
+        "آنالیز چهار گزینه ای کردن عکس در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 4,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 4",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 4",
+      "op": "آنالیز جای خالی کردن عکس در سطح دانشجوی دکتری",
+      "labels": [
+        "آنالیز جای خالی کردن عکس در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 5,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 5",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 5",
+      "op": "آنالیز صحیح و غلط کردن عکس در سطح دانشجوی دکتری",
+      "labels": [
+        "آنالیز صحیح و غلط کردن عکس در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 6,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 6",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 6",
+      "op": "آنالیز بله و خیر کردن عکس در سطح دانشجوی دکتری",
+      "labels": [
+        "آنالیز بله و خیر کردن عکس در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 7,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 7",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 7",
+      "op": "آنالیز وصل کردن عکس در سطح دانشجوی دکتری",
+      "labels": [
+        "آنالیز وصل کردن عکس در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 8,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 8",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 8",
+      "op": "آنالیز اشاره ای کردن عکس در سطح دانشجوی دکتری",
+      "labels": [
+        "آنالیز اشاره ای کردن عکس در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 9,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 9",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 9",
+      "op": "آنالیز شرح موضوع عکس",
+      "labels": [
+        "آنالیز شرح موضوع عکس: تبدیل عکس با توضیحی مختصر به متنی با توضیحی مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 10,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 10",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 10",
+      "op": "آنالیز بازطراحی و شبیه‌سازی عکس",
+      "labels": [
+        "آنالیز بازطراحی و شبیه‌سازی عکس: ساخت و طرح سوال درون عکس هم‌تیپ و مشابه در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 11,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 11",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 11",
+      "op": "آنالیز تبدیل عکس درس‌نامه و نکته کلیدی",
+      "labels": [
+        "آنالیز تبدیل عکس درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 12,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 12",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 12",
+      "op": "آنالیز زمان‌سنجی و استراتژی عکس",
+      "labels": [
+        "آنالیز زمان‌سنجی و استراتژی عکس: تحلیل روش‌های عکس سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 13,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 13",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 13",
+      "op": "آنالیز دام‌های گزینه‌ای و آموزشی عکس",
+      "labels": [
+        "آنالیز دام‌های گزینه‌ای و آموزشی عکس: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانشجوی دکتری"
+      ]
+    },
+    {
+      "n": 14,
+      "enName": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 14",
+      "name": "\"Gallery-Image-based PhD Dissertation Analysis Subgroup\" 14",
+      "op": "گام دوم: نوشتن رساله دکتری جهت ارائه توسط دانشجوی دکتری با کمک هوش مصنوعی AA-AI",
+      "labels": [
+        "گام دوم: نوشتن رساله دکتری جهت ارائه توسط دانشجوی دکتری با کمک هوش مصنوعی AA-AI"
+      ]
+    }
+  ]
+}
 ];
 let selectedGroupIdx=0,selectedSubgroupIdx=null,selectedActionIdx=null,currentImageData=null,currentAudioData=null;
 function init(){renderAllSubgroups()}
