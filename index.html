@@ -1,347 +1,39 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سامانه پیشرفته تحلیل دانشگاهی و دستیار پژوهشی برلیان</title>
-<link href="https://cdn.jsdelivr.net/css-font-family/vazirmatn.css" rel="stylesheet">
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090b12"><title>هوش مصنوعی آنالیزور درس ایرانیان برلیان لعلیان | AI-AI</title>
 <style>
-:root{
-  --bg-color:#07090e; --card-bg:rgba(18,22,33,0.75); --glass-border:rgba(255,42,95,0.25);
-  --neon-red:#ff2a5f; --neon-glow:rgba(255,42,95,0.4); --text-primary:#f0f4fc; --text-secondary:#94a3b8;
-  --accent-green:#10b981; --accent-green-glow:rgba(16,185,129,0.3);
-}
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Vazirmatn',sans-serif;-webkit-tap-highlight-color:transparent;}
-body{background-color:var(--bg-color);background-image:radial-gradient(circle at 15% 15%,rgba(255,42,95,0.08) 0%,transparent 40%),radial-gradient(circle at 85% 85%,rgba(59,130,246,0.06) 0%,transparent 40%);color:var(--text-primary);min-height:100vh;padding:20px 12px;line-height:1.6;font-weight:600;}
-.container{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:24px;}
-header{background:var(--card-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-border);box-shadow:0 8px 32px 0 rgba(0,0,0,0.5),0 0 15px var(--neon-glow);border-radius:20px;padding:24px;text-align:center;position:relative;overflow:hidden;}
-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--neon-red),transparent);}
-header h1{font-size:1.5rem;font-weight:800;color:#fff;text-shadow:0 0 12px var(--neon-glow);margin-bottom:8px;}
-header p{color:var(--text-secondary);font-size:0.95rem;}
-.academic-badge{display:inline-block;margin-top:10px;background:rgba(255,42,95,0.15);border:1px solid rgba(255,42,95,0.4);color:#ff6b8b;padding:4px 16px;border-radius:50px;font-size:0.85rem;font-weight:700;}
-.status-tracker{background:rgba(15,20,32,0.85);border:1px solid var(--glass-border);border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;backdrop-filter:blur(12px);}
-.tracker-item{display:flex;align-items:center;gap:8px;font-size:0.9rem;}
-.tracker-label{color:var(--text-secondary);}
-.tracker-value{font-weight:700;color:var(--text-primary);padding:3px 10px;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(255,255,255,0.1);}
-.tracker-value.active{color:#ff6b8b;border-color:var(--neon-red);box-shadow:0 0 8px rgba(255,42,95,0.3);}
-.group-section{margin-bottom:4px;}
-.groups-header{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.group-instruction{color:var(--text-secondary);font-size:0.9rem;margin-bottom:14px;}
-.active-group-panel{background:var(--card-bg);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:20px;padding:24px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);display:flex;flex-direction:column;gap:20px;}
-.panel-title{font-size:1.3rem;font-weight:700;display:flex;align-items:center;gap:10px;color:var(--neon-red);}
-.subgroups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
-.subgroup-btn{background:rgba(20,26,40,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 10px;color:var(--text-secondary);cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);text-align:center;font-size:0.85rem;font-weight:700;}
-.subgroup-btn:hover{transform:translateY(-3px);background:rgba(30,38,56,0.8);border-color:var(--neon-red);color:#fff;box-shadow:0 0 15px var(--neon-glow);}
-.subgroup-btn.selected{border-color:var(--neon-red);box-shadow:0 0 15px var(--neon-glow);background:rgba(30,38,56,0.8);color:#fff;}
-.selected-tag{display:none;margin-top:6px;font-size:0.72rem;font-weight:800;color:var(--accent-green);text-shadow:0 0 8px var(--accent-green-glow);}
-.subgroup-btn.selected .selected-tag{display:block;}
-.actions-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
-.action-btn{background:rgba(25,33,50,0.6);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;color:var(--text-primary);cursor:pointer;transition:all .25s ease;text-align:right;display:flex;align-items:center;gap:12px;font-size:0.9rem;}
-.action-btn:hover{background:rgba(38,49,74,0.8);border-color:var(--neon-red);transform:translateX(-4px);box-shadow:0 4px 15px rgba(0,0,0,0.3);}.action-btn.selected{border-color:var(--accent-green);box-shadow:0 0 14px var(--accent-green-glow);background:rgba(16,185,129,0.12);}
-.btn-num{width:28px;height:28px;border-radius:50%;background:rgba(255,42,95,0.15);border:1px solid var(--neon-red);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;}
-.input-section{background:rgba(12,16,25,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:16px;}
-textarea{width:100%;height:110px;background:rgba(7,9,14,0.8);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px;color:#fff;font-size:0.95rem;resize:vertical;outline:none;transition:border-color .3s;}
-textarea:focus{border-color:var(--neon-red);box-shadow:0 0 10px rgba(255,42,95,0.2);}
-.file-input-label{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 20px;background:rgba(255,42,95,0.08);border:2px dashed rgba(255,42,95,0.35);border-radius:12px;cursor:pointer;transition:all .3s ease;color:#ff6b8b;font-weight:700;font-size:0.9rem;}
-.file-input-label:hover{background:rgba(255,42,95,0.15);border-color:var(--neon-red);}
-input[type="file"]{display:none;}
-.image-preview-badge{display:none;background:rgba(16,185,129,0.12);border:1px solid var(--accent-green);box-shadow:0 0 15px var(--accent-green-glow);border-radius:12px;padding:12px 16px;align-items:center;justify-content:space-between;gap:14px;animation:fadeIn .3s ease-in-out;}
-.badge-info{display:flex;align-items:center;gap:12px;}
-.green-tick{width:28px;height:28px;background:var(--accent-green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;box-shadow:0 0 8px var(--accent-green);}
-.thumb-preview{width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
-.file-details{display:flex;flex-direction:column;}
-.file-name{font-size:0.9rem;font-weight:700;color:#fff;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.file-size{font-size:0.78rem;color:var(--accent-green);}
-.btn-remove-img{background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.5);color:#fca5a5;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:0.8rem;transition:all .2s;}
-.btn-remove-img:hover{background:rgba(239,68,68,0.4);color:#fff;}
-.answer-panel{background:var(--card-bg);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:20px;padding:24px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.5);display:flex;flex-direction:column;gap:16px;min-height:250px;scroll-margin-top:20px;}
-.answer-header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:14px;}
-.answer-title{font-size:1.2rem;font-weight:700;color:var(--neon-red);display:flex;align-items:center;gap:8px;}
-.answer-content{font-size:1rem;line-height:1.8;color:var(--text-primary);white-space:pre-line;min-height:120px;}
-.loading-spinner{display:none;align-items:center;gap:12px;color:var(--text-secondary);font-size:0.95rem;padding:20px 0;}
-.spinner{width:24px;height:24px;border:3px solid rgba(255,42,95,0.2);border-top:3px solid var(--neon-red);border-radius:50%;animation:spin .8s linear infinite;}
-footer{text-align:center;padding:20px;color:var(--text-secondary);font-size:0.85rem;border-top:1px solid rgba(255,255,255,0.05);margin-top:20px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
-@media(max-width:768px){.subgroups-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}.actions-grid{grid-template-columns:1fr;}.status-tracker{flex-direction:column;align-items:flex-start;}}
-</style>
-</head>
-<body>
-<div class="container">
-  <header>
-    <h1>شرکت صنایع هوش مصنوعی تهرانیها</h1>
-    <p style="font-size:1.15rem;font-weight:800;color:var(--neon-red);margin:4px 0;">شرکت هوش مصنوعی (AI) آنالیزور درس ایرانیان (AI) &mdash; AI-AI</p>
-    <p style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:8px;">هوش مصنوعی آنالیزور درسیان ایرانیان برلیان لعلیان</p>
-    <p style="font-size:0.88rem;line-height:1.7;color:var(--text-secondary);max-width:1100px;margin:0 auto 10px auto;text-align:justify;">
-      نارضایتی، گله‌مندی، مخالفت شدید و تذکر مهم مدیر عامل، هدایت‌کننده علمی و طراح هوش مصنوعی AI-AI (حسین لعلیان، رتبه ۳۲ کنکور دکتری، افتخار تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی IT، مهندسی صنایع (صحت کلام را از وزارت علوم جویا شوید!)) به سوء استفاده برخی دانش‌آموزان و دانشجویان در طول تحصیلشان از این هوش مصنوعی؛ کپی کردن و ارسال عین پاسخ سوالات به مدرس از مسیر این پلتفرم است! اما با این وجود ایشان به این مهم افتخار می‌کنند که هیچ محصلی با کمک این هوش مصنوعی دچار افت تحصیلی چه در شرایط عادی کشور و چه در شرایط مجازی نخواهد شد، بلکه به سمت رتبه برتری و پیشرفت تحصیلی گام خواهد نهاد؛ چرا که مکانیزم کاری مفید هوش مصنوعی AI-AI یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر است.
-    </p>
-    <span class="academic-badge">مدیریت علمی و طراحی: مهندس حسین (برلیان) لعلیان &bull; رتبه ۳۲ کنکور دکتری</span>
-  </header>
-
-  <div class="status-tracker">
-    <div class="tracker-item"><span class="tracker-label">گروه انتخابی:</span><span class="tracker-value active" id="track-group">The question in the picture</span></div>
-    <div class="tracker-item"><span class="tracker-label">زیرگروه انتخابی:</span><span class="tracker-value" id="track-subgroup">هنوز انتخاب نشده</span></div>
-    <div class="tracker-item"><span class="tracker-label">عملیات آنالیز انتخابی:</span><span class="tracker-value" id="track-action">هنوز انتخاب نشده</span></div>
-  </div>
-
-  <div id="groups-root">
-    <div class="group-section" id="group-section-0">
-      <div class="groups-header"><span>🎯</span> گروه: &ldquo;The question in the picture&rdquo;</div>
-      <div class="group-instruction">عکس (صفحه‌ای از کتاب، جزوه، برگه امتحانی و...) را از گالری بگیر و یکی از دکمه‌های این گروه را لمس کن!</div>
-      <div class="subgroups-grid" id="subgroups-container-0"></div>
-    </div>
-    <div class="group-section" id="group-section-1">
-      <div class="groups-header"><span>🎯</span> گروه: &ldquo;The answer to the question in the picture&rdquo;</div>
-      <div class="group-instruction">بعد از اینکه عکس(صفحه ای از کتاب،جزوه،برگه امتحانی و...) را از گالری آوردید ؛ یکی از دکمه های این گروه را لمس کن!</div>
-      <div class="subgroups-grid" id="subgroups-container-1"></div>
-    </div>
-    <div class="group-section" id="group-section-2">
-      <div class="groups-header"><span>🎯</span> گروه: &ldquo;Typing a question&rdquo;</div>
-      <div class="group-instruction">یک سوال را تایپ کن (سوالی از کتاب،جزوه،برگه امتحانی و...) و یکی از دکمه های این گروه را لمس کن!</div>
-      <div class="subgroups-grid" id="subgroups-container-2"></div>
-    </div>
-  </div>
-
-  <div class="active-group-panel" id="main-panel">
-    <div class="panel-title" id="active-subgroup-title"><span>🧩</span> لطفا یک زیرگروه را انتخاب کنید</div>
-    <div class="actions-grid" id="actions-container"></div>
-
-    <div class="input-section">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div>
-          <label style="font-weight:700;font-size:0.95rem;color:#fff;display:block;margin-bottom:6px;">📷 ورودی عکس (گالری/برگه/کتاب):</label>
-          <label for="image-file" class="file-input-label"><span>🖼️</span> انتخاب عکس از گالری</label>
-        </div>
-        <div>
-          <label style="font-weight:700;font-size:0.95rem;color:#fff;display:block;margin-bottom:6px;">🎙️ ورودی فایل صوتی (۳ گروه مجازی: عکس / صوت / متن):</label>
-          <label for="audio-file" class="file-input-label" style="border-color:rgba(16,185,129,0.35);color:#34d399;background:rgba(16,185,129,0.08);"><span>🎵</span> انتخاب فایل صوتی</label>
-        </div>
-      </div>
-      <input type="file" id="audio-file" accept="audio/*" onchange="handleAudioUpload(event)">
-      <div class="image-preview-badge" id="audio-preview-badge">
-        <div class="badge-info">
-          <div class="green-tick">🎵</div>
-          <div class="file-details">
-            <span class="file-name" id="audio-badge-name">audio.mp3</span>
-            <span class="file-size" id="audio-badge-size">0 KB</span>
-          </div>
-        </div>
-        <button type="button" class="btn-remove-img" onclick="removeUploadedAudio()">حذف صوت ✖</button>
-      </div>
-      <input type="file" id="image-file" accept="image/*" onchange="handleImageUpload(event)">
-      <div class="image-preview-badge" id="image-preview-badge">
-        <div class="badge-info">
-          <div class="green-tick">✓</div>
-          <img id="badge-thumb" class="thumb-preview" src="" alt="پیش‌نمایش">
-          <div class="file-details">
-            <span class="file-name" id="badge-name">filename.png</span>
-            <span class="file-size" id="badge-size">0 KB</span>
-          </div>
-        </div>
-        <button type="button" class="btn-remove-img" onclick="removeUploadedImage()">حذف تصویر ✖</button>
-      </div>
-      <label style="font-weight:700;font-size:0.95rem;color:#fff;">📝 متن یا پرامپت سفارشی شما (اختیاری):</label>
-      <textarea id="user-input" placeholder="متن، صورت سوال یا توضیحات خود را اینجا وارد کنید..."></textarea>
-    </div>
-  </div>
-
-  <div class="answer-panel" id="answer-panel">
-    <div class="answer-header">
-      <div class="answer-title"><span>⚡</span> کادر تحلیل و آنالیز هوش مصنوعی AI-AI</div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <button type="button" id="btn-read-aloud" onclick="toggleReadAloud()" style="background:rgba(255,42,95,0.15);border:1px solid var(--neon-red);color:#ff6b8b;padding:6px 14px;border-radius:10px;cursor:pointer;font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:6px;transition:all .2s;">
-          <span>🔊</span> گوش دادن به پاسخ (آپشن صوتی)
-        </button>
-        <span id="response-status-tag" style="font-size:0.8rem;color:var(--text-secondary);">آماده به کار</span>
-      </div>
-    </div>
-    <div class="loading-spinner" id="loading-spinner"><div class="spinner"></div><span>در حال پردازش شناختی و تولید پاسخ تحلیل تخصصی...</span></div>
-    <div class="answer-content" id="answer-content">کادر تحلیل و آنالیز هوش مصنوعی
-عکس سؤال را از گالری انتخاب کرده و یکی از دکمه‌های زیر را لمس فرمایید.
-آنالیز هوش مصنوعی پس از انتخاب دکمه در این قسمت نمایش داده خواهد شد.</div>
-  </div>
-
-  <footer>شرکت صنایع هوش مصنوعی تهرانیها | شرکت هوش مصنوعی (AI) آنالیزور درس ایرانیان (AI) &mdash; AI-AI | مدیریت علمی و طراحی: حسین (برلیان) لعلیان (رتبه ۳۲ کنکور دکتری)</footer>
-</div>
-
+:root{--bg:#080a10;--panel:rgba(20,24,36,.82);--red:#ff315f;--pink:#ff7791;--muted:#a5aec1;--line:rgba(255,70,109,.25);--green:#35d6a0}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:#f5f6fb;background:radial-gradient(ellipse at 15% 0%,#30101f 0,transparent 34%),radial-gradient(ellipse at 90% 45%,#101b31 0,transparent 38%),var(--bg);font:600 16px/1.75 Vazirmatn,Tahoma,Arial,sans-serif;padding:18px}button,input,textarea,select{font:inherit}button{color:inherit}.wrap{max-width:1320px;margin:auto;display:grid;gap:18px}.glass{background:var(--panel);border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 55px #0008,0 0 24px #ff315f0d;backdrop-filter:blur(15px)}header{text-align:center;padding:27px 18px;position:relative;overflow:hidden}header:before{content:"";position:absolute;inset:0 10% auto;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)}.company{color:var(--pink);font-size:1.05rem}.headline{font-size:clamp(1.1rem,3vw,1.8rem);margin:4px 0}.brand{font-size:clamp(3rem,10vw,6.5rem);line-height:1.1;font-weight:1000;letter-spacing:.06em;color:#fff;text-shadow:0 0 14px #ff315f,0 0 42px #ff315f99;margin:2px}.tagline{font-size:1.15rem;color:#d4d8e4}.credit{display:inline-block;margin-top:10px;padding:5px 15px;border:1px solid var(--line);background:#ff315f12;border-radius:30px;color:#ffc0cd;font-size:.9rem}.mission{padding:14px 18px;color:#d7d9e2}.mission summary{cursor:pointer;color:#ff9caf;font-weight:800}.mission p{margin:10px 0 0}.tracker{padding:15px 18px;display:grid;grid-template-columns:repeat(4,minmax(140px,1fr));gap:10px}.track{border:1px solid #ffffff12;background:#ffffff06;padding:9px 12px;border-radius:12px;font-size:.87rem}.track b{display:block;color:var(--muted);font-size:.76rem}.track span{color:#fff}.track .on{color:#ff9caf}.section{padding:20px}.section h2{font-size:1.25rem;margin:0 0 4px}.hint{color:var(--muted);margin:0 0 15px;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.card{position:relative;text-align:right;min-height:105px;padding:17px;border-radius:17px;border:1px solid #ffffff17;background:linear-gradient(145deg,#1a2030d9,#111522d9);cursor:pointer;transition:.2s;touch-action:manipulation}.card:hover,.card:focus-visible{transform:translateY(-3px);border-color:#ff5578;box-shadow:0 0 20px #ff315f28;outline:none}.card.selected{border-color:var(--red);background:linear-gradient(145deg,#4b1728,#171522);box-shadow:0 0 20px #ff315f30}.card .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;background:#ff315f22;color:#ff8da5;margin-left:8px}.card small{display:block;color:var(--muted);margin-top:4px}.card .badge{position:absolute;left:12px;top:12px;color:var(--green);font-size:.72rem}.subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.modcard{min-height:118px}.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:9px}.op{padding:12px;border:1px solid #ffffff18;background:#ffffff08;border-radius:13px;text-align:right;cursor:pointer;transition:.2s}.op:hover,.op.selected{border-color:var(--red);background:#ff315f1b}.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.level{padding:13px;border:1px solid #ffffff16;border-radius:14px;background:#ffffff06}.level.active{border-color:#ff6380}.level strong{display:block;margin-bottom:8px}.actions{display:flex;gap:8px;flex-wrap:wrap}.action,.secondary{border:1px solid #ff557766;background:linear-gradient(135deg,#e92350,#9d1737);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem;transition:.2s}.action:hover,.secondary:hover{filter:brightness(1.2);transform:translateY(-1px)}.secondary{background:#ffffff0b;border-color:#ffffff2b}.sourcebox{margin:16px 0;padding:15px;border-radius:15px;background:#090c14;border:1px solid #ffffff19}.sourcebox label{display:block;margin:8px 0}.sourcebox input[type=file],.sourcebox textarea,.settings input,.settings textarea{width:100%;padding:10px 12px;color:#fff;background:#090c14;border:1px solid #ffffff26;border-radius:10px}.sourcebox textarea{min-height:110px;resize:vertical}.preview{max-width:min(100%,560px);max-height:380px;display:block;margin:12px auto;border-radius:12px}.audio-player{width:100%;margin-top:12px}.note{font-size:.82rem;color:#ffc3ce}.transcript{color:#a9f2d4}.settings{padding:16px 18px}.settings summary{cursor:pointer;color:#ff9caf;font-size:1.05rem}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}.fields label{display:grid;gap:5px;color:#c7ccda;font-size:.88rem}.fields input{width:100%;border:1px solid #ffffff25;border-radius:9px;padding:9px;background:#090c14;color:white}.output{padding:20px;min-height:130px}.output h2{margin:0 0 8px}.status{border-radius:11px;background:#ffffff08;padding:11px;color:#c9cede;white-space:pre-wrap}.status.error{color:#ff9aab;border:1px solid #ff315f66}.result{margin-top:12px;padding:15px;background:#090c14;border:1px solid #ffffff16;border-radius:13px;white-space:pre-wrap;overflow-wrap:anywhere}.tools{display:flex;gap:8px;margin-top:10px}.hidden{display:none!important}.toast{color:var(--muted);font-size:.82rem}footer{text-align:center;color:#80899e;font-size:.8rem;padding:8px}@media(max-width:650px){body{padding:10px}.tracker{grid-template-columns:repeat(2,minmax(0,1fr))}.section{padding:16px}.grid{grid-template-columns:1fr}.card{min-height:80px}}
+</style></head><body><main class="wrap">
+<header class="glass"><div class="company">شرکت صنایع هوش مصنوعی تهرانیها</div><h1 class="headline">شرکت هوش مصنوعی (AI) آنالیزور درس ایرانیان (AI)</h1><div class="brand">AI-AI</div><div class="tagline">هوش مصنوعی آنالیزور درس ایرانیان برلیان لعلیان</div><div class="credit">مدیریت علمی و طراحی: مهندس حسین حسین لعلیان • رتبه ۳۲ کنکور دکتری</div></header>
+<details class="glass mission"><summary>تذکر مهم مدیرعامل و مأموریت سامانه — برای مطالعه باز کنید</summary><p>نارضایتی، گله‌مندی، مخالفت شدید و تذکر مهم مدیر عامل، هدایت‌کننده علمی و طراح هوش مصنوعی AI-AI (حسین لعلیان، رتبه ۳۲ کنکور دکتری، افتخار تحصیل در ۶ دانشکده: شیلات، شیمی، زبان، مدیریت، مهندسی IT، مهندسی صنایع (صحت کلام را از وزارت علوم جویا شوید!)) به سوء استفاده برخی دانش‌آموزان و دانشجویان در طول تحصیلشان از این هوش مصنوعی؛ کپی کردن و ارسال عین پاسخ سوالات به مدرس از مسیر این پلتفرم است! اما با این وجود ایشان به این مهم افتخار می‌کنند که هیچ محصلی با کمک این هوش مصنوعی دچار افت تحصیلی چه در شرایط عادی کشور و چه در شرایط مجازی نخواهد شد، بلکه به سمت رتبه برتری و پیشرفت تحصیلی گام خواهد نهاد؛ چرا که مکانیزم کاری مفید هوش مصنوعی AI-AI یادگیری، تکلیف، تحلیل و تمرین، پیشرفت و پاسخ امتحان شفاهی و امتحان کتبی به مدرس در خانه با موبایل و کامپیوتر است.</p></details>
+<section class="glass tracker" aria-label="مسیر انتخاب"><div class="track"><b>گروه انتخابی</b><span id="tGroup">هنوز انتخاب نشده</span></div><div class="track"><b>منبع / زیرگروه</b><span id="tSub">هنوز انتخاب نشده</span></div><div class="track"><b>عملیات آنالیز</b><span id="tOp">هنوز انتخاب نشده</span></div><div class="track"><b>سطح تحصیلی</b><span id="tLevel">هنوز انتخاب نشده</span></div></section>
+<section class="glass section" id="groupsPanel"><h2>۱. انتخاب گروه حقیقی</h2><p class="hint">یک حوزهٔ یادگیری را انتخاب کنید تا مسیر متناسب آن باز شود.</p><div class="grid" id="groups"></div></section>
+<section class="glass section hidden" id="modPanel"><h2>۲. انتخاب گروه مجازی</h2><p class="hint">منبع دریافت سؤال یا پاسخ را انتخاب کنید.</p><div class="grid" id="modalities"></div><div id="sourceArea"></div></section>
+<section class="glass section hidden" id="subPanel"><h2>۳. انتخاب زیرگروه</h2><p class="hint">آنالیز سؤال یا آنالیز پاسخِ استخراج‌شده از منبع انتخابی.</p><div class="subgrid" id="subgroups"></div></section>
+<section class="glass section hidden" id="opsPanel"><h2>۴. انتخاب یکی از ۱۳ عملیات</h2><p class="hint">عملیات را متناسب با هدف تمرین انتخاب کنید.</p><div class="ops" id="operations"></div></section>
+<section class="glass section hidden" id="levelsPanel"><h2>۵. انتخاب سطح تحصیلی و نوع پاسخ</h2><p class="hint">برای هر سطح، هر دو گزینهٔ نوشتاری و شنیداری در دسترس است.</p><div class="levels" id="levels"></div></section>
+<section class="glass settings"><details><summary>تنظیمات اتصال به هوش مصنوعی (API)</summary><p class="note">کلید API در مرورگر قابل مشاهده است؛ برای استفادهٔ عملیاتی، استفاده از پراکسی سمت سرور توصیه می‌شود. کلید فقط در حافظهٔ همین صفحه می‌ماند و ذخیره نمی‌شود.</p><div class="fields"><label>نشانی API<input id="endpoint" type="url" value="https://api.gapgpt.app/v1/chat/completions" autocomplete="url"></label><label>مدل<input id="model" value="gapgpt-4o" autocomplete="off"></label><label>کلید API (خالی به‌صورت پیش‌فرض)<input id="apiKey" type="password" value="" autocomplete="new-password" placeholder="کلید را فقط در صورت تمایل وارد کنید"></label><label>پیشوند احراز هویت<input id="authPrefix" value="Bearer " autocomplete="off"></label></div></details></section>
+<section class="glass output" id="outputPanel" aria-live="polite"><h2>پاسخ / وضعیت</h2><div class="status" id="status">برای شروع، یکی از گروه‌های حقیقی را انتخاب کنید.</div><div class="result hidden" id="result"></div><div class="tools"><button class="secondary hidden" id="stopSpeech" type="button">توقف خواندن</button></div></section><footer>AI-AI • پاسخ واقعی با اتصال API و کلید معتبر دریافت می‌شود.</footer></main>
 <script>
-const GAPGPT_API_KEY = ""; // کلید API پنل توسعه‌دهندگان گپ‌جی‌پی‌تی را اینجا بگذارید
-
-const LEVELS = ["ابتدایی","متوسطه اول","متوسطه دوم","تیزهوشان","المپیاد","آماده کنکور","دانشجوی لیسانس","دانشجوی فوق لیسانس","دانشجوی دکتری"];
-const GROUPS = [{"name": "The question in the picture", "instruction": "عکس (صفحه‌ای از کتاب، جزوه، برگه امتحانی و...) را از گالری بگیر و یکی از دکمه‌های این گروه را لمس کن!", "subgroups": [{"n": 1, "op": "آنالیز نکات درون سوال", "labels": ["آنالیز نکات درون سوال در سطح دانش آموز ابتدایی", "آنالیز نکات درون سوال در سطح دانش آموز متوسطه اول", "آنالیز نکات درون سوال در سطح دانش آموز متوسطه دوم", "آنالیز نکات درون سوال در سطح دانش آموز تیزهوشان", "آنالیز نکات درون سوال در سطح دانش آموز المپیاد", "آنالیز نکات درون سوال در سطح آماده کنکور", "آنالیز نکات درون سوال در سطح دانشجوی لیسانس", "آنالیز نکات درون سوال در سطح دانشجوی فوق لیسانس", "آنالیز نکات درون سوال در سطح دانشجوی دکتری"]}, {"n": 2, "op": "آنالیز سقراطی سوال", "labels": ["آنالیز سقراطی سوال در سطح دانش آموز ابتدایی", "آنالیز سقراطی سوال در سطح دانش آموز متوسطه اول", "آنالیز سقراطی سوال در سطح دانش آموز متوسطه دوم", "آنالیز سقراطی سوال در سطح دانش آموز تیزهوشان", "آنالیز سقراطی سوال در سطح دانش آموز المپیاد", "آنالیز سقراطی سوال در سطح آماده کنکور", "آنالیز سقراطی سوال در سطح دانشجوی لیسانس", "آنالیز سقراطی سوال در سطح دانشجوی فوق لیسانس", "آنالیز سقراطی سوال در سطح دانشجوی دکتری"]}, {"n": 3, "op": "آنالیز چهار جوابی کردن سوال", "labels": ["آنالیز چهار جوابی کردن سوال در سطح دانش آموز ابتدایی", "آنالیز چهار جوابی کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز چهار جوابی کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز چهار جوابی کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز چهار جوابی کردن سوال در سطح دانش آموز المپیاد", "آنالیز چهار جوابی کردن سوال در سطح آماده کنکور", "آنالیز چهار جوابی کردن سوال در سطح دانشجوی لیسانس", "آنالیز چهار جوابی کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز چهار جوابی کردن سوال در سطح دانشجوی دکتری"]}, {"n": 4, "op": "آنالیز جای خالی کردن سوال", "labels": ["آنالیز جای خالی کردن سوال در سطح دانش آموز ابتدایی", "آنالیز جای خالی کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز جای خالی کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز جای خالی کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز جای خالی کردن سوال در سطح دانش آموز المپیاد", "آنالیز جای خالی کردن سوال در سطح آماده کنکور", "آنالیز جای خالی کردن سوال در سطح دانشجوی لیسانس", "آنالیز جای خالی کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز جای خالی کردن سوال در سطح دانشجوی دکتری"]}, {"n": 5, "op": "آنالیز صحیح و غلط کردن سوال", "labels": ["آنالیز صحیح و غلط کردن سوال در سطح دانش آموز ابتدایی", "آنالیز صحیح و غلط کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز صحیح و غلط کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز صحیح و غلط کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز صحیح و غلط کردن سوال در سطح دانش آموز المپیاد", "آنالیز صحیح و غلط کردن سوال در سطح آماده کنکور", "آنالیز صحیح و غلط کردن سوال در سطح دانشجوی لیسانس", "آنالیز صحیح و غلط کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز صحیح و غلط کردن سوال در سطح دانشجوی دکتری"]}, {"n": 6, "op": "آنالیز بله و خیر کردن سوال", "labels": ["آنالیز بله و خیر کردن سوال در سطح دانش آموز ابتدایی", "آنالیز بله و خیر کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز بله و خیر کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز بله و خیر کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز بله و خیر کردن سوال در سطح دانش آموز المپیاد", "آنالیز بله و خیر کردن سوال در سطح آماده کنکور", "آنالیز بله و خیر کردن سوال در سطح دانشجوی لیسانس", "آنالیز بله و خیر کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز بله و خیر کردن سوال در سطح دانشجوی دکتری"]}, {"n": 7, "op": "آنالیز وصل کردن سوال", "labels": ["آنالیز وصل کردن سوال در سطح دانش آموز ابتدایی", "آنالیز وصل کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز وصل کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز وصل کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز وصل کردن سوال در سطح دانش آموز المپیاد", "آنالیز وصل کردن سوال در سطح آماده کنکور", "آنالیز وصل کردن سوال در سطح دانشجوی لیسانس", "آنالیز وصل کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز وصل کردن سوال در سطح دانشجوی دکتری"]}, {"n": 8, "op": "آنالیز اشاره ای کردن سوال", "labels": ["آنالیز اشاره ای کردن سوال در سطح دانش آموز ابتدایی", "آنالیز اشاره ای کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز اشاره ای کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز اشاره ای کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز اشاره ای کردن سوال در سطح دانش آموز المپیاد", "آنالیز اشاره ای کردن سوال در سطح آماده کنکور", "آنالیز اشاره ای کردن سوال در سطح دانشجوی لیسانس", "آنالیز اشاره ای کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز اشاره ای کردن سوال در سطح دانشجوی دکتری"]}, {"n": 9, "op": "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام", "labels": ["آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز ابتدایی", "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز متوسطه اول", "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز متوسطه دوم", "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز تیزهوشان", "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز المپیاد", "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح آماده کنکور", "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی لیسانس", "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی فوق لیسانس", "آنالیز تشریحی کردن سوال: تبدیل سوالات چندگزینه‌ای یا کوتاه به سوالات مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی دکتری"]}, {"n": 10, "op": "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه", "labels": ["آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز ابتدایی", "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز متوسطه اول", "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز متوسطه دوم", "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز تیزهوشان", "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانش آموز المپیاد", "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح آماده کنکور", "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجوی لیسانس", "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجوی فوق لیسانس", "آنالیز بازطراحی و شبیه‌سازی سوال: ساخت و طرح سوالات هم‌تیپ و مشابه در سطح دانشجوی دکتری"]}, {"n": 11, "op": "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه", "labels": ["آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز ابتدایی", "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز متوسطه اول", "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز متوسطه دوم", "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز تیزهوشان", "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز المپیاد", "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح آماده کنکور", "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی لیسانس", "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی فوق لیسانس", "آنالیز تبدیل به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی دکتری"]}, {"n": 12, "op": "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان", "labels": ["آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز ابتدایی", "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز متوسطه اول", "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز متوسطه دوم", "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز تیزهوشان", "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز المپیاد", "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح آماده کنکور", "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی لیسانس", "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی فوق لیسانس", "آنالیز زمان‌سنجی و استراتژی حل سوال: تحلیل روش‌های حل سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی دکتری"]}, {"n": 13, "op": "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی", "labels": ["دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز ابتدایی", "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز متوسطه اول", "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز متوسطه دوم", "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز تیزهوشان", "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانش آموز المپیاد", "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح آماده کنکور", "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی لیسانس", "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی فوق لیسانس", "دام‌های گزینه‌ای و آموزشی سوال: تحلیل تله‌های تستی و خطاهای رایج شناختی در سطح دانشجوی دکتری"]}]}, {"name": "The answer to the question in the picture", "instruction": "بعد از اینکه عکس(صفحه ای از کتاب،جزوه،برگه امتحانی و...) را از گالری آوردید ؛ یکی از دکمه های این گروه را لمس کن!", "subgroups": [{"n": 1, "op": "آنالیز نکات درون پاسخ", "labels": ["آنالیز نکات درون پاسخ در سطح دانش آموز ابتدایی", "آنالیز نکات درون پاسخ در سطح دانش آموز متوسطه اول", "آنالیز نکات درون پاسخ در سطح دانش آموز متوسطه دوم", "آنالیز نکات درون پاسخ در سطح دانش آموز تیزهوشان", "آنالیز نکات درون پاسخ در سطح دانش آموز المپیاد", "آنالیز نکات درون پاسخ در سطح آماده کنکور", "آنالیز نکات درون پاسخ در سطح دانشجوی لیسانس", "آنالیز نکات درون پاسخ در سطح دانشجوی فوق لیسانس", "آنالیز نکات درون پاسخ در سطح دانشجوی دکتری"]}, {"n": 2, "op": "آنالیز سقراطی پاسخ", "labels": ["آنالیز سقراطی پاسخ در سطح دانش آموز ابتدایی", "آنالیز سقراطی پاسخ در سطح دانش آموز متوسطه اول", "آنالیز سقراطی پاسخ در سطح دانش آموز متوسطه دوم", "آنالیز سقراطی پاسخ در سطح دانش آموز تیزهوشان", "آنالیز سقراطی پاسخ در سطح دانش آموز المپیاد", "آنالیز سقراطی پاسخ در سطح آماده کنکور", "آنالیز سقراطی پاسخ در سطح دانشجوی لیسانس", "آنالیز سقراطی پاسخ در سطح دانشجوی فوق لیسانس", "آنالیز سقراطی پاسخ در سطح دانشجوی دکتری"]}, {"n": 3, "op": "آنالیز چهار قسمتی کردن پاسخ", "labels": ["آنالیز چهار قسمتی کردن پاسخ در سطح دانش آموز ابتدایی", "آنالیز چهار قسمتی کردن پاسخ در سطح دانش آموز متوسطه اول", "آنالیز چهار قسمتی کردن پاسخ در سطح دانش آموز متوسطه دوم", "آنالیز چهار قسمتی کردن پاسخ در سطح دانش آموز تیزهوشان", "آنالیز چهار قسمتی کردن پاسخ در سطح دانش آموز المپیاد", "آنالیز چهار قسمتی کردن پاسخ در سطح آماده کنکور", "آنالیز چهار قسمتی کردن پاسخ در سطح دانشجوی لیسانس", "آنالیز چهار قسمتی کردن پاسخ در سطح دانشجوی فوق لیسانس", "آنالیز چهار قسمتی کردن پاسخ در سطح دانشجوی دکتری"]}, {"n": 4, "op": "آنالیز جای خالی کردن پاسخ", "labels": ["آنالیز جای خالی کردن پاسخ در سطح دانش آموز ابتدایی", "آنالیز جای خالی کردن پاسخ در سطح دانش آموز متوسطه اول", "آنالیز جای خالی کردن پاسخ در سطح دانش آموز متوسطه دوم", "آنالیز چهار جوابی کردن پاسخ در سطح دانش آموز تیزهوشان", "آنالیز چهار جوابی کردن پاسخ در سطح دانش آموز المپیاد", "آنالیز چهار جوابی کردن پاسخ در سطح آماده کنکور", "آنالیز جای خالی کردن پاسخ در سطح دانشجوی لیسانس", "آنالیز جای خالی کردن پاسخ در سطح دانشجوی فوق لیسانس", "آنالیز جای خالی کردن پاسخ در سطح دانشجوی دکتری"]}, {"n": 5, "op": "آنالیز صحیح و غلط کردن پاسخ", "labels": ["آنالیز صحیح و غلط کردن پاسخ در سطح دانش آموز ابتدایی", "آنالیز صحیح و غلط کردن پاسخ در سطح دانش آموز متوسطه اول", "آنالیز صحیح و غلط کردن پاسخ در سطح دانش آموز متوسطه دوم", "آنالیز صحیح و غلط کردن پاسخ در سطح دانش آموز تیزهوشان", "آنالیز صحیح و غلط کردن پاسخ در سطح دانش آموز المپیاد", "آنالیز صحیح و غلط کردن پاسخ در سطح آماده کنکور", "آنالیز صحیح و غلط کردن پاسخ در سطح دانشجوی لیسانس", "آنالیز صحیح و غلط کردن پاسخ در سطح دانشجوی فوق لیسانس", "آنالیز صحیح و غلط کردن پاسخ در سطح دانشجوی دکتری"]}, {"n": 6, "op": "آنالیز بله و خیر کردن پاسخ", "labels": ["آنالیز بله و خیر کردن پاسخ در سطح دانش آموز ابتدایی", "آنالیز بله و خیر کردن پاسخ در سطح دانش آموز متوسطه اول", "آنالیز بله و خیر کردن پاسخ در سطح دانش آموز متوسطه دوم", "آنالیز بله و خیر کردن پاسخ در سطح دانش آموز تیزهوشان", "آنالیز بله و خیر کردن پاسخ در سطح دانش آموز المپیاد", "آنالیز بله و خیر کردن پاسخ در سطح آماده کنکور", "آنالیز بله و خیر کردن پاسخ در سطح دانشجوی لیسانس", "آنالیز بله و خیر کردن پاسخ در سطح دانشجوی فوق لیسانس", "آنالیز بله و خیر کردن پاسخ در سطح دانشجوی دکتری"]}, {"n": 7, "op": "آنالیز وصل کردن پاسخ", "labels": ["آنالیز وصل کردن پاسخ در سطح دانش آموز ابتدایی", "آنالیز وصل کردن پاسخ در سطح دانش آموز متوسطه اول", "آنالیز وصل کردن پاسخ در سطح دانش آموز متوسطه دوم", "آنالیز وصل کردن پاسخ در سطح دانش آموز تیزهوشان", "آنالیز وصل کردن پاسخ در سطح دانش آموز المپیاد", "آنالیز وصل کردن پاسخ در سطح آماده کنکور", "آنالیز وصل کردن پاسخ در سطح دانشجوی لیسانس", "آنالیز وصل کردن پاسخ در سطح دانشجوی فوق لیسانس", "آنالیز وصل کردن پاسخ در سطح دانشجوی دکتری"]}, {"n": 8, "op": "آنالیز اشاره ای کردن پاسخ", "labels": ["آنالیز اشاره ای کردن پاسخ در سطح دانش آموز ابتدایی", "آنالیز اشاره ای کردن پاسخ در سطح دانش آموز متوسطه اول", "آنالیز اشاره ای کردن پاسخ در سطح دانش آموز متوسطه دوم", "آنالیز اشاره ای کردن سوالپاسخ در سطح دانش آموز تیزهوشان", "آنالیز اشاره ای کردن سوالپاسخ در سطح دانش آموز المپیاد", "آنالیز اشاره ای کردن پاسخ در سطح آماده کنکور", "آنالیز اشاره ای کردن پاسخ در سطح دانشجوی لیسانس", "آنالیز اشاره ای کردن پاسخ در سطح دانشجوی فوق لیسانس", "آنالیز اشاره ای کردن پاسخ در سطح دانشجوی دکتری"]}, {"n": 9, "op": "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام", "labels": ["آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز ابتدایی", "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز متوسطه اول", "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز متوسطه دوم", "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز تیزهوشان", "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح دانش آموز المپیاد", "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح آماده کنکور", "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی لیسانس", "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح دانشجوی فوق لیسانس", "آنالیز شرح پاسخ: تبدیل پاسخ یک کلمه ای یا کوتاه به پاسخ مفهومی و تشریحی گام‌به‌گام در سطح دانشجو دکتری"]}, {"n": 10, "op": "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه", "labels": ["آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح دانش آموز ابتدایی", "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح دانش آموز متوسطه اول", "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح دانش آموز متوسطه دوم", "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح دانش آموز تیزهوشان", "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح دانش آموز المپیاد", "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح آماده کنکور", "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح دانشجوی لیسانس", "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح دانشجوی فوق لیسانس", "آنالیز بازطراحی و شبیه‌سازی پاسخ: ساخت و طرح پاسخی هم‌تیپ و مشابه در سطح دانشجو دکتری"]}, {"n": 11, "op": "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه", "labels": ["آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز ابتدایی", "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز متوسطه اول", "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز متوسطه دوم", "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز تیزهوشان", "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانش آموز المپیاد", "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح آماده کنکور", "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی لیسانس", "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجوی فوق لیسانس", "آنالیز تبدیل پاسخ به درس‌نامه و نکته کلیدی: استخراج خلاصه‌درس و فرمول‌های پایه در سطح دانشجو دکتری"]}, {"n": 12, "op": "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان", "labels": ["آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز ابتدایی", "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز متوسطه اول", "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز متوسطه دوم", "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز تیزهوشان", "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح دانش آموز المپیاد", "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح آماده کنکور", "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی لیسانس", "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی فوق لیسانس", "آنالیز زمان‌سنجی و استراتژی پاسخ: تحلیل روش‌های پاسخ سریع، میان‌بُر و مدیریت زمان در سطح دانشجوی دکتری"]}, {"n": 13, "op": "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی", "labels": ["آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانش آموز ابتدایی", "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانش آموز متوسطه اول", "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانش آموز متوسطه دوم", "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانش آموز تیزهوشان", "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانش آموز المپیاد", "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح آماده کنکور", "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانشجوی لیسانس", "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانشجوی فوق لیسانس", "آنالیز دام‌های گزینه‌ای و آموزشی پاسخ: تحلیل تله‌ها و خطاهای رایج شناختی در سطح دانشجوی دکتری"]}]}, {"name": "Typing a question", "instruction": "یک سوال را تایپ کن (سوالی از کتاب،جزوه،برگه امتحانی و...) و یکی از دکمه های این گروه را لمس کن!", "subgroups": [{"n": 1, "op": "آنالیز نکات درون سوال", "labels": ["آنالیز نکات درون سوال در سطح دانش آموز ابتدایی", "آنالیز نکات درون سوال در سطح دانش آموز متوسطه اول", "آنالیز نکات درون سوال در سطح دانش آموز متوسطه دوم", "آنالیز نکات درون سوال در سطح دانش آموز تیزهوشان", "آنالیز نکات درون سوال در سطح دانش آموز المپیاد", "آنالیز نکات درون سوال در سطح آماده کنکور", "آنالیز نکات درون سوال در سطح دانشجوی لیسانس", "آنالیز نکات درون سوال در سطح دانشجوی فوق لیسانس", "آنالیز نکات درون سوال در سطح دانشجوی دکتری"]}, {"n": 2, "op": "آنالیز سقراطی سوال", "labels": ["آنالیز سقراطی سوال در سطح دانش آموز ابتدایی", "آنالیز سقراطی سوال در سطح دانش آموز متوسطه اول", "آنالیز سقراطی سوال در سطح دانش آموز متوسطه دوم", "آنالیز سقراطی سوال در سطح دانش آموز تیزهوشان", "آنالیز سقراطی سوال در سطح دانش آموز المپیاد", "آنالیز سقراطی سوال در سطح آماده کنکور", "آنالیز سقراطی سوال در سطح دانشجوی لیسانس", "آنالیز سقراطی سوال در سطح دانشجوی فوق لیسانس", "آنالیز سقراطی سوال در سطح دانشجوی دکتری"]}, {"n": 3, "op": "آنالیز چهار گزینه ای کردن سوال", "labels": ["آنالیز چهار گزینه ای کردن سوال در سطح دانش آموز ابتدایی", "آنالیز چهار گزینه ای کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز چهار گزینه ای کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز چهار گزینه ای کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز چهار گزینه ای کردن سوال در سطح دانش آموز المپیاد", "آنالیز چهار گزینه ای کردن سوال در سطح آماده کنکور", "آنالیز چهار گزینه ای کردن سوال در سطح دانشجوی لیسانس", "آنالیز چهار گزینه ای کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز چهار گزینه ای کردن سوال در سطح دانشجوی دکتری"]}, {"n": 4, "op": "آنالیز جای خالی کردن سوال", "labels": ["آنالیز جای خالی کردن سوال در سطح دانش آموز ابتدایی", "آنالیز جای خالی کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز جای خالی کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز چهار جوابی کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز چهار جوابی کردن سوال در سطح دانش آموز المپیاد", "آنالیز چهار جوابی کردن سوال در سطح آماده کنکور", "آنالیز جای خالی کردن سوال در سطح دانشجوی لیسانس", "آنالیز جای خالی کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز جای خالی کردن سوال در سطح دانشجوی دکتری"]}, {"n": 5, "op": "آنالیز صحیح و غلط کردن سوال", "labels": ["آنالیز صحیح و غلط کردن سوال در سطح دانش آموز ابتدایی", "آنالیز صحیح و غلط کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز صحیح و غلط کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز صحیح و غلط کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز صحیح و غلط کردن سوال در سطح دانش آموز المپیاد", "آنالیز صحیح و غلط کردن سوال در سطح آماده کنکور", "آنالیز صحیح و غلط کردن سوال در سطح دانشجوی لیسانس", "آنالیز صحیح و غلط کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز صحیح و غلط کردن سوال در سطح دانشجوی دکتری"]}, {"n": 6, "op": "آنالیز بله و خیر کردن سوال", "labels": ["آنالیز بله و خیر کردن سوال در سطح دانش آموز ابتدایی", "آنالیز بله و خیر کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز بله و خیر کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز بله و خیر کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز بله و خیر کردن سوال در سطح دانش آموز المپیاد", "آنالیز بله و خیر کردن سوال در سطح آماده کنکور", "آنالیز بله و خیر کردن سوال در سطح دانشجوی لیسانس", "آنالیز بله و خیر کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز بله و خیر کردن سوال در سطح دانشجوی دکتری"]}, {"n": 7, "op": "آنالیز وصل کردن سوال", "labels": ["آنالیز وصل کردن سوال در سطح دانش آموز ابتدایی", "آنالیز وصل کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز وصل کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز وصل کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز وصل کردن سوال در سطح دانش آموز المپیاد", "آنالیز وصل کردن سوال در سطح آماده کنکور", "آنالیز وصل کردن سوال در سطح دانشجوی لیسانس", "آنالیز وصل کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز وصل کردن سوال در سطح دانشجوی دکتری"]}, {"n": 8, "op": "آنالیز اشاره ای کردن سوال", "labels": ["آنالیز اشاره ای کردن سوال در سطح دانش آموز ابتدایی", "آنالیز اشاره ای کردن سوال در سطح دانش آموز متوسطه اول", "آنالیز اشاره ای کردن سوال در سطح دانش آموز متوسطه دوم", "آنالیز اشاره ای کردن سوال در سطح دانش آموز تیزهوشان", "آنالیز اشاره ای کردن سوال در سطح دانش آموز المپیاد", "آنالیز اشاره ای کردن سوال در سطح آماده کنکور", "آنالیز اشاره ای کردن سوال در سطح دانشجوی لیسانس", "آنالیز اشاره ای کردن سوال در سطح دانشجوی فوق لیسانس", "آنالیز اشاره ای کردن سوال در سطح دانشجوی دکتری"]}, {"n": 9, "op": "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام", "labels": ["آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح دانش آموز ابتدایی", "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح دانش آموز متوسطه اول", "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح دانش آموز متوسطه دوم", "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح دانش آموز تیزهوشان", "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح دانش آموز المپیاد", "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح آماده کنکور", "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح دانشجوی لیسانس", "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح دانشجوی فوق لیسانس", "آنالیز شرح سوال:\nتبدیل سوال کوتاه به سوال مفهومی و تشریحی گام‌به‌گام\nدر سطح دانشجوی دکتری"]}, {"n": 10, "op": "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه", "labels": ["آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح دانش آموز ابتدایی", "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح دانش آموز متوسطه اول", "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح دانش آموز متوسطه دوم", "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح دانش آموز تیزهوشان", "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح دانش آموز المپیاد", "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح آماده کنکور", "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح دانشجوی لیسانس", "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح دانشجوی فوق لیسانس", "آنالیز بازطراحی و شبیه‌سازی سوال:\nساخت و طرح سوالی هم‌تیپ و مشابه\nدر سطح دانشجوی دکتری"]}, {"n": 11, "op": "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه", "labels": ["آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح دانش آموز ابتدایی", "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح دانش آموز متوسطه اول", "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح دانش آموز متوسطه دوم", "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح دانش آموز تیزهوشان", "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح دانش آموز المپیاد", "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح آماده کنکور", "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح دانشجوی لیسانس", "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح دانشجوی فوق لیسانس", "آنالیز تبدیل سوال به درس‌نامه و نکته کلیدی:\nاستخراج خلاصه‌درس و فرمول‌های پایه\nدر سطح دانشجوی دکتری"]}, {"n": 12, "op": "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان", "labels": ["آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح دانش آموز ابتدایی", "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح دانش آموز متوسطه اول", "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح دانش آموز متوسطه دوم", "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح دانش آموز تیزهوشان", "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح دانش آموز المپیاد", "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح آماده کنکور", "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح دانشجوی لیسانس", "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح دانشجوی فوق لیسانس", "آنالیز زمان‌سنجی و استراتژی سوال:\nتحلیل روش‌های سوال سریع، میان‌بُر و مدیریت زمان\nدر سطح دانشجوی دکتری"]}, {"n": 13, "op": "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی", "labels": ["آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح دانش آموز ابتدایی", "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح دانش آموز متوسطه اول", "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح دانش آموز متوسطه دوم", "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح دانش آموز تیزهوشان", "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح دانش آموز المپیاد", "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح آماده کنکور", "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح دانشجوی لیسانس", "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح دانشجوی فوق لیسانس", "آنالیز دام‌های گزینه‌ای و آموزشی سوال:\nتحلیل تله‌ها و خطاهای رایج شناختی\nدر سطح دانشجوی دکتری"]}]}];
-
-let currentSubgroup = null;
-let uploadedImageBase64 = null;
-let uploadedFileName = "";
-
-let audioCtx = null;
-function initAudio(){ if(!audioCtx){ try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
-function playSynthesizedSound(freq,type='sine',duration=0.15){
-  try{
-    initAudio(); if(!audioCtx) return;
-    if(audioCtx.state==='suspended') audioCtx.resume();
-    const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
-    osc.type=type; osc.frequency.setValueAtTime(freq,audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.15,audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+duration);
-    osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime+duration);
-  }catch(e){}
-}
-
-function renderSubgroups(){
-  GROUPS.forEach((g,gi)=>{
-    const c=document.getElementById('subgroups-container-'+gi); c.innerHTML='';
-    g.subgroups.forEach((sg,si)=>{
-      const b=document.createElement('div');
-      b.className='subgroup-btn';
-      b.dataset.group=gi; b.dataset.sg=si;
-      b.innerHTML='<div style="font-size:1.1rem;">🖼️</div>زیرگروه '+sg.n+': &ldquo;'+g.name+'" '+sg.n+'<div style="font-size:0.72rem;margin-top:4px;color:#ff6b8b;">'+sg.op+'</div><div class="selected-tag">✓ انتخاب شده</div>';
-      b.onclick=()=>selectSubgroup(gi,si);
-      c.appendChild(b);
-    });
-  });
-}
-
-function selectSubgroup(groupIdx, sgIdx){
-  currentSubgroup = {g:groupIdx, s:sgIdx};
-  const g = GROUPS[groupIdx], sg = g.subgroups[sgIdx];
-  playSynthesizedSound(440 + sgIdx*60,'sine',0.18);
-
-  document.querySelectorAll('.subgroup-btn').forEach(b=>b.classList.toggle('selected', +b.dataset.group===groupIdx && +b.dataset.sg===sgIdx));
-
-  document.getElementById('track-group').innerText = g.name;
-  const ts=document.getElementById('track-subgroup');
-  ts.innerText='زیرگروه '+sg.n+' — '+g.name+' '+sg.n+' ('+sg.op+') (انتخاب شده)';
-  ts.classList.add('active');
-
-  const t=document.getElementById('active-subgroup-title');
-  t.innerHTML='<span>🧩</span> زیرگروه '+sg.n+': &ldquo;'+g.name+'" '+sg.n+' — سطح آموزشی را انتخاب کنید';
-
-  const c=document.getElementById('actions-container'); c.innerHTML='';
-  sg.labels.forEach((title,li)=>{
-    const b=document.createElement('div');
-    b.className='action-btn'; b.setAttribute('role','button'); b.tabIndex=0;
-    b.onclick=()=>executeAnalysisAction(groupIdx,sg,title,li);
-    b.onkeydown=(ev)=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();b.click();}};
-    b.innerHTML='<div class="btn-num">'+(li+1)+'</div><span>'+title+'</span>';
-    c.appendChild(b);
-  });
-
-  document.getElementById('main-panel').scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-async function executeAnalysisAction(groupIdx,sg,title,levelIdx){
-  const g = GROUPS[groupIdx];
-  const userInput=document.getElementById('user-input').value.trim();
-
-  const ta=document.getElementById('track-action');
-  ta.innerText=title+' (انتخاب شده)';
-  ta.classList.add('active');
-  document.querySelectorAll('.action-btn').forEach(b=>b.classList.toggle('selected', b.innerText.includes(title)));
-  document.querySelectorAll('.action-btn').forEach(b=>b.setAttribute('aria-pressed', String(b.classList.contains('selected'))));
-
-  playSynthesizedSound(500 + levelIdx*40,'square',0.12);
-
-  const answerPanel=document.getElementById('answer-panel');
-  answerPanel.scrollIntoView({behavior:'smooth',block:'start'});
-
-  const spinner=document.getElementById('loading-spinner');
-  const content=document.getElementById('answer-content');
-  const statusTag=document.getElementById('response-status-tag');
-  spinner.style.display='flex'; content.style.opacity='0.3'; statusTag.innerText='در حال پردازش...';
-
-  if(GAPGPT_API_KEY && GAPGPT_API_KEY.trim()!==""){
-    try{
-      const prompt='شما یک استاد برجسته هستید.\nگروه: "'+g.name+'"\nزیرگروه '+sg.n+': '+sg.op+'\nسطح آموزشی: '+LEVELS[levelIdx]+'\n'+(userInput?'متن کاربر:\n'+userInput:'')+(uploadedFileName?'\nتصویر پیوست‌شده از کاربر: '+uploadedFileName:'')+(uploadedAudioName?'\nفایل صوتی پیوست‌شده از کاربر (نیازمند پردازش/رونویسی سمت سرور): '+uploadedAudioName:'');
-      const response=await fetch("https://api.gapgpt.app/v1/chat/completions",{
-        method:"POST",
-        headers:{"Content-Type":"application/json","Authorization":"secret-536cd5c2"+GAPGPT_API_KEY},
-        body:JSON.stringify({model:"gapgpt-4o",messages:[{role:"user",content:prompt}],temperature:0.7})
-      });
-      if(response.ok){
-        const data=await response.json();
-        content.innerText=data.choices[0].message.content;
-        statusTag.innerText='پاسخ دریافتی از سرور GapGPT';
-      } else { throw new Error("API error"); }
-    }catch(err){
-      content.innerText='خطا در ارتباط با سرویس. لطفا بعدا تلاش کنید.';
-      statusTag.innerText='خطای شبکه یا کلید API';
-    }
-  } else {
-    setTimeout(()=>{
-      content.innerText='📌 گروه: "'+g.name+'"\n🔹 زیرگروه '+sg.n+': '+sg.op+'\n🔹 سطح آموزشی: '+LEVELS[levelIdx]+'\n'+(userInput?'🔹 متن ورودی: '+userInput+'\n':'')+(uploadedImageBase64?'🔹 تصویر پیوست‌شده: "'+uploadedFileName+'" (برای تحلیل دیداری باید تصویر به API ارسال شود).\n':'')+(uploadedAudioName?'🔹 فایل صوتی پیوست‌شده: "'+uploadedAudioName+'" (برای تحلیل، رونویسی صوت باید از طریق API انجام شود).\n':'')+'\nآنالیز هوش مصنوعی برای ترکیب انتخاب‌شده در این قسمت اجرا شد.\n\n✅ مدیریت علمی و طراحی: برلیان لعلیان';
-      statusTag.innerText='پاسخ ساختارمند (حالت آفلاین)';
-    },500);
-  }
-  setTimeout(()=>{ spinner.style.display='none'; content.style.opacity='1'; if(autoSpeak) toggleReadAloud(); },550);
-}
-
-function handleImageUpload(event){
-  const file=event.target.files[0]; if(!file) return;
-  uploadedFileName=file.name;
-  const fileSizeKB=(file.size/1024).toFixed(1)+" KB";
-  const reader=new FileReader();
-  reader.onload=function(e){
-    uploadedImageBase64=e.target.result;
-    const badge=document.getElementById('image-preview-badge');
-    document.getElementById('badge-thumb').src=uploadedImageBase64;
-    document.getElementById('badge-name').innerText=file.name;
-    document.getElementById('badge-size').innerText=fileSizeKB;
-    badge.style.display='flex';
-    playSynthesizedSound(880,'triangle',0.2);
-  };
-  reader.readAsDataURL(file);
-}
-function removeUploadedImage(){
-  uploadedImageBase64=null; uploadedFileName="";
-  document.getElementById('image-file').value="";
-  playSynthesizedSound(300,'sawtooth',0.15);
-  document.getElementById('image-preview-badge').style.display='none';
-}
-
-
-// ===== ورودی صوتی (گروه مجازی ۲) =====
-let uploadedAudioName = "";
-function handleAudioUpload(event){
-  const file = event.target.files[0]; if(!file) return;
-  uploadedAudioName = file.name;
-  document.getElementById('audio-badge-name').innerText = file.name;
-  document.getElementById('audio-badge-size').innerText = (file.size/1024).toFixed(1) + " KB";
-  document.getElementById('audio-preview-badge').style.display = 'flex';
-  playSynthesizedSound(650, 'triangle', 0.2);
-}
-function removeUploadedAudio(){
-  uploadedAudioName = "";
-  document.getElementById('audio-file').value = "";
-  document.getElementById('audio-preview-badge').style.display = 'none';
-  playSynthesizedSound(300, 'sawtooth', 0.15);
-}
-
-// ===== قرائت صوتی پاسخ (Web Speech API - جلوگیری از خستگی چشم) =====
-let isSpeaking = false;
-function toggleReadAloud(){
-  playSynthesizedSound(720,'sine',0.12);
-  if(!('speechSynthesis' in window)){ alert("مرورگر شما از قابلیت تبدیل متن به گفتار پشتیبانی نمی‌کند."); return; }
-  const btn = document.getElementById('btn-read-aloud');
-  if(isSpeaking){
-    window.speechSynthesis.cancel(); isSpeaking = false;
-    btn.innerHTML = '<span>🔊</span> گوش دادن به پاسخ (آپشن صوتی)';
-    return;
-  }
-  const text = document.getElementById('answer-content').innerText;
-  if(!text || text.includes('عکس سؤال را از گالری انتخاب کرده')) return;
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'fa-IR'; utter.rate = 0.95; utter.pitch = 1.0;
-  utter.onstart = () => { isSpeaking = true; btn.innerHTML = '<span>⏹️</span> توقف قرائت صوتی'; };
-  utter.onend = () => { isSpeaking = false; btn.innerHTML = '<span>🔊</span> گوش دادن به پاسخ (آپشن صوتی)'; };
-  utter.onerror = () => { isSpeaking = false; btn.innerHTML = '<span>🔊</span> گوش دادن به پاسخ (آپشن صوتی)'; };
-  window.speechSynthesis.speak(utter);
-}
-// قرائت خودکار پس از رسیدن پاسخ (قابل خاموش کردن با کلیک دوباره)
-let autoSpeak = true;
-
-window.addEventListener('DOMContentLoaded',()=>{ renderSubgroups(); initAudio(); });
-</script>
-</body>
-</html>
+'use strict';
+const groups=['سؤال و پاسخ درسی','کنفرانس','تحقیق','پروژه','انشا','املا','مقاله','پایان‌نامه','رساله'];
+const modalities=[['photo','عکس از گالری','بارگذاری تصویر سؤال یا پاسخ'],['audio','فایل صوتی','بارگذاری صوت یا ضبط گفتار'],['text','متن تایپ‌شده','نوشتن یا جای‌گذاری متن']];
+const operations=['نکات کلیدی','تحلیل سقراطی','چهارگزینه‌ای','جای خالی','صحیح/غلط','بله/خیر','وصل‌کردنی','اشاره‌ای/راهنمایی','تشریحی و گام‌به‌گام','بازطراحی و سؤال مشابه','درس‌نامه و فرمول‌ها','زمان‌سنجی و راهبرد','دام‌ها/خطاهای رایج'];
+const levels=['دانش‌آموز ابتدایی','دانش‌آموز متوسطه اول','دانش‌آموز متوسطه دوم','دانش‌آموز تیزهوشان','دانش‌آموز المپیاد','آماده کنکور','دانشجوی لیسانس','دانشجوی فوق‌لیسانس','دانشجوی دکتری'];
+const $=id=>document.getElementById(id);let state={group:null,mod:null,sub:null,op:null,level:null,image:null,audio:null,transcript:''},audioUrl=null,clickCtx=null;
+function feedback(){try{let AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;clickCtx=clickCtx||new AC();if(clickCtx.state==='suspended')clickCtx.resume();let o=clickCtx.createOscillator(),g=clickCtx.createGain();o.type='sine';o.frequency.value=660;g.gain.setValueAtTime(.045,clickCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,clickCtx.currentTime+.055);o.connect(g);g.connect(clickCtx.destination);o.start();o.stop(clickCtx.currentTime+.06)}catch(e){}}
+function scrollTo(id){setTimeout(()=>$(id).scrollIntoView({behavior:'smooth',block:'start'}),80)}function show(id,on=true){$(id).classList.toggle('hidden',!on)}function badge(el,yes){el.classList.toggle('selected',yes);el.setAttribute('aria-pressed',yes?'true':'false');let b=el.querySelector('.badge');if(yes&&!b){b=document.createElement('span');b.className='badge';b.textContent='انتخاب شد';el.appendChild(b)}else if(!yes&&b)b.remove()}
+function status(msg,err=false){$('status').textContent=msg;$('status').classList.toggle('error',err)}function resetOutput(){show('result',false);$('result').textContent='';$('stopSpeech').classList.add('hidden');window.speechSynthesis?.cancel()}
+function updateTracker(){$('tGroup').textContent=state.group??'هنوز انتخاب نشده';$('tSub').textContent=state.sub?(state.modalityName+' • '+state.sub):'هنوز انتخاب نشده';$('tOp').textContent=state.op??'هنوز انتخاب نشده';$('tLevel').textContent=state.level??'هنوز انتخاب نشده';for(let id of ['tGroup','tSub','tOp','tLevel'])$(id).classList.toggle('on',!$(id).textContent.includes('هنوز'))}
+function clearAfterGroup(){state.mod=null;state.sub=null;state.op=null;state.level=null;state.image=null;state.audio=null;state.transcript='';show('subPanel',false);show('opsPanel',false);show('levelsPanel',false);$('sourceArea').innerHTML='';resetOutput();updateTracker()}
+groups.forEach((name,i)=>{let b=document.createElement('button');b.type='button';b.className='card';b.setAttribute('aria-pressed','false');b.innerHTML=`<span class="num">${i+1}</span><strong>گروه حقیقی ${i+1}</strong><small>${name}</small>`;b.onclick=()=>{feedback();clearAfterGroup();state.group=name;document.querySelectorAll('#groups .card').forEach(x=>badge(x,x===b));show('modPanel');$('modalities').innerHTML='';modalities.forEach(([id,label,desc])=>{let m=document.createElement('button');m.type='button';m.className='card modcard';m.setAttribute('aria-pressed','false');m.innerHTML=`<span class="num">${id==='photo'?'▧':id==='audio'?'♫':'✎'}</span><strong>${label}</strong><small>${desc}</small>`;m.onclick=()=>chooseMod(id,label,m);$('modalities').appendChild(m)});status('گروه «'+name+'» انتخاب شد؛ اکنون منبع را انتخاب کنید.');updateTracker();scrollTo('modPanel')};$('groups').appendChild(b)});
+function chooseMod(id,label,el){feedback();state.mod=id;state.modalityName=label;state.sub=null;state.op=null;state.level=null;state.image=null;state.audio=null;state.transcript='';document.querySelectorAll('#modalities .card').forEach(x=>badge(x,x===el));show('subPanel');show('opsPanel',false);show('levelsPanel',false);resetOutput();buildSource();let src=id==='photo'?'عکس':id==='audio'?'فایل صوتی':'متن تایپ‌شده';$('subgroups').innerHTML='';['سؤال','پاسخ'].forEach((q,i)=>{let text=`آنالیز ${q} استخراج‌شده از ${src}`,b=document.createElement('button');b.type='button';b.className='card';b.setAttribute('aria-pressed','false');b.innerHTML=`<span class="num">${i+1}</span><strong>${text}</strong><small>گروه حقیقی ${groups.indexOf(state.group)+1} • ${state.group}</small>`;b.onclick=()=>chooseSub(q,text,b);$('subgroups').appendChild(b)});updateTracker();status('منبع «'+label+'» انتخاب شد؛ زیرگروه سؤال یا پاسخ را برگزینید.');scrollTo('subPanel')}
+function buildSource(){let a=$('sourceArea');a.innerHTML='<div class="sourcebox" id="sourceBox"></div>';let box=$('sourceBox');if(state.mod==='photo'){box.innerHTML='<label for="imageFile">انتخاب عکس از گالری</label><input id="imageFile" type="file" accept="image/*" aria-label="انتخاب عکس از گالری"><div id="mediaPreview"></div><button class="secondary hidden" id="removeMedia" type="button">حذف عکس</button>'; $('imageFile').onchange=e=>{let f=e.target.files[0];if(!f)return;if(!f.type.startsWith('image/')){status('لطفاً یک فایل تصویر انتخاب کنید.',true);return}let r=new FileReader();r.onload=()=>{state.image={name:f.name,data:r.result,type:f.type};$('mediaPreview').innerHTML=`<img class="preview" alt="پیش‌نمایش عکس انتخاب‌شده" src="${r.result}">`;show('removeMedia');status('عکس «'+f.name+'» بارگذاری شد.');};r.readAsDataURL(f)};$('removeMedia').onclick=()=>{state.image=null;$('imageFile').value='';$('mediaPreview').innerHTML='';show('removeMedia',false);status('عکس حذف شد.')}}else if(state.mod==='audio'){box.innerHTML='<label for="audioFile">انتخاب فایل صوتی</label><input id="audioFile" type="file" accept="audio/*" aria-label="انتخاب فایل صوتی"><div id="mediaPreview"></div><button class="secondary hidden" id="removeMedia" type="button">حذف فایل صوتی</button><p class="note">فایل صوتی در این صفحه خودکار رونویسی نمی‌شود. برای تحلیل واقعی صوت، اتصال چندوجهی/رونویسی سمت سرور لازم است؛ نام فایل در درخواست متنی ذکر می‌شود.</p><button class="secondary" id="micBtn" type="button">شروع ضبط / رونویسی با میکروفون</button><p class="toast" id="micInfo">رونویسی میکروفون وابسته به پشتیبانی مرورگر و مجوز کاربر است.</p><label for="transcript">متن رونویسی‌شده / متن کمکی (اختیاری)</label><textarea id="transcript" placeholder="در صورت نیاز متن را اینجا وارد یا اصلاح کنید"></textarea>'; $('audioFile').onchange=e=>{let f=e.target.files[0];if(!f)return;if(audioUrl)URL.revokeObjectURL(audioUrl);audioUrl=URL.createObjectURL(f);state.audio={name:f.name,type:f.type};$('mediaPreview').innerHTML=`<audio class="audio-player" controls aria-label="پخش پیش‌نمایش فایل صوتی" src="${audioUrl}"></audio>`;show('removeMedia');status('فایل صوتی «'+f.name+'» آمادهٔ پیش‌نمایش است؛ این فایل به‌عنوان متن رونویسی‌شده ارسال نمی‌شود.')};$('removeMedia').onclick=()=>{state.audio=null;if(audioUrl)URL.revokeObjectURL(audioUrl);audioUrl=null;$('audioFile').value='';$('mediaPreview').innerHTML='';show('removeMedia',false);status('فایل صوتی حذف شد.')};$('transcript').oninput=e=>state.transcript=e.target.value;$('micBtn').onclick=startMic}else{box.innerHTML='<label for="typedText">متن سؤال، پاسخ یا محتوای مورد تحلیل</label><textarea id="typedText" placeholder="متن را اینجا تایپ یا جای‌گذاری کنید…"></textarea>'; $('typedText').oninput=e=>state.transcript=e.target.value}}
+function startMic(){feedback();let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('micInfo').textContent='این مرورگر Web Speech API را پشتیبانی نمی‌کند. لطفاً متن را دستی وارد کنید یا فایل صوتی بارگذاری کنید.';return}let rec=new SR();rec.lang='fa-IR';rec.interimResults=false;rec.onstart=()=>{$('micInfo').textContent='در حال شنیدن… برای پایان، دکمهٔ توقف مرورگر را بزنید.'};rec.onresult=e=>{let t=e.results[0][0].transcript;state.transcript+= (state.transcript?'\n':'')+t;$('transcript').value=state.transcript;$('micInfo').textContent='رونویسی مرورگر تکمیل شد؛ متن را بازبینی کنید.'};rec.onerror=e=>$('micInfo').textContent='خطای میکروفون: '+e.error+'؛ مجوز و تنظیمات مرورگر را بررسی کنید.';rec.onend=()=>{$('micInfo').textContent+=' ضبط پایان یافت.'};try{rec.start()}catch(e){$('micInfo').textContent='شروع میکروفون ممکن نشد؛ مجوز مرورگر را بررسی کنید.'}}
+function chooseSub(q,text,b){feedback();state.sub=text;state.op=null;state.level=null;document.querySelectorAll('#subgroups .card').forEach(x=>badge(x,x===b));show('opsPanel');show('levelsPanel',false);$('operations').innerHTML='';operations.forEach((op,i)=>{let x=document.createElement('button');x.type='button';x.className='op';x.setAttribute('aria-pressed','false');x.innerHTML=`<span class="num">${i+1}</span> ${op}`;x.onclick=()=>chooseOp(op,x);$('operations').appendChild(x)});updateTracker();status('زیرگروه «'+text+'» انتخاب شد؛ یکی از ۱۳ عملیات را برگزینید.');scrollTo('opsPanel')}
+function chooseOp(op,el){feedback();state.op=op;state.level=null;document.querySelectorAll('#operations .op').forEach(x=>{x.classList.toggle('selected',x===el);x.setAttribute('aria-pressed',x===el?'true':'false')});show('levelsPanel');$('levels').innerHTML='';levels.forEach(level=>{let d=document.createElement('div');d.className='level';d.innerHTML=`<strong>${level}</strong><div class="actions"><button type="button" class="action" data-mode="text">آپشن نوشتاری</button><button type="button" class="action" data-mode="audio">آپشن شنیداری</button></div>`;d.querySelectorAll('button').forEach(btn=>btn.onclick=()=>runRequest(level,btn.dataset.mode,d));$('levels').appendChild(d)});updateTracker();status('عملیات «'+op+'» انتخاب شد؛ سطح تحصیلی و نوع پاسخ را انتخاب کنید.');scrollTo('levelsPanel')}
+function getInput(){if(state.mod==='photo')return state.image?`تصویر پیوست: ${state.image.name}.`:'هیچ تصویری انتخاب نشده است.';if(state.mod==='audio')return `فایل صوتی بارگذاری‌شده: ${state.audio?.name||'هیچ فایلی انتخاب نشده'}. فایل صوتی به‌صورت رونویسی‌شده ارسال نمی‌شود و برای پردازش خود فایل، اتصال چندوجهی یا سرویس رونویسی سمت سرور لازم است. متن کمکی/رونویسی کاربر: ${state.transcript||'ارائه نشده'}`;return state.transcript||'متنی وارد نشده است.'}
+function promptText(){return `شما دستیار آموزشی فارسی هستید. در چارچوب آموزشی و با توضیح روشن پاسخ دهید.\nگروه حقیقی: ${state.group}\nگروه مجازی: ${state.modalityName}\nزیرگروه: ${state.sub}\nعملیات: ${state.op}\nسطح: ${state.level}\nمحتوای ورودی: ${getInput()}\n${state.mod==='audio'?'توجه: فایل صوتی پیوست نشده و رونویسی خودکار انجام نشده است؛ تنها نام فایل و متن کمکی آمده است.':''}`}
+function localPreview(){return `پیش‌نمایش آفلاین — هنوز پاسخی از هوش مصنوعی دریافت نشده است.\n\nمسیر انتخاب‌شده:\nگروه حقیقی: ${state.group}\nمنبع: ${state.modalityName}\nزیرگروه: ${state.sub}\nعملیات: ${state.op}\nسطح: ${state.level}\n\nورودی شما:\n${getInput()}\n\nبرای دریافت پاسخ واقعی، نشانی API و کلید معتبر را در تنظیمات وارد کنید و دوباره گزینه را بزنید.`}
+async function runRequest(level,mode,card){feedback();state.level=level;document.querySelectorAll('.level').forEach(x=>x.classList.toggle('active',x===card));updateTracker();resetOutput();show('result');let key=$('apiKey').value.trim(),endpoint=$('endpoint').value.trim(),model=$('model').value.trim();if(!key){let text=localPreview();$('result').textContent=text;status('حالت آفلاین: کلید API تنظیم نشده؛ پاسخ ساختگی تولید نمی‌شود.');if(mode==='audio')speak(text);scrollTo('outputPanel');return}if(!endpoint||!model){status('نشانی API و نام مدل را کامل کنید.',true);return}status('در حال ارسال درخواست به API…');scrollTo('outputPanel');let userContent;if(state.mod==='photo'&&state.image){userContent=[{type:'text',text:promptText()},{type:'image_url',image_url:{url:state.image.data}}]}else userContent=promptText();try{let headers={'Content-Type':'application/json'};headers.Authorization=$('authPrefix').value+key;let res=await fetch(endpoint,{method:'POST',headers,body:JSON.stringify({model,messages:[{role:'user',content:userContent}]})});let raw=await res.text(),data;try{data=JSON.parse(raw)}catch(e){throw Error('پاسخ API قالب JSON نداشت ('+res.status+'): '+raw.slice(0,350))}if(!res.ok)throw Error('خطای API '+res.status+': '+(data.error?.message||data.message||raw.slice(0,300)));let answer=data.choices?.[0]?.message?.content;if(Array.isArray(answer))answer=answer.map(x=>x.text||'').join('\n');if(!answer)throw Error('پاسخ دریافت شد اما متن پاسخ در choices[0].message.content پیدا نشد.');$('result').textContent=answer;status('پاسخ واقعی از API دریافت شد.'+(state.mod==='audio'?' فایل صوتی ارسال/رونویسی نشده است؛ پردازش صوت نیازمند اتصال جداگانه است.':''));if(mode==='audio')speak(answer)}catch(e){status('ارسال یا دریافت پاسخ ناموفق بود: '+e.message+'\nشبکه، نشانی API، کلید، پیشوند احراز هویت و سازگاری قالب پاسخ را بررسی کنید.',true)}scrollTo('outputPanel')}
+function speak(text){if(!('speechSynthesis'in window)){status($('status').textContent+'\nاین مرورگر قابلیت تبدیل متن به گفتار ندارد.');return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang='fa-IR';u.onstart=()=>$('stopSpeech').classList.remove('hidden');u.onend=()=> $('stopSpeech').classList.add('hidden');u.onerror=()=>{$('stopSpeech').classList.add('hidden');status($('status').textContent+'\nپخش گفتار با خطا روبه‌رو شد.')};$('stopSpeech').classList.remove('hidden');speechSynthesis.speak(u)}$('stopSpeech').onclick=()=>{speechSynthesis.cancel();$('stopSpeech').classList.add('hidden')};updateTracker();
+</script></body></html>
