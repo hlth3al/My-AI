@@ -31,6 +31,8 @@
 <section class="glass section hidden" id="opsPanel"><h2>۴. انتخاب یکی از ۱۳ عملیات</h2><p class="hint">عملیات را متناسب با هدف تمرین انتخاب کنید.</p><div class="ops" id="operations"></div></section>
 <section class="glass section hidden" id="levelsPanel"><h2>۵. انتخاب سطح تحصیلی و نوع پاسخ</h2><p class="hint">برای هر سطح، هر دو گزینهٔ نوشتاری و شنیداری در دسترس است.</p><div class="levels" id="levels"></div></section>
 
+<details class="glass settings" id="gapgptSettings"><summary>تنظیمات اتصال به هوش مصنوعی</summary><div class="fields"><label for="gapgptApiKey">کلید API<textarea id="gapgptApiKey" rows="2" autocomplete="off" placeholder="برای تغییر کلید، آن را اینجا وارد کنید"></textarea></label><label for="gapgptModel">مدل<select id="gapgptModel"><option value="gpt-4o-mini">gpt-4o-mini</option><option value="gpt-4o">gpt-4o</option><option value="gpt-4.1-mini">gpt-4.1-mini</option><option value="gpt-4.1">gpt-4.1</option></select></label></div><div class="actions" style="margin-top:12px"><button class="action" id="saveGapGPTSettings" type="button">ذخیرهٔ تنظیمات</button><button class="secondary" id="clearGapGPTKey" type="button">حذف کلید سفارشی</button></div><p class="note">کلید سفارشی در حافظهٔ محلی این مرورگر ذخیره می‌شود. هرگز فایل این صفحه را با کلید خصوصی منتشر نکنید؛ درخواست مرورگر به‌طور مستقیم به سرویس فرستاده می‌شود.</p></details>
+
 <section class="glass output" id="outputPanel" aria-live="polite"><h2>پاسخ / وضعیت</h2><div class="status" id="status">برای شروع، یکی از گروه‌های حقیقی را انتخاب کنید.</div><div class="result hidden" id="result"></div><div class="tools" aria-label="ابزارهای همیشگی پاسخ"><button class="secondary" id="clearResult" type="button">🧹 دکمه برای پاک کردن</button><button class="secondary" id="copyResult" type="button">📋 دکمه برای کپی کردن</button><button class="secondary" id="saveText" type="button">💾 ذخیرهٔ پاسخ نوشتاری (.txt)</button><button class="secondary" id="saveAudio" type="button">🔊 ذخیرهٔ پاسخ شنیداری (فایل صوتی)</button><button class="secondary hidden" id="stopSpeech" type="button">توقف خواندن</button></div></section><footer>AI.AI • سامانهٔ یادگیری و تحلیل آموزشی</footer>
 <section class="card" style="margin-top:28px;border-color:rgba(255,42,95,0.4);background:rgba(20,20,30,0.85);box-shadow:0 0 25px rgba(255,42,95,0.15);">
   <h2 style="font-size:1.35rem;color:var(--neon-red);margin-bottom:12px;display:flex;align-items:center;gap:10px"><span>💳</span> روش خرید بسته و پرداخت آفلاین</h2>
@@ -152,12 +154,60 @@ $('clearResult').onclick=()=>{resetOutput();status('متن پاسخ پاک شد�
 $('copyResult').onclick=async()=>{let text=$('result').textContent;if(!text){status('هنوز پاسخی برای کپی وجود ندارد. ابتدا سطح و نوع پاسخ را انتخاب کنید.');return}try{await navigator.clipboard.writeText(text);status('پاسخ کپی شد.')}catch(e){let ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();status('پاسخ کپی شد.')}};
 $('saveText').onclick=()=>{if(!$('result').textContent){status('هنوز پاسخی برای ذخیره وجود ندارد. ابتدا تحلیل را بسازید.');return}let blob=new Blob(['\ufeff'+$('result').textContent],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='AI.AI-answer.txt';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 $('saveAudio').onclick=async()=>{let text=$('result').textContent;if(!text){status('هنوز پاسخی برای ذخیرهٔ صوتی وجود ندارد. ابتدا تحلیل را بسازید.');return}if(!navigator.mediaDevices?.getDisplayMedia||!window.MediaRecorder){status('ضبط مستقیم صدای برگه در این مرورگر در دسترس نیست؛ پاسخ با گفتار فارسی خوانده می‌شود. برای ذخیرهٔ فایل صوتی، مرورگر سازگار را به کار ببرید.');speak(text);return}try{status('در پنجرهٔ اشتراک‌گذاری، همین برگه و اشتراک‌گذاری صدای برگه را انتخاب کنید.');let stream=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});if(!stream.getAudioTracks().length){stream.getTracks().forEach(t=>t.stop());status('صدای برگه در اشتراک‌گذاری فعال نشد؛ دوباره تلاش کنید و اشتراک‌گذاری صدا را روشن کنید.',true);return}let chunks=[],mime=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'audio/webm',rec=new MediaRecorder(stream,{mimeType:mime});rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};rec.onstop=()=>{if(chunks.length){let blob=new Blob(chunks,{type:mime}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='AI.AI-answer-audio.webm';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);status('فایل صوتی پاسخ ذخیره شد.')}stream.getTracks().forEach(t=>t.stop())};rec.start();let utterance=new SpeechSynthesisUtterance(text);utterance.lang='fa-IR';utterance.onend=()=>setTimeout(()=>rec.stop(),400);utterance.onerror=()=>{if(rec.state!=='inactive')rec.stop();status('تبدیل پاسخ به گفتار با خطا روبه‌رو شد.',true)};speechSynthesis.cancel();speechSynthesis.speak(utterance)}catch(e){status('ذخیرهٔ صوت لغو شد یا انجام نشد: '+e.message,true)}};
-async function requestLiveAI(promptText,signal){
- const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'system',content:'به فارسی، دقیق و متناسب با سطح تحصیلی پاسخ آموزشی بده. در صورت ناکافی بودن اطلاعات، شفاف بگو.'},{role:'user',content:promptText}]}),signal});
- if(!response.ok)throw new Error('proxy unavailable');
+const GAPGPT_API_KEY = 'window.GAPGPT_KEY' || 'secret-8f9f16ee';
+const GAPGPT_ENDPOINT = 'https://api.gapgpt.com/v1/chat/completions';
+const GAPGPT_MODEL = 'gpt-4o-mini';
+
+function initializeGapGPTSettings(){
+ const modelInput=$('gapgptModel');
+ const savedModel=localStorage['getItem']('gapgpt_model');
+ if(savedModel && [...modelInput.options].some(option=>option.value===savedModel))modelInput.value=savedModel;
+ $('saveGapGPTSettings').addEventListener('click',()=>{
+  const key=$('gapgptApiKey').value.trim();
+  if(key)localStorage.setItem('gapgpt_key',key);
+  else localStorage.removeItem('gapgpt_key');
+  localStorage.setItem('gapgpt_model',modelInput.value);
+  $('gapgptApiKey').value='';
+  status('تنظیمات اتصال هوش مصنوعی در این مرورگر ذخیره شد.');
+ });
+ $('clearGapGPTKey').addEventListener('click',()=>{
+  localStorage.removeItem('gapgpt_key');
+  $('gapgptApiKey').value='';
+  status('کلید ذخیره‌شدهٔ سفارشی حذف شد.');
+ });
+}
+initializeGapGPTSettings();
+
+async function requestLiveAI(promptText, signal){
+ const apiKey=localStorage['getItem']('gapgpt_key') || GAPGPT_API_KEY;
+ let userContent=promptText;
+ if(state.image && state.image.data){
+  userContent=[
+   {type:'text',text:promptText},
+   {type:'image_url',image_url:{url:state.image.data}}
+  ];
+ }
+ const body={
+  model:localStorage['getItem']('gapgpt_model') || GAPGPT_MODEL,
+  messages:[
+   {role:'system',content:'به فارسی، دقیق و متناسب با سطح تحصیلی پاسخ آموزشی بده. تحلیل را عمیق، خوانا و با رعایت شیوه آموزشی ارائه کن.'},
+   {role:'user',content:userContent}
+  ],
+  temperature:0.5
+ };
+ const response=await fetch(GAPGPT_ENDPOINT,{
+  method:'POST',
+  headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
+  body:JSON.stringify(body),
+  signal:signal
+ });
+ if(!response.ok){
+  const errText=await response.text().catch(()=> '');
+  throw new Error('خطا در ارتباط با سرور هوش مصنوعی: '+response.status+' '+errText);
+ }
  const data=await response.json();
- const reply=data.choices?.[0]?.message?.content||data.reply||data.text;
- if(typeof reply!=='string'||!reply.trim())throw new Error('empty response');
+ const reply=data.choices?.[0]?.message?.content || data.reply || data.text;
+ if(typeof reply!=='string' || !reply.trim())throw new Error('پاسخی از مدل دریافت نشد');
  return reply.trim();
 }
 // State history and a universal one-step back action for the workflow.
